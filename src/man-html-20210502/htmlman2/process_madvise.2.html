@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>process_madvise(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="process_madvise(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="process-madvise.2" name="process-madvise.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>process_madvise — give advice about use of memory to
+      a process</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;sys/uio.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">ssize_t
+            <strong>process_madvise</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">pidfd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const struct iovec *<var class="pdparam">iovec</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">size_t <var class="pdparam">vlen</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">advice</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned int <var class="pdparam">flags</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="process-madvise-2_sect1" name="process-madvise-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">process_madvise</code>() system
+      call is used to give advice or directions to the kernel about
+      the address ranges of another process or of the calling
+      process. It provides the advice for the address ranges
+      described by <em class="parameter"><code>iovec</code></em>
+      and <em class="parameter"><code>vlen</code></em>. The goal of
+      such advice is to improve system or application
+      performance.</p>
+      <p>The <em class="parameter"><code>pidfd</code></em> argument
+      is a PID file descriptor (see <a class="link" href="../htmlman2/pidfd_open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_open</span>(2)</span></a>) that
+      specifies the process to which the advice is to be
+      applied.</p>
+      <p>The pointer <em class="parameter"><code>iovec</code></em>
+      points to an array of <em class="parameter"><code>iovec</code></em> structures, defined in
+      <code class="literal">&lt;</code><code class="filename">sys/uio.h</code><code class="literal">&gt;</code>
+      as:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="structdef">
+            <table class="structdef" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c1" span="1" />
+                <col class="c2" span="1" />
+                <col class="c3" span="1" />
+                <col class="c4" span="1" />
+                <col class="c5" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                  struct</td>
+                  <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">iovec</span> {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">void</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                  *</td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>iov_base</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Starting address */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">size_t</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>iov_len</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Length of region */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>The <em class="parameter"><code>iovec</code></em>
+      structure describes address ranges beginning at <em class="parameter"><code>iov_base</code></em> address and with the
+      size of <em class="parameter"><code>iov_len</code></em>
+      bytes.</p>
+      <p>The <em class="parameter"><code>vlen</code></em> specifies
+      the number of elements in the <em class="parameter"><code>iovec</code></em> structure. This value
+      must be less than or equal to <code class="constant">IOV_MAX</code> (defined in <code class="literal">&lt;</code><code class="filename">limits.h</code><code class="literal">&gt;</code>
+      or accessible via the call <em class="replaceable"><code>sysconf(_SC_IOV_MAX)</code></em>).</p>
+      <p>The <em class="parameter"><code>advice</code></em>
+      argument is one of the following values:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">MADV_COLD</code></span></dt>
+          <dd>
+            <p>See <a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">MADV_PAGEOUT</code></span></dt>
+          <dd>
+            <p>See <a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a>.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>The <em class="parameter"><code>flags</code></em> argument
+      is reserved for future use; currently, this argument must be
+      specified as 0.</p>
+      <p>The <em class="parameter"><code>vlen</code></em> and
+      <em class="parameter"><code>iovec</code></em> arguments are
+      checked before applying any advice. If <em class="parameter"><code>vlen</code></em> is too big, or <em class="parameter"><code>iovec</code></em> is invalid, then an error
+      will be returned immediately and no advice will be
+      applied.</p>
+      <p>The advice might be applied to only a part of <em class="parameter"><code>iovec</code></em> if one of its elements
+      points to an invalid memory region in the remote process. No
+      further elements will be processed beyond that point. (See
+      the discussion regarding partial advice in RETURN VALUE.)</p>
+      <p>Permission to apply advice to another process is governed
+      by a ptrace access mode <code class="constant">PTRACE_MODE_READ_REALCREDS</code> check (see
+      <a class="link" href="../htmlman2/ptrace.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ptrace</span>(2)</span></a>); in addition,
+      because of the performance implications of applying the
+      advice, the caller must have the <code class="constant">CAP_SYS_ADMIN</code> capability.</p>
+    </div>
+    <div class="refsect1">
+      <a id="process-madvise-2_sect2" name="process-madvise-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">process_madvise</code>() returns the number of
+      bytes advised. This return value may be less than the total
+      number of requested bytes, if an error occurred after some
+      <em class="parameter"><code>iovec</code></em> elements were
+      already processed. The caller should check the return value
+      to determine whether a partial advice occurred.</p>
+      <p>On error, −1 is returned and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="process-madvise-2_sect3" name="process-madvise-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EBADF</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pidfd</code></em> is not
+            a valid PID file descriptor.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p>The memory described by <em class="parameter"><code>iovec</code></em> is outside the
+            accessible address space of the process referred to by
+            <em class="parameter"><code>pidfd</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>flags</code></em> is not
+            0.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The sum of the <em class="parameter"><code>iov_len</code></em> values of
+            <em class="parameter"><code>iovec</code></em> overflows
+            a <span class="type">ssize_t</span> value.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>vlen</code></em> is too
+            large.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Could not allocate memory for internal copies of the
+            <em class="parameter"><code>iovec</code></em>
+            structures.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p>The caller does not have permission to access the
+            address space of the process <em class="parameter"><code>pidfd</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ESRCH</span></span></dt>
+          <dd>
+            <p>The target process does not exist (i.e., it has
+            terminated and been waited on).</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="process-madvise-2_sect4" name="process-madvise-2_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>This system call first appeared in Linux 5.10. Support for
+      this system call is optional, depending on the setting of the
+      <code class="constant">CONFIG_ADVISE_SYSCALLS</code>
+      configuration option.</p>
+    </div>
+    <div class="refsect1">
+      <a id="process-madvise-2_sect5" name="process-madvise-2_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>The <code class="function">process_madvise</code>() system
+      call is Linux-specific.</p>
+    </div>
+    <div class="refsect1">
+      <a id="process-madvise-2_sect6" name="process-madvise-2_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call;
+      call it using <a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="process-madvise-2_sect7" name="process-madvise-2_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a>, <a class="link" href="../htmlman2/pidfd_open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_open</span>(2)</span></a>, <a class="link" href="../htmlman2/process_vm_readv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process_vm_readv</span>(2)</span></a>,
+      <span class="citerefentry"><span class="refentrytitle">process_vm_write</span>(2)</span></p>
+    </div>
+    <div class="colophon">
+      <a id="process-madvise-2_sect8" name="process-madvise-2_sect8" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2021 Suren Baghdasaryan &lt;surenb<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>google.com&gt;<br />
+
+                  and Copyright (C) 2021 Minchan Kim &lt;minchan<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>kernel.org&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  Commit ecb8ac8b1f146915aa6b96449b66dd48984caacc<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

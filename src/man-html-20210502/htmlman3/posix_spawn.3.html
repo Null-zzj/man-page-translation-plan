@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>posix_spawn(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="posix_spawn(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="posix-spawn.3" name="posix-spawn.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>posix_spawn, posix_spawnp — spawn a process</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;spawn.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>posix_spawn</strong>(</code></td>
+            <td rowspan="1" colspan="1">pid_t *restrict <var class="pdparam">pid</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *restrict <var class="pdparam">path</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const posix_spawn_file_actions_t *restrict
+            <var class="pdparam">file_actions</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const posix_spawnattr_t *restrict <var class="pdparam">attrp</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">char *const
+            argv[restrict]</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">char *const
+            envp[restrict]</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>posix_spawnp</strong>(</code></td>
+            <td rowspan="1" colspan="1">pid_t *restrict <var class="pdparam">pid</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *restrict <var class="pdparam">file</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const posix_spawn_file_actions_t *restrict
+            <var class="pdparam">file_actions</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const posix_spawnattr_t *restrict <var class="pdparam">attrp</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">char *const
+            argv[restrict]</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">char *const
+            envp[restrict]</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect1" name="posix-spawn-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">posix_spawn</code>() and
+      <code class="function">posix_spawnp</code>() functions are
+      used to create a new child process that executes a specified
+      file. These functions were specified by POSIX to provide a
+      standardized method of creating new processes on machines
+      that lack the capability to support the <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> system call. These
+      machines are generally small, embedded systems lacking MMU
+      support.</p>
+      <p>The <code class="function">posix_spawn</code>() and
+      <code class="function">posix_spawnp</code>() functions
+      provide the functionality of a combined <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> and <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exec</span>(3)</span></a>, with some optional
+      housekeeping steps in the child process before the <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exec</span>(3)</span></a>. These functions
+      are not meant to replace the <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> and <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a> system calls. In
+      fact, they provide only a subset of the functionality that
+      can be achieved by using the system calls.</p>
+      <p>The only difference between <code class="function">posix_spawn</code>() and <code class="function">posix_spawnp</code>() is the manner in which they
+      specify the file to be executed by the child process. With
+      <code class="function">posix_spawn</code>(), the executable
+      file is specified as a pathname (which can be absolute or
+      relative). With <code class="function">posix_spawnp</code>(),
+      the executable file is specified as a simple filename; the
+      system searches for this file in the list of directories
+      specified by <code class="constant">PATH</code> (in the same
+      way as for <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execvp</span>(3)</span></a>). For the
+      remainder of this page, the discussion is phrased in terms of
+      <code class="function">posix_spawn</code>(), with the
+      understanding that <code class="function">posix_spawnp</code>() differs only on the point
+      just described.</p>
+      <p>The remaining arguments to these two functions are as
+      follows:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>The <em class="parameter"><code>pid</code></em>
+            argument points to a buffer that is used to return the
+            process ID of the new child process.</p>
+          </li>
+          <li class="listitem">
+            <p>The <em class="parameter"><code>file_actions</code></em> argument
+            points to a <span class="emphasis"><em>spawn file
+            actions object</em></span> that specifies file-related
+            actions to be performed in the child between the
+            <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> and <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exec</span>(3)</span></a> steps. This
+            object is initialized and populated before the
+            <code class="function">posix_spawn</code>() call using
+            <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_init</span>(3)</span>
+            and the <code class="function">posix_spawn_file_actions_*</code>()
+            functions.</p>
+          </li>
+          <li class="listitem">
+            <p>The <em class="parameter"><code>attrp</code></em>
+            argument points to an <span class="emphasis"><em>attributes objects</em></span> that
+            specifies various attributes of the created child
+            process. This object is initialized and populated
+            before the <code class="function">posix_spawn</code>()
+            call using <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_init</span>(3)</span>
+            and the <code class="function">posix_spawnattr_*</code>() functions.</p>
+          </li>
+          <li class="listitem">
+            <p>The <code class="function">argv</code> and
+            <code class="function">envp</code> arguments specify
+            the argument list and environment for the program that
+            is executed in the child process, as for <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>.</p>
+          </li>
+        </ul>
+      </div>
+      <p>Below, the functions are described in terms of a
+      three-step process: the <code class="function">fork</code>()
+      step, the pre-<code class="function">exec</code>() step
+      (executed in the child), and the <code class="function">exec</code>() step (executed in the child).</p>
+      <div class="refsect2">
+        <a id="posix-spawn-3_sect2" name="posix-spawn-3_sect2" shape="rect"> </a>
+        <h3>fork() step</h3>
+        <p>Since glibc 2.24, the <code class="function">posix_spawn</code>() function commences by
+        calling <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> with
+        <code class="constant">CLONE_VM</code> and <code class="constant">CLONE_VFORK</code> flags. Older implementations
+        use <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, or possibly
+        <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a> (see below).</p>
+        <p>The PID of the new child process is placed in
+        *<em class="parameter"><code>pid</code></em>. The
+        <code class="function">posix_spawn</code>() function then
+        returns control to the parent process.</p>
+        <p>Subsequently, the parent can use one of the system calls
+        described in <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wait</span>(2)</span></a> to check the
+        status of the child process. If the child fails in any of
+        the housekeeping steps described below, or fails to execute
+        the desired file, it exits with a status of 127.</p>
+        <p>Before glibc 2.24, the child process is created using
+        <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a> instead of
+        <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> when either of
+        the following is true:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>the <em class="replaceable"><code>spawn-flags</code></em> element
+              of the attributes object pointed to by <em class="parameter"><code>attrp</code></em> contains the
+              GNU-specific flag <code class="constant">POSIX_SPAWN_USEVFORK</code>; or</p>
+            </li>
+            <li class="listitem">
+              <p><em class="parameter"><code>file_actions</code></em> is NULL
+              and the <em class="replaceable"><code>spawn-flags</code></em> element
+              of the attributes object pointed to by <em class="parameter"><code>attrp</code></em> does <span class="emphasis"><em>not</em></span> contain <code class="constant">POSIX_SPAWN_SETSIGMASK</code>,
+              <code class="constant">POSIX_SPAWN_SETSIGDEF</code>,
+              <code class="constant">POSIX_SPAWN_SETSCHEDPARAM</code>,
+              <code class="constant">POSIX_SPAWN_SETSCHEDULER</code>,
+              <code class="constant">POSIX_SPAWN_SETPGROUP</code>,
+              or <code class="constant">POSIX_SPAWN_RESETIDS</code>.</p>
+            </li>
+          </ul>
+        </div>
+        <p>In other words, <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a> is used if the
+        caller requests it, or if there is no cleanup expected in
+        the child before it <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exec</span>(3)</span></a>s the requested
+        file.</p>
+      </div>
+      <div class="refsect2">
+        <a id="posix-spawn-3_sect3" name="posix-spawn-3_sect3" shape="rect"> </a>
+        <h3>pre-exec() step: housekeeping</h3>
+        <p>In between the <code class="function">fork</code>() and
+        the <code class="function">exec</code>() steps, a child
+        process may need to perform a set of housekeeping actions.
+        The <code class="function">posix_spawn</code>() and
+        <code class="function">posix_spawnp</code>() functions
+        support a small, well-defined set of system tasks that the
+        child process can accomplish before it executes the
+        executable file. These operations are controlled by the
+        attributes object pointed to by <em class="parameter"><code>attrp</code></em> and the file actions
+        object pointed to by <em class="parameter"><code>file_actions</code></em>. In the child,
+        processing is done in the following sequence:</p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>Process attribute actions: signal mask, signal
+              default handlers, scheduling algorithm and
+              parameters, process group, and effective user and
+              group IDs are changed as specified by the attributes
+              object pointed to by <em class="parameter"><code>attrp</code></em>.</p>
+            </li>
+            <li class="listitem">
+              <p>File actions, as specified in the <em class="parameter"><code>file_actions</code></em> argument,
+              are performed in the order that they were specified
+              using calls to the <code class="function">posix_spawn_file_actions_add*</code>()
+              functions.</p>
+            </li>
+            <li class="listitem">
+              <p>File descriptors with the <code class="constant">FD_CLOEXEC</code> flag set are closed.</p>
+            </li>
+          </ol>
+        </div>
+        <p>All process attributes in the child, other than those
+        affected by attributes specified in the object pointed to
+        by <em class="parameter"><code>attrp</code></em> and the
+        file actions in the object pointed to by <em class="parameter"><code>file_actions</code></em>, will be
+        affected as though the child was created with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> and it executed
+        the program with <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>.</p>
+        <p>The process attributes actions are defined by the
+        attributes object pointed to by <em class="parameter"><code>attrp</code></em>. The <em class="replaceable"><code>spawn-flags</code></em> attribute (set
+        using <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_setflags</span>(3)</span>)
+        controls the general actions that occur, and other
+        attributes in the object specify values to be used during
+        those actions.</p>
+        <p>The effects of the flags that may be specified in
+        <em class="replaceable"><code>spawn-flags</code></em> are
+        as follows:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">POSIX_SPAWN_SETSIGMASK</code></span></dt>
+            <dd>
+              <p>Set the signal mask to the signal set specified in
+              the <em class="replaceable"><code>spawn-sigmask</code></em>
+              attribute of the object pointed to by <em class="parameter"><code>attrp</code></em>. If the
+              <code class="constant">POSIX_SPAWN_SETSIGMASK</code>
+              flag is not set, then the child inherits the parent's
+              signal mask.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">POSIX_SPAWN_SETSIGDEF</code></span></dt>
+            <dd>
+              <p>Reset the disposition of all signals in the set
+              specified in the <em class="replaceable"><code>spawn-sigdefault</code></em>
+              attribute of the object pointed to by <em class="parameter"><code>attrp</code></em> to the default.
+              For the treatment of the dispositions of signals not
+              specified in the <em class="replaceable"><code>spawn-sigdefault</code></em>
+              attribute, or the treatment when <code class="constant">POSIX_SPAWN_SETSIGDEF</code> is not
+              specified, see <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">POSIX_SPAWN_SETSCHEDPARAM</code></span></dt>
+            <dd>
+              <p>If this flag is set, and the <code class="constant">POSIX_SPAWN_SETSCHEDULER</code> flag is
+              not set, then set the scheduling parameters to the
+              parameters specified in the <em class="replaceable"><code>spawn-schedparam</code></em>
+              attribute of the object pointed to by <em class="parameter"><code>attrp</code></em>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">POSIX_SPAWN_SETSCHEDULER</code></span></dt>
+            <dd>
+              <p>Set the scheduling policy algorithm and parameters
+              of the child, as follows:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="itemizedlist">
+                    <ul class="itemizedlist" style="list-style-type: disc;">
+                      <li class="listitem">
+                        <p>The scheduling policy is set to the
+                        value specified in the <em class="replaceable"><code>spawn-schedpolicy</code></em>
+                        attribute of the object pointed to by
+                        <em class="parameter"><code>attrp</code></em>.</p>
+                      </li>
+                      <li class="listitem">
+                        <p>The scheduling parameters are set to the
+                        value specified in the <em class="replaceable"><code>spawn-schedparam</code></em>
+                        attribute of the object pointed to by
+                        <em class="parameter"><code>attrp</code></em> (but
+                        see BUGS).</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>If the <code class="constant">POSIX_SPAWN_SETSCHEDPARAM</code> and
+                  <code class="constant">POSIX_SPAWN_SETSCHEDPOLICY</code>
+                  flags are not specified, the child inherits the
+                  corresponding scheduling attributes from the
+                  parent.</p>
+                </blockquote>
+              </div>
+            </dd>
+            <dt><span class="term"><code class="constant">POSIX_SPAWN_RESETIDS</code></span></dt>
+            <dd>
+              <p>If this flag is set, reset the effective UID and
+              GID to the real UID and GID of the parent process. If
+              this flag is not set, then the child retains the
+              effective UID and GID of the parent. In either case,
+              if the set-user-ID and set-group-ID permission bits
+              are enabled on the executable file, their effect will
+              override the setting of the effective UID and GID (se
+              <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>).</p>
+            </dd>
+            <dt><span class="term"><code class="constant">POSIX_SPAWN_SETPGROUP</code></span></dt>
+            <dd>
+              <p>Set the process group to the value specified in
+              the <em class="replaceable"><code>spawn-pgroup</code></em>
+              attribute of the object pointed to by <em class="parameter"><code>attrp</code></em>. If the
+              <em class="replaceable"><code>spawn-pgroup</code></em>
+              attribute has the value 0, the child's process group
+              ID is made the same as its process ID. If the
+              <code class="constant">POSIX_SPAWN_SETPGROUP</code>
+              flag is not set, the child inherits the parent's
+              process group ID.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">POSIX_SPAWN_USEVFORK</code></span></dt>
+            <dd>
+              <p>Since glibc 2.24, this flag has no effect. On
+              older implementations, setting this flag forces the
+              <code class="function">fork</code>() step to use
+              <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a> instead of
+              <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>. The
+              <code class="constant">_GNU_SOURCE</code> feature
+              test macro must be defined to obtain the definition
+              of this constant.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">POSIX_SPAWN_SETSID</code> (since glibc
+            2.26)</span></dt>
+            <dd>
+              <p>If this flag is set, the child process shall
+              create a new session and become the session leader.
+              The child process shall also become the process group
+              leader of the new process group in the session (see
+              <a class="link" href="../htmlman2/setsid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setsid</span>(2)</span></a>). The
+              <code class="constant">_GNU_SOURCE</code> feature
+              test macro must be defined to obtain the definition
+              of this constant.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>If <em class="parameter"><code>attrp</code></em> is
+        NULL, then the default behaviors described above for each
+        flag apply.</p>
+        <p>The <em class="parameter"><code>file_actions</code></em>
+        argument specifies a sequence of file operations that are
+        performed in the child process after the general processing
+        described above, and before it performs the <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exec</span>(3)</span></a>. If <em class="parameter"><code>file_actions</code></em> is NULL, then no
+        special action is taken, and standard <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exec</span>(3)</span></a> semantics
+        apply—file descriptors open before the exec remain
+        open in the new process, except those for which the
+        <code class="constant">FD_CLOEXEC</code> flag has been set.
+        File locks remain in place.</p>
+        <p>If <em class="parameter"><code>file_actions</code></em>
+        is not NULL, then it contains an ordered set of requests to
+        <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>, <a class="link" href="../htmlman2/close.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">close</span>(2)</span></a>, and <a class="link" href="../htmlman2/dup.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dup2</span>(2)</span></a> files. These
+        requests are added to the <em class="parameter"><code>file_actions</code></em> by <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_addopen</span>(3)</span>,
+        <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_addclose</span>(3)</span>,
+        and <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_adddup2</span>(3)</span>.
+        The requested operations are performed in the order they
+        were added to <em class="parameter"><code>file_actions</code></em>.</p>
+        <p>If any of the housekeeping actions fails (due to bogus
+        values being passed or other reasons why signal handling,
+        process scheduling, process group ID functions, and file
+        descriptor operations might fail), the child process exits
+        with exit value 127.</p>
+      </div>
+      <div class="refsect2">
+        <a id="posix-spawn-3_sect4" name="posix-spawn-3_sect4" shape="rect"> </a>
+        <h3>exec() step</h3>
+        <p>Once the child has successfully forked and performed all
+        requested pre-exec steps, the child runs the requested
+        executable.</p>
+        <p>The child process takes its environment from the
+        <code class="function">envp</code> argument, which is
+        interpreted as if it had been passed to <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>. The arguments
+        to the created process come from the <code class="function">argv</code> argument, which is processed as for
+        <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect5" name="posix-spawn-3_sect5" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>Upon successful completion, <code class="function">posix_spawn</code>() and <code class="function">posix_spawnp</code>() place the PID of the child
+      process in <em class="parameter"><code>pid</code></em>, and
+      return 0. If there is an error during the <code class="function">fork</code>() step, then no child is created, the
+      contents of *<em class="parameter"><code>pid</code></em> are
+      unspecified, and these functions return an error number as
+      described below.</p>
+      <p>Even when these functions return a success status, the
+      child process may still fail for a plethora of reasons
+      related to its pre- <code class="function">exec</code>()
+      initialization. In addition, the <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exec</span>(3)</span></a> may fail. In all of
+      these cases, the child process will exit with the exit value
+      of 127.</p>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect6" name="posix-spawn-3_sect6" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <p>The <code class="function">posix_spawn</code>() and
+      <code class="function">posix_spawnp</code>() functions fail
+      only in the case where the underlying <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a>, or <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> call fails; in
+      these cases, these functions return an error number, which
+      will be one of the errors described for <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a>, or <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>.</p>
+      <p>In addition, these functions fail if:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">ENOSYS</span></span></dt>
+          <dd>
+            <p>Function not supported on this system.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect7" name="posix-spawn-3_sect7" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>The <code class="function">posix_spawn</code>() and
+      <code class="function">posix_spawnp</code>() functions are
+      available since glibc 2.2.</p>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect8" name="posix-spawn-3_sect8" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>POSIX.1-2001, POSIX.1-2008.</p>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect9" name="posix-spawn-3_sect9" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>The housekeeping activities in the child are controlled by
+      the objects pointed to by <em class="parameter"><code>attrp</code></em> (for non-file actions)
+      and <em class="parameter"><code>file_actions</code></em> In
+      POSIX parlance, the <span class="type">posix_spawnattr_t</span> and <span class="type">posix_spawn_file_actions_t</span> data types are
+      referred to as objects, and their elements are not specified
+      by name. Portable programs should initialize these objects
+      using only the POSIX-specified functions. (In other words,
+      although these objects may be implemented as structures
+      containing fields, portable programs must avoid dependence on
+      such implementation details.)</p>
+      <p>According to POSIX, it is unspecified whether fork
+      handlers established with <a class="link" href="../htmlman3/pthread_atfork.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_atfork</span>(3)</span></a> are
+      called when <code class="function">posix_spawn</code>() is
+      invoked. Since glibc 2.24, the fork handlers are not executed
+      in any case. On older implementations, fork handlers are
+      called only if the child is created using <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>.</p>
+      <p>There is no "posix_fspawn" function (i.e., a function that
+      is to <code class="function">posix_spawn</code>() as
+      <a class="link" href="../htmlman3/fexecve.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fexecve</span>(3)</span></a> is to <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>). However, this
+      functionality can be obtained by specifying the <em class="parameter"><code>path</code></em> argument as one of the
+      files in the caller's <code class="filename">/proc/self/fd</code> directory.</p>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect10" name="posix-spawn-3_sect10" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p>POSIX.1 says that when <code class="constant">POSIX_SPAWN_SETSCHEDULER</code> is specified in
+      <em class="replaceable"><code>spawn-flags</code></em>, then
+      the <code class="constant">POSIX_SPAWN_SETSCHEDPARAM</code>
+      (if present) is ignored. However, before glibc 2.14, calls to
+      <code class="function">posix_spawn</code>() failed with an
+      error if <code class="constant">POSIX_SPAWN_SETSCHEDULER</code> was specified
+      without also specifying <code class="constant">POSIX_SPAWN_SETSCHEDPARAM</code>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect11" name="posix-spawn-3_sect11" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below demonstrates the use of various
+      functions in the POSIX spawn API. The program accepts
+      command-line attributes that can be used to create file
+      actions and attributes objects. The remaining command-line
+      arguments are used as the executable name and command-line
+      arguments of the program that is executed in the child.</p>
+      <p>In the first run, the <a class="link" href="../htmlman1/date.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">date</span>(1)</span></a> command is executed
+      in the child, and the <code class="function">posix_spawn</code>() call employs no file actions
+      or attributes objects.</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./a.out date</em></span>
+PID of child: 7634
+Tue Feb  1 19:47:50 CEST 2011
+Child status: exited, status=0
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>In the next run, the <code class="option">−c</code>
+      command-line option is used to create a file actions object
+      that closes standard output in the child. Consequently,
+      <a class="link" href="../htmlman1/date.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">date</span>(1)</span></a> fails when trying
+      to perform output and exits with a status of 1.</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./a.out −c date</em></span>
+PID of child: 7636
+date: write error: Bad file descriptor
+Child status: exited, status=1
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>In the next run, the <code class="option">−s</code>
+      command-line option is used to create an attributes object
+      that specifies that all (blockable) signals in the child
+      should be blocked. Consequently, trying to kill child with
+      the default signal sent by <a class="link" href="../htmlman1/kill.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">kill</span>(1)</span></a> (i.e., <code class="constant">SIGTERM</code>) fails, because that signal is
+      blocked. Therefore, to kill the child, <code class="constant">SIGKILL</code> is necessary (<code class="constant">SIGKILL</code> can't be blocked).</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./a.out −s sleep 60 &amp;</em></span>
+[1] 7637
+$ PID of child: 7638
+
+$ <span class="emphasis"><em>kill 7638</em></span>
+$ <span class="emphasis"><em>kill −KILL 7638</em></span>
+$ Child status: killed by signal 9
+[1]+  Done                    ./a.out −s sleep 60
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>When we try to execute a nonexistent command in the child,
+      the <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exec</span>(3)</span></a> fails and the child
+      exits with a status of 127.</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./a.out xxxxx</em></span>
+PID of child: 10190
+Child status: exited, status=127
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="posix-spawn-3_sect12" name="posix-spawn-3_sect12" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+#include &lt;spawn.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;wait.h&gt;
+#include &lt;errno.h&gt;
+
+#define errExit(msg)    do { perror(msg); \
+                             exit(EXIT_FAILURE); } while (0)
+
+#define errExitEN(en, msg) \
+                        do { errno = en; perror(msg); \
+                             exit(EXIT_FAILURE); } while (0)
+
+char **environ;
+
+int
+main(int argc, char *argv[])
+{
+    pid_t child_pid;
+    int s, opt, status;
+    sigset_t mask;
+    posix_spawnattr_t attr;
+    posix_spawnattr_t *attrp;
+    posix_spawn_file_actions_t file_actions;
+    posix_spawn_file_actions_t *file_actionsp;
+
+    /* Parse command−line options, which can be used to specify an
+       attributes object and file actions object for the child. */
+
+    attrp = NULL;
+    file_actionsp = NULL;
+
+    while ((opt = getopt(argc, argv, "sc")) != −1) {
+        switch (opt) {
+        case 'c':       /* −c: close standard output in child */
+
+            /* Create a file actions object and add a "close"
+               action to it. */
+
+            s = posix_spawn_file_actions_init(&amp;file_actions);
+            if (s != 0)
+                errExitEN(s, "posix_spawn_file_actions_init");
+
+            s = posix_spawn_file_actions_addclose(&amp;file_actions,
+                                                  STDOUT_FILENO);
+            if (s != 0)
+                errExitEN(s, "posix_spawn_file_actions_addclose");
+
+            file_actionsp = &amp;file_actions;
+            break;
+
+        case 's':       /* −s: block all signals in child */
+
+            /* Create an attributes object and add a "set signal mask"
+               action to it. */
+
+            s = posix_spawnattr_init(&amp;attr);
+            if (s != 0)
+                errExitEN(s, "posix_spawnattr_init");
+            s = posix_spawnattr_setflags(&amp;attr, POSIX_SPAWN_SETSIGMASK);
+            if (s != 0)
+                errExitEN(s, "posix_spawnattr_setflags");
+
+            sigfillset(&amp;mask);
+            s = posix_spawnattr_setsigmask(&amp;attr, &amp;mask);
+            if (s != 0)
+                errExitEN(s, "posix_spawnattr_setsigmask");
+
+            attrp = &amp;attr;
+            break;
+        }
+    }
+
+    /* Spawn the child. The name of the program to execute and the
+       command−line arguments are taken from the command−line arguments
+       of this program. The environment of the program execed in the
+       child is made the same as the parent's environment. */
+
+    s = posix_spawnp(&amp;child_pid, argv[optind], file_actionsp, attrp,
+                     &amp;argv[optind], environ);
+    if (s != 0)
+        errExitEN(s, "posix_spawn");
+
+    /* Destroy any objects that we created earlier. */
+
+    if (attrp != NULL) {
+        s = posix_spawnattr_destroy(attrp);
+        if (s != 0)
+            errExitEN(s, "posix_spawnattr_destroy");
+    }
+
+    if (file_actionsp != NULL) {
+        s = posix_spawn_file_actions_destroy(file_actionsp);
+        if (s != 0)
+            errExitEN(s, "posix_spawn_file_actions_destroy");
+    }
+
+    printf("PID of child: %jd\n", (intmax_t) child_pid);
+
+    /* Monitor status of the child until it terminates. */
+
+    do {
+        s = waitpid(child_pid, &amp;status, WUNTRACED | WCONTINUED);
+        if (s == −1)
+            errExit("waitpid");
+
+        printf("Child status: ");
+        if (WIFEXITED(status)) {
+            printf("exited, status=%d\n", WEXITSTATUS(status));
+        } else if (WIFSIGNALED(status)) {
+            printf("killed by signal %d\n", WTERMSIG(status));
+        } else if (WIFSTOPPED(status)) {
+            printf("stopped by signal %d\n", WSTOPSIG(status));
+        } else if (WIFCONTINUED(status)) {
+            printf("continued\n");
+        }
+    } while (!WIFEXITED(status) &amp;&amp; !WIFSIGNALED(status));
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="posix-spawn-3_sect13" name="posix-spawn-3_sect13" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/close.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">close</span>(2)</span></a>, <a class="link" href="../htmlman2/dup.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dup2</span>(2)</span></a>, <span class="citerefentry"><span class="refentrytitle">execl</span>(2)</span>, <span class="citerefentry"><span class="refentrytitle">execlp</span>(2)</span>, <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>, <a class="link" href="../htmlman2/sched_setparam.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sched_setparam</span>(2)</span></a>,
+      <a class="link" href="../htmlman2/sched_setscheduler.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sched_setscheduler</span>(2)</span></a>,
+      <a class="link" href="../htmlman2/setpgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setpgid</span>(2)</span></a>, <a class="link" href="../htmlman2/setuid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setuid</span>(2)</span></a>, <a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a>, <a class="link" href="../htmlman2/sigprocmask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigprocmask</span>(2)</span></a>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_addclose</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_adddup2</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_addopen</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_destroy</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawn_file_actions_init</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_destroy</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_getflags</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_getpgroup</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_getschedparam</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_getschedpolicy</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_getsigdefault</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_getsigmask</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_init</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_setflags</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_setpgroup</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_setschedparam</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_setschedpolicy</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_setsigdefault</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">posix_spawnattr_setsigmask</span>(3)</span>,
+      <a class="link" href="../htmlman3/pthread_atfork.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_atfork</span>(3)</span></a>,
+      <code class="literal">&lt;</code><code class="filename">spawn.h</code><code class="literal">&gt;</code>
+      Base Definitions volume of POSIX.1-2001, <a class="literalurl" href="http://www.opengroup.org/unix/online.html" target="_top" shape="rect">http://www.opengroup.org/unix/online.html</a></p>
+    </div>
+    <div class="colophon">
+      <a id="posix-spawn-3_sect14" name="posix-spawn-3_sect14" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2009 Bill O. Gallmeister (bgallmeister<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com)<br />
+
+                  and Copyright 2010 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  References consulted:<br />
+                      Linux glibc source code<br />
+
+                      POSIX 1003.1-2004 documentation<br />
+
+                      (http://www.opengroup.org/onlinepubs/009695399)<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

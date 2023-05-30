@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>__ppc_set_ppr_med(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="__ppc_set_ppr_med(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="u--ppc-set-ppr-med.3" name="u--ppc-set-ppr-med.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>__ppc_set_ppr_med, __ppc_set_ppr_very_low,
+      __ppc_set_ppr_low, __ppc_set_ppr_med_low,
+      __ppc_set_ppr_med_high — Set the Program Priority
+      Register</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;sys/platform/ppc.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>__ppc_set_ppr_med</strong>(</code></td>
+            <td rowspan="1" colspan="1"><code>void)</code>;</td>
+            <td rowspan="1" colspan="1"> </td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>__ppc_set_ppr_very_low</strong>(</code></td>
+            <td rowspan="1" colspan="1"><code>void)</code>;</td>
+            <td rowspan="1" colspan="1"> </td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>__ppc_set_ppr_low</strong>(</code></td>
+            <td rowspan="1" colspan="1"><code>void)</code>;</td>
+            <td rowspan="1" colspan="1"> </td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>__ppc_set_ppr_med_low</strong>(</code></td>
+            <td rowspan="1" colspan="1"><code>void)</code>;</td>
+            <td rowspan="1" colspan="1"> </td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>__ppc_set_ppr_med_high</strong>(</code></td>
+            <td rowspan="1" colspan="1"><code>void)</code>;</td>
+            <td rowspan="1" colspan="1"> </td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-set-ppr-med-3_sect1" name="u--ppc-set-ppr-med-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>These functions provide access to the <span class="emphasis"><em>Program Priority Register</em></span> (PPR) on
+      the Power architecture.</p>
+      <p>The PPR is a 64-bit register that controls the program's
+      priority. By adjusting the PPR value the programmer may
+      improve system throughput by causing system resources to be
+      used more efficiently, especially in contention situations.
+      The available unprivileged states are covered by the
+      following functions:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p><code class="function">__ppc_set_ppr_med</code>()
+            sets the Program Priority Register value to
+            <code class="function">medium</code> (default).</p>
+          </li>
+          <li class="listitem">
+            <p><code class="function">__ppc_set_ppr_very_low</code>() sets the
+            Program Priority Register value to <span class="emphasis"><em>very low</em></span>.</p>
+          </li>
+          <li class="listitem">
+            <p><code class="function">__ppc_set_ppr_low</code>()
+            sets the Program Priority Register value to
+            <code class="function">low</code>.</p>
+          </li>
+          <li class="listitem">
+            <p><code class="function">__ppc_set_ppr_med_low</code>() sets the
+            Program Priority Register value to <span class="emphasis"><em>medium low</em></span>.</p>
+          </li>
+        </ul>
+      </div>
+      <p>The privileged state <span class="emphasis"><em>medium
+      high</em></span> may also be set during certain time
+      intervals by problem-state (unprivileged) programs, with the
+      following function:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p><code class="function">__ppc_set_ppr_med_high</code>() sets the
+            Program Priority to <span class="emphasis"><em>medium
+            high</em></span>.</p>
+          </li>
+        </ul>
+      </div>
+      <p>If the program priority is medium high when the time
+      interval expires or if an attempt is made to set the priority
+      to medium high when it is not allowed, the priority is set to
+      medium.</p>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-set-ppr-med-3_sect2" name="u--ppc-set-ppr-med-3_sect2" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>The functions <code class="function">__ppc_set_ppr_med</code>(), <code class="function">__ppc_set_ppr_low</code>(), and <code class="function">__ppc_set_ppr_med_low</code>() are provided by
+      glibc since version 2.18. The functions <code class="function">__ppc_set_ppr_very_low</code>() and <code class="function">__ppc_set_ppr_med_high</code>() first appeared in
+      glibc in version 2.23.</p>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-set-ppr-med-3_sect3" name="u--ppc-set-ppr-med-3_sect3" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">__ppc_set_ppr_med</code>(), <code class="literal">__ppc_set_ppr_very_low</code>(),
+              <code class="literal">__ppc_set_ppr_low</code>(),
+              <code class="literal">__ppc_set_ppr_med_low</code>(),
+              <code class="literal">__ppc_set_ppr_med_high</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-set-ppr-med-3_sect4" name="u--ppc-set-ppr-med-3_sect4" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>These functions are nonstandard GNU extensions.</p>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-set-ppr-med-3_sect5" name="u--ppc-set-ppr-med-3_sect5" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>The functions <code class="function">__ppc_set_ppr_very_low</code>() and <code class="function">__ppc_set_ppr_med_high</code>() will be defined by
+      <code class="literal">&lt;</code><code class="filename">sys/platform/ppc.h</code><code class="literal">&gt;</code> if <code class="constant">_ARCH_PWR8</code> is defined. Availability of
+      these functions can be tested using <span class="emphasis"><em>#ifdef _ARCH_PWR8</em></span>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-set-ppr-med-3_sect6" name="u--ppc-set-ppr-med-3_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/__ppc_yield.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">__ppc_yield</span>(3)</span></a></p>
+      <p><span class="emphasis"><em>Power ISA, Book II - Section
+      3.1 (Program Priority Registers)</em></span></p>
+    </div>
+    <div class="colophon">
+      <a id="u--ppc-set-ppr-med-3_sect7" name="u--ppc-set-ppr-med-3_sect7" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2015, 2016 IBM Corporation.<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of<br />
+
+                  this manual under the conditions for verbatim copying, provided that<br />
+
+                  the entire resulting derived work is distributed under the terms of<br />
+
+                  a permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume.<br />
+
+                  no responsibility for errors or omissions, or for damages resulting.<br />
+
+                  from the use of the information contained herein.  The author(s) may.<br />
+
+                  not have taken the same level of care in the production of this.<br />
+
+                  manual, which is licensed free of charge, as they might when working.<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

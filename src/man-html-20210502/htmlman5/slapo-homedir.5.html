@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>slapo-homedir(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="slapo-homedir(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="slapo-homedir.5" name="slapo-homedir.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>slapo−homedir — Home directory provisioning
+      overlay</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+ETCDIR/slapd.conf
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-homedir-5_sect1" name="slapo-homedir-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <em class="replaceable"><code>homedir</code></em>
+      overlay causes <a class="link" href="../htmlman8/slapd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd</span>(8)</span></a> to notice changes
+      involving RFC-2307bis style user-objects and make appropriate
+      changes to the local filesystem. This can be performed on
+      both master and replica systems, so it is possible to perform
+      remote home directory provisioning.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-homedir-5_sect2" name="slapo-homedir-5_sect2" shape="rect"> </a>
+      <h2>CONFIGURATION</h2>
+      <p>Both slapd.conf and back-config style configuration is
+      supported.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">verlay homedir</span></dt>
+          <dd>
+            <p>This directive adds the homedir overlay to the
+            current database, or to the frontend, if used before
+            any database instantiation; see <a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a> for
+            details.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>homedir−skeleton−path
+          &lt;pathname&gt;</em></span></span></dt>
+          <dd></dd>
+          <dt><span class="term">lcSkeletonPath:
+          pathname</span></dt>
+          <dd>
+            <p>These options set the path to the skeleton account
+            directory. (Generally, /etc/skel) Files in this
+            directory will be copied into newly created home
+            directories. Copying is recursive and handles symlinks
+            and fifos, but will skip most specials.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>homedir−min−uidnumber &lt;user
+          id number&gt;</em></span></span></dt>
+          <dd></dd>
+          <dt><span class="term">lcMinimumUidNumber:
+          number</span></dt>
+          <dd>
+            <p>These options configure the minimum userid to use in
+            any home directory attempt. This is a basic safety
+            measure to prevent accidentally using system accounts.
+            See REPLICATION for more flexible options for selecting
+            accounts.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>homedir−regexp &lt;regexp&gt;
+          &lt;path&gt;</em></span></span></dt>
+          <dd></dd>
+          <dt><span class="term">lcHomedirRegexp: regexp
+          path</span></dt>
+          <dd>
+            <p>These options configure a set of regular expressions
+            to use for matching and optionally remapping incoming
+            <em class="replaceable"><code>homeDirectory</code></em>
+            attribute values to pathnames on the local filesystem.
+            $number expansion is supported to access values
+            captured in parentheses.</p>
+            <p>For example, to accept any directory starting with
+            /home and use it verbatim on the local filesystem:</p>
+            <p><span class="emphasis"><em>homedir-regexp
+            ^(/home/[−_/a−z0−9]+)$
+            $1</em></span></p>
+            <p>To match the same set of directories, but create
+            them instead under /export/home, as is popular on
+            Solaris NFS servers:</p>
+            <p><span class="emphasis"><em>homedir-regexp
+            ^(/home/[−_/a−z0−9]+)$
+            /export$1</em></span></p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>homedir−delete−style
+          style</em></span></span></dt>
+          <dd></dd>
+          <dt><span class="term">lcHomedirDeleteStyle:
+          style</span></dt>
+          <dd>
+            <p>These options configure how deletes of posixAccount
+            entries or their attributes are handled; valid styles
+            are <em class="replaceable"><code>IGNORE,</code></em>
+            which does nothing, and <em class="replaceable"><code>DELETE,</code></em> which
+            immediately performs a recursive delete on the home
+            directory, and <em class="replaceable"><code>ARCHIVE,</code></em> which archives
+            the home directory contents in a TAR file for later
+            examination. The default is IGNORE. Use with caution.
+            ARCHIVE requires homedir-archive-path to be set, or it
+            functions similar to IGNORE.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>homedir−archive−path
+          &lt;pathname&gt;</em></span></span></dt>
+          <dd></dd>
+          <dt><span class="term">lcArchivePath:
+          pathname</span></dt>
+          <dd>
+            <p>These options specify the destination path for TAR
+            files created by the ARCHIVE delete style.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-homedir-5_sect3" name="slapo-homedir-5_sect3" shape="rect"> </a>
+      <h2>REPLICATION</h2>
+      <p>The homedir overlay can operate on either master or
+      replica systems with no changes. See <a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a> or <a class="link" href="../htmlman5/slapd-config.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd-config</span>(5)</span></a> for more
+      information on configure syncrepl.</p>
+      <p>Partial replication (e.g. with filters) is especially
+      useful for providing different provisioning options to
+      different sets of users.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-homedir-5_sect4" name="slapo-homedir-5_sect4" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p>DELETE, MOD, and MODRDN operations that remove the unix
+      attributes when delete style is set to DELETE will
+      recursively delete the (regex modified) home directory from
+      the disk. Please be careful when deleting or changing
+      values.</p>
+      <p>MOD and MODRDN will correctly respond to homeDirectory
+      changes and perform a non-destructive rename() operation on
+      the filesystem, but this does not correctly retry with a
+      recursive copy when moving between filesystems.</p>
+      <p>The recursive copy/delete/chown/tar functions are not
+      aware of ACLs, extended attributes, forks, sparse files, or
+      hard links. Block and character device archival is
+      non-portable, but should not be an issue in home directories,
+      hopefully.</p>
+      <p>Copying and archiving may not support files larger than
+      2GiB on some architectures. Bare POSIX UStar archives cannot
+      support internal files larger than 8GiB. The current tar
+      generator does not attempt to resolve uid/gid into symbolic
+      names.</p>
+      <p>No attempt is made to try to mkdir() the parent
+      directories needed for a given home directory or archive
+      path.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-homedir-5_sect5" name="slapo-homedir-5_sect5" shape="rect"> </a>
+      <h2>FILES</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">ETCDIR/slapd.conf</span></dt>
+          <dd>
+            <p>default slapd configuration file</p>
+          </dd>
+          <dt><span class="term"><code class="filename">/etc/skel
+          (or similar)</code></span></dt>
+          <dd>
+            <p>source of new homedir files.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-homedir-5_sect6" name="slapo-homedir-5_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a>, <a class="link" href="../htmlman5/slapd-config.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd-config</span>(5)</span></a>, <a class="link" href="../htmlman8/slapd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd</span>(8)</span></a>, RFC-2307,
+      RFC-2307bis.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-homedir-5_sect7" name="slapo-homedir-5_sect7" shape="rect"> </a>
+      <h2>ACKNOWLEDGEMENTS</h2>
+      <p>This module was written in 2009 by Emily Backes for Symas
+      Corporation.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                  See the following documents: <a class="ulink" href="../openldap-COPYRIGHT.html" target="_top" shape="rect">COPYRIGHT</a>, <a class="ulink" href="../openldap-LICENSE.html" target="_top" shape="rect">LICENSE</a><br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

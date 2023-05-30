@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>chmem(8) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="chmem(8) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index8.html" shape="rect">Section 8</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="chmem.8" name="chmem.8" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>chmem — configure memory</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">chmem</code> [<code class="option">−h</code>] [<code class="option">−V</code>] [<code class="option">−v</code>] [ <code class="option">−e</code> | <code class="option">−d</code> ] [ SIZE | RANGE | <code class="option">−b</code> BLOCKRANGE ] [ <code class="option">−z</code> ZONE ]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="chmem-8_sect1" name="chmem-8_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The chmem command sets a particular size or range of
+      memory online or offline.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><em class="replaceable"><code>–</code></em></span></dt>
+          <dd>
+            <p>Specify <em class="parameter"><code>SIZE</code></em>
+            as &lt;size&gt;[m|M|g|G]. With m or M, &lt;size&gt;
+            specifies the memory size in MiB (1024 x 1024 bytes).
+            With g or G, &lt;size&gt; specifies the memory size in
+            GiB (1024 x 1024 x 1024 bytes). The default unit is
+            MiB.</p>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>–</code></em></span></dt>
+          <dd>
+            <p>Specify <em class="parameter"><code>RANGE</code></em> in the form
+            0x&lt;start&gt;-0x&lt;end&gt; as shown in the output of
+            the <span class="command"><strong>lsmem</strong></span>
+            command. &lt;start&gt; is the hexadecimal address of
+            the first byte and &lt;end&gt; is the hexadecimal
+            address of the last byte in the memory range.</p>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>–</code></em></span></dt>
+          <dd>
+            <p>Specify <em class="parameter"><code>BLOCKRANGE</code></em> in the form
+            &lt;first&gt;-&lt;last&gt; or &lt;block&gt; as shown in
+            the output of the <span class="command"><strong>lsmem</strong></span> command.
+            &lt;first&gt; is the number of the first memory block
+            and &lt;last&gt; is the number of the last memory block
+            in the memory range. Alternatively a single block can
+            be specified. <em class="parameter"><code>BLOCKRANGE</code></em> requires the
+            <code class="option">−−blocks</code>
+            option.</p>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>–</code></em></span></dt>
+          <dd>
+            <p>Specify <em class="parameter"><code>ZONE</code></em>
+            as the name of a memory zone, as shown in the output of
+            the <span class="emphasis"><em>lsmem −o
+            +ZONES</em></span> command. The output shows one or
+            more valid memory zones for each memory range. If
+            multiple zones are shown, then the memory range
+            currently belongs to the first zone. By default, chmem
+            will set memory online to the zone Movable, if this is
+            among the valid zones. This default can be changed by
+            specifying the <code class="option">−−zone</code> option with another
+            valid zone. For memory ballooning, it is recommended to
+            select the zone Movable for memory online and offline,
+            if possible. Memory in this zone is much more likely to
+            be able to be offlined again, but it cannot be used for
+            arbitrary kernel allocations, only for migratable pages
+            (e.g., anonymous and page cache pages). Use the
+            <code class="option">−−help</code> option
+            to see all available zones.</p>
+          </dd>
+        </dl>
+      </div>
+      <p><em class="parameter"><code>SIZE</code></em> and
+      <em class="parameter"><code>RANGE</code></em> must be aligned
+      to the Linux memory block size, as shown in the output of the
+      <span class="command"><strong>lsmem</strong></span>
+      command.</p>
+      <p>Setting memory online can fail for various reasons. On
+      virtualized systems it can fail if the hypervisor does not
+      have enough memory left, for example because memory was
+      overcommitted. Setting memory offline can fail if Linux
+      cannot free the memory. If only part of the requested memory
+      can be set online or offline, a message tells you how much
+      memory was set online or offline instead of the requested
+      amount.</p>
+      <p>When setting memory online <span class="command"><strong>chmem</strong></span> starts with the
+      lowest memory block numbers. When setting memory offline
+      <span class="command"><strong>chmem</strong></span> starts
+      with the highest memory block numbers.</p>
+    </div>
+    <div class="refsect1">
+      <a id="chmem-8_sect2" name="chmem-8_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−b,
+          −−blocks</code></span></dt>
+          <dd>
+            <p>Use a <em class="parameter"><code>BLOCKRANGE</code></em> parameter
+            instead of <em class="parameter"><code>RANGE</code></em> or <em class="parameter"><code>SIZE</code></em> for the <code class="option">−−enable</code> and <code class="option">−−disable</code> options.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−d,
+          −−disable</code></span></dt>
+          <dd>
+            <p>Set the specified <em class="parameter"><code>RANGE</code></em>, <em class="parameter"><code>SIZE</code></em>, or <em class="parameter"><code>BLOCKRANGE</code></em> of memory
+            offline.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−e,
+          −−enable</code></span></dt>
+          <dd>
+            <p>Set the specified <em class="parameter"><code>RANGE</code></em>, <em class="parameter"><code>SIZE</code></em>, or <em class="parameter"><code>BLOCKRANGE</code></em> of memory
+            online.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−z,
+          −−zone</code></span></dt>
+          <dd>
+            <p>Select the memory <em class="parameter"><code>ZONE</code></em> where to set the
+            specified <em class="parameter"><code>RANGE</code></em>, <em class="parameter"><code>SIZE</code></em>, or <em class="parameter"><code>BLOCKRANGE</code></em> of memory
+            online or offline. By default, memory will be set
+            online to the zone Movable, if possible.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Print a short help text, then exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−v,
+          −−verbose</code></span></dt>
+          <dd>
+            <p>Verbose mode. Causes <span class="command"><strong>chmem</strong></span> to print
+            debugging messages about it's progress.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Print the version number, then exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="chmem-8_sect3" name="chmem-8_sect3" shape="rect"> </a>
+      <h2>EXIT STATUS</h2>
+      <p><span class="command"><strong>chmem</strong></span> has
+      the following exit status values:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">0</code></span></dt>
+          <dd>
+            <p>success</p>
+          </dd>
+          <dt><span class="term"><code class="constant">1</code></span></dt>
+          <dd>
+            <p>failure</p>
+          </dd>
+          <dt><span class="term"><code class="constant">64</code></span></dt>
+          <dd>
+            <p>partial success</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="chmem-8_sect4" name="chmem-8_sect4" shape="rect"> </a>
+      <h2>EXAMPLE</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">chmem −−enable
+          1024</span></dt>
+          <dd>
+            <p>This command requests 1024 MiB of memory to be set
+            online.</p>
+          </dd>
+          <dt><span class="term">chmem −e 2g</span></dt>
+          <dd>
+            <p>This command requests 2 GiB of memory to be set
+            online.</p>
+          </dd>
+          <dt><span class="term">chmem −−disable
+          0x00000000e4000000-0x00000000f3ffffff</span></dt>
+          <dd>
+            <p>This command requests the memory range starting with
+            0x00000000e4000000 and ending with 0x00000000f3ffffff
+            to be set offline.</p>
+          </dd>
+          <dt><span class="term">chmem −b −d
+          10</span></dt>
+          <dd>
+            <p>This command requests the memory block number 10 to
+            be set offline.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="chmem-8_sect5" name="chmem-8_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/lsmem.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lsmem</span>(1)</span></a></p>
+    </div>
+    <div class="refsect1">
+      <a id="chmem-8_sect6" name="chmem-8_sect6" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The <span class="command"><strong>chmem</strong></span>
+      command is part of the util-linux package and is available
+      from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

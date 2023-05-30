@@ -1,0 +1,1684 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>queue(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="queue(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="queue.3" name="queue.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>SLIST_EMPTY, SLIST_ENTRY, SLIST_FIRST, SLIST_FOREACH,
+      SLIST_HEAD, SLIST_HEAD_INITIALIZER, SLIST_INIT,
+      SLIST_INSERT_AFTER, SLIST_INSERT_HEAD, SLIST_NEXT,
+      SLIST_REMOVE_HEAD, SLIST_REMOVE, STAILQ_CONCAT, STAILQ_EMPTY,
+      STAILQ_ENTRY, STAILQ_FIRST, STAILQ_FOREACH, STAILQ_HEAD,
+      STAILQ_HEAD_INITIALIZER, STAILQ_INIT, STAILQ_INSERT_AFTER,
+      STAILQ_INSERT_HEAD, STAILQ_INSERT_TAIL, STAILQ_NEXT,
+      STAILQ_REMOVE_HEAD, STAILQ_REMOVE, LIST_EMPTY, LIST_ENTRY,
+      LIST_FIRST, LIST_FOREACH, LIST_HEAD, LIST_HEAD_INITIALIZER,
+      LIST_INIT, LIST_INSERT_AFTER, LIST_INSERT_BEFORE,
+      LIST_INSERT_HEAD, LIST_NEXT, LIST_REMOVE, TAILQ_CONCAT,
+      TAILQ_EMPTY, TAILQ_ENTRY, TAILQ_FIRST, TAILQ_FOREACH,
+      TAILQ_FOREACH_REVERSE, TAILQ_HEAD, TAILQ_HEAD_INITIALIZER,
+      TAILQ_INIT, TAILQ_INSERT_AFTER, TAILQ_INSERT_BEFORE,
+      TAILQ_INSERT_HEAD, TAILQ_INSERT_TAIL, TAILQ_LAST, TAILQ_NEXT,
+      TAILQ_PREV, TAILQ_REMOVE, TAILQ_SWAP — implementations
+      of singly-linked lists, singly-linked tail queues,
+      implementations of singly-linked lists, singly-linked tail
+      queues,</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_EMPTY</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_ENTRY</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_FIRST</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_FOREACH</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">var</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">HEADNAME</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_HEAD_INITIALIZER</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD <var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_INIT</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_INSERT_AFTER</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">listelm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_INSERT_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_NEXT</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_REMOVE_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_REMOVE</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_CONCAT</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head1</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head2</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_EMPTY</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_ENTRY</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_FIRST</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_FOREACH</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">var</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">HEADNAME</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_HEAD_INITIALIZER</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD <var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_INIT</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_INSERT_AFTER</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">listelm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_INSERT_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_INSERT_TAIL</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_NEXT</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_REMOVE_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>STAILQ_REMOVE</strong>(</code></td>
+            <td rowspan="1" colspan="1">STAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">STAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_EMPTY</strong>(</code></td>
+            <td rowspan="1" colspan="1">LIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_ENTRY</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_FIRST</strong>(</code></td>
+            <td rowspan="1" colspan="1">LIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_FOREACH</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">var</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">HEADNAME</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_HEAD_INITIALIZER</strong>(</code></td>
+            <td rowspan="1" colspan="1">LIST_HEAD <var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_INIT</strong>(</code></td>
+            <td rowspan="1" colspan="1">LIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_INSERT_AFTER</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">listelm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_INSERT_BEFORE</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">listelm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_INSERT_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1">LIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_NEXT</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_REMOVE</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>LIST_SWAP</strong>(</code></td>
+            <td rowspan="1" colspan="1">LIST_HEAD *<var class="pdparam">head1</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_HEAD *<var class="pdparam">head2</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">LIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_CONCAT</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head1</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head2</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_EMPTY</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_ENTRY</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_FIRST</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_FOREACH</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">var</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_FOREACH_REVERSE</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">var</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">HEADNAME</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">HEADNAME</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_HEAD_INITIALIZER</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD <var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_INIT</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_INSERT_AFTER</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">listelm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_INSERT_BEFORE</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">listelm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_INSERT_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_INSERT_TAIL</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_LAST</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">HEADNAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_NEXT</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_PREV</strong>(</code></td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">HEADNAME</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_REMOVE</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>TAILQ_SWAP</strong>(</code></td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head1</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_HEAD *<var class="pdparam">head2</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">TAILQ_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="queue-3_sect1" name="queue-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>These macros define and operate on four types of data
+      structures: singly-linked lists, singly-linked tail queues,
+      lists, and tail queues. All four structures support the
+      following functionality:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>Insertion of a new entry at the head of the
+            list.</p>
+          </li>
+          <li class="listitem">
+            <p>Insertion of a new entry after any element in the
+            list.</p>
+          </li>
+          <li class="listitem">
+            <p>O(1) removal of an entry from the head of the
+            list.</p>
+          </li>
+          <li class="listitem">
+            <p>Forward traversal through the list.</p>
+          </li>
+          <li class="listitem">
+            <p>Swapping the contents of two lists.</p>
+          </li>
+        </ol>
+      </div>
+      <p>Singly-linked lists are the simplest of the four data
+      structures and support only the above functionality.
+      Singly-linked lists are ideal for applications with large
+      datasets and few or no removals, or for implementing a LIFO
+      queue. Singly-linked lists add the following
+      functionality:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>O(n) removal of any entry in the list.</p>
+          </li>
+        </ol>
+      </div>
+      <p>Singly-linked tail queues add the following
+      functionality:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>Entries can be added at the end of a list.</p>
+          </li>
+          <li class="listitem">
+            <p>O(n) removal of any entry in the list.</p>
+          </li>
+          <li class="listitem">
+            <p>They may be concatenated.</p>
+          </li>
+        </ol>
+      </div>
+      <p>However:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>All list insertions must specify the head of the
+            list.</p>
+          </li>
+          <li class="listitem">
+            <p>Each head entry requires two pointers rather than
+            one.</p>
+          </li>
+          <li class="listitem">
+            <p>Code size is about 15% greater and operations run
+            about 20% slower than singly-linked lists.</p>
+          </li>
+        </ol>
+      </div>
+      <p>Singly-linked tail queues are ideal for applications with
+      large datasets and few or no removals, or for implementing a
+      FIFO queue.</p>
+      <p>All doubly linked types of data structures (lists and tail
+      queues) additionally allow:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>Insertion of a new entry before any element in the
+            list.</p>
+          </li>
+          <li class="listitem">
+            <p>O(1) removal of any entry in the list.</p>
+          </li>
+        </ol>
+      </div>
+      <p>However:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>Each element requires two pointers rather than
+            one.</p>
+          </li>
+          <li class="listitem">
+            <p>Code size and execution time of operations (except
+            for removal) is about twice that of the singly-linked
+            data-structures.</p>
+          </li>
+        </ol>
+      </div>
+      <p>Linked lists are the simplest of the doubly linked data
+      structures. They add the following functionality over the
+      above:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>They may be traversed backwards.</p>
+          </li>
+        </ol>
+      </div>
+      <p>However:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>To traverse backwards, an entry to begin the
+            traversal and the list in which it is contained must be
+            specified.</p>
+          </li>
+        </ol>
+      </div>
+      <p>Tail queues add the following functionality:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>Entries can be added at the end of a list.</p>
+          </li>
+          <li class="listitem">
+            <p>They may be traversed backwards, from tail to
+            head.</p>
+          </li>
+          <li class="listitem">
+            <p>They may be concatenated.</p>
+          </li>
+        </ol>
+      </div>
+      <p>However:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>All list insertions and removals must specify the
+            head of the list.</p>
+          </li>
+          <li class="listitem">
+            <p>Each head entry requires two pointers rather than
+            one.</p>
+          </li>
+          <li class="listitem">
+            <p>Code size is about 15% greater and operations run
+            about 20% slower than singly-linked lists.</p>
+          </li>
+        </ol>
+      </div>
+      <p>In the macro definitions, <em class="parameter"><code>TYPE</code></em> is the name of a user
+      defined structure, that must contain a field of type
+      <code class="constant">SLIST_ENTRY</code>, <code class="constant">STAILQ_ENTRY</code>, <code class="constant">LIST_ENTRY</code>, or <code class="constant">TAILQ_ENTRY</code>, named <em class="parameter"><code>NAME</code></em>. The argument <em class="parameter"><code>HEADNAME</code></em> is the name of a user
+      defined structure that must be declared using the macros
+      <code class="constant">SLIST_HEAD</code>, <code class="constant">STAILQ_HEAD</code>, <code class="constant">LIST_HEAD</code>, or <code class="constant">TAILQ_HEAD</code>. See the examples below for
+      further explanation of how these macros are used.</p>
+      <div class="refsect2">
+        <a id="queue-3_sect2" name="queue-3_sect2" shape="rect"> </a>
+        <h3>Singly-linked lists</h3>
+        <p>A singly-linked list is headed by a structure defined by
+        the <code class="constant">SLIST_HEAD</code> macro. This
+        structure contains a single pointer to the first element on
+        the list. The elements are singly linked for minimum space
+        and pointer manipulation overhead at the expense of O(n)
+        removal for arbitrary elements. New elements can be added
+        to the list after an existing element or at the head of the
+        list. An <code class="constant">SLIST_HEAD</code> structure
+        is declared as follows:</p>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+SLIST_HEAD(HEADNAME, TYPE) head;
+</pre>
+        </div>
+        <p>where <em class="parameter"><code>HEADNAME</code></em>
+        is the name of the structure to be defined, and <em class="parameter"><code>TYPE</code></em> is the type of the
+        elements to be linked into the list. A pointer to the head
+        of the list can later be declared as:</p>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+struct HEADNAME *headp;
+</pre>
+        </div>
+        <p>(The names <em class="parameter"><code>head</code></em>
+        and <code class="function">headp</code> are user
+        selectable.)</p>
+        <p>The macro <code class="constant">SLIST_HEAD_INITIALIZER</code> evaluates to an
+        initializer for the list <em class="parameter"><code>head</code></em>.</p>
+        <p>The macro <code class="constant">SLIST_EMPTY</code>
+        evaluates to true if there are no elements in the list.</p>
+        <p>The macro <code class="constant">SLIST_ENTRY</code>
+        declares a structure that connects the elements in the
+        list.</p>
+        <p>The macro <code class="constant">SLIST_FIRST</code>
+        returns the first element in the list or NULL if the list
+        is empty.</p>
+        <p>The macro <code class="constant">SLIST_FOREACH</code>
+        traverses the list referenced by <em class="parameter"><code>head</code></em> in the forward
+        direction, assigning each element in turn to <em class="parameter"><code>var</code></em>.</p>
+        <p>The macro <code class="constant">SLIST_INIT</code>
+        initializes the list referenced by <em class="parameter"><code>head</code></em>.</p>
+        <p>The macro <code class="constant">SLIST_INSERT_HEAD</code> inserts the new element
+        <em class="parameter"><code>elm</code></em> at the head of
+        the list.</p>
+        <p>The macro <code class="constant">SLIST_INSERT_AFTER</code> inserts the new
+        element <em class="parameter"><code>elm</code></em> after
+        the element <em class="parameter"><code>listelm</code></em>.</p>
+        <p>The macro <code class="constant">SLIST_NEXT</code>
+        returns the next element in the list.</p>
+        <p>The macro <code class="constant">SLIST_REMOVE_HEAD</code> removes the element
+        <em class="parameter"><code>elm</code></em> from the head
+        of the list. For optimum efficiency, elements being removed
+        from the head of the list should explicitly use this macro
+        instead of the generic <code class="constant">SLIST_REMOVE</code> macro.</p>
+        <p>The macro <code class="constant">SLIST_REMOVE</code>
+        removes the element <em class="parameter"><code>elm</code></em> from the list.</p>
+      </div>
+      <div class="refsect2">
+        <a id="queue-3_sect3" name="queue-3_sect3" shape="rect"> </a>
+        <h3>Singly-linked list example</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+SLIST_HEAD(slisthead, entry) head =
+    SLIST_HEAD_INITIALIZER(head);
+struct slisthead *headp;                /* Singly-linked List
+                                           head. */
+struct entry {
+        ...
+        SLIST_ENTRY(entry) entries;     /* Singly-linked List. */
+        ...
+} *n1, *n2, *n3, *np;
+
+SLIST_INIT(&amp;head);                  /* Initialize the list. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+SLIST_INSERT_HEAD(&amp;head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+SLIST_INSERT_AFTER(n1, n2, entries);
+
+SLIST_REMOVE(&amp;head, n2, entry, entries);/* Deletion. */
+free(n2);
+
+n3 = SLIST_FIRST(&amp;head);
+SLIST_REMOVE_HEAD(&amp;head, entries);  /* Deletion from the head. */
+free(n3);
+                                        /* Forward traversal. */
+SLIST_FOREACH(np, &amp;head, entries)
+        np−&gt; ...
+
+while (!SLIST_EMPTY(&amp;head)) {               /* List Deletion. */
+        n1 = SLIST_FIRST(&amp;head);
+        SLIST_REMOVE_HEAD(&amp;head, entries);
+        free(n1);
+}
+</pre>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="queue-3_sect4" name="queue-3_sect4" shape="rect"> </a>
+        <h3>Singly-linked tail queues</h3>
+        <p>A singly-linked tail queue is headed by a structure
+        defined by the <code class="constant">STAILQ_HEAD</code>
+        macro. This structure contains a pair of pointers, one to
+        the first element in the tail queue and the other to the
+        last element in the tail queue. The elements are singly
+        linked for minimum space and pointer manipulation overhead
+        at the expense of O(n) removal for arbitrary elements. New
+        elements can be added to the tail queue after an existing
+        element, at the head of the tail queue, or at the end of
+        the tail queue. A <code class="constant">STAILQ_HEAD</code>
+        structure is declared as follows:</p>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+STAILQ_HEAD(HEADNAME, TYPE) head;
+</pre>
+        </div>
+        <p>where <em class="parameter"><code>HEADNAME</code></em>
+        is the name of the structure to be defined, and <em class="parameter"><code>TYPE</code></em> is the type of the
+        elements to be linked into the tail queue. A pointer to the
+        head of the tail queue can later be declared as:</p>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+struct HEADNAME *headp;
+</pre>
+        </div>
+        <p>(The names <em class="parameter"><code>head</code></em>
+        and <code class="function">headp</code> are user
+        selectable.)</p>
+        <p>The macro <code class="constant">STAILQ_HEAD_INITIALIZER</code> evaluates to an
+        initializer for the tail queue <em class="parameter"><code>head</code></em>.</p>
+        <p>The macro <code class="constant">STAILQ_CONCAT</code>
+        concatenates the tail queue headed by <em class="parameter"><code>head2</code></em> onto the end of the one
+        headed by <em class="parameter"><code>head1</code></em>
+        removing all entries from the former.</p>
+        <p>The macro <code class="constant">STAILQ_EMPTY</code>
+        evaluates to true if there are no items on the tail
+        queue.</p>
+        <p>The macro <code class="constant">STAILQ_ENTRY</code>
+        declares a structure that connects the elements in the tail
+        queue.</p>
+        <p>The macro <code class="constant">STAILQ_FIRST</code>
+        returns the first item on the tail queue or NULL if the
+        tail queue is empty.</p>
+        <p>The macro <code class="constant">STAILQ_FOREACH</code>
+        traverses the tail queue referenced by <em class="parameter"><code>head</code></em> in the forward
+        direction, assigning each element in turn to <em class="parameter"><code>var</code></em>.</p>
+        <p>The macro <code class="constant">STAILQ_INIT</code>
+        initializes the tail queue referenced by <em class="parameter"><code>head</code></em>.</p>
+        <p>The macro <code class="constant">STAILQ_INSERT_HEAD</code> inserts the new
+        element <em class="parameter"><code>elm</code></em> at the
+        head of the tail queue.</p>
+        <p>The macro <code class="constant">STAILQ_INSERT_TAIL</code> inserts the new
+        element <em class="parameter"><code>elm</code></em> at the
+        end of the tail queue.</p>
+        <p>The macro <code class="constant">STAILQ_INSERT_AFTER</code> inserts the new
+        element <em class="parameter"><code>elm</code></em> after
+        the element <em class="parameter"><code>listelm</code></em>.</p>
+        <p>The macro <code class="constant">STAILQ_NEXT</code>
+        returns the next item on the tail queue, or NULL this item
+        is the last.</p>
+        <p>The macro <code class="constant">STAILQ_REMOVE_HEAD</code> removes the element at
+        the head of the tail queue. For optimum efficiency,
+        elements being removed from the head of the tail queue
+        should use this macro explicitly rather than the generic
+        <code class="constant">STAILQ_REMOVE</code> macro.</p>
+        <p>The macro <code class="constant">STAILQ_REMOVE</code>
+        removes the element <em class="parameter"><code>elm</code></em> from the tail queue.</p>
+      </div>
+      <div class="refsect2">
+        <a id="queue-3_sect5" name="queue-3_sect5" shape="rect"> </a>
+        <h3>Singly-linked tail queue example</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+STAILQ_HEAD(stailhead, entry) head =
+    STAILQ_HEAD_INITIALIZER(head);
+struct stailhead *headp;                /* Singly-linked tail queue head. */
+struct entry {
+        ...
+        STAILQ_ENTRY(entry) entries;    /* Tail queue. */
+        ...
+} *n1, *n2, *n3, *np;
+
+STAILQ_INIT(&amp;head);                 /* Initialize the queue. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+STAILQ_INSERT_HEAD(&amp;head, n1, entries);
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the tail. */
+STAILQ_INSERT_TAIL(&amp;head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+STAILQ_INSERT_AFTER(&amp;head, n1, n2, entries);
+                                        /* Deletion. */
+STAILQ_REMOVE(&amp;head, n2, entry, entries);
+free(n2);
+                                        /* Deletion from the head. */
+n3 = STAILQ_FIRST(&amp;head);
+STAILQ_REMOVE_HEAD(&amp;head, entries);
+free(n3);
+                                        /* Forward traversal. */
+STAILQ_FOREACH(np, &amp;head, entries)
+        np−&gt; ...
+                                        /* TailQ Deletion. */
+while (!STAILQ_EMPTY(&amp;head)) {
+        n1 = STAILQ_FIRST(&amp;head);
+        STAILQ_REMOVE_HEAD(&amp;head, entries);
+        free(n1);
+}
+                                        /* Faster TailQ Deletion. */
+n1 = STAILQ_FIRST(&amp;head);
+while (n1 != NULL) {
+        n2 = STAILQ_NEXT(n1, entries);
+        free(n1);
+        n1 = n2;
+}
+STAILQ_INIT(&amp;head);
+</pre>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="queue-3_sect6" name="queue-3_sect6" shape="rect"> </a>
+        <h3>Lists</h3>
+        <p>A list is headed by a structure defined by the
+        <code class="constant">LIST_HEAD</code> macro. This
+        structure contains a single pointer to the first element on
+        the list. The elements are doubly linked so that an
+        arbitrary element can be removed without traversing the
+        list. New elements can be added to the list after an
+        existing element, before an existing element, or at the
+        head of the list. A <code class="constant">LIST_HEAD</code>
+        structure is declared as follows:</p>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+LIST_HEAD(HEADNAME, TYPE) head;
+</pre>
+        </div>
+        <p>where <em class="parameter"><code>HEADNAME</code></em>
+        is the name of the structure to be defined, and <em class="parameter"><code>TYPE</code></em> is the type of the
+        elements to be linked into the list. A pointer to the head
+        of the list can later be declared as:</p>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+struct HEADNAME *headp;
+</pre>
+        </div>
+        <p>(The names <em class="parameter"><code>head</code></em>
+        and <code class="function">headp</code> are user
+        selectable.)</p>
+        <p>The macro <code class="constant">LIST_HEAD_INITIALIZER</code> evaluates to an
+        initializer for the list <em class="parameter"><code>head</code></em>.</p>
+        <p>The macro <code class="constant">LIST_EMPTY</code>
+        evaluates to true if there are no elements in the list.</p>
+        <p>The macro <code class="constant">LIST_ENTRY</code>
+        declares a structure that connects the elements in the
+        list.</p>
+        <p>The macro <code class="constant">LIST_FIRST</code>
+        returns the first element in the list or NULL if the list
+        is empty.</p>
+        <p>The macro <code class="constant">LIST_FOREACH</code>
+        traverses the list referenced by <em class="parameter"><code>head</code></em> in the forward
+        direction, assigning each element in turn to <em class="parameter"><code>var</code></em>.</p>
+        <p>The macro <code class="constant">LIST_INIT</code>
+        initializes the list referenced by <em class="parameter"><code>head</code></em>.</p>
+        <p>The macro <code class="constant">LIST_INSERT_HEAD</code>
+        inserts the new element <em class="parameter"><code>elm</code></em> at the head of the
+        list.</p>
+        <p>The macro <code class="constant">LIST_INSERT_AFTER</code> inserts the new element
+        <em class="parameter"><code>elm</code></em> after the
+        element <em class="parameter"><code>listelm</code></em>.</p>
+        <p>The macro <code class="constant">LIST_INSERT_BEFORE</code> inserts the new
+        element <em class="parameter"><code>elm</code></em> before
+        the element <em class="parameter"><code>listelm</code></em>.</p>
+        <p>The macro <code class="constant">LIST_NEXT</code>
+        returns the next element in the list, or NULL if this is
+        the last.</p>
+        <p>The macro <code class="constant">LIST_REMOVE</code>
+        removes the element <em class="parameter"><code>elm</code></em> from the list.</p>
+      </div>
+      <div class="refsect2">
+        <a id="queue-3_sect7" name="queue-3_sect7" shape="rect"> </a>
+        <h3>List example</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+LIST_HEAD(listhead, entry) head =
+    LIST_HEAD_INITIALIZER(head);
+struct listhead *headp;                 /* List head. */
+struct entry {
+        ...
+        LIST_ENTRY(entry) entries;      /* List. */
+        ...
+} *n1, *n2, *n3, *np, *np_temp;
+
+LIST_INIT(&amp;head);                   /* Initialize the list. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+LIST_INSERT_HEAD(&amp;head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+LIST_INSERT_AFTER(n1, n2, entries);
+
+n3 = malloc(sizeof(struct entry));      /* Insert before. */
+LIST_INSERT_BEFORE(n2, n3, entries);
+
+LIST_REMOVE(n2, entries);               /* Deletion. */
+free(n2);
+                                        /* Forward traversal. */
+LIST_FOREACH(np, &amp;head, entries)
+        np−&gt; ...
+
+while (!LIST_EMPTY(&amp;head)) {                /* List Deletion. */
+        n1 = LIST_FIRST(&amp;head);
+        LIST_REMOVE(n1, entries);
+        free(n1);
+}
+
+n1 = LIST_FIRST(&amp;head);                     /* Faster List Deletion. */
+while (n1 != NULL) {
+        n2 = LIST_NEXT(n1, entries);
+        free(n1);
+        n1 = n2;
+}
+LIST_INIT(&amp;head);
+</pre>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="queue-3_sect8" name="queue-3_sect8" shape="rect"> </a>
+        <h3>Tail queues</h3>
+        <p>A tail queue is headed by a structure defined by the
+        <code class="constant">TAILQ_HEAD</code> macro. This
+        structure contains a pair of pointers, one to the first
+        element in the tail queue and the other to the last element
+        in the tail queue. The elements are doubly linked so that
+        an arbitrary element can be removed without traversing the
+        tail queue. New elements can be added to the tail queue
+        after an existing element, before an existing element, at
+        the head of the tail queue, or at the end of the tail
+        queue. A <code class="constant">TAILQ_HEAD</code> structure
+        is declared as follows:</p>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+TAILQ_HEAD(HEADNAME, TYPE) head;
+</pre>
+        </div>
+        <p>where <em class="parameter"><code>HEADNAME</code></em>
+        is the name of the structure to be defined, and <em class="parameter"><code>TYPE</code></em> is the type of the
+        elements to be linked into the tail queue. A pointer to the
+        head of the tail queue can later be declared as:</p>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+struct HEADNAME *headp;
+</pre>
+        </div>
+        <p>(The names <em class="parameter"><code>head</code></em>
+        and <code class="function">headp</code> are user
+        selectable.)</p>
+        <p>The macro <code class="constant">TAILQ_HEAD_INITIALIZER</code> evaluates to an
+        initializer for the tail queue <em class="parameter"><code>head</code></em>.</p>
+        <p>The macro <code class="constant">TAILQ_CONCAT</code>
+        concatenates the tail queue headed by <em class="parameter"><code>head2</code></em> onto the end of the one
+        headed by <em class="parameter"><code>head1</code></em>
+        removing all entries from the former.</p>
+        <p>The macro <code class="constant">TAILQ_EMPTY</code>
+        evaluates to true if there are no items on the tail
+        queue.</p>
+        <p>The macro <code class="constant">TAILQ_ENTRY</code>
+        declares a structure that connects the elements in the tail
+        queue.</p>
+        <p>The macro <code class="constant">TAILQ_FIRST</code>
+        returns the first item on the tail queue or NULL if the
+        tail queue is empty.</p>
+        <p>The macro <code class="constant">TAILQ_FOREACH</code>
+        traverses the tail queue referenced by <em class="parameter"><code>head</code></em> in the forward
+        direction, assigning each element in turn to <em class="parameter"><code>var</code></em>. <em class="parameter"><code>var</code></em> is set to <code class="constant">NULL</code> if the loop completes normally, or
+        if there were no elements.</p>
+        <p>The macro <code class="constant">TAILQ_FOREACH_REVERSE</code> traverses the tail
+        queue referenced by <em class="parameter"><code>head</code></em> in the reverse
+        direction, assigning each element in turn to <em class="parameter"><code>var</code></em>.</p>
+        <p>The macro <code class="constant">TAILQ_INIT</code>
+        initializes the tail queue referenced by <em class="parameter"><code>head</code></em>.</p>
+        <p>The macro <code class="constant">TAILQ_INSERT_HEAD</code> inserts the new element
+        <em class="parameter"><code>elm</code></em> at the head of
+        the tail queue.</p>
+        <p>The macro <code class="constant">TAILQ_INSERT_TAIL</code> inserts the new element
+        <em class="parameter"><code>elm</code></em> at the end of
+        the tail queue.</p>
+        <p>The macro <code class="constant">TAILQ_INSERT_AFTER</code> inserts the new
+        element <em class="parameter"><code>elm</code></em> after
+        the element <em class="parameter"><code>listelm</code></em>.</p>
+        <p>The macro <code class="constant">TAILQ_INSERT_BEFORE</code> inserts the new
+        element <em class="parameter"><code>elm</code></em> before
+        the element <em class="parameter"><code>listelm</code></em>.</p>
+        <p>The macro <code class="constant">TAILQ_LAST</code>
+        returns the last item on the tail queue. If the tail queue
+        is empty the return value is <code class="constant">NULL</code>.</p>
+        <p>The macro <code class="constant">TAILQ_NEXT</code>
+        returns the next item on the tail queue, or NULL if this
+        item is the last.</p>
+        <p>The macro <code class="constant">TAILQ_PREV</code>
+        returns the previous item on the tail queue, or NULL if
+        this item is the first.</p>
+        <p>The macro <code class="constant">TAILQ_REMOVE</code>
+        removes the element <em class="parameter"><code>elm</code></em> from the tail queue.</p>
+        <p>The macro <code class="constant">TAILQ_SWAP</code> swaps
+        the contents of <em class="parameter"><code>head1</code></em> and <em class="parameter"><code>head2</code></em>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="queue-3_sect9" name="queue-3_sect9" shape="rect"> </a>
+        <h3>Tail queue example</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+TAILQ_HEAD(tailhead, entry) head =
+    TAILQ_HEAD_INITIALIZER(head);
+struct tailhead *headp;                 /* Tail queue head. */
+struct entry {
+        ...
+        TAILQ_ENTRY(entry) entries;     /* Tail queue. */
+        ...
+} *n1, *n2, *n3, *np;
+
+TAILQ_INIT(&amp;head);                  /* Initialize the queue. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+TAILQ_INSERT_HEAD(&amp;head, n1, entries);
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the tail. */
+TAILQ_INSERT_TAIL(&amp;head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+TAILQ_INSERT_AFTER(&amp;head, n1, n2, entries);
+
+n3 = malloc(sizeof(struct entry));      /* Insert before. */
+TAILQ_INSERT_BEFORE(n2, n3, entries);
+
+TAILQ_REMOVE(&amp;head, n2, entries);   /* Deletion. */
+free(n2);
+                                        /* Forward traversal. */
+TAILQ_FOREACH(np, &amp;head, entries)
+        np−&gt; ...
+                                        /* Reverse traversal. */
+TAILQ_FOREACH_REVERSE(np, &amp;head, tailhead, entries)
+        np−&gt; ...
+                                        /* TailQ Deletion. */
+while (!TAILQ_EMPTY(&amp;head)) {
+        n1 = TAILQ_FIRST(&amp;head);
+        TAILQ_REMOVE(&amp;head, n1, entries);
+        free(n1);
+}
+                                        /* Faster TailQ Deletion. */
+n1 = TAILQ_FIRST(&amp;head);
+while (n1 != NULL) {
+        n2 = TAILQ_NEXT(n1, entries);
+        free(n1);
+        n1 = n2;
+}
+
+TAILQ_INIT(&amp;head);
+n2 = malloc(sizeof(struct entry));  /* Insert before. */
+CIRCLEQ_INSERT_BEFORE(&amp;head, n1, n2, entries);
+                                    /* Forward traversal. */
+for (np = head.cqh_first; np != (void *)&amp;head;
+        np = np−&gt;entries.cqe_next)
+    np−&gt; ...
+                                    /* Reverse traversal. */
+for (np = head.cqh_last; np != (void *)&amp;head; np = np−&gt;entries.cqe_prev)
+    np−&gt; ...
+                                    /* Delete. */
+while (head.cqh_first != (void *)&amp;head)
+    CIRCLEQ_REMOVE(&amp;head, head.cqh_first, entries);
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="queue-3_sect10" name="queue-3_sect10" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>Not in POSIX.1, POSIX.1-2001 or POSIX.1-2008. Present on
+      the BSDs. <code class="function">queue</code> functions first
+      appeared in <em class="replaceable"><code>BSD4.4</code></em>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="queue-3_sect11" name="queue-3_sect11" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/insque.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">insque</span>(3)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="queue-3_sect12" name="queue-3_sect12" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 4.16 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 1993<br />
+                  The Regents of the University of California.  All rights reserved.<br />
+
+                  <br />
+                  %%%LICENSE_START(BSD_3_CLAUSE_UCB)<br />
+                  Redistribution and use in source and binary forms, with or without<br />
+
+                  modification, are permitted provided that the following conditions<br />
+
+                  are met:<br />
+                  1. Redistributions of source code must retain the above copyright<br />
+
+                     notice, this list of conditions and the following disclaimer.<br />
+
+                  2. Redistributions in binary form must reproduce the above copyright<br />
+
+                     notice, this list of conditions and the following disclaimer in the<br />
+
+                     documentation and/or other materials provided with the distribution.<br />
+
+                  3. Neither the name of the University nor the names of its contributors<br />
+
+                     may be used to endorse or promote products derived from this software<br />
+
+                     without specific prior written permission.<br />
+
+                  <br />
+                  THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND<br />
+
+                  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE<br />
+
+                  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE<br />
+
+                  ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE<br />
+
+                  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL<br />
+
+                  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS<br />
+
+                  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)<br />
+
+                  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT<br />
+
+                  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY<br />
+
+                  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF<br />
+
+                  SUCH DAMAGE.<br />
+                  %%%LICENSE_END<br />
+                  <br />
+                  <script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>(#)queue.3
+                  8.2 (Berkeley) 1/24/94<br />
+                  $FreeBSD$<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

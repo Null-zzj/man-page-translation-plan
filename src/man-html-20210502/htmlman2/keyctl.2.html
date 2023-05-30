@@ -1,0 +1,2148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>keyctl(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="keyctl(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="keyctl.2" name="keyctl.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>keyctl — manipulate the kernel's key management
+      facility</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;keyutils.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">long
+            <strong>keyctl</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">operation</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">...</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+.nf
+/* For direct call via syscall(2): */
+#include &lt;asm/unistd.h&gt;
+#include &lt;linux/keyctl.h&gt;
+#include &lt;unistd.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">long
+            <strong>syscall</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">__NR_keyctl</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">operation</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned long <var class="pdparam">arg2</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned long <var class="pdparam">arg3</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned long <var class="pdparam">arg4</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned long <var class="pdparam">arg5</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+.fi
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="keyctl-2_sect1" name="keyctl-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><code class="function">keyctl</code>() allows user-space
+      programs to perform key manipulation.</p>
+      <p>The operation performed by <code class="function">keyctl</code>() is determined by the value of the
+      <em class="parameter"><code>operation</code></em> argument.
+      Each of these operations is wrapped by the <em class="replaceable"><code>libkeyutils</code></em> library (provided
+      by the <em class="replaceable"><code>keyutils</code></em>
+      package) into individual functions (noted below) to permit
+      the compiler to check types.</p>
+      <p>The permitted values for <em class="parameter"><code>operation</code></em> are:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">KEYCTL_GET_KEYRING_ID</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Map a special key ID to a real key ID for this
+            process.</p>
+            <p>This operation looks up the special key whose ID is
+            provided in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). If the special
+            key is found, the ID of the corresponding real key is
+            returned as the function result. The following values
+            may be specified in <em class="parameter"><code>arg2</code></em>:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><code class="constant">KEY_SPEC_THREAD_KEYRING</code></span></dt>
+                    <dd>
+                      <p>This specifies the calling thread's
+                      thread-specific keyring. See <a class="link" href="../htmlman7/thread-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">thread-keyring</span>(7)</span></a>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_SPEC_PROCESS_KEYRING</code></span></dt>
+                    <dd>
+                      <p>This specifies the caller's
+                      process-specific keyring. See <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_SPEC_SESSION_KEYRING</code></span></dt>
+                    <dd>
+                      <p>This specifies the caller's
+                      session-specific keyring. See <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_SPEC_USER_KEYRING</code></span></dt>
+                    <dd>
+                      <p>This specifies the caller's UID-specific
+                      keyring. See <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_SPEC_USER_SESSION_KEYRING</code></span></dt>
+                    <dd>
+                      <p>This specifies the caller's UID-session
+                      keyring. See <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_SPEC_REQKEY_AUTH_KEY</code>
+                    (since Linux 2.6.16)</span></dt>
+                    <dd>
+                      <p>This specifies the authorization key
+                      created by <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>
+                      and passed to the process it spawns to
+                      generate a key. This key is available only in
+                      a <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span>-style
+                      program that was passed an authorization key
+                      by the kernel and ceases to be available once
+                      the requested key has been instantiated; see
+                      <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_SPEC_REQUESTOR_KEYRING</code>
+                    (since Linux 2.6.29)</span></dt>
+                    <dd>
+                      <p>This specifies the key ID for the
+                      <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>
+                      destination keyring. This keyring is
+                      available only in a <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span>-style
+                      program that was passed an authorization key
+                      by the kernel and ceases to be available once
+                      the requested key has been instantiated; see
+                      <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+            <p>The behavior if the key specified in <em class="parameter"><code>arg2</code></em> does not exist
+            depends on the value of <em class="parameter"><code>arg3</code></em> (cast to
+            <span class="type">int</span>). If <em class="parameter"><code>arg3</code></em> contains a nonzero
+            value, then—if it is appropriate to do so (e.g.,
+            when looking up the user, user-session, or session
+            key)—a new key is created and its real key ID
+            returned as the function result. Otherwise, the
+            operation fails with the error <span class="errorname">ENOKEY</span>.</p>
+            <p>If a valid key ID is specified in <em class="parameter"><code>arg2</code></em>, and the key exists,
+            then this operation simply returns the key ID. If the
+            key does not exist, the call fails with error
+            <span class="errorname">ENOKEY</span>.</p>
+            <p>The caller must have <em class="replaceable"><code>search</code></em> permission on a
+            keyring in order for it to be found.</p>
+            <p>The arguments <em class="parameter"><code>arg4</code></em> and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_get_keyring_ID</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_JOIN_SESSION_KEYRING</code> (since
+          Linux 2.6.10)</span></dt>
+          <dd>
+            <p>Replace the session keyring this process subscribes
+            to with a new session keyring.</p>
+            <p>If <em class="parameter"><code>arg2</code></em> is
+            NULL, an anonymous keyring with the description "_ses"
+            is created and the process is subscribed to that
+            keyring as its session keyring, displacing the previous
+            session keyring.</p>
+            <p>Otherwise, <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="emphasis"><em>char *</em></span>) is
+            treated as the description (name) of a keyring, and the
+            behavior is as follows:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="itemizedlist">
+                  <ul class="itemizedlist" style="list-style-type: disc;">
+                    <li class="listitem">
+                      <p>If a keyring with a matching description
+                      exists, the process will attempt to subscribe
+                      to that keyring as its session keyring if
+                      possible; if that is not possible, an error
+                      is returned. In order to subscribe to the
+                      keyring, the caller must have <em class="replaceable"><code>search</code></em>
+                      permission on the keyring.</p>
+                    </li>
+                    <li class="listitem">
+                      <p>If a keyring with a matching description
+                      does not exist, then a new keyring with the
+                      specified description is created, and the
+                      process is subscribed to that keyring as its
+                      session keyring.</p>
+                    </li>
+                  </ul>
+                </div>
+              </blockquote>
+            </div>
+            <p>The arguments <em class="parameter"><code>arg3</code></em>, <em class="parameter"><code>arg4</code></em>, and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_join_session_keyring</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_UPDATE</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Update a key's data payload.</p>
+            <p>The <em class="parameter"><code>arg2</code></em>
+            argument (cast to <span class="type">key_serial_t</span>) specifies the ID of the key
+            to be updated. The <em class="parameter"><code>arg3</code></em> argument (cast to
+            <span class="emphasis"><em>void *</em></span>) points
+            to the new payload and <em class="parameter"><code>arg4</code></em> (cast to
+            <span class="type">size_t</span>) contains the new
+            payload size in bytes.</p>
+            <p>The caller must have <em class="replaceable"><code>write</code></em> permission on the
+            key specified and the key type must support
+            updating.</p>
+            <p>A negatively instantiated key (see the description
+            of <code class="constant">KEYCTL_REJECT</code>) can be
+            positively instantiated with this operation.</p>
+            <p>The <em class="parameter"><code>arg5</code></em>
+            argument is ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_update</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_REVOKE</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Revoke the key with the ID provided in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). The key is
+            scheduled for garbage collection; it will no longer be
+            findable, and will be unavailable for further
+            operations. Further attempts to use the key will fail
+            with the error <span class="errorname">EKEYREVOKED</span>.</p>
+            <p>The caller must have <em class="replaceable"><code>write</code></em> or <em class="replaceable"><code>setattr</code></em> permission on
+            the key.</p>
+            <p>The arguments <em class="parameter"><code>arg3</code></em>, <em class="parameter"><code>arg4</code></em>, and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_revoke</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_CHOWN</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Change the ownership (user and group ID) of a
+            key.</p>
+            <p>The <em class="parameter"><code>arg2</code></em>
+            argument (cast to <span class="type">key_serial_t</span>) contains the key ID. The
+            <em class="parameter"><code>arg3</code></em> argument
+            (cast to <span class="type">uid_t</span>) contains the
+            new user ID (or −1 in case the user ID shouldn't
+            be changed). The <em class="parameter"><code>arg4</code></em> argument (cast to
+            <span class="type">gid_t</span>) contains the new group
+            ID (or −1 in case the group ID shouldn't be
+            changed).</p>
+            <p>The key must grant the caller <em class="replaceable"><code>setattr</code></em> permission.</p>
+            <p>For the UID to be changed, or for the GID to be
+            changed to a group the caller is not a member of, the
+            caller must have the <code class="constant">CAP_SYS_ADMIN</code> capability (see
+            <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>).</p>
+            <p>If the UID is to be changed, the new user must have
+            sufficient quota to accept the key. The quota deduction
+            will be removed from the old user to the new user
+            should the UID be changed.</p>
+            <p>The <em class="parameter"><code>arg5</code></em>
+            argument is ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_chown</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_SETPERM</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Change the permissions of the key with the ID
+            provided in the <em class="parameter"><code>arg2</code></em> argument (cast to
+            <span class="type">key_serial_t</span>) to the
+            permissions provided in the <em class="parameter"><code>arg3</code></em> argument (cast to
+            <span class="type">key_perm_t</span>).</p>
+            <p>If the caller doesn't have the <code class="constant">CAP_SYS_ADMIN</code> capability, it can
+            change permissions only for the keys it owns. (More
+            precisely: the caller's filesystem UID must match the
+            UID of the key.)</p>
+            <p>The key must grant <em class="replaceable"><code>setattr</code></em> permission to
+            the caller <em class="replaceable"><code>regardless</code></em> of the
+            caller's capabilities.</p>
+            <p>The permissions in <em class="parameter"><code>arg3</code></em> specify masks of
+            available operations for each of the following user
+            categories:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><em class="replaceable"><code>possessor</code></em>
+                    (since Linux 2.6.14)</span></dt>
+                    <dd>
+                      <p>This is the permission granted to a
+                      process that possesses the key (has it
+                      attached searchably to one of the process's
+                      keyrings); see <a class="link" href="../htmlman7/keyrings.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyrings</span>(7)</span></a>.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>user</code></em></span></dt>
+                    <dd>
+                      <p>This is the permission granted to a
+                      process whose filesystem UID matches the UID
+                      of the key.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>group</code></em></span></dt>
+                    <dd>
+                      <p>This is the permission granted to a
+                      process whose filesystem GID or any of its
+                      supplementary GIDs matches the GID of the
+                      key.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>other</code></em></span></dt>
+                    <dd>
+                      <p>This is the permission granted to other
+                      processes that do not match the <em class="replaceable"><code>user</code></em> and
+                      <em class="replaceable"><code>group</code></em>
+                      categories.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+            <p>The <em class="replaceable"><code>user</code></em>,
+            <em class="replaceable"><code>group</code></em>, and
+            <em class="replaceable"><code>other</code></em>
+            categories are exclusive: if a process matches the
+            <em class="replaceable"><code>user</code></em>
+            category, it will not receive permissions granted in
+            the <em class="replaceable"><code>group</code></em>
+            category; if a process matches the <em class="replaceable"><code>user</code></em> or <em class="replaceable"><code>group</code></em> category, then it
+            will not receive permissions granted in the <em class="replaceable"><code>other</code></em> category.</p>
+            <p>The <em class="replaceable"><code>possessor</code></em> category
+            grants permissions that are cumulative with the grants
+            from the <em class="replaceable"><code>user</code></em>, <em class="replaceable"><code>group</code></em>, or <em class="replaceable"><code>other</code></em> category.</p>
+            <p>Each permission mask is eight bits in size, with
+            only six bits currently used. The available permissions
+            are:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><em class="replaceable"><code>view</code></em></span></dt>
+                    <dd>
+                      <p>This permission allows reading attributes
+                      of a key.</p>
+                      <p>This permission is required for the
+                      <code class="constant">KEYCTL_DESCRIBE</code>
+                      operation.</p>
+                      <p>The permission bits for each category are
+                      <code class="constant">KEY_POS_VIEW</code>,
+                      <code class="constant">KEY_USR_VIEW</code>,
+                      <code class="constant">KEY_GRP_VIEW</code>,
+                      and <code class="constant">KEY_OTH_VIEW</code>.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>read</code></em></span></dt>
+                    <dd>
+                      <p>This permission allows reading a key's
+                      payload.</p>
+                      <p>This permission is required for the
+                      <code class="constant">KEYCTL_READ</code>
+                      operation.</p>
+                      <p>The permission bits for each category are
+                      <code class="constant">KEY_POS_READ</code>,
+                      <code class="constant">KEY_USR_READ</code>,
+                      <code class="constant">KEY_GRP_READ</code>,
+                      and <code class="constant">KEY_OTH_READ</code>.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>write</code></em></span></dt>
+                    <dd>
+                      <p>This permission allows update or
+                      instantiation of a key's payload. For a
+                      keyring, it allows keys to be linked and
+                      unlinked from the keyring,</p>
+                      <p>This permission is required for the
+                      <code class="constant">KEYCTL_UPDATE</code>,
+                      <code class="constant">KEYCTL_REVOKE</code>,
+                      <code class="constant">KEYCTL_CLEAR</code>,
+                      <code class="constant">KEYCTL_LINK</code>,
+                      and <code class="constant">KEYCTL_UNLINK</code>
+                      operations.</p>
+                      <p>The permission bits for each category are
+                      <code class="constant">KEY_POS_WRITE</code>,
+                      <code class="constant">KEY_USR_WRITE</code>,
+                      <code class="constant">KEY_GRP_WRITE</code>,
+                      and <code class="constant">KEY_OTH_WRITE</code>.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>search</code></em></span></dt>
+                    <dd>
+                      <p>This permission allows keyrings to be
+                      searched and keys to be found. Searches can
+                      recurse only into nested keyrings that have
+                      <em class="replaceable"><code>search</code></em>
+                      permission set.</p>
+                      <p>This permission is required for the
+                      <code class="constant">KEYCTL_GET_KEYRING_ID</code>,
+                      <code class="constant">KEYCTL_JOIN_SESSION_KEYRING</code>,
+                      <code class="constant">KEYCTL_SEARCH</code>,
+                      and <code class="constant">KEYCTL_INVALIDATE</code>
+                      operations.</p>
+                      <p>The permission bits for each category are
+                      <code class="constant">KEY_POS_SEARCH</code>,
+                      <code class="constant">KEY_USR_SEARCH</code>,
+                      <code class="constant">KEY_GRP_SEARCH</code>,
+                      and <code class="constant">KEY_OTH_SEARCH</code>.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>link</code></em></span></dt>
+                    <dd>
+                      <p>This permission allows a key or keyring to
+                      be linked to.</p>
+                      <p>This permission is required for the
+                      <code class="constant">KEYCTL_LINK</code> and
+                      <code class="constant">KEYCTL_SESSION_TO_PARENT</code>
+                      operations.</p>
+                      <p>The permission bits for each category are
+                      <code class="constant">KEY_POS_LINK</code>,
+                      <code class="constant">KEY_USR_LINK</code>,
+                      <code class="constant">KEY_GRP_LINK</code>,
+                      and <code class="constant">KEY_OTH_LINK</code>.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>setattr</code></em> (since
+                    Linux 2.6.15).</span></dt>
+                    <dd>
+                      <p>This permission allows a key's UID, GID,
+                      and permissions mask to be changed.</p>
+                      <p>This permission is required for the
+                      <code class="constant">KEYCTL_REVOKE</code>,
+                      <code class="constant">KEYCTL_CHOWN</code>,
+                      and <code class="constant">KEYCTL_SETPERM</code>
+                      operations.</p>
+                      <p>The permission bits for each category are
+                      <code class="constant">KEY_POS_SETATTR</code>,
+                      <code class="constant">KEY_USR_SETATTR</code>,
+                      <code class="constant">KEY_GRP_SETATTR</code>, and
+                      <code class="constant">KEY_OTH_SETATTR</code>.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+            <p>As a convenience, the following macros are defined
+            as masks for all of the permission bits in each of the
+            user categories: <code class="constant">KEY_POS_ALL</code>, <code class="constant">KEY_USR_ALL</code>, <code class="constant">KEY_GRP_ALL</code>, and <code class="constant">KEY_OTH_ALL</code>.</p>
+            <p>The <em class="parameter"><code>arg4</code></em> and
+            <em class="parameter"><code>arg5</code></em> arguments
+            are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_setperm</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_DESCRIBE</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Obtain a string describing the attributes of a
+            specified key.</p>
+            <p>The ID of the key to be described is specified in
+            <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). The
+            descriptive string is returned in the buffer pointed to
+            by <em class="parameter"><code>arg3</code></em> (cast
+            to <span class="emphasis"><em>char *</em></span>);
+            <em class="parameter"><code>arg4</code></em> (cast to
+            <span class="type">size_t</span>) specifies the size of
+            that buffer in bytes.</p>
+            <p>The key must grant the caller <em class="replaceable"><code>view</code></em> permission.</p>
+            <p>The returned string is null-terminated and contains
+            the following information about the key:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>type</code></em>;<em class="replaceable"><code>uid</code></em>;<em class="replaceable"><code>gid</code></em>;<em class="replaceable"><code>perm</code></em>;<em class="replaceable"><code>description</code></em></p>
+              </blockquote>
+            </div>
+            <p>In the above, <em class="replaceable"><code>type</code></em> and <em class="replaceable"><code>description</code></em> are
+            strings, <em class="replaceable"><code>uid</code></em>
+            and <em class="replaceable"><code>gid</code></em> are
+            decimal strings, and <em class="replaceable"><code>perm</code></em> is a hexadecimal
+            permissions mask. The descriptive string is written
+            with the following format:</p>
+            <p>%s;%d;%d;%08x;%s</p>
+            <p><span class="emphasis"><em>Note: the intention is
+            that the descriptive string should</em></span>
+            <span class="emphasis"><em>be extensible in future
+            kernel versions</em></span>. In particular, the
+            <em class="replaceable"><code>description</code></em>
+            field will not contain semicolons; it should be parsed
+            by working backwards from the end of the string to find
+            the last semicolon. This allows future
+            semicolon-delimited fields to be inserted in the
+            descriptive string in the future.</p>
+            <p>Writing to the buffer is attempted only when
+            <em class="parameter"><code>arg3</code></em> is
+            non-NULL and the specified buffer size is large enough
+            to accept the descriptive string (including the
+            terminating null byte). In order to determine whether
+            the buffer size was too small, check to see if the
+            return value of the operation is greater than
+            <em class="parameter"><code>arg4</code></em>.</p>
+            <p>The <em class="parameter"><code>arg5</code></em>
+            argument is ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_describe</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_CLEAR</code></span></dt>
+          <dd>
+            <p>Clear the contents of (i.e., unlink all keys from) a
+            keyring.</p>
+            <p>The ID of the key (which must be of keyring type) is
+            provided in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>).</p>
+            <p>The caller must have <em class="replaceable"><code>write</code></em> permission on the
+            keyring.</p>
+            <p>The arguments <em class="parameter"><code>arg3</code></em>, <em class="parameter"><code>arg4</code></em>, and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_clear</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_LINK</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Create a link from a keyring to a key.</p>
+            <p>The key to be linked is specified in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>); the keyring is
+            specified in <em class="parameter"><code>arg3</code></em> (cast to
+            <span class="type">key_serial_t</span>).</p>
+            <p>If a key with the same type and description is
+            already linked in the keyring, then that key is
+            displaced from the keyring.</p>
+            <p>Before creating the link, the kernel checks the
+            nesting of the keyrings and returns appropriate errors
+            if the link would produce a cycle or if the nesting of
+            keyrings would be too deep (The limit on the nesting of
+            keyrings is determined by the kernel constant
+            <code class="constant">KEYRING_SEARCH_MAX_DEPTH</code>,
+            defined with the value 6, and is necessary to prevent
+            overflows on the kernel stack when recursively
+            searching keyrings).</p>
+            <p>The caller must have <em class="replaceable"><code>link</code></em> permission on the
+            key being added and <em class="replaceable"><code>write</code></em> permission on the
+            keyring.</p>
+            <p>The arguments <em class="parameter"><code>arg4</code></em> and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_link</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_UNLINK</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Unlink a key from a keyring.</p>
+            <p>The ID of the key to be unlinked is specified in
+            <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>); the ID of the
+            keyring from which it is to be unlinked is specified in
+            <em class="parameter"><code>arg3</code></em> (cast to
+            <span class="type">key_serial_t</span>).</p>
+            <p>If the key is not currently linked into the keyring,
+            an error results.</p>
+            <p>The caller must have <em class="replaceable"><code>write</code></em> permission on the
+            keyring from which the key is being removed.</p>
+            <p>If the last link to a key is removed, then that key
+            will be scheduled for destruction.</p>
+            <p>The arguments <em class="parameter"><code>arg4</code></em> and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_unlink</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_SEARCH</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Search for a key in a keyring tree, returning its ID
+            and optionally linking it to a specified keyring.</p>
+            <p>The tree to be searched is specified by passing the
+            ID of the head keyring in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). The search is
+            performed breadth-first and recursively.</p>
+            <p>The <em class="parameter"><code>arg3</code></em> and
+            <em class="parameter"><code>arg4</code></em> arguments
+            specify the key to be searched for: <em class="parameter"><code>arg3</code></em> (cast as
+            <span class="emphasis"><em>char *</em></span>) contains
+            the key type (a null-terminated character string up to
+            32 bytes in size, including the terminating null byte),
+            and <em class="parameter"><code>arg4</code></em> (cast
+            as <span class="emphasis"><em>char *</em></span>)
+            contains the description of the key (a null-terminated
+            character string up to 4096 bytes in size, including
+            the terminating null byte).</p>
+            <p>The source keyring must grant <em class="replaceable"><code>search</code></em> permission to
+            the caller. When performing the recursive search, only
+            keyrings that grant the caller <em class="replaceable"><code>search</code></em> permission will
+            be searched. Only keys with for which the caller has
+            <em class="replaceable"><code>search</code></em>
+            permission can be found.</p>
+            <p>If the key is found, its ID is returned as the
+            function result.</p>
+            <p>If the key is found and <em class="parameter"><code>arg5</code></em> (cast to
+            <span class="type">key_serial_t</span>) is nonzero,
+            then, subject to the same constraints and rules as
+            <code class="constant">KEYCTL_LINK</code>, the key is
+            linked into the keyring whose ID is specified in
+            <em class="parameter"><code>arg5</code></em>. If the
+            destination keyring specified in <em class="parameter"><code>arg5</code></em> already contains a
+            link to a key that has the same type and description,
+            then that link will be displaced by a link to the key
+            found by this operation.</p>
+            <p>Instead of valid existing keyring IDs, the source
+            (<em class="parameter"><code>arg2</code></em>) and
+            destination (<em class="parameter"><code>arg5</code></em>) keyrings can be one
+            of the special keyring IDs listed under <code class="constant">KEYCTL_GET_KEYRING_ID</code>.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_search</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_READ</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Read the payload data of a key.</p>
+            <p>The ID of the key whose payload is to be read is
+            specified in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). This can be
+            the ID of an existing key, or any of the special key
+            IDs listed for <code class="constant">KEYCTL_GET_KEYRING_ID</code>.</p>
+            <p>The payload is placed in the buffer pointed by
+            <em class="parameter"><code>arg3</code></em> (cast to
+            <span class="emphasis"><em>char *</em></span>); the
+            size of that buffer must be specified in <em class="parameter"><code>arg4</code></em> (cast to
+            <span class="type">size_t</span>).</p>
+            <p>The returned data will be processed for presentation
+            according to the key type. For example, a keyring will
+            return an array of <span class="type">key_serial_t</span> entries representing the IDs
+            of all the keys that are linked to it. The <em class="replaceable"><code>user</code></em> key type will
+            return its data as is. If a key type does not implement
+            this function, the operation fails with the error
+            <span class="errorname">EOPNOTSUPP</span>.</p>
+            <p>If <em class="parameter"><code>arg3</code></em> is
+            not NULL, as much of the payload data as will fit is
+            copied into the buffer. On a successful return, the
+            return value is always the total size of the payload
+            data. To determine whether the buffer was of sufficient
+            size, check to see that the return value is less than
+            or equal to the value supplied in <em class="parameter"><code>arg4</code></em>.</p>
+            <p>The key must either grant the caller <em class="replaceable"><code>read</code></em> permission, or
+            grant the caller <em class="replaceable"><code>search</code></em> permission when
+            searched for from the process keyrings (i.e., the key
+            is possessed).</p>
+            <p>The <em class="parameter"><code>arg5</code></em>
+            argument is ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_read</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_INSTANTIATE</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>(Positively) instantiate an uninstantiated key with
+            a specified payload.</p>
+            <p>The ID of the key to be instantiated is provided in
+            <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>).</p>
+            <p>The key payload is specified in the buffer pointed
+            to by <em class="parameter"><code>arg3</code></em>
+            (cast to <span class="emphasis"><em>void
+            *</em></span>); the size of that buffer is specified in
+            <em class="parameter"><code>arg4</code></em> (cast to
+            <span class="type">size_t</span>).</p>
+            <p>The payload may be a NULL pointer and the buffer
+            size may be 0 if this is supported by the key type
+            (e.g., it is a keyring).</p>
+            <p>The operation may be fail if the payload data is in
+            the wrong format or is otherwise invalid.</p>
+            <p>If <em class="parameter"><code>arg5</code></em>
+            (cast to <span class="type">key_serial_t</span>) is
+            nonzero, then, subject to the same constraints and
+            rules as <code class="constant">KEYCTL_LINK</code>, the
+            instantiated key is linked into the keyring whose ID
+            specified in <em class="parameter"><code>arg5</code></em>.</p>
+            <p>The caller must have the appropriate authorization
+            key, and once the uninstantiated key has been
+            instantiated, the authorization key is revoked. In
+            other words, this operation is available only from a
+            <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span>-style
+            program. See <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a> for an
+            explanation of uninstantiated keys and key
+            instantiation.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_instantiate</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_NEGATE</code> (since Linux
+          2.6.10)</span></dt>
+          <dd>
+            <p>Negatively instantiate an uninstantiated key.</p>
+            <p>This operation is equivalent to the call:</p>
+            <p>keyctl(KEYCTL_REJECT, arg2, arg3, ENOKEY, arg4);</p>
+            <p>The <em class="parameter"><code>arg5</code></em>
+            argument is ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_negate</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_SET_REQKEY_KEYRING</code> (since Linux
+          2.6.13)</span></dt>
+          <dd>
+            <p>Set the default keyring to which implicitly
+            requested keys will be linked for this thread, and
+            return the previous setting. Implicit key requests are
+            those made by internal kernel components, such as can
+            occur when, for example, opening files on an AFS or NFS
+            filesystem. Setting the default keyring also has an
+            effect when requesting a key from user space; see
+            <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a> for
+            details.</p>
+            <p>The <em class="parameter"><code>arg2</code></em>
+            argument (cast to <span class="type">int</span>) should
+            contain one of the following values, to specify the new
+            default keyring:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><code class="constant">KEY_REQKEY_DEFL_NO_CHANGE</code></span></dt>
+                    <dd>
+                      <p>Don't change the default keyring. This can
+                      be used to discover the current default
+                      keyring (without changing it).</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_REQKEY_DEFL_DEFAULT</code></span></dt>
+                    <dd>
+                      <p>This selects the default behaviour, which
+                      is to use the thread-specific keyring if
+                      there is one, otherwise the process-specific
+                      keyring if there is one, otherwise the
+                      session keyring if there is one, otherwise
+                      the UID-specific session keyring, otherwise
+                      the user-specific keyring.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_REQKEY_DEFL_THREAD_KEYRING</code></span></dt>
+                    <dd>
+                      <p>Use the thread-specific keyring
+                      (<em class="replaceable"><code>thread−keyring</code></em>(7))
+                      as the new default keyring.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_REQKEY_DEFL_PROCESS_KEYRING</code></span></dt>
+                    <dd>
+                      <p>Use the process-specific keyring
+                      (<em class="replaceable"><code>process−keyring</code></em>(7))
+                      as the new default keyring.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_REQKEY_DEFL_SESSION_KEYRING</code></span></dt>
+                    <dd>
+                      <p>Use the session-specific keyring
+                      (<em class="replaceable"><code>session−keyring</code></em>(7))
+                      as the new default keyring.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_REQKEY_DEFL_USER_KEYRING</code></span></dt>
+                    <dd>
+                      <p>Use the UID-specific keyring (<em class="replaceable"><code>user−keyring</code></em>(7))
+                      as the new default keyring.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_REQKEY_DEFL_USER_SESSION_KEYRING</code></span></dt>
+                    <dd>
+                      <p>Use the UID-specific session keyring
+                      (<em class="replaceable"><code>user−session−keyring</code></em>(7))
+                      as the new default keyring.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">KEY_REQKEY_DEFL_REQUESTOR_KEYRING</code>
+                    (since Linux 2.6.29)</span></dt>
+                    <dd>
+                      <p>Use the requestor keyring.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+            <p>All other values are invalid.</p>
+            <p>The arguments <em class="parameter"><code>arg3</code></em>, <em class="parameter"><code>arg4</code></em>, and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>The setting controlled by this operation is
+            inherited by the child of <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> and preserved
+            across <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_set_reqkey_keyring</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_SET_TIMEOUT</code> (since Linux
+          2.6.16)</span></dt>
+          <dd>
+            <p>Set a timeout on a key.</p>
+            <p>The ID of the key is specified in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). The timeout
+            value, in seconds from the current time, is specified
+            in <em class="parameter"><code>arg3</code></em> (cast
+            to <span class="type">unsigned int</span>). The timeout
+            is measured against the realtime clock.</p>
+            <p>Specifying the timeout value as 0 clears any
+            existing timeout on the key.</p>
+            <p>The <code class="filename">/proc/keys</code> file
+            displays the remaining time until each key will expire.
+            (This is the only method of discovering the timeout on
+            a key.)</p>
+            <p>The caller must either have the <em class="replaceable"><code>setattr</code></em> permission on
+            the key or hold an instantiation authorization token
+            for the key (see <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>).</p>
+            <p>The key and any links to the key will be
+            automatically garbage collected after the timeout
+            expires. Subsequent attempts to access the key will
+            then fail with the error <span class="errorname">EKEYEXPIRED</span>.</p>
+            <p>This operation cannot be used to set timeouts on
+            revoked, expired, or negatively instantiated keys.</p>
+            <p>The arguments <em class="parameter"><code>arg4</code></em> and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_set_timeout</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_ASSUME_AUTHORITY</code> (since Linux
+          2.6.16)</span></dt>
+          <dd>
+            <p>Assume (or divest) the authority for the calling
+            thread to instantiate a key.</p>
+            <p>The <em class="parameter"><code>arg2</code></em>
+            argument (cast to <span class="type">key_serial_t</span>) specifies either a nonzero
+            key ID to assume authority, or the value 0 to divest
+            authority.</p>
+            <p>If <em class="parameter"><code>arg2</code></em> is
+            nonzero, then it specifies the ID of an uninstantiated
+            key for which authority is to be assumed. That key can
+            then be instantiated using one of <code class="constant">KEYCTL_INSTANTIATE</code>, <code class="constant">KEYCTL_INSTANTIATE_IOV</code>, <code class="constant">KEYCTL_REJECT</code>, or <code class="constant">KEYCTL_NEGATE</code>. Once the key has been
+            instantiated, the thread is automatically divested of
+            authority to instantiate the key.</p>
+            <p>Authority over a key can be assumed only if the
+            calling thread has present in its keyrings the
+            authorization key that is associated with the specified
+            key. (In other words, the <code class="constant">KEYCTL_ASSUME_AUTHORITY</code> operation is
+            available only from a <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span>-style
+            program; see <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a> for an
+            explanation of how this operation is used.) The caller
+            must have <em class="replaceable"><code>search</code></em> permission on
+            the authorization key.</p>
+            <p>If the specified key has a matching authorization
+            key, then the ID of that key is returned. The
+            authorization key can be read (<code class="constant">KEYCTL_READ</code>) to obtain the callout
+            information passed to <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>.</p>
+            <p>If the ID given in <em class="parameter"><code>arg2</code></em> is 0, then the
+            currently assumed authority is cleared (divested), and
+            the value 0 is returned.</p>
+            <p>The <code class="constant">KEYCTL_ASSUME_AUTHORITY</code> mechanism
+            allows a program such as <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span> to assume
+            the necessary authority to instantiate a new
+            uninstantiated key that was created as a consequence of
+            a call to <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>. For
+            further information, see <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a> and
+            the kernel source file <code class="filename">Documentation/security/keys−request−key.txt</code>.</p>
+            <p>The arguments <em class="parameter"><code>arg3</code></em>, <em class="parameter"><code>arg4</code></em>, and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_assume_authority</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_GET_SECURITY</code> (since Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>Get the LSM (Linux Security Module) security label
+            of the specified key.</p>
+            <p>The ID of the key whose security label is to be
+            fetched is specified in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). The security
+            label (terminated by a null byte) will be placed in the
+            buffer pointed to by <em class="parameter"><code>arg3</code></em> argument (cast to
+            <span class="emphasis"><em>char *</em></span>); the
+            size of the buffer must be provided in <em class="parameter"><code>arg4</code></em> (cast to
+            <span class="type">size_t</span>).</p>
+            <p>If <em class="parameter"><code>arg3</code></em> is
+            specified as NULL or the buffer size specified in
+            <em class="parameter"><code>arg4</code></em> is too
+            small, the full size of the security label string
+            (including the terminating null byte) is returned as
+            the function result, and nothing is copied to the
+            buffer.</p>
+            <p>The caller must have <em class="replaceable"><code>view</code></em> permission on the
+            specified key.</p>
+            <p>The returned security label string will be rendered
+            in a form appropriate to the LSM in force. For example,
+            with SELinux, it may look like:</p>
+            <p>
+            unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023</p>
+            <p>If no LSM is currently in force, then an empty
+            string is placed in the buffer.</p>
+            <p>The <em class="parameter"><code>arg5</code></em>
+            argument is ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            functions <span class="citerefentry"><span class="refentrytitle">keyctl_get_security</span>(3)</span>
+            and <span class="citerefentry"><span class="refentrytitle">keyctl_get_security_alloc</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_SESSION_TO_PARENT</code> (since Linux
+          2.6.32)</span></dt>
+          <dd>
+            <p>Replace the session keyring to which the <em class="replaceable"><code>parent</code></em> of the calling
+            process subscribes with the session keyring of the
+            calling process.</p>
+            <p>The keyring will be replaced in the parent process
+            at the point where the parent next transitions from
+            kernel space to user space.</p>
+            <p>The keyring must exist and must grant the caller
+            <em class="replaceable"><code>link</code></em>
+            permission. The parent process must be single-threaded
+            and have the same effective ownership as this process
+            and must not be set-user-ID or set-group-ID. The UID of
+            the parent process's existing session keyring (f it has
+            one), as well as the UID of the caller's session
+            keyring much match the caller's effective UID.</p>
+            <p>The fact that it is the parent process that is
+            affected by this operation allows a program such as the
+            shell to start a child process that uses this operation
+            to change the shell's session keyring. (This is what
+            the <span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span> <em class="replaceable"><code>new_session</code></em> command
+            does.)</p>
+            <p>The arguments <em class="parameter"><code>arg2</code></em>, <em class="parameter"><code>arg3</code></em>, <em class="parameter"><code>arg4</code></em>, and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_session_to_parent</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_REJECT</code> (since Linux
+          2.6.39)</span></dt>
+          <dd>
+            <p>Mark a key as negatively instantiated and set an
+            expiration timer on the key. This operation provides a
+            superset of the functionality of the earlier
+            <code class="constant">KEYCTL_NEGATE</code>
+            operation.</p>
+            <p>The ID of the key that is to be negatively
+            instantiated is specified in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). The <em class="parameter"><code>arg3</code></em> (cast to
+            <span class="type">unsigned int</span>) argument
+            specifies the lifetime of the key, in seconds. The
+            <em class="parameter"><code>arg4</code></em> argument
+            (cast to <span class="type">unsigned int</span>)
+            specifies the error to be returned when a search hits
+            this key; typically, this is one of <span class="errorname">EKEYREJECTED</span>, <span class="errorname">EKEYREVOKED</span>, or <span class="errorname">EKEYEXPIRED</span>.</p>
+            <p>If <em class="parameter"><code>arg5</code></em>
+            (cast to <span class="type">key_serial_t</span>) is
+            nonzero, then, subject to the same constraints and
+            rules as <code class="constant">KEYCTL_LINK</code>, the
+            negatively instantiated key is linked into the keyring
+            whose ID is specified in <em class="parameter"><code>arg5</code></em>.</p>
+            <p>The caller must have the appropriate authorization
+            key. In other words, this operation is available only
+            from a <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span>-style
+            program. See <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>.</p>
+            <p>The caller must have the appropriate authorization
+            key, and once the uninstantiated key has been
+            instantiated, the authorization key is revoked. In
+            other words, this operation is available only from a
+            <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span>-style
+            program. See <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a> for an
+            explanation of uninstantiated keys and key
+            instantiation.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_reject</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_INSTANTIATE_IOV</code> (since Linux
+          2.6.39)</span></dt>
+          <dd>
+            <p>Instantiate an uninstantiated key with a payload
+            specified via a vector of buffers.</p>
+            <p>This operation is the same as <code class="constant">KEYCTL_INSTANTIATE</code>, but the payload
+            data is specified as an array of <em class="replaceable"><code>iovec</code></em> structures:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">iovec</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">void</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>iov_base</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Starting address of buffer */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">size_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>iov_len</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Size of buffer (in bytes) */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+            <p>The pointer to the payload vector is specified in
+            <em class="parameter"><code>arg3</code></em> (cast as
+            <span class="type">const struct iovec *</span>). The
+            number of items in the vector is specified in
+            <em class="parameter"><code>arg4</code></em> (cast as
+            <span class="type">unsigned int</span>).</p>
+            <p>The <em class="parameter"><code>arg2</code></em>
+            (key ID) and <em class="parameter"><code>arg5</code></em> (keyring ID) are
+            interpreted as for <code class="constant">KEYCTL_INSTANTIATE</code>.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_instantiate_iov</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_INVALIDATE</code> (since Linux
+          3.5)</span></dt>
+          <dd>
+            <p>Mark a key as invalid.</p>
+            <p>The ID of the key to be invalidated is specified in
+            <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>).</p>
+            <p>To invalidate a key, the caller must have <em class="replaceable"><code>search</code></em> permission on
+            the key.</p>
+            <p>This operation marks the key as invalid and
+            schedules immediate garbage collection. The garbage
+            collector removes the invalidated key from all keyrings
+            and deletes the key when its reference count reaches
+            zero. After this operation, the key will be ignored by
+            all searches, even if it is not yet deleted.</p>
+            <p>Keys that are marked invalid become invisible to
+            normal key operations immediately, though they are
+            still visible in <code class="filename">/proc/keys</code> (marked with an 'i' flag)
+            until they are actually removed.</p>
+            <p>The arguments <em class="parameter"><code>arg3</code></em>, <em class="parameter"><code>arg4</code></em>, and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_invalidate</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_GET_PERSISTENT</code> (since Linux
+          3.13)</span></dt>
+          <dd>
+            <p>Get the persistent keyring (<em class="replaceable"><code>persistent−keyring</code></em>(7))
+            for a specified user and link it to a specified
+            keyring.</p>
+            <p>The user ID is specified in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">uid_t</span>). If the value −1
+            is specified, the caller's real user ID is used. The ID
+            of the destination keyring is specified in <em class="parameter"><code>arg3</code></em> (cast to
+            <span class="type">key_serial_t</span>).</p>
+            <p>The caller must have the <code class="constant">CAP_SETUID</code> capability in its user
+            namespace in order to fetch the persistent keyring for
+            a user ID that does not match either the real or
+            effective user ID of the caller.</p>
+            <p>If the call is successful, a link to the persistent
+            keyring is added to the keyring whose ID was specified
+            in <em class="parameter"><code>arg3</code></em>.</p>
+            <p>The caller must have <em class="replaceable"><code>write</code></em> permission on the
+            keyring.</p>
+            <p>The persistent keyring will be created by the kernel
+            if it does not yet exist.</p>
+            <p>Each time the <code class="constant">KEYCTL_GET_PERSISTENT</code> operation is
+            performed, the persistent keyring will have its
+            expiration timeout reset to the value in:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="informalexample">
+                  <pre class="programlisting" xml:space="preserve">
+/proc/sys/kernel/keys/persistent_keyring_expiry
+</pre>
+                </div>
+              </blockquote>
+            </div>
+            <p>Should the timeout be reached, the persistent
+            keyring will be removed and everything it pins can then
+            be garbage collected.</p>
+            <p>Persistent keyrings were added to Linux in kernel
+            version 3.13.</p>
+            <p>The arguments <em class="parameter"><code>arg4</code></em> and <em class="parameter"><code>arg5</code></em> are ignored.</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> via the
+            function <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_DH_COMPUTE</code> (since Linux
+          4.7)</span></dt>
+          <dd>
+            <p>Compute a Diffie-Hellman shared secret or public
+            key, optionally applying key derivation function (KDF)
+            to the result.</p>
+            <p>The <em class="parameter"><code>arg2</code></em>
+            argument is a pointer to a set of parameters containing
+            serial numbers for three <em class="replaceable"><code>"user"</code></em> keys used in the
+            Diffie-Hellman calculation, packaged in a structure of
+            the following form:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">keyctl_dh_params</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int32_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>private</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* The local private key */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int32_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>prime</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* The prime, known to both parties */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int32_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>base</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* The base integer: either a shared<br />
+
+                            generator or the remote public key */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+            <p>Each of the three keys specified in this structure
+            must grant the caller <em class="replaceable"><code>read</code></em> permission. The
+            payloads of these keys are used to calculate the
+            Diffie-Hellman result as:</p>
+            <p>base ^ private mod prime</p>
+            <p>If the base is the shared generator, the result is
+            the local public key. If the base is the remote public
+            key, the result is the shared secret.</p>
+            <p>The <em class="parameter"><code>arg3</code></em>
+            argument (cast to <span class="emphasis"><em>char
+            *</em></span>) points to a buffer where the result of
+            the calculation is placed. The size of that buffer is
+            specified in <em class="parameter"><code>arg4</code></em> (cast to
+            <span class="type">size_t</span>).</p>
+            <p>The buffer must be large enough to accommodate the
+            output data, otherwise an error is returned. If
+            <em class="parameter"><code>arg4</code></em> is
+            specified zero, in which case the buffer is not used
+            and the operation returns the minimum required buffer
+            size (i.e., the length of the prime).</p>
+            <p>Diffie-Hellman computations can be performed in user
+            space, but require a multiple-precision integer (MPI)
+            library. Moving the implementation into the kernel
+            gives access to the kernel MPI implementation, and
+            allows access to secure or acceleration hardware.</p>
+            <p>Adding support for DH computation to the
+            <code class="function">keyctl</code>() system call was
+            considered a good fit due to the DH algorithm's use for
+            deriving shared keys; it also allows the type of the
+            key to determine which DH implementation (software or
+            hardware) is appropriate.</p>
+            <p>If the <em class="parameter"><code>arg5</code></em>
+            argument is <code class="constant">NULL</code>, then
+            the DH result itself is returned. Otherwise (since
+            Linux 4.12), it is a pointer to a structure which
+            specifies parameters of the KDF operation to be
+            applied:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">keyctl_kdf_params</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>hashname</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Hash algorithm name */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>otherinfo</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* SP800\-56A OtherInfo */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>otherinfolen</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Length of otherinfo data */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>__spare</code></em>[8];</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Reserved */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+            <p>The <em class="parameter"><code>hashname</code></em>
+            field is a null-terminated string which specifies a
+            hash name (available in the kernel's crypto API; the
+            list of the hashes available is rather tricky to
+            observe; please refer to the <a class="literalurl" href="https://www.kernel.org/doc/html/latest/crypto/architecture.html" target="_top" shape="rect">"Kernel Crypto API Architecture"</a>
+            documentation for the information regarding how hash
+            names are constructed and your kernel's source and
+            configuration regarding what ciphers and templates with
+            type <code class="constant">CRYPTO_ALG_TYPE_SHASH</code> are available)
+            to be applied to DH result in KDF operation.</p>
+            <p>The <em class="parameter"><code>otherinfo</code></em> field is an
+            <em class="replaceable"><code>OtherInfo</code></em>
+            data as described in SP800-56A section 5.8.1.2 and is
+            algorithm-specific. This data is concatenated with the
+            result of DH operation and is provided as an input to
+            the KDF operation. Its size is provided in the
+            <em class="parameter"><code>otherinfolen</code></em>
+            field and is limited by <code class="constant">KEYCTL_KDF_MAX_OI_LEN</code> constant that
+            defined in <code class="filename">security/keys/internal.h</code> to a value
+            of 64.</p>
+            <p>The <em class="parameter"><code>__spare</code></em>
+            field is currently unused. It was ignored until Linux
+            4.13 (but still should be user-addressable since it is
+            copied to the kernel), and should contain zeros since
+            Linux 4.13.</p>
+            <p>The KDF implementation complies with SP800-56A as
+            well as with SP800-108 (the counter KDF).</p>
+            <p>This operation is exposed by <em class="replaceable"><code>libkeyutils</code></em> (from
+            version 1.5.10 onwards) via the functions <span class="citerefentry"><span class="refentrytitle">keyctl_dh_compute</span>(3)</span> and
+            <span class="citerefentry"><span class="refentrytitle">keyctl_dh_compute_alloc</span>(3)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_RESTRICT_KEYRING</code> (since Linux
+          4.12)</span></dt>
+          <dd>
+            <p>Apply a key-linking restriction to the keyring with
+            the ID provided in <em class="parameter"><code>arg2</code></em> (cast to
+            <span class="type">key_serial_t</span>). The caller
+            must have <em class="replaceable"><code>setattr</code></em> permission on
+            the key. If <em class="parameter"><code>arg3</code></em> is NULL, any attempt
+            to add a key to the keyring is blocked; otherwise it
+            contains a pointer to a string with a key type name and
+            <em class="parameter"><code>arg4</code></em> contains a
+            pointer to string that describes the type-specific
+            restriction. As of Linux 4.12, only the type
+            "asymmetric" has restrictions defined:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term">builtin_trusted</span></dt>
+                    <dd>
+                      <p>Allows only keys that are signed by a key
+                      linked to the built-in keyring
+                      (".builtin_trusted_keys").</p>
+                    </dd>
+                    <dt><span class="term">builtin_and_secondary_trusted</span></dt>
+                    <dd>
+                      <p>Allows only keys that are signed by a key
+                      linked to the secondary keyring
+                      (".secondary_trusted_keys") or, by extension,
+                      a key in a built-in keyring, as the latter is
+                      linked to the former.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>key_or_keyring:</code></em><em class="replaceable"><code>key</code></em>
+                    ,</span> <span class="term"><em class="replaceable"><code>key_or_keyring:</code></em><em class="replaceable"><code>key</code></em><em class="replaceable"><code>:chain</code></em></span></dt>
+                    <dd>
+                      <p>If <em class="replaceable"><code>key</code></em> specifies
+                      the ID of a key of type "asymmetric", then
+                      only keys that are signed by this key are
+                      allowed.</p>
+                      <p>If <em class="replaceable"><code>key</code></em> specifies
+                      the ID of a keyring, then only keys that are
+                      signed by a key linked to this keyring are
+                      allowed.</p>
+                      <p>If ":chain" is specified, keys that are
+                      signed by a keys linked to the destination
+                      keyring (that is, the keyring with the ID
+                      specified in the <em class="parameter"><code>arg2</code></em> argument)
+                      are also allowed.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+            <p>Note that a restriction can be configured only once
+            for the specified keyring; once a restriction is set,
+            it can't be overridden.</p>
+            <p>The argument <em class="parameter"><code>arg5</code></em> is ignored.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="keyctl-2_sect2" name="keyctl-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>For a successful call, the return value depends on the
+      operation:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">KEYCTL_GET_KEYRING_ID</code></span></dt>
+          <dd>
+            <p>The ID of the requested keyring.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_JOIN_SESSION_KEYRING</code></span></dt>
+          <dd>
+            <p>The ID of the joined session keyring.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_DESCRIBE</code></span></dt>
+          <dd>
+            <p>The size of the description (including the
+            terminating null byte), irrespective of the provided
+            buffer size.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_SEARCH</code></span></dt>
+          <dd>
+            <p>The ID of the key that was found.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_READ</code></span></dt>
+          <dd>
+            <p>The amount of data that is available in the key,
+            irrespective of the provided buffer size.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_SET_REQKEY_KEYRING</code></span></dt>
+          <dd>
+            <p>The ID of the previous default keyring to which
+            implicitly requested keys were linked (one of
+            <em class="replaceable"><code>KEY_REQKEY_DEFL_USER_*</code></em>).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_ASSUME_AUTHORITY</code></span></dt>
+          <dd>
+            <p>Either 0, if the ID given was 0, or the ID of the
+            authorization key matching the specified key, if a
+            nonzero key ID was provided.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_GET_SECURITY</code></span></dt>
+          <dd>
+            <p>The size of the LSM security label string (including
+            the terminating null byte), irrespective of the
+            provided buffer size.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_GET_PERSISTENT</code></span></dt>
+          <dd>
+            <p>The ID of the persistent keyring.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEYCTL_DH_COMPUTE</code></span></dt>
+          <dd>
+            <p>The number of bytes copied to the buffer, or, if
+            <em class="parameter"><code>arg4</code></em> is 0, the
+            required buffer size.</p>
+          </dd>
+          <dt><span class="term">All other operations</span></dt>
+          <dd>
+            <p>Zero.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>On error, −1 is returned, and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="keyctl-2_sect3" name="keyctl-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p>The requested operation wasn't permitted.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EAGAIN</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> and
+            there was an error during crypto module
+            initialization.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EDEADLK</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_LINK</code> and the
+            requested link would result in a cycle.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EDEADLK</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_RESTRICT_KEYRING</code> and the
+            requested keyring restriction would result in a
+            cycle.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EDQUOT</span></span></dt>
+          <dd>
+            <p>The key quota for the caller's user would be
+            exceeded by creating a key or linking it to the
+            keyring.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EEXIST</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_RESTRICT_KEYRING</code> and keyring
+            provided in <em class="parameter"><code>arg2</code></em> argument already has
+            a restriction set.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> and
+            one of the following has failed:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="itemizedlist">
+                  <ul class="itemizedlist" style="list-style-type: disc;">
+                    <li class="listitem">
+                      <p>copying of the <span class="emphasis"><em>struct
+                      keyctl_dh_params</em></span>, provided in the
+                      <em class="parameter"><code>arg2</code></em>
+                      argument, from user space;</p>
+                    </li>
+                    <li class="listitem">
+                      <p>copying of the <span class="emphasis"><em>struct
+                      keyctl_kdf_params</em></span>, provided in
+                      the non-NULL <em class="parameter"><code>arg5</code></em> argument,
+                      from user space (in case kernel supports
+                      performing KDF operation on DH operation
+                      result);</p>
+                    </li>
+                    <li class="listitem">
+                      <p>copying of data pointed by the <em class="parameter"><code>hashname</code></em> field
+                      of the <span class="emphasis"><em>struct
+                      keyctl_kdf_params</em></span> from user
+                      space;</p>
+                    </li>
+                    <li class="listitem">
+                      <p>copying of data pointed by the <em class="parameter"><code>otherinfo</code></em> field
+                      of the <span class="emphasis"><em>struct
+                      keyctl_kdf_params</em></span> from user space
+                      if the <em class="parameter"><code>otherinfolen</code></em>
+                      field was nonzero;</p>
+                    </li>
+                    <li class="listitem">
+                      <p>copying of the result to user space.</p>
+                    </li>
+                  </ul>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_SETPERM</code> and an
+            invalid permission bit was specified in <em class="parameter"><code>arg3</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_SEARCH</code> and the
+            size of the description in <em class="parameter"><code>arg4</code></em> (including the
+            terminating null byte) exceeded 4096 bytes.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>size of the string (including the terminating null
+            byte) specified in <em class="parameter"><code>arg3</code></em> (the key type) or
+            <em class="parameter"><code>arg4</code></em> (the key
+            description) exceeded the limit (32 bytes and 4096
+            bytes respectively).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span> (Linux kernels before
+          4.12)</span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code>,
+            argument <em class="parameter"><code>arg5</code></em>
+            was non-NULL.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> And
+            the digest size of the hashing algorithm supplied is
+            zero.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> and
+            the buffer size provided is not enough to hold the
+            result. Provide 0 as a buffer size in order to obtain
+            the minimum buffer size.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> and
+            the hash name provided in the <em class="parameter"><code>hashname</code></em> field of the
+            <span class="emphasis"><em>struct
+            keyctl_kdf_params</em></span> pointed by <em class="parameter"><code>arg5</code></em> argument is too big
+            (the limit is implementation-specific and varies
+            between kernel versions, but it is deemed big enough
+            for all valid algorithm names).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> and
+            the <em class="parameter"><code>__spare</code></em>
+            field of the <span class="emphasis"><em>struct
+            keyctl_kdf_params</em></span> provided in the
+            <em class="parameter"><code>arg5</code></em> argument
+            contains nonzero values.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EKEYEXPIRED</span></span></dt>
+          <dd>
+            <p>An expired key was found or specified.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EKEYREJECTED</span></span></dt>
+          <dd>
+            <p>A rejected key was found or specified.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EKEYREVOKED</span></span></dt>
+          <dd>
+            <p>A revoked key was found or specified.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ELOOP</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_LINK</code> and the
+            requested link would cause the maximum nesting depth
+            for keyrings to be exceeded.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EMSGSIZE</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> and
+            the buffer length exceeds <code class="constant">KEYCTL_KDF_MAX_OUTPUT_LEN</code> (which is
+            1024 currently) or the <em class="parameter"><code>otherinfolen</code></em> field of the
+            <span class="emphasis"><em>struct
+            keyctl_kdf_parms</em></span> passed in <em class="parameter"><code>arg5</code></em> exceeds <code class="constant">KEYCTL_KDF_MAX_OI_LEN</code> (which is 64
+            currently).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENFILE</span> (Linux kernels before
+          3.13)</span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_LINK</code> and the
+            keyring is full. (Before Linux 3.13, the available
+            space for storing keyring links was limited to a single
+            page of memory; since Linux 3.13, there is no fixed
+            limit.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOENT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_UNLINK</code> and the
+            key to be unlinked isn't linked to the keyring.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOENT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> and
+            the hashing algorithm specified in the <em class="parameter"><code>hashname</code></em> field of the
+            <span class="emphasis"><em>struct
+            keyctl_kdf_params</em></span> pointed by <em class="parameter"><code>arg5</code></em> argument hasn't been
+            found.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOENT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_RESTRICT_KEYRING</code> and the type
+            provided in <em class="parameter"><code>arg3</code></em> argument doesn't
+            support setting key linking restrictions.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOKEY</span></span></dt>
+          <dd>
+            <p>No matching key was found or an invalid key was
+            specified.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOKEY</span></span></dt>
+          <dd>
+            <p>The value <code class="constant">KEYCTL_GET_KEYRING_ID</code> was specified
+            in <em class="parameter"><code>operation</code></em>,
+            the key specified in <em class="parameter"><code>arg2</code></em> did not exist, and
+            <em class="parameter"><code>arg3</code></em> was zero
+            (meaning don't create the key if it didn't exist).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>One of kernel memory allocation routines failed
+            during the execution of the syscall.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOTDIR</span></span></dt>
+          <dd>
+            <p>A key of keyring type was expected but the ID of a
+            key with a different type was provided.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EOPNOTSUPP</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_READ</code> and the
+            key type does not support reading (e.g., the type is
+            <em class="replaceable"><code>"login"</code></em>).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EOPNOTSUPP</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_UPDATE</code> and the
+            key type does not support updating.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EOPNOTSUPP</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_RESTRICT_KEYRING</code>, the type
+            provided in <em class="parameter"><code>arg3</code></em> argument was
+            "asymmetric", and the key specified in the restriction
+            specification provided in <em class="parameter"><code>arg4</code></em> has type other than
+            "asymmetric" or "keyring".</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_GET_PERSISTENT</code>, <em class="parameter"><code>arg2</code></em> specified a UID
+            other than the calling thread's real or effective UID,
+            and the caller did not have the <code class="constant">CAP_SETUID</code> capability.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_SESSION_TO_PARENT</code> and either:
+            all of the UIDs (GIDs) of the parent process do not
+            match the effective UID (GID) of the calling process;
+            the UID of the parent's existing session keyring or the
+            UID of the caller's session keyring did not match the
+            effective UID of the caller; the parent process is not
+            single-thread; or the parent process is <span class="citerefentry"><span class="refentrytitle">init</span>(1)</span> or a kernel
+            thread.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ETIMEDOUT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>operation</code></em>
+            was <code class="constant">KEYCTL_DH_COMPUTE</code> and
+            the initialization of crypto modules has timed out.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="keyctl-2_sect4" name="keyctl-2_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>This system call first appeared in Linux 2.6.10.</p>
+    </div>
+    <div class="refsect1">
+      <a id="keyctl-2_sect5" name="keyctl-2_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>This system call is a nonstandard Linux extension.</p>
+    </div>
+    <div class="refsect1">
+      <a id="keyctl-2_sect6" name="keyctl-2_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call. A
+      wrapper is provided in the <em class="replaceable"><code>libkeyutils</code></em> library. When
+      employing the wrapper in that library, link with <code class="option">−lkeyutils</code>. However, rather than using
+      this system call directly, you probably want to use the
+      various library functions mentioned in the descriptions of
+      individual operations above.</p>
+    </div>
+    <div class="refsect1">
+      <a id="keyctl-2_sect7" name="keyctl-2_sect7" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below provide subset of the functionality of
+      the <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span> program provided
+      by the <em class="replaceable"><code>keyutils</code></em>
+      package. For informational purposes, the program records
+      various information in a log file.</p>
+      <p>As described in <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>, the
+      <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span> program is
+      invoked with command-line arguments that describe a key that
+      is to be instantiated. The example program fetches and logs
+      these arguments. The program assumes authority to instantiate
+      the requested key, and then instantiates that key.</p>
+      <p>The following shell session demonstrates the use of this
+      program. In the session, we compile the program and then use
+      it to temporarily replace the standard <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span> program. (Note
+      that temporarily disabling the standard <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span> program may not
+      be safe on some systems.) While our example program is
+      installed, we use the example program shown in <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a> to request a
+      key.</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>cc −o key_instantiate key_instantiate.c −lkeyutils</em></span>
+$ <span class="emphasis"><em>sudo mv /sbin/request−key /sbin/request−key.backup</em></span>
+$ <span class="emphasis"><em>sudo cp key_instantiate /sbin/request−key</em></span>
+$ <span class="emphasis"><em>./t_request_key user mykey somepayloaddata</em></span>
+Key ID is 20d035bf
+$ <span class="emphasis"><em>sudo mv /sbin/request−key.backup /sbin/request−key</em></span>
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Looking at the log file created by this program, we can
+      see the command-line arguments supplied to our example
+      program:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>cat /tmp/key_instantiate.log</em></span>
+Time: Mon Nov  7 13:06:47 2016
+
+Command line arguments:
+  argv[0]:            /sbin/request−key
+  operation:          create
+  key_to_instantiate: 20d035bf
+  UID:                1000
+  GID:                1000
+  thread_keyring:     0
+  process_keyring:    0
+  session_keyring:    256e6a6
+
+Key description:      user;1000;1000;3f010000;mykey
+Auth key payload:     somepayloaddata
+Destination keyring:  256e6a6
+Auth key description: .request_key_auth;1000;1000;0b010000;20d035bf
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>The last few lines of the above output show that the
+      example program was able to fetch:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>the description of the key to be instantiated, which
+            included the name of the key (<em class="replaceable"><code>mykey</code></em>);</p>
+          </li>
+          <li class="listitem">
+            <p>the payload of the authorization key, which
+            consisted of the data (<em class="replaceable"><code>somepayloaddata</code></em>) passed
+            to <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>;</p>
+          </li>
+          <li class="listitem">
+            <p>the destination keyring that was specified in the
+            call to <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>;
+            and</p>
+          </li>
+          <li class="listitem">
+            <p>the description of the authorization key, where we
+            can see that the name of the authorization key matches
+            the ID of the key that is to be instantiated
+            (<em class="replaceable"><code>20d035bf</code></em>).</p>
+          </li>
+        </ul>
+      </div>
+      <p>The example program in <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a> specified
+      the destination keyring as <code class="constant">KEY_SPEC_SESSION_KEYRING</code>. By examining the
+      contents of <code class="filename">/proc/keys</code>, we can
+      see that this was translated to the ID of the destination
+      keyring (<em class="replaceable"><code>0256e6a6</code></em>)
+      shown in the log output above; we can also see the newly
+      created key with the name <em class="replaceable"><code>mykey</code></em> and ID <em class="replaceable"><code>20d035bf</code></em>.</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>cat /proc/keys | egrep 'mykey|256e6a6'</em></span>
+0256e6a6 I−−Q−−−  194 perm 3f030000  1000  1000 keyring  _ses: 3
+20d035bf I−−Q−−−    1 perm 3f010000  1000  1000 user     mykey: 16
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="keyctl-2_sect8" name="keyctl-2_sect8" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+/* key_instantiate.c */
+
+#include &lt;sys/types.h&gt;
+#include &lt;keyutils.h&gt;
+#include &lt;time.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+
+#ifndef KEY_SPEC_REQUESTOR_KEYRING
+#define KEY_SPEC_REQUESTOR_KEYRING      −8
+#endif
+
+int
+main(int argc, char *argv[])
+{
+    FILE *fp;
+    time_t t;
+    char *operation;
+    key_serial_t key_to_instantiate, dest_keyring;
+    key_serial_t thread_keyring, process_keyring, session_keyring;
+    uid_t uid;
+    gid_t gid;
+    char dbuf[256];
+    char auth_key_payload[256];
+    int akp_size;       /* Size of auth_key_payload */
+    int auth_key;
+
+    fp = fopen("/tmp/key_instantiate.log", "w");
+    if (fp == NULL)
+        exit(EXIT_FAILURE);
+
+    setbuf(fp, NULL);
+
+    t = time(NULL);
+    fprintf(fp, "Time: %s\n", ctime(&amp;t));
+
+    /*
+     * The kernel passes a fixed set of arguments to the program
+     * that it execs; fetch them.
+     */
+    operation = argv[1];
+    key_to_instantiate = atoi(argv[2]);
+    uid = atoi(argv[3]);
+    gid = atoi(argv[4]);
+    thread_keyring = atoi(argv[5]);
+    process_keyring = atoi(argv[6]);
+    session_keyring = atoi(argv[7]);
+
+    fprintf(fp, "Command line arguments:\n");
+    fprintf(fp, "  argv[0]:            %s\n", argv[0]);
+    fprintf(fp, "  operation:          %s\n", operation);
+    fprintf(fp, "  key_to_instantiate: %jx\n",
+            (uintmax_t) key_to_instantiate);
+    fprintf(fp, "  UID:                %jd\n", (intmax_t) uid);
+    fprintf(fp, "  GID:                %jd\n", (intmax_t) gid);
+    fprintf(fp, "  thread_keyring:     %jx\n",
+            (uintmax_t) thread_keyring);
+    fprintf(fp, "  process_keyring:    %jx\n",
+            (uintmax_t) process_keyring);
+    fprintf(fp, "  session_keyring:    %jx\n",
+            (uintmax_t) session_keyring);
+    fprintf(fp, "\n");
+
+    /*
+     * Assume the authority to instantiate the key named in argv[2].
+     */
+    if (keyctl(KEYCTL_ASSUME_AUTHORITY, key_to_instantiate) == −1) {
+        fprintf(fp, "KEYCTL_ASSUME_AUTHORITY failed: %s\n",
+                strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    /*
+     * Fetch the description of the key that is to be instantiated.
+     */
+    if (keyctl(KEYCTL_DESCRIBE, key_to_instantiate,
+                dbuf, sizeof(dbuf)) == −1) {
+        fprintf(fp, "KEYCTL_DESCRIBE failed: %s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(fp, "Key description:      %s\n", dbuf);
+
+    /*
+     * Fetch the payload of the authorization key, which is
+     * actually the callout data given to request_key().
+     */
+    akp_size = keyctl(KEYCTL_READ, KEY_SPEC_REQKEY_AUTH_KEY,
+                      auth_key_payload, sizeof(auth_key_payload));
+    if (akp_size == −1) {
+        fprintf(fp, "KEYCTL_READ failed: %s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    auth_key_payload[akp_size] = '\0';
+    fprintf(fp, "Auth key payload:     %s\n", auth_key_payload);
+
+    /*
+     * For interest, get the ID of the authorization key and
+     * display it.
+     */
+    auth_key = keyctl(KEYCTL_GET_KEYRING_ID,
+            KEY_SPEC_REQKEY_AUTH_KEY);
+    if (auth_key == −1) {
+        fprintf(fp, "KEYCTL_GET_KEYRING_ID failed: %s\n",
+                strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(fp, "Auth key ID:          %jx\n", (uintmax_t) auth_key);
+
+    /*
+     * Fetch key ID for the request_key(2) destination keyring.
+     */
+    dest_keyring = keyctl(KEYCTL_GET_KEYRING_ID,
+                          KEY_SPEC_REQUESTOR_KEYRING);
+    if (dest_keyring == −1) {
+        fprintf(fp, "KEYCTL_GET_KEYRING_ID failed: %s\n",
+                strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(fp, "Destination keyring:  %jx\n", (uintmax_t) dest_keyring);
+
+    /*
+     * Fetch the description of the authorization key. This
+     * allows us to see the key type, UID, GID, permissions,
+     * and description (name) of the key. Among other things,
+     * we will see that the name of the key is a hexadecimal
+     * string representing the ID of the key to be instantiated.
+     */
+    if (keyctl(KEYCTL_DESCRIBE, KEY_SPEC_REQKEY_AUTH_KEY,
+                dbuf, sizeof(dbuf)) == −1) {
+        fprintf(fp, "KEYCTL_DESCRIBE failed: %s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(fp, "Auth key description: %s\n", dbuf);
+
+    /*
+     * Instantiate the key using the callout data that was supplied
+     * in the payload of the authorization key.
+     */
+    if (keyctl(KEYCTL_INSTANTIATE, key_to_instantiate,
+               auth_key_payload, akp_size + 1, dest_keyring) == −1) {
+        fprintf(fp, "KEYCTL_INSTANTIATE failed: %s\n",
+                strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="keyctl-2_sect9" name="keyctl-2_sect9" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span>, <a class="link" href="../htmlman2/add_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">add_key</span>(2)</span></a>, <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_assume_authority</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_chown</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_clear</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_describe</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_describe_alloc</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_dh_compute</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_dh_compute_alloc</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_get_keyring_ID</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_get_security</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_get_security_alloc</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_instantiate</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_instantiate_iov</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_invalidate</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_join_session_keyring</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_link</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_negate</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_read</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_read_alloc</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_reject</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_revoke</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_search</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_session_to_parent</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_set_reqkey_keyring</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_set_timeout</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl_setperm</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_unlink</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_update</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">recursive_key_scan</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">recursive_session_key_scan</span>(3)</span>,
+      <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>, <a class="link" href="../htmlman7/credentials.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">credentials</span>(7)</span></a>, <a class="link" href="../htmlman7/keyrings.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyrings</span>(7)</span></a>, <span class="citerefentry"><span class="refentrytitle">keyutils</span>(7)</span>, <a class="link" href="../htmlman7/persistent-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">persistent-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/thread-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">thread-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>, <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a>,
+      <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span></p>
+      <p>The kernel source files under <code class="filename">Documentation/security/keys/</code> (or, before
+      Linux 4.13, in the file <code class="filename">Documentation/security/keys.txt</code>).</p>
+    </div>
+    <div class="colophon">
+      <a id="keyctl-2_sect10" name="keyctl-2_sect10" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2016 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  and Copyright (C) 2016 Eugene Syromyatnikov &lt;evgsyr<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  A very few fragments remain from an earlier version of this page<br />
+
+                  written by David Howells (dhowells<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com)<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>clock_getres(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="clock_getres(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="clock-getres.2" name="clock-getres.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>clock_getres, clock_gettime, clock_settime — clock
+      and time functions</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;time.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>clock_getres</strong>(</code></td>
+            <td rowspan="1" colspan="1">clockid_t <var class="pdparam">clockid</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct timespec *<var class="pdparam">res</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>clock_gettime</strong>(</code></td>
+            <td rowspan="1" colspan="1">clockid_t <var class="pdparam">clockid</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct timespec *<var class="pdparam">tp</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>clock_settime</strong>(</code></td>
+            <td rowspan="1" colspan="1">clockid_t <var class="pdparam">clockid</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const struct timespec *<var class="pdparam">tp</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <div class="featuretests">
+                <table class="featuretests" style="border-collapse: collapse;">
+                  <colgroup span="1">
+                    <col span="1" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th style="" rowspan="1" colspan="1">Feature Test Macro Requirements
+                      for glibc (see <a class="link" href="../htmlman7/feature_test_macros.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">feature_test_macros</span>(7)</span></a>):</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="" rowspan="1" colspan="1"><code class="function">clock_getres</code>(),
+                      <code class="function">clock_gettime</code>(),
+                      <code class="function">clock_settime</code>():</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">
+                      <code class="constant">_POSIX_C_SOURCE</code>
+                      &gt;= 199309L</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <p>Link with <code class="option">−lrt</code>
+              (only for glibc versions before 2.17).</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect1" name="clock-getres-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The function <code class="function">clock_getres</code>()
+      finds the resolution (precision) of the specified clock
+      <em class="parameter"><code>clockid</code></em>, and, if
+      <em class="parameter"><code>res</code></em> is non-NULL,
+      stores it in the <span class="emphasis"><em>struct
+      timespec</em></span> pointed to by <em class="parameter"><code>res</code></em>. The resolution of clocks
+      depends on the implementation and cannot be configured by a
+      particular process. If the time value pointed to by the
+      argument <em class="parameter"><code>tp</code></em> of
+      <code class="function">clock_settime</code>() is not a
+      multiple of <em class="parameter"><code>res</code></em>, then
+      it is truncated to a multiple of <em class="parameter"><code>res</code></em>.</p>
+      <p>The functions <code class="function">clock_gettime</code>() and <code class="function">clock_settime</code>() retrieve and set the time
+      of the specified clock <em class="parameter"><code>clockid</code></em>.</p>
+      <p>The <em class="parameter"><code>res</code></em> and
+      <em class="parameter"><code>tp</code></em> arguments are
+      <span class="structname">timespec</span> structures, as
+      specified in <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code></p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="structdef">
+            <table class="structdef" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c1" span="1" />
+                <col class="c2" span="1" />
+                <col class="c3" span="1" />
+                <col class="c4" span="1" />
+                <col class="c5" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                  struct</td>
+                  <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">timespec</span> {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">time_t</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_sec</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* seconds */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_nsec</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* nanoseconds */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>The <em class="parameter"><code>clockid</code></em>
+      argument is the identifier of the particular clock on which
+      to act. A clock may be system-wide and hence visible for all
+      processes, or per-process if it measures time only within a
+      single process.</p>
+      <p>All implementations support the system-wide real-time
+      clock, which is identified by <code class="constant">CLOCK_REALTIME</code>. Its time represents seconds
+      and nanoseconds since the Epoch. When its time is changed,
+      timers for a relative interval are unaffected, but timers for
+      an absolute point in time are affected.</p>
+      <p>More clocks may be implemented. The interpretation of the
+      corresponding time values and the effect on timers is
+      unspecified.</p>
+      <p>Sufficiently recent versions of glibc and the Linux kernel
+      support the following clocks:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">CLOCK_REALTIME</code></span></dt>
+          <dd>
+            <p>A settable system-wide clock that measures real
+            (i.e., wall-clock) time. Setting this clock requires
+            appropriate privileges. This clock is affected by
+            discontinuous jumps in the system time (e.g., if the
+            system administrator manually changes the clock), and
+            by the incremental adjustments performed by <a class="link" href="../htmlman3/adjtime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtime</span>(3)</span></a> and
+            NTP.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_REALTIME_ALARM</code> (since Linux 3.0;
+          Linux-specific)</span></dt>
+          <dd>
+            <p>Like <code class="constant">CLOCK_REALTIME</code>,
+            but not settable. See <a class="link" href="../htmlman2/timer_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_create</span>(2)</span></a> for
+            further details.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_REALTIME_COARSE</code> (since Linux
+          2.6.32; Linux-specific)</span></dt>
+          <dd>
+            <p>A faster but less precise version of <code class="constant">CLOCK_REALTIME</code>. This clock is not
+            settable. Use when you need very fast, but not
+            fine-grained timestamps. Requires per-architecture
+            support, and probably also architecture support for
+            this flag in the <a class="link" href="../htmlman7/vdso.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vdso</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_TAI</code> (since Linux 3.10;
+          Linux-specific)</span></dt>
+          <dd>
+            <p>A nonsettable system-wide clock derived from
+            wall-clock time but ignoring leap seconds. This clock
+            does not experience discontinuities and backwards jumps
+            caused by NTP inserting leap seconds as <code class="constant">CLOCK_REALTIME</code> does.</p>
+            <p>The acronym TAI refers to International Atomic
+            Time.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_MONOTONIC</code></span></dt>
+          <dd>
+            <p>A nonsettable system-wide clock that represents
+            monotonic time since—as described by
+            POSIX—"some unspecified point in the past". On
+            Linux, that point corresponds to the number of seconds
+            that the system has been running since it was
+            booted.</p>
+            <p>The <code class="constant">CLOCK_MONOTONIC</code>
+            clock is not affected by discontinuous jumps in the
+            system time (e.g., if the system administrator manually
+            changes the clock), but is affected by the incremental
+            adjustments performed by <a class="link" href="../htmlman3/adjtime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtime</span>(3)</span></a> and NTP.
+            This clock does not count time that the system is
+            suspended. All <code class="constant">CLOCK_MONOTONIC</code> variants guarantee
+            that the time returned by consecutive calls will not go
+            backwards, but successive calls may—depending on
+            the architecture—return identical (not-increased)
+            time values.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_MONOTONIC_COARSE</code> (since Linux
+          2.6.32; Linux-specific)</span></dt>
+          <dd>
+            <p>A faster but less precise version of <code class="constant">CLOCK_MONOTONIC</code>. Use when you need
+            very fast, but not fine-grained timestamps. Requires
+            per-architecture support, and probably also
+            architecture support for this flag in the <a class="link" href="../htmlman7/vdso.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vdso</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_MONOTONIC_RAW</code> (since Linux
+          2.6.28; Linux-specific)</span></dt>
+          <dd>
+            <p>Similar to <code class="constant">CLOCK_MONOTONIC</code>, but provides access
+            to a raw hardware-based time that is not subject to NTP
+            adjustments or the incremental adjustments performed by
+            <a class="link" href="../htmlman3/adjtime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtime</span>(3)</span></a>. This
+            clock does not count time that the system is
+            suspended.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_BOOTTIME</code> (since Linux 2.6.39;
+          Linux-specific)</span></dt>
+          <dd>
+            <p>A nonsettable system-wide clock that is identical to
+            <code class="constant">CLOCK_MONOTONIC</code>, except
+            that it also includes any time that the system is
+            suspended. This allows applications to get a
+            suspend-aware monotonic clock without having to deal
+            with the complications of <code class="constant">CLOCK_REALTIME</code>, which may have
+            discontinuities if the time is changed using <a class="link" href="../htmlman2/gettimeofday.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">settimeofday</span>(2)</span></a> or
+            similar.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_BOOTTIME_ALARM</code> (since Linux 3.0;
+          Linux-specific)</span></dt>
+          <dd>
+            <p>Like <code class="constant">CLOCK_BOOTTIME</code>.
+            See <a class="link" href="../htmlman2/timer_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_create</span>(2)</span></a> for
+            further details.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_PROCESS_CPUTIME_ID</code> (since Linux
+          2.6.12)</span></dt>
+          <dd>
+            <p>This is a clock that measures CPU time consumed by
+            this process (i.e., CPU time consumed by all threads in
+            the process). On Linux, this clock is not settable.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOCK_THREAD_CPUTIME_ID</code> (since Linux
+          2.6.12)</span></dt>
+          <dd>
+            <p>This is a clock that measures CPU time consumed by
+            this thread. On Linux, this clock is not settable.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>Linux also implements dynamic clock instances as described
+      below.</p>
+      <div class="refsect2">
+        <a id="clock-getres-2_sect2" name="clock-getres-2_sect2" shape="rect"> </a>
+        <h3>Dynamic clocks</h3>
+        <p>In addition to the hard-coded System-V style clock IDs
+        described above, Linux also supports POSIX clock operations
+        on certain character devices. Such devices are called
+        "dynamic" clocks, and are supported since Linux 2.6.39.</p>
+        <p>Using the appropriate macros, open file descriptors may
+        be converted into clock IDs and passed to <code class="function">clock_gettime</code>(), <code class="function">clock_settime</code>(), and <a class="link" href="../htmlman2/adjtimex.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_adjtime</span>(2)</span></a>. The
+        following example shows how to convert a file descriptor
+        into a dynamic clock ID.</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+#define CLOCKFD 3
+#define FD_TO_CLOCKID(fd)   ((~(clockid_t) (fd) &lt;&lt; 3) | CLOCKFD)
+#define CLOCKID_TO_FD(clk)  ((unsigned int) ~((clk) &gt;&gt; 3))
+
+struct timespec ts;
+clockid_t clkid;
+int fd;
+
+fd = open("/dev/ptp0", O_RDWR);
+clkid = FD_TO_CLOCKID(fd);
+clock_gettime(clkid, &amp;ts);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect3" name="clock-getres-2_sect3" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p><code class="function">clock_gettime</code>(),
+      <code class="function">clock_settime</code>(), and
+      <code class="function">clock_getres</code>() return 0 for
+      success. On error, −1 is returned and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect4" name="clock-getres-2_sect4" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p><code class="function">clock_settime</code>() does
+            not have write permission for the dynamic POSIX clock
+            device indicated.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>tp</code></em> points
+            outside the accessible address space.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The <em class="parameter"><code>clockid</code></em>
+            specified is invalid for one of two reasons. Either the
+            System-V style hard coded positive value is out of
+            range, or the dynamic clock ID does not refer to a
+            valid instance of a clock object.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>(<code class="function">clock_settime</code>()):
+            <em class="replaceable"><code>tp.tv_sec</code></em> is
+            negative or <em class="replaceable"><code>tp.tv_nsec</code></em> is outside
+            the range [0..999,999,999].</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The <em class="parameter"><code>clockid</code></em>
+            specified in a call to <code class="function">clock_settime</code>() is not a settable
+            clock.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span> (since Linux 4.3)</span></dt>
+          <dd>
+            <p>A call to <code class="function">clock_settime</code>() with a <em class="parameter"><code>clockid</code></em> of <code class="constant">CLOCK_REALTIME</code> attempted to set the
+            time to a value less than the current value of the
+            <code class="constant">CLOCK_MONOTONIC</code>
+            clock.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENODEV</span></span></dt>
+          <dd>
+            <p>The hot-pluggable device (like USB for example)
+            represented by a dynamic <em class="replaceable"><code>clk_id</code></em> has disappeared
+            after its character device was opened.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOTSUP</span></span></dt>
+          <dd>
+            <p>The operation is not supported by the dynamic POSIX
+            clock device specified.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p><code class="function">clock_settime</code>() does
+            not have permission to set the clock indicated.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect5" name="clock-getres-2_sect5" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>These system calls first appeared in Linux 2.6.</p>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect6" name="clock-getres-2_sect6" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">clock_getres</code>(), <code class="literal">clock_gettime</code>(), <code class="literal">clock_settime</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect7" name="clock-getres-2_sect7" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>POSIX.1-2001, POSIX.1-2008, SUSv2.</p>
+      <p>On POSIX systems on which these functions are available,
+      the symbol <code class="constant">_POSIX_TIMERS</code> is
+      defined in <code class="literal">&lt;</code><code class="filename">unistd.h</code><code class="literal">&gt;</code>
+      to a value greater than 0. The symbols <code class="constant">_POSIX_MONOTONIC_CLOCK</code>, <code class="constant">_POSIX_CPUTIME</code>, <code class="constant">_POSIX_THREAD_CPUTIME</code> indicate that
+      <code class="constant">CLOCK_MONOTONIC</code>, <code class="constant">CLOCK_PROCESS_CPUTIME_ID</code>, <code class="constant">CLOCK_THREAD_CPUTIME_ID</code> are available. (See
+      also <a class="link" href="../htmlman3/sysconf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sysconf</span>(3)</span></a>.)</p>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect8" name="clock-getres-2_sect8" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>POSIX.1 specifies the following:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <p>Setting the value of the <code class="constant">CLOCK_REALTIME</code> clock via <code class="function">clock_settime</code>() shall have no effect on
+          threads that are blocked waiting for a relative time
+          service based upon this clock, including the <code class="function">nanosleep</code>() function; nor on the
+          expiration of relative timers based upon this clock.
+          Consequently, these time services shall expire when the
+          requested relative interval elapses, independently of the
+          new or old value of the clock.</p>
+        </blockquote>
+      </div>
+      <p>According to POSIX.1-2001, a process with "appropriate
+      privileges" may set the <code class="constant">CLOCK_PROCESS_CPUTIME_ID</code> and <code class="constant">CLOCK_THREAD_CPUTIME_ID</code> clocks using
+      <code class="function">clock_settime</code>(). On Linux,
+      these clocks are not settable (i.e., no process has
+      "appropriate privileges").</p>
+      <div class="refsect2">
+        <a id="clock-getres-2_sect9" name="clock-getres-2_sect9" shape="rect"> </a>
+        <h3>C library/kernel differences</h3>
+        <p>On some architectures, an implementation of <code class="function">clock_gettime</code>() is provided in the
+        <a class="link" href="../htmlman7/vdso.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vdso</span>(7)</span></a>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="clock-getres-2_sect10" name="clock-getres-2_sect10" shape="rect"> </a>
+        <h3>Historical note for SMP systems</h3>
+        <p>Before Linux added kernel support for <code class="constant">CLOCK_PROCESS_CPUTIME_ID</code> and <code class="constant">CLOCK_THREAD_CPUTIME_ID</code>, glibc
+        implemented these clocks on many platforms using timer
+        registers from the CPUs (TSC on i386, AR.ITC on Itanium).
+        These registers may differ between CPUs and as a
+        consequence these clocks may return <span class="emphasis"><em>bogus results</em></span> if a process is
+        migrated to another CPU.</p>
+        <p>If the CPUs in an SMP system have different clock
+        sources, then there is no way to maintain a correlation
+        between the timer registers since each CPU will run at a
+        slightly different frequency. If that is the case, then
+        <em class="replaceable"><code>clock_getcpuclockid(0)</code></em> will
+        return <span class="errorname">ENOENT</span> to signify
+        this condition. The two clocks will then be useful only if
+        it can be ensured that a process stays on a certain
+        CPU.</p>
+        <p>The processors in an SMP system do not start all at
+        exactly the same time and therefore the timer registers are
+        typically running at an offset. Some architectures include
+        code that attempts to limit these offsets on bootup.
+        However, the code cannot guarantee to accurately tune the
+        offsets. Glibc contains no provisions to deal with these
+        offsets (unlike the Linux Kernel). Typically these offsets
+        are small and therefore the effects may be negligible in
+        most cases.</p>
+        <p>Since glibc 2.4, the wrapper functions for the system
+        calls described in this page avoid the abovementioned
+        problems by employing the kernel implementation of
+        <code class="constant">CLOCK_PROCESS_CPUTIME_ID</code> and
+        <code class="constant">CLOCK_THREAD_CPUTIME_ID</code>, on
+        systems that provide such an implementation (i.e., Linux
+        2.6.12 and later).</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect11" name="clock-getres-2_sect11" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below demonstrates the use of <code class="function">clock_gettime</code>() and <code class="function">clock_getres</code>() with various clocks. This is
+      an example of what we might see when running the program:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./clock_times x</em></span>
+CLOCK_REALTIME : 1585985459.446 (18356 days +  7h 30m 59s)
+     resolution:          0.000000001
+CLOCK_TAI      : 1585985496.447 (18356 days +  7h 31m 36s)
+     resolution:          0.000000001
+CLOCK_MONOTONIC:      52395.722 (14h 33m 15s)
+     resolution:          0.000000001
+CLOCK_BOOTTIME :      72691.019 (20h 11m 31s)
+     resolution:          0.000000001
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="clock-getres-2_sect12" name="clock-getres-2_sect12" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+/* clock_times.c
+
+   Licensed under GNU General Public License v2 or later.
+*/
+#define _XOPEN_SOURCE 600
+#include &lt;time.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;unistd.h&gt;
+
+#define SECS_IN_DAY (24 * 60 * 60)
+
+static void
+displayClock(clockid_t clock, const char *name, bool showRes)
+{
+    struct timespec ts;
+
+    if (clock_gettime(clock, &amp;ts) == −1) {
+        perror("clock_gettime");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("%−15s: %10jd.%03ld (", name,
+            (intmax_t) ts.tv_sec, ts.tv_nsec / 1000000);
+
+    long days = ts.tv_sec / SECS_IN_DAY;
+    if (days &gt; 0)
+        printf("%ld days + ", days);
+
+    printf("%2dh %2dm %2ds",
+            (int) (ts.tv_sec % SECS_IN_DAY) / 3600,
+            (int) (ts.tv_sec % 3600) / 60,
+            (int) ts.tv_sec % 60);
+    printf(")\n");
+
+    if (clock_getres(clock, &amp;ts) == −1) {
+        perror("clock_getres");
+        exit(EXIT_FAILURE);
+    }
+
+    if (showRes)
+        printf("     resolution: %10jd.%09ld\n",
+                (intmax_t) ts.tv_sec, ts.tv_nsec);
+}
+
+int
+main(int argc, char *argv[])
+{
+    bool showRes = argc &gt; 1;
+
+    displayClock(CLOCK_REALTIME, "CLOCK_REALTIME", showRes);
+#ifdef CLOCK_TAI
+    displayClock(CLOCK_TAI, "CLOCK_TAI", showRes);
+#endif
+    displayClock(CLOCK_MONOTONIC, "CLOCK_MONOTONIC", showRes);
+#ifdef CLOCK_BOOTTIME
+    displayClock(CLOCK_BOOTTIME, "CLOCK_BOOTTIME", showRes);
+#endif
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clock-getres-2_sect13" name="clock-getres-2_sect13" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/date.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">date</span>(1)</span></a>, <a class="link" href="../htmlman2/gettimeofday.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">gettimeofday</span>(2)</span></a>, <a class="link" href="../htmlman2/gettimeofday.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">settimeofday</span>(2)</span></a>, <a class="link" href="../htmlman2/time.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(2)</span></a>, <a class="link" href="../htmlman3/adjtime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtime</span>(3)</span></a>, <a class="link" href="../htmlman3/clock_getcpuclockid.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_getcpuclockid</span>(3)</span></a>,
+      <a class="link" href="../htmlman3/ctime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ctime</span>(3)</span></a>, <a class="link" href="../htmlman3/ftime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ftime</span>(3)</span></a>, <a class="link" href="../htmlman3/pthread_getcpuclockid.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_getcpuclockid</span>(3)</span></a>,
+      <a class="link" href="../htmlman3/sysconf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sysconf</span>(3)</span></a>, <a class="link" href="../htmlman7/time.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(7)</span></a>, <a class="link" href="../htmlman7/time_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time_namespaces</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/vdso.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vdso</span>(7)</span></a>, <a class="link" href="../htmlman8/hwclock.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">hwclock</span>(8)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="clock-getres-2_sect14" name="clock-getres-2_sect14" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2003 Nick Clifford (zaf<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>nrc.co.nz), Jan 25, 2003<br />
+
+                  Copyright (c) 2003 Andries Brouwer (aeb<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cwi.nl), Aug 24, 2003<br />
+
+                  Copyright (c) 2020 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  2003-08-23 Martin Schulze &lt;joey<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>infodrom.org&gt; improvements<br />
+
+                  2003-08-24 aeb, large parts rewritten<br />
+
+                  2004-08-06 Christoph Lameter &lt;clameter<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>sgi.com&gt;, SMP note<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

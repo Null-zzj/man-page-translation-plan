@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>ntp_gettime(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="ntp_gettime(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="ntp-gettime.3" name="ntp-gettime.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>ntp_gettime, ntp_gettimex — get time parameters (NTP
+      daemon interface)</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;sys/timex.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>ntp_gettime</strong>(</code></td>
+            <td rowspan="1" colspan="1">struct ntptimeval *<var class="pdparam">ntv</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>ntp_gettimex</strong>(</code></td>
+            <td rowspan="1" colspan="1">struct ntptimeval *<var class="pdparam">ntv</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ntp-gettime-3_sect1" name="ntp-gettime-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>Both of these APIs return information to the caller via
+      the <em class="parameter"><code>ntv</code></em> argument, a
+      structure of the following type:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="structdef">
+            <table class="structdef" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c1" span="1" />
+                <col class="c2" span="1" />
+                <col class="c3" span="1" />
+                <col class="c4" span="1" />
+                <col class="c5" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                  struct</td>
+                  <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">ntptimeval</span> {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct timeval</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>time</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Current time */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>maxerror</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Maximum error */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>esterror</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Estimated error */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tai</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* TAI offset */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" colspan="5" align="left" rowspan="1">
+                    <div class="literallayout">
+                      
+                      /* Further padding bytes allowing for future expansion */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>The fields of this structure are as follows:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><em class="parameter"><code>time</code></em></span></dt>
+          <dd>
+            <p>The current time, expressed as a <code class="function">timeval</code> structure:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">timeval</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">time_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_sec</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Seconds since the Epoch */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">suseconds_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_usec</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Microseconds */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="parameter"><code>maxerror</code></em></span></dt>
+          <dd>
+            <p>Maximum error, in microseconds. This value can be
+            initialized by <a class="link" href="../htmlman2/adjtimex.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ntp_adjtime</span>(3)</span></a>, and
+            is increased periodically (on Linux: each second), but
+            is clamped to an upper limit (the kernel constant
+            <code class="constant">NTP_PHASE_MAX</code>, with a
+            value of 16,000).</p>
+          </dd>
+          <dt><span class="term"><em class="parameter"><code>esterror</code></em></span></dt>
+          <dd>
+            <p>Estimated error, in microseconds. This value can be
+            set via <a class="link" href="../htmlman2/adjtimex.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ntp_adjtime</span>(3)</span></a> to
+            contain an estimate of the difference between the
+            system clock and the true time. This value is not used
+            inside the kernel.</p>
+          </dd>
+          <dt><span class="term"><em class="parameter"><code>tai</code></em></span></dt>
+          <dd>
+            <p>TAI (Atomic International Time) offset.</p>
+          </dd>
+        </dl>
+      </div>
+      <p><code class="function">ntp_gettime</code>() returns an
+      <span class="structname">ntptimeval</span> structure in which
+      the <em class="parameter"><code>time</code></em>, <em class="parameter"><code>maxerror</code></em>, and <em class="parameter"><code>esterror</code></em> fields are filled
+      in.</p>
+      <p><code class="function">ntp_gettimex</code>() performs the
+      same task as <code class="function">ntp_gettime</code>(), but
+      also returns information in the <em class="parameter"><code>tai</code></em> field.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ntp-gettime-3_sect2" name="ntp-gettime-3_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>The return values for <code class="function">ntp_gettime</code>() and <code class="function">ntp_gettimex</code>() are as for <a class="link" href="../htmlman2/adjtimex.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtimex</span>(2)</span></a>. Given a
+      correct pointer argument, these functions always succeed.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ntp-gettime-3_sect3" name="ntp-gettime-3_sect3" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>The <code class="function">ntp_gettime</code>() function
+      is available since glibc 2.1. The <code class="function">ntp_gettimex</code>() function is available since
+      glibc 2.12.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ntp-gettime-3_sect4" name="ntp-gettime-3_sect4" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">ntp_gettime</code>(), <code class="literal">ntp_gettimex</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ntp-gettime-3_sect5" name="ntp-gettime-3_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p><code class="function">ntp_gettime</code>() is described
+      in the NTP Kernel Application Program Interface. <code class="function">ntp_gettimex</code>() is a GNU extension.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ntp-gettime-3_sect6" name="ntp-gettime-3_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/adjtimex.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtimex</span>(2)</span></a>, <a class="link" href="../htmlman2/adjtimex.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ntp_adjtime</span>(3)</span></a>, <a class="link" href="../htmlman7/time.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(7)</span></a></p>
+      <p><a class="literalurl" href="http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm" target="_top" shape="rect">NTP "Kernel Application Program
+      Interface"</a></p>
+    </div>
+    <div class="colophon">
+      <a id="ntp-gettime-3_sect7" name="ntp-gettime-3_sect7" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2016 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

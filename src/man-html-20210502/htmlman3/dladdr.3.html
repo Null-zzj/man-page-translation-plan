@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>dladdr(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="dladdr(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="dladdr.3" name="dladdr.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>dladdr, dladdr1 — translate address to symbolic
+      information</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#define _GNU_SOURCE
+#include &lt;dlfcn.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>dladdr</strong>(</code></td>
+            <td rowspan="1" colspan="1">void *<var class="pdparam">addr</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">Dl_info *<var class="pdparam">info</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>dladdr1</strong>(</code></td>
+            <td rowspan="1" colspan="1">void *<var class="pdparam">addr</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">Dl_info *<var class="pdparam">info</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">void **<var class="pdparam">extra_info</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">flags</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <p>Link with <code class="option">−ldl</code>.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="dladdr-3_sect1" name="dladdr-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The function <code class="function">dladdr</code>()
+      determines whether the address specified in <em class="parameter"><code>addr</code></em> is located in one of the
+      shared objects loaded by the calling application. If it is,
+      then <code class="function">dladdr</code>() returns
+      information about the shared object and symbol that overlaps
+      <em class="parameter"><code>addr</code></em>. This
+      information is returned in a <code class="function">Dl_info</code> structure:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="structdef">
+            <table class="structdef" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c1" span="1" />
+                <col class="c2" span="1" />
+                <col class="c3" span="1" />
+                <col class="c4" span="1" />
+                <col class="c5" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                  typedef</td>
+                  <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">const char</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                  *</td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dli_fname</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Pathname of shared object that<br />
+
+                      contains address */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">void</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                  *</td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dli_fbase</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Base address at which shared<br />
+
+                      object is loaded */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">const char</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                  *</td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dli_sname</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Name of symbol whose definition<br />
+
+                      overlaps addr */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">void</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                  *</td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dli_saddr</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Exact address of symbol named<br />
+
+                      in dli_sname */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} Dl_info;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>If no symbol matching <em class="parameter"><code>addr</code></em> could be found, then
+      <em class="parameter"><code>dli_sname</code></em> and
+      <em class="parameter"><code>dli_saddr</code></em> are set to
+      NULL.</p>
+      <p>The function <code class="function">dladdr1</code>() is
+      like <code class="function">dladdr</code>(), but returns
+      additional information via the argument <em class="parameter"><code>extra_info</code></em>. The information
+      returned depends on the value specified in <em class="parameter"><code>flags</code></em>, which can have one of
+      the following values:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">RTLD_DL_LINKMAP</code></span></dt>
+          <dd>
+            <p>Obtain a pointer to the link map for the matched
+            file. The <em class="parameter"><code>extra_info</code></em> argument
+            points to a pointer to a <code class="function">link_map</code> structure (i.e.,
+            <span class="type">struct link_map **</span>), defined
+            in <code class="literal">&lt;</code><code class="filename">link.h</code><code class="literal">&gt;</code> as:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="informalexample">
+                  <pre class="programlisting" xml:space="preserve">
+struct link_map {
+    ElfW(Addr) l_addr;  /* Difference between the
+                           address in the ELF file and
+                           the address in memory */
+    char      *l_name;  /* Absolute pathname where
+                           object was found */
+    ElfW(Dyn) *l_ld;    /* Dynamic section of the
+                           shared object */
+    struct link_map *l_next, *l_prev;
+                        /* Chain of loaded objects */
+
+    /* Plus additional fields private to the
+       implementation */
+};
+</pre>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><code class="constant">RTLD_DL_SYMENT</code></span></dt>
+          <dd>
+            <p>Obtain a pointer to the ELF symbol table entry of
+            the matching symbol. The <em class="parameter"><code>extra_info</code></em> argument is a
+            pointer to a symbol pointer: <span class="type">const
+            ElfW(Sym) **</span>. The <code class="function">ElfW</code>() macro definition turns its
+            argument into the name of an ELF data type suitable for
+            the hardware architecture. For example, on a 64-bit
+            platform, <em class="replaceable"><code>ElfW(Sym)</code></em> yields the
+            data type name <code class="function">Elf64_Sym</code>,
+            which is defined in <code class="literal">&lt;</code><code class="filename">elf.h</code><code class="literal">&gt;</code> as:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">Elf64_Word</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>st_name</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Symbol name */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>st_info</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Symbol type and binding */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>st_other</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Symbol visibility */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">Elf64_Section</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>st_shndx</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Section index */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">Elf64_Addr</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>st_value</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Symbol value */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">Elf64_Xword</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>st_size</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Symbol size */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} Elf64_Sym;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+            <p>The <em class="parameter"><code>st_name</code></em>
+            field is an index into the string table.</p>
+            <p>The <em class="parameter"><code>st_info</code></em>
+            field encodes the symbol's type and binding. The type
+            can be extracted using the macro <code class="constant">ELF64_ST_TYPE</code>(st_info) (or
+            <code class="function">ELF32_ST_TYPE</code>() on 32-bit
+            platforms), which yields one of the following
+            values:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="informaltable">
+                  <table class="informaltable" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c0" span="1" />
+                      <col class="c1" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">Value</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Description</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STT_NOTYPE</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol type is
+                        unspecified</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STT_OBJECT</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol is a data
+                        object</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STT_FUNC</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol is a code
+                        object</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STT_SECTION</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol associated
+                        with a section</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STT_FILE</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol's name is
+                        filename</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STT_COMMON</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol is a
+                        common data object</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STT_TLS</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol is
+                        thread-local data object</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                        STT_GNU_IFUNC</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol is
+                        indirect code object</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+            <p>The symbol binding can be extracted from the
+            <em class="parameter"><code>st_info</code></em> field
+            using the macro <code class="constant">ELF64_ST_BIND</code>(st_info) (or
+            <code class="function">ELF32_ST_BIND</code>() on 32-bit
+            platforms), which yields one of the following
+            values:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="informaltable">
+                  <table class="informaltable" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c0" span="1" />
+                      <col class="c1" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">Value</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Description</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STB_LOCAL</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Local symbol</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STB_GLOBAL</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Global
+                        symbol</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STB_WEAK</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Weak symbol</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                        STB_GNU_UNIQUE</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Unique
+                        symbol</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+            <p>The <em class="parameter"><code>st_other</code></em>
+            field contains the symbol's visibility, which can be
+            extracted using the macro <code class="constant">ELF64_ST_VISIBILITY</code>(st_info) (or
+            <code class="function">ELF32_ST_VISIBILITY</code>() on
+            32-bit platforms), which yields one of the following
+            values:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="informaltable">
+                  <table class="informaltable" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c0" span="1" />
+                      <col class="c1" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">Value</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Description</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STV_DEFAULT</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Default symbol
+                        visibility rules</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STV_INTERNAL</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                        Processor-specific hidden class</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">STV_HIDDEN</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Symbol
+                        unavailable in other modules</td>
+                      </tr>
+                      <tr>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                        STV_PROTECTED</td>
+                        <td style="" align="left" rowspan="1" colspan="1">Not preemptible,
+                        not exported</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="dladdr-3_sect2" name="dladdr-3_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, these functions return a nonzero value. If the
+      address specified in <em class="parameter"><code>addr</code></em> could be matched to a
+      shared object, but not to a symbol in the shared object, then
+      the <em class="replaceable"><code>info−&gt;dli_sname</code></em> and
+      <em class="replaceable"><code>info−&gt;dli_saddr</code></em>
+      fields are set to NULL.</p>
+      <p>If the address specified in <em class="parameter"><code>addr</code></em> could not be matched to a
+      shared object, then these functions return 0. In this case,
+      an error message is <span class="emphasis"><em>not</em></span> available via <a class="link" href="../htmlman3/dlerror.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlerror</span>(3)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="dladdr-3_sect3" name="dladdr-3_sect3" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">dladdr</code>() is present in glibc
+      2.0 and later. <code class="function">dladdr1</code>() first
+      appeared in glibc 2.3.3.</p>
+    </div>
+    <div class="refsect1">
+      <a id="dladdr-3_sect4" name="dladdr-3_sect4" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">dladdr</code>(), <code class="literal">dladdr1</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="dladdr-3_sect5" name="dladdr-3_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>These functions are nonstandard GNU extensions that are
+      also present on Solaris.</p>
+    </div>
+    <div class="refsect1">
+      <a id="dladdr-3_sect6" name="dladdr-3_sect6" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p>Sometimes, the function pointers you pass to <code class="function">dladdr</code>() may surprise you. On some
+      architectures (notably i386 and x86-64), <em class="parameter"><code>dli_fname</code></em> and <em class="parameter"><code>dli_fbase</code></em> may end up pointing
+      back at the object from which you called <code class="function">dladdr</code>(), even if the function used as an
+      argument should come from a dynamically linked library.</p>
+      <p>The problem is that the function pointer will still be
+      resolved at compile time, but merely point to the
+      <code class="function">plt</code> (Procedure Linkage Table)
+      section of the original object (which dispatches the call
+      after asking the dynamic linker to resolve the symbol). To
+      work around this, you can try to compile the code to be
+      position-independent: then, the compiler cannot prepare the
+      pointer at compile time any more and <span class="citerefentry"><span class="refentrytitle">gcc</span>(1)</span> will generate code that
+      just loads the final symbol address from the <code class="function">got</code> (Global Offset Table) at run time
+      before passing it to <code class="function">dladdr</code>().</p>
+    </div>
+    <div class="refsect1">
+      <a id="dladdr-3_sect7" name="dladdr-3_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/dl_iterate_phdr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dl_iterate_phdr</span>(3)</span></a>,
+      <a class="link" href="../htmlman3/dlinfo.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlinfo</span>(3)</span></a>, <a class="link" href="../htmlman3/dlopen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlopen</span>(3)</span></a>, <a class="link" href="../htmlman3/dlsym.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlsym</span>(3)</span></a>, <a class="link" href="../htmlman8/ld.so.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ld.so</span>(8)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="dladdr-3_sect8" name="dladdr-3_sect8" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2015 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  and Copyright (C) 2008 Petr Baudis &lt;pasky<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>suse.cz&gt; (dladdr caveat)<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>fsck.minix(8) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="fsck.minix(8) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index8.html" shape="rect">Section 8</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="fsck.minix.8" name="fsck.minix.8" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>fsck.minix — check consistency of Minix
+      filesystem</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">fsck.minix</code> [options]
+        device</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="fsck-minix-8_sect1" name="fsck-minix-8_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><span class="command"><strong>fsck.minix</strong></span>
+      performs a consistency check for the Linux MINIX
+      filesystem.</p>
+      <p>The program assumes the filesystem is quiescent.
+      <span class="command"><strong>fsck.minix</strong></span>
+      should not be used on a mounted device unless you can be sure
+      nobody is writing to it. Remember that the kernel can write
+      to device when it searches for files.</p>
+      <p>The <em class="parameter"><code>device</code></em> name
+      will usually have the following form:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informaltable">
+            <table class="informaltable" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c0" span="1" />
+                <col class="c1" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                  /dev/hda[1–63]</td>
+                  <td style="" align="left" rowspan="1" colspan="1">IDE disk 1</td>
+                </tr>
+                <tr>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                  /dev/hdb[1–63]</td>
+                  <td style="" align="left" rowspan="1" colspan="1">IDE disk 2</td>
+                </tr>
+                <tr>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                  /dev/sda[1–15]</td>
+                  <td style="" align="left" rowspan="1" colspan="1">SCSI disk 1</td>
+                </tr>
+                <tr>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                  /dev/sdb[1–15]</td>
+                  <td style="" align="left" rowspan="1" colspan="1">SCSI disk 2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>If the filesystem was changed, i.e., repaired, then
+      <span class="command"><strong>fsck.minix</strong></span> will
+      print "FILE SYSTEM HAS CHANGED" and will <a class="link" href="../htmlman2/sync.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sync</span>(2)</span></a> three times before
+      exiting. There is <span class="emphasis"><em>no</em></span>
+      need to reboot after check.</p>
+    </div>
+    <div class="refsect1">
+      <a id="fsck-minix-8_sect2" name="fsck-minix-8_sect2" shape="rect"> </a>
+      <h2>WARNING</h2>
+      <p><span class="command"><strong>fsck.minix</strong></span>
+      should not be used on a mounted filesystem. Using
+      <span class="command"><strong>fsck.minix</strong></span> on a
+      mounted filesystem is very dangerous, due to the possibility
+      that deleted files are still in use, and can seriously damage
+      a perfectly good filesystem! If you absolutely have to run
+      <span class="command"><strong>fsck.minix</strong></span> on a
+      mounted filesystem, such as the root filesystem, make sure
+      nothing is writing to the disk, and that no files are
+      "zombies" waiting for deletion.</p>
+    </div>
+    <div class="refsect1">
+      <a id="fsck-minix-8_sect3" name="fsck-minix-8_sect3" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−l</code>, <code class="option">−−list</code></span></dt>
+          <dd>
+            <p>List all filenames.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−r</code>, <code class="option">−−repair</code></span></dt>
+          <dd>
+            <p>Perform interactive repairs.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−a</code>, <code class="option">−−auto</code></span></dt>
+          <dd>
+            <p>Perform automatic repairs. This option implies
+            <code class="option">−−repair</code> and
+            serves to answer all of the questions asked with the
+            default. Note that this can be extremely dangerous in
+            the case of extensive filesystem damage.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−v</code>, <code class="option">−−verbose</code></span></dt>
+          <dd>
+            <p>Be verbose.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−s</code>, <code class="option">−−super</code></span></dt>
+          <dd>
+            <p>Output super-block information.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−m</code>, <code class="option">−−uncleared</code></span></dt>
+          <dd>
+            <p>Activate MINIX-like "mode not cleared" warnings.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−f</code>, <code class="option">−−force</code></span></dt>
+          <dd>
+            <p>Force a filesystem check even if the filesystem was
+            marked as valid. Marking is done by the kernel when the
+            filesystem is unmounted.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V</code>, <code class="option">−−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h</code>, <code class="option">−−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="fsck-minix-8_sect4" name="fsck-minix-8_sect4" shape="rect"> </a>
+      <h2>DIAGNOSTICS</h2>
+      <p>There are numerous diagnostic messages. The ones mentioned
+      here are the most commonly seen in normal usage.</p>
+      <p>If the device does not exist, <span class="command"><strong>fsck.minix</strong></span> will print
+      "unable to read super block". If the device exists, but is
+      not a MINIX filesystem, <span class="command"><strong>fsck.minix</strong></span> will print "bad
+      magic number in super-block".</p>
+    </div>
+    <div class="refsect1">
+      <a id="fsck-minix-8_sect5" name="fsck-minix-8_sect5" shape="rect"> </a>
+      <h2>EXIT STATUS</h2>
+      <p>The exit status returned by <span class="command"><strong>fsck.minix</strong></span> is the sum of
+      the following:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt><span class="term"><code class="constant">0</code></span></dt>
+              <dd>
+                <p>No errors</p>
+              </dd>
+              <dt><span class="term"><code class="constant">3</code></span></dt>
+              <dd>
+                <p>Filesystem errors corrected, system should be
+                rebooted if filesystem was mounted</p>
+              </dd>
+              <dt><span class="term"><code class="constant">4</code></span></dt>
+              <dd>
+                <p>Filesystem errors left uncorrected</p>
+              </dd>
+              <dt><span class="term"><code class="constant">7</code></span></dt>
+              <dd>
+                <p>Combination of exit statuses 3 and 4</p>
+              </dd>
+              <dt><span class="term"><code class="constant">8</code></span></dt>
+              <dd>
+                <p>Operational error</p>
+              </dd>
+              <dt><span class="term"><code class="constant">16</code></span></dt>
+              <dd>
+                <p>Usage or syntax error</p>
+              </dd>
+            </dl>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="fsck-minix-8_sect6" name="fsck-minix-8_sect6" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><a class="literalurl" href="mailto:torvalds%20REMOVE%20@%20THIS%20cs.helsinki.fi" target="_top" shape="rect">Linus Torvalds</a></p>
+      <p>Exit status values by <a class="literalurl" href="mailto:faith%20REMOVE%20@%20THIS%20cs.unc.edu" target="_top" shape="rect">Rik Faith</a></p>
+      <p>Added support for filesystem valid flag: <a class="literalurl" href="mailto:greg%wind.uucp%20REMOVE%20@%20THIS%20plains.nodak.edu" target="_top" shape="rect">Dr. Wettstein</a></p>
+      <p>Check to prevent fsck of mounted filesystem added by
+      <a class="literalurl" href="mailto:quinlan%20REMOVE%20@%20THIS%20yggdrasil.com" target="_top" shape="rect">Daniel Quinlan</a></p>
+      <p>Minix v2 fs support by <a class="literalurl" href="mailto:schwab%20REMOVE%20@%20THIS%20issan.informatik.uni-dortmund.de" target="_top" shape="rect">Andreas Schwab</a> updated by <a class="literalurl" href="mailto:janl%20REMOVE%20@%20THIS%20math.uio.no" target="_top" shape="rect">Nicolai Langfeldt</a></p>
+      <p>Portability patch by <a class="literalurl" href="mailto:rmk%20REMOVE%20@%20THIS%20ecs.soton.ac.uk" target="_top" shape="rect">Russell King</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="fsck-minix-8_sect7" name="fsck-minix-8_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman8/fsck.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fsck</span>(8)</span></a>, <span class="citerefentry"><span class="refentrytitle">fsck.ext2</span>(8)</span>, <a class="link" href="../htmlman8/mkfs.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mkfs</span>(8)</span></a>, <span class="citerefentry"><span class="refentrytitle">mkfs.ext2</span>(8)</span>, <a class="link" href="../htmlman8/mkfs.minix.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mkfs.minix</span>(8)</span></a>, <span class="citerefentry"><span class="refentrytitle">reboot</span>(8)</span></p>
+    </div>
+    <div class="refsect1">
+      <a id="fsck-minix-8_sect8" name="fsck-minix-8_sect8" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The fsck.minix command is part of the util-linux package
+      and is available from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright 1992, 1993, 1994 Rickard E. Faith (faith<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.unc.edu)<br />
+
+                  May be freely distributed.<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

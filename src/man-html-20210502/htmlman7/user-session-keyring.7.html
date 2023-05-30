@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>user-session-keyring(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="user-session-keyring(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="user-session-keyring.7" name="user-session-keyring.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>user-session-keyring — per-user default session
+      keyring</p>
+    </div>
+    <div class="refsect1">
+      <a id="user-session-keyring-7_sect1" name="user-session-keyring-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The user session keyring is a keyring used to anchor keys
+      on behalf of a user. Each UID the kernel deals with has its
+      own user session keyring that is shared by all processes with
+      that UID. The user session keyring has a name (description)
+      of the form <em class="replaceable"><code>_uid_ses.&lt;UID&gt;</code></em> where
+      <em class="replaceable"><code>&lt;UID&gt;</code></em> is the
+      user ID of the corresponding user.</p>
+      <p>The user session keyring is associated with the record
+      that the kernel maintains for the UID. It comes into
+      existence upon the first attempt to access either the user
+      session keyring, the <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>, or the
+      <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>. The
+      keyring remains pinned in existence so long as there are
+      processes running with that real UID or files opened by those
+      processes remain open. (The keyring can also be pinned
+      indefinitely by linking it into another keyring.)</p>
+      <p>The user session keyring is created on demand when a
+      thread requests it or when a thread asks for its <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a> and that
+      keyring doesn't exist. In the latter case, a user session
+      keyring will be created and, if the session keyring wasn't to
+      be created, the user session keyring will be set as the
+      process's actual session keyring.</p>
+      <p>The user session keyring is searched by <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a> if the
+      actual session keyring does not exist and is ignored
+      otherwise.</p>
+      <p>A special serial number value, <code class="constant">KEY_SPEC_USER_SESSION_KEYRING</code>, is defined
+      that can be used in lieu of the actual serial number of the
+      calling process's user session keyring.</p>
+      <p>From the <span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span> utility, '<em class="replaceable"><code>@us</code></em>' can be used instead of a
+      numeric key ID in much the same way.</p>
+      <p>User session keyrings are independent of <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>, <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a>, <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>, and <a class="link" href="../htmlman2/_exit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">_exit</span>(2)</span></a> excepting that the
+      keyring is destroyed when the UID record is destroyed when
+      the last process pinning it exits.</p>
+      <p>If a user session keyring does not exist when it is
+      accessed, it will be created.</p>
+      <p>Rather than relying on the user session keyring, it is
+      strongly recommended—especially if the process is
+      running as root—that a <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a> be set
+      explicitly, for example by <span class="citerefentry"><span class="refentrytitle">pam_keyinit</span>(8)</span>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="user-session-keyring-7_sect2" name="user-session-keyring-7_sect2" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>The user session keyring was added to support situations
+      where a process doesn't have a session keyring, perhaps
+      because it was created via a pathway that didn't involve PAM
+      (e.g., perhaps it was a daemon started by <span class="citerefentry"><span class="refentrytitle">inetd</span>(8)</span>). In such a scenario,
+      the user session keyring acts as a substitute for the
+      <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="user-session-keyring-7_sect3" name="user-session-keyring-7_sect3" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl</span>(3)</span>, <a class="link" href="../htmlman7/keyrings.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyrings</span>(7)</span></a>, <a class="link" href="../htmlman7/persistent-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">persistent-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/thread-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">thread-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="user-session-keyring-7_sect4" name="user-session-keyring-7_sect4" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.<br />
+
+                  Written by David Howells (dhowells<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com)<br />
+
+                  <br />
+                  %%%LICENSE_START(GPLv2+_SW_ONEPARA)<br />
+                  This program is free software; you can redistribute it and/or<br />
+
+                  modify it under the terms of the GNU General Public License<br />
+
+                  as published by the Free Software Foundation; either version<br />
+
+                  2 of the License, or (at your option) any later version.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

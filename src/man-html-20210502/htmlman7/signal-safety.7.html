@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>signal-safety(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="signal-safety(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="signal-safety.7" name="signal-safety.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>signal-safety — async-signal-safe functions</p>
+    </div>
+    <div class="refsect1">
+      <a id="signal-safety-7_sect1" name="signal-safety-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>An <em class="replaceable"><code>async-signal-safe</code></em> function is
+      one that can be safely called from within a signal handler.
+      Many functions are <em class="replaceable"><code>not</code></em> async-signal-safe. In
+      particular, nonreentrant functions are generally unsafe to
+      call from a signal handler.</p>
+      <p>The kinds of issues that render a function unsafe can be
+      quickly understood when one considers the implementation of
+      the <em class="replaceable"><code>stdio</code></em> library,
+      all of whose functions are not async-signal-safe.</p>
+      <p>When performing buffered I/O on a file, the <em class="replaceable"><code>stdio</code></em> functions must maintain
+      a statically allocated data buffer along with associated
+      counters and indexes (or pointers) that record the amount of
+      data and the current position in the buffer. Suppose that the
+      main program is in the middle of a call to a <em class="replaceable"><code>stdio</code></em> function such as
+      <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> where the buffer
+      and associated variables have been partially updated. If, at
+      that moment, the program is interrupted by a signal handler
+      that also calls <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a>, then the second
+      call to <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> will operate on
+      inconsistent data, with unpredictable results.</p>
+      <p>To avoid problems with unsafe functions, there are two
+      possible choices:</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>Ensure that (a) the signal handler calls only
+            async-signal-safe functions, and (b) the signal handler
+            itself is reentrant with respect to global variables in
+            the main program.</p>
+          </li>
+          <li class="listitem">
+            <p>Block signal delivery in the main program when
+            calling functions that are unsafe or operating on
+            global data that is also accessed by the signal
+            handler.</p>
+          </li>
+        </ol>
+      </div>
+      <p>Generally, the second choice is difficult in programs of
+      any complexity, so the first choice is taken.</p>
+      <p>POSIX.1 specifies a set of functions that an
+      implementation must make async-signal-safe. (An
+      implementation may provide safe implementations of additional
+      functions, but this is not required by the standard and other
+      implementations may not provide the same guarantees.)</p>
+      <p>In general, a function is async-signal-safe either because
+      it is reentrant or because it is atomic with respect to
+      signals (i.e., its execution can't be interrupted by a signal
+      handler).</p>
+      <p>The set of functions required to be async-signal-safe by
+      POSIX.1 is shown in the following table. The functions not
+      otherwise noted were required to be async-signal-safe in
+      POSIX.1-2001; the table details changes in the subsequent
+      standards.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Function</td>
+              <td style="" align="left" rowspan="1" colspan="1">Notes</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/abort.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">abort</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2001
+              TC1</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/accept.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">accept</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/access.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">access</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/aio_error.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_error</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/aio_return.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_return</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/aio_suspend.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_suspend</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">See notes below</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/alarm.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">alarm</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/bind.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">bind</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cfgetispeed</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cfgetospeed</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cfsetispeed</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cfsetospeed</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/chdir.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chdir</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/chmod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chmod</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/clock_getres.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_gettime</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/close.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">close</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/connect.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">connect</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">creat</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/dup.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dup</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/dup.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dup2</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execl</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008; see
+              notes below</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execle</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">See notes below</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execv</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/_exit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">_exit</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/_exit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">_Exit</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/access.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">faccessat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/chdir.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fchdir</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC1</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/chmod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fchmod</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/chmod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fchmodat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fchown</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fchownat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/fsync.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fdatasync</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/fexecve.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fexecve</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/ffs.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ffs</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">See notes below</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fstat</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fstatat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/fsync.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fsync</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/truncate.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ftruncate</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/utimensat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">futimens</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getegid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getuid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">geteuid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getgid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getgroups.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getgroups</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getpeername.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpeername</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/setpgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpgrp</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getppid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getsockname.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getsockname</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getsockopt.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getsockopt</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getuid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getuid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/byteorder.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">htonl</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/byteorder.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">htons</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/kill.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">kill</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/link.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">link</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/link.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">linkat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/listen.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">listen</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/setjmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">longjmp</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008 TC2;
+              see notes below</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/lseek.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lseek</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lstat</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/memccpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memccpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/memchr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memchr</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/memcmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memcmp</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/memcpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memcpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/memmove.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memmove</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/memset.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memset</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/mkdir.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mkdir</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/mkdir.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mkdirat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/mkfifo.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mkfifo</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/mkfifo.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mkfifoat</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/mknod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mknod</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/mknod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mknodat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/byteorder.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ntohl</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/byteorder.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ntohs</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/pause.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pause</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/pipe.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pipe</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">poll</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><span class="citerefentry"><span class="refentrytitle">posix_trace_event</span>(3)</span></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pselect</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/pthread_kill.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_kill</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC1</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/pthread_self.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_self</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC1</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/pthread_sigmask.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_sigmask</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC1</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/raise.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">raise</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/readlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readlink</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/readlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readlinkat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/recv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">recv</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/recv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">recvfrom</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/recv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">recvmsg</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/rename.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">rename</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/rename.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">renameat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/rmdir.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">rmdir</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sem_post.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sem_post</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/send.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">send</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/send.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sendmsg</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/send.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sendto</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/setgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setgid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/setpgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setpgid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/setsid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setsid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/getsockopt.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setsockopt</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/setuid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setuid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/shutdown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shutdown</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sigsetops.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaddset</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sigsetops.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigdelset</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sigsetops.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigemptyset</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sigsetops.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigfillset</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sigsetops.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigismember</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/setjmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">siglongjmp</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008 TC2;
+              see notes below</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/signal.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">signal</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sigpause.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigpause</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/sigpending.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigpending</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/sigprocmask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigprocmask</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><span class="citerefentry"><span class="refentrytitle">sigqueue</span>(2)</span></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sigset.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigset</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/sigsuspend.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigsuspend</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sleep.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sleep</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/sockatmark.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sockatmark</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2001
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/socket.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">socket</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/socketpair.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">socketpair</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/stpcpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stpcpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/stpncpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stpncpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strcat.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strcat</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strchr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strchr</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strcmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strcmp</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strcpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strcpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strspn.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strcspn</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strlen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strlen</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strcat.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strncat</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strcmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strncmp</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strcpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strncpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strnlen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strnlen</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strpbrk.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strpbrk</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strchr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strrchr</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strspn.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strspn</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strstr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strstr</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/strtok.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strtok_r</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/symlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">symlink</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/symlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">symlinkat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcdrain</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcflow</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcflush</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcgetattr</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/tcgetpgrp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcgetpgrp</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcsendbreak</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcsetattr</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/tcgetpgrp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcsetpgrp</span>(3)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/time.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/timer_getoverrun.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_getoverrun</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/timer_settime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_gettime</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/timer_settime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_settime</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/times.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">times</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/umask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">umask</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/uname.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">uname</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/unlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unlink</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/unlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unlinkat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/utime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">utime</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/utimensat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">utimensat</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/utime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">utimes</span>(2)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wait</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">waitpid</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcpcpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcpcpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcpncpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcpncpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcscat.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcscat</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcschr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcschr</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcscmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcscmp</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcscpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcscpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcscspn.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcscspn</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcslen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcslen</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcsncat.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcsncat</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcsncmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcsncmp</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcsncpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcsncpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcsnlen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcsnlen</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcspbrk.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcspbrk</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcsrchr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcsrchr</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcsspn.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcsspn</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcsstr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcsstr</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wcstok.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcstok</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wmemchr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wmemchr</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wmemcmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wmemcmp</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wmemcpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wmemcpy</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wmemmove.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wmemmove</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman3/wmemset.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wmemset</span>(3)</span></a></td>
+              <td style="" align="left" rowspan="1" colspan="1">Added in POSIX.1-2008
+              TC2</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a></td>
+              <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Notes:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>POSIX.1-2001 and POSIX.1-2001 TC2 required the
+            functions <a class="link" href="../htmlman3/fpathconf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fpathconf</span>(3)</span></a>,
+            <a class="link" href="../htmlman3/fpathconf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pathconf</span>(3)</span></a>, and
+            <a class="link" href="../htmlman3/sysconf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sysconf</span>(3)</span></a> to be
+            async-signal-safe, but this requirement was removed in
+            POSIX.1-2008.</p>
+          </li>
+          <li class="listitem">
+            <p>If a signal handler interrupts the execution of an
+            unsafe function, and the handler terminates via a call
+            to <a class="link" href="../htmlman3/setjmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">longjmp</span>(3)</span></a> or
+            <a class="link" href="../htmlman3/setjmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">siglongjmp</span>(3)</span></a> and the
+            program subsequently calls an unsafe function, then the
+            behavior of the program is undefined.</p>
+          </li>
+          <li class="listitem">
+            <p>POSIX.1-2001 TC1 clarified that if an application
+            calls <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> from a signal
+            handler and any of the fork handlers registered by
+            <a class="link" href="../htmlman3/pthread_atfork.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_atfork</span>(3)</span></a>
+            calls a function that is not async-signal-safe, the
+            behavior is undefined. A future revision of the
+            standard is likely to remove <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> from the list
+            of async-signal-safe functions.</p>
+          </li>
+          <li class="listitem">
+            <p>Asynchronous signal handlers that call functions
+            which are cancellation points and nest over regions of
+            deferred cancellation may trigger cancellation whose
+            behavior is as if asynchronous cancellation had
+            occurred and may cause application state to become
+            inconsistent.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="refsect2">
+        <a id="signal-safety-7_sect2" name="signal-safety-7_sect2" shape="rect"> </a>
+        <h3>errno</h3>
+        <p>Fetching and setting the value of <code class="varname">errno</code> is async-signal-safe provided that
+        the signal handler saves <code class="varname">errno</code>
+        on entry and restores its value before returning.</p>
+      </div>
+      <div class="refsect2">
+        <a id="signal-safety-7_sect3" name="signal-safety-7_sect3" shape="rect"> </a>
+        <h3>Deviations in the GNU C library</h3>
+        <p>The following known deviations from the standard occur
+        in the GNU C library:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>Before glibc 2.24, <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execl</span>(3)</span></a> and
+              <a class="link" href="../htmlman3/exec.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execle</span>(3)</span></a> employed
+              <a class="link" href="../htmlman3/malloc.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">realloc</span>(3)</span></a>
+              internally and were consequently not
+              async-signal-safe. This was fixed in glibc 2.24.</p>
+            </li>
+            <li class="listitem">
+              <p>The glibc implementation of <a class="link" href="../htmlman3/aio_suspend.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_suspend</span>(3)</span></a> is
+              not async-signal-safe because it uses <span class="citerefentry"><span class="refentrytitle">pthread_mutex_lock</span>(3)</span>
+              internally.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="signal-safety-7_sect4" name="signal-safety-7_sect4" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a>, <a class="link" href="../htmlman7/signal.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">signal</span>(7)</span></a>, <a class="link" href="../htmlman7/standards.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">standards</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="signal-safety-7_sect5" name="signal-safety-7_sect5" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2016 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

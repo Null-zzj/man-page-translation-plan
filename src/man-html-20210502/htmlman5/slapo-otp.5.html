@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>slapo_otp(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="slapo_otp(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="slapo-otp.5" name="slapo-otp.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>slapo-otp — OATH One-Time Password module</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+moduleload
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-otp-5_sect1" name="slapo-otp-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <em class="replaceable"><code>otp</code></em> module
+      allows time-based one-time password, AKA
+      "authenticator-style", and HMAC-based one-time password
+      authentication to be used in conjunction with a standard LDAP
+      password for two-factor authentication.</p>
+      <p>With this module, users would use their password, followed
+      with the one-time password in the password prompt to
+      authenticate.</p>
+      <p>The password needed for a user to authenticate is
+      calculated based on a counter (current time in case of TOTP)
+      and a key that is referenced in the user's LDAP entry. Since
+      the password is based on the time or number of uses, it
+      changes periodically. Once used, it cannot be used again so
+      keyloggers and shoulder-surfers are thwarted. A mobile phone
+      application, such as the Google Authenticator or YubiKey (a
+      <em class="replaceable"><code>prover</code></em>), can be
+      used to calculate the user's current one-time password, which
+      is expressed as a (usually six-digit) number.</p>
+      <p>Alternatively, the value can be calculated by some other
+      application with access to the user's key and delivered to
+      the user through SMS or some other channel. When prompted to
+      authenticate, the user merely appends the code provided by
+      the prover at the end of their password when
+      authenticating.</p>
+      <p>This implementation complies with <span class="emphasis"><em>RFC 4226 HOTP HMAC-Based One Time
+      Passwords</em></span> and <span class="emphasis"><em>RFC 6238
+      TOTP Time-based One Time Passwords</em></span> and includes
+      support for the SHA-1, SHA-256, and SHA-512 HMAC
+      algorithms.</p>
+      <p>The HMAC key used in the OTP computation is stored in the
+      oathOTPToken entry referenced in the user's LDAP entry and
+      the parameters are stored in the oathOTPParams LDAP entry
+      referenced in the token.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-otp-5_sect2" name="slapo-otp-5_sect2" shape="rect"> </a>
+      <h2>CONFIGURATION</h2>
+      <p>Once the module is configured on the database, it will
+      intercept LDAP simple binds for users whose LDAP entry has
+      any of the <em class="replaceable"><code>oathOTPUser</code></em> derived
+      objectlasses attached to it. The attributes linking the user
+      and the shared secret are:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt><span class="term">athTOTPToken:
+              &lt;dn&gt;</span></dt>
+              <dd>
+                <p>Mandatory for <em class="replaceable"><code>oathTOTPUser</code></em>,
+                indicates that the named entry is designated to
+                hold the time-based one-time password shared secret
+                and the last password used.</p>
+              </dd>
+              <dt><span class="term">athHOTPToken:
+              &lt;dn&gt;</span></dt>
+              <dd>
+                <p>Mandatory for <em class="replaceable"><code>oathHOTPUser</code></em>,
+                indicates that the named entry is designated to
+                hold the one-time password shared secret and the
+                last password used.</p>
+              </dd>
+              <dt><span class="term">athTOTPParams:
+              &lt;dn&gt;</span></dt>
+              <dd>
+                <p>Mandatory for <em class="replaceable"><code>oathTOTPToken</code></em>,
+                indicates that the named entry is designated to
+                hold the parameters to generate time-based one-time
+                password shared secret: its length and algorithm to
+                use as well as the length of each time step and the
+                grace period.</p>
+              </dd>
+              <dt><span class="term">athHOTPParams:
+              &lt;dn&gt;</span></dt>
+              <dd>
+                <p>Mandatory for <em class="replaceable"><code>oathHOTPToken</code></em>,
+                indicates that the named entry is designated to
+                hold the parameters to generate one-time password
+                shared secret: its length and algorithm to use as
+                well as the permitted number of passwords to
+                skip.</p>
+              </dd>
+            </dl>
+          </div>
+        </blockquote>
+      </div>
+      <p>The following parts of the OATH-LDAP schema are
+      implemented.</p>
+      <p>General attributes:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt><span class="term">athSecret:
+              &lt;data&gt;</span></dt>
+              <dd>
+                <p>The shared secret is stored here as raw
+                bytes.</p>
+              </dd>
+              <dt><span class="term">athOTPLength:
+              &lt;length&gt;</span></dt>
+              <dd>
+                <p>The password length, usually 6.</p>
+              </dd>
+              <dt><span class="term">athHMACAlgorithm:
+              &lt;OID&gt;</span></dt>
+              <dd>
+                <p>The OID of the hash algorithm to use as defined
+                in RFC 8018. Supported algorithms include SHA1,
+                SHA224, SHA256, SHA384 and SHA512.</p>
+              </dd>
+            </dl>
+          </div>
+        </blockquote>
+      </div>
+      <p>The HOTP attributes:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt><span class="term">athHOTPLookAhead:
+              &lt;number&gt;</span></dt>
+              <dd>
+                <p>The number of successive HOTP tokens that can be
+                skipped.</p>
+              </dd>
+              <dt><span class="term">athHOTPCounter:
+              &lt;number&gt;</span></dt>
+              <dd>
+                <p>The order of the last HOTP token successfully
+                redeemed by the user.</p>
+              </dd>
+            </dl>
+          </div>
+        </blockquote>
+      </div>
+      <p>The TOTP attributes:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt><span class="term">athTOTPTimeStepPeriod:
+              &lt;seconds&gt;</span></dt>
+              <dd>
+                <p>The length of the time-step period for TOTP
+                calculation.</p>
+              </dd>
+              <dt><span class="term">athTOTPLastTimeStep:
+              &lt;number&gt;</span></dt>
+              <dd>
+                <p>The order of the last TOTP token successfully
+                redeemed by the user.</p>
+              </dd>
+              <dt><span class="term">athTOTPTimeStepWindow:
+              &lt;number&gt;</span></dt>
+              <dd>
+                <p>The number of time periods around the current
+                time to try when checking the password provided by
+                the user.</p>
+              </dd>
+              <dt><span class="term">athTOTPTimeStepDrift:
+              &lt;number&gt;</span></dt>
+              <dd>
+                <p>If the client didn't provide the correct token
+                but it still fit with oathTOTPTimeStepWindow above,
+                this attribute records the current offset to
+                provide for slow clock drift of the client
+                device.</p>
+              </dd>
+            </dl>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-otp-5_sect3" name="slapo-otp-5_sect3" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman5/slapd-config.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd-config</span>(5)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-otp-5_sect4" name="slapo-otp-5_sect4" shape="rect"> </a>
+      <h2>ACKNOWLEDGEMENT</h2>
+      <p>This work was developed by OndÅej
+      KuznÃ­k and Howard Chu of Symas Corporation for
+      inclusion in OpenLDAP Software.</p>
+      <p>This work reuses the OATH-LDAP schema developed by Michael
+      StrÃ¶der.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                  See the following documents: <a class="ulink" href="../openldap-COPYRIGHT.html" target="_top" shape="rect">COPYRIGHT</a>, <a class="ulink" href="../openldap-LICENSE.html" target="_top" shape="rect">LICENSE</a><br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

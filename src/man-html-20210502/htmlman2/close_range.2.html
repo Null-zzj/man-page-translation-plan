@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>close_range(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="close_range(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="close-range.2" name="close-range.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>close_range — close all file descriptors in a given
+      range</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;linux/close_range.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>close_range</strong>(</code></td>
+            <td rowspan="1" colspan="1">unsigned int <var class="pdparam">first</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned int <var class="pdparam">last</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned int <var class="pdparam">flags</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="close-range-2_sect1" name="close-range-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">close_range</code>() system
+      call closes all open file descriptors from <em class="parameter"><code>first</code></em> to <em class="parameter"><code>last</code></em> (included).</p>
+      <p>Errors closing a given file descriptor are currently
+      ignored.</p>
+      <p><em class="parameter"><code>flags</code></em> is a bit
+      mask containing 0 or more of the following:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">CLOSE_RANGE_CLOEXEC</code> (since Linux
+          5.11)</span></dt>
+          <dd>
+            <p>Set the close-on-exec flag on the specified file
+            descriptors, rather than immediately closing them.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">CLOSE_RANGE_UNSHARE</code></span></dt>
+          <dd>
+            <p>Unshare the specified file descriptors from any
+            other processes before closing them, avoiding races
+            with other threads sharing the file descriptor
+            table.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="close-range-2_sect2" name="close-range-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">close_range</code>()
+      returns 0. On error, −1 is returned and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="close-range-2_sect3" name="close-range-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>flags</code></em> is not
+            valid, or <em class="parameter"><code>first</code></em>
+            is greater than <em class="parameter"><code>last</code></em>.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>The following can occur with <code class="constant">CLOSE_RANGE_UNSHARE</code> (when constructing the
+      new descriptor table):</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EMFILE</span></span></dt>
+          <dd>
+            <p>The number of open file descriptors exceeds the
+            limit specified in <code class="filename">/proc/sys/fs/nr_open</code> (see <a class="link" href="../htmlman5/proc.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">proc</span>(5)</span></a>). This error
+            can occur in situations where that limit was lowered
+            before a call to <code class="function">close_range</code>() where the <code class="constant">CLOSE_RANGE_UNSHARE</code> flag is
+            specified.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Insufficient kernel memory was available.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="close-range-2_sect4" name="close-range-2_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">close_range</code>() first appeared
+      in Linux 5.9.</p>
+    </div>
+    <div class="refsect1">
+      <a id="close-range-2_sect5" name="close-range-2_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p><code class="function">close_range</code>() is a
+      nonstandard function that is also present on FreeBSD.</p>
+    </div>
+    <div class="refsect1">
+      <a id="close-range-2_sect6" name="close-range-2_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call;
+      call it using <a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a>.</p>
+      <div class="refsect2">
+        <a id="close-range-2_sect7" name="close-range-2_sect7" shape="rect"> </a>
+        <h3>Closing all open file descriptors</h3>
+        <p>To avoid blindly closing file descriptors in the range
+        of possible file descriptors, this is sometimes implemented
+        (on Linux) by listing open file descriptors in <code class="filename">/proc/self/fd/</code> and calling <a class="link" href="../htmlman2/close.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">close</span>(2)</span></a> on each one.
+        <code class="function">close_range</code>() can take care
+        of this without requiring <code class="filename">/proc</code> and within a single system call,
+        which provides significant performance benefits.</p>
+      </div>
+      <div class="refsect2">
+        <a id="close-range-2_sect8" name="close-range-2_sect8" shape="rect"> </a>
+        <h3>Closing file descriptors before exec</h3>
+        <p>File descriptors can be closed safely using</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+/* we don't want anything past stderr here */
+close_range(3, ~0U, CLOSE_RANGE_UNSHARE);
+execve(....);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p><code class="constant">CLOSE_RANGE_UNSHARE</code> is
+        conceptually equivalent to</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+unshare(CLONE_FILES);
+close_range(first, last, 0);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>but can be more efficient: if the unshared range extends
+        past the current maximum number of file descriptors
+        allocated in the caller's file descriptor table (the common
+        case when <em class="parameter"><code>last</code></em> is
+        ~0U), the kernel will unshare a new file descriptor table
+        for the caller up to <em class="parameter"><code>first</code></em>, copying as few file
+        descriptors as possible. This avoids subsequent <a class="link" href="../htmlman2/close.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">close</span>(2)</span></a> calls entirely;
+        the whole operation is complete once the table is
+        unshared.</p>
+      </div>
+      <div class="refsect2">
+        <a id="close-range-2_sect9" name="close-range-2_sect9" shape="rect"> </a>
+        <h3>Closing files on <em class="replaceable"><code>exec</code></em></h3>
+        <p>This is particularly useful in cases where multiple
+        pre-<em class="replaceable"><code>exec</code></em> setup
+        steps risk conflicting with each other. For example,
+        setting up a <a class="link" href="../htmlman2/seccomp.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">seccomp</span>(2)</span></a> profile can
+        conflict with a <code class="function">close_range</code>()
+        call: if the file descriptors are closed before the
+        <a class="link" href="../htmlman2/seccomp.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">seccomp</span>(2)</span></a> profile is set
+        up, the profile setup can't use them itself, or control
+        their closure; if the file descriptors are closed
+        afterwards, the seccomp profile can't block the
+        <code class="function">close_range</code>() call or any
+        fallbacks. Using <code class="constant">CLOSE_RANGE_CLOEXEC</code> avoids this: the
+        descriptors can be marked before the <a class="link" href="../htmlman2/seccomp.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">seccomp</span>(2)</span></a> profile is set
+        up, and the profile can control access to <code class="function">close_range</code>() without affecting the
+        calling process.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="close-range-2_sect10" name="close-range-2_sect10" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program shown below opens the files named in its
+      command-line arguments, displays the list of files that it
+      has opened (by iterating through the entries in <code class="filename">/proc/PID/fd</code>), uses <code class="function">close_range</code>() to close all file descriptors
+      greater than or equal to 3, and then once more displays the
+      process's list of open files. The following example
+      demonstrates the use of the program:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>touch /tmp/a /tmp/b /tmp/c</em></span>
+$ <span class="emphasis"><em>./a.out /tmp/a /tmp/b /tmp/c</em></span>
+/tmp/a opened as FD 3
+/tmp/b opened as FD 4
+/tmp/c opened as FD 5
+/proc/self/fd/0 ==&gt; /dev/pts/1
+/proc/self/fd/1 ==&gt; /dev/pts/1
+/proc/self/fd/2 ==&gt; /dev/pts/1
+/proc/self/fd/3 ==&gt; /tmp/a
+/proc/self/fd/4 ==&gt; /tmp/b
+/proc/self/fd/5 ==&gt; /tmp/b
+/proc/self/fd/6 ==&gt; /proc/9005/fd
+========= About to call close_range() =======
+/proc/self/fd/0 ==&gt; /dev/pts/1
+/proc/self/fd/1 ==&gt; /dev/pts/1
+/proc/self/fd/2 ==&gt; /dev/pts/1
+/proc/self/fd/3 ==&gt; /proc/9005/fd
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Note that the lines showing the pathname <code class="filename">/proc/9005/fd</code> result from the calls to
+      <a class="link" href="../htmlman3/opendir.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">opendir</span>(3)</span></a>.</p>
+      <div class="refsect2">
+        <a id="close-range-2_sect11" name="close-range-2_sect11" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+#define _GNU_SOURCE
+#include &lt;fcntl.h&gt;
+#include &lt;linux/close_range.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/syscall.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;dirent.h&gt;
+
+/* Show the contents of the symbolic links in /proc/self/fd */
+
+static void
+show_fds(void)
+{
+    DIR *dirp = opendir("/proc/self/fd");
+    if (dirp  == NULL) {
+        perror("opendir");
+        exit(EXIT_FAILURE);
+    }
+
+    for (;;) {
+        struct dirent *dp = readdir(dirp);
+        if (dp == NULL)
+            break;
+
+        if (dp−&gt;d_type == DT_LNK) {
+            char path[PATH_MAX], target[PATH_MAX];
+            snprintf(path, sizeof(path), "/proc/self/fd/%s",
+                     dp−&gt;d_name);
+
+            ssize_t len = readlink(path, target, sizeof(target));
+            printf("%s ==&gt; %.*s\n", path, (int) len, target);
+        }
+    }
+
+    closedir(dirp);
+}
+
+int
+main(int argc, char *argv[])
+{
+    for (int j = 1; j &lt; argc; j++) {
+        int fd = open(argv[j], O_RDONLY);
+        if (fd == −1) {
+            perror(argv[j]);
+            exit(EXIT_FAILURE);
+        }
+        printf("%s opened as FD %d\n", argv[j], fd);
+    }
+
+    show_fds();
+
+    printf("========= About to call close_range() =======\n");
+
+    if (syscall(__NR_close_range, 3, ~0U, 0) == −1) {
+        perror("close_range");
+        exit(EXIT_FAILURE);
+    }
+
+    show_fds();
+    exit(EXIT_FAILURE);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="close-range-2_sect12" name="close-range-2_sect12" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/close.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">close</span>(2)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="close-range-2_sect13" name="close-range-2_sect13" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2020 Stephen Kitt &lt;steve<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>sk2.org&gt;<br />
+
+                  and Copyright (c) 2021 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

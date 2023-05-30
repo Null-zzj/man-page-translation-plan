@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>add_key(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="add_key(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="add-key.2" name="add-key.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>add_key — add a key to the kernel's key management
+      facility</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/types.h&gt;
+#include &lt;keyutils.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">key_serial_t
+            <strong>add_key</strong>(</code></td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">type</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">description</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const void *<var class="pdparam">payload</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">size_t <var class="pdparam">plen</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">key_serial_t <var class="pdparam">keyring</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="add-key-2_sect1" name="add-key-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><code class="function">add_key</code>() creates or updates
+      a key of the given <em class="parameter"><code>type</code></em> and <em class="parameter"><code>description</code></em>, instantiates it
+      with the <em class="parameter"><code>payload</code></em> of
+      length <em class="parameter"><code>plen</code></em>, attaches
+      it to the nominated <em class="parameter"><code>keyring</code></em>, and returns the key's
+      serial number.</p>
+      <p>The key may be rejected if the provided data is in the
+      wrong format or it is invalid in some other way.</p>
+      <p>If the destination <em class="parameter"><code>keyring</code></em> already contains a key
+      that matches the specified <em class="parameter"><code>type</code></em> and <em class="parameter"><code>description</code></em>, then, if the key
+      type supports it, that key will be updated rather than a new
+      key being created; if not, a new key (with a different ID)
+      will be created and it will displace the link to the extant
+      key from the keyring.</p>
+      <p>The destination <em class="parameter"><code>keyring</code></em> serial number may be
+      that of a valid keyring for which the caller has <em class="replaceable"><code>write</code></em> permission.
+      Alternatively, it may be one of the following special keyring
+      IDs:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">KEY_SPEC_THREAD_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's thread-specific keyring
+            (<em class="replaceable"><code>thread−keyring</code></em>(7)).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEY_SPEC_PROCESS_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's process-specific keyring
+            (<em class="replaceable"><code>process−keyring</code></em>(7)).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEY_SPEC_SESSION_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's session-specific keyring
+            (<em class="replaceable"><code>session−keyring</code></em>(7)).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEY_SPEC_USER_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's UID-specific keyring
+            (<em class="replaceable"><code>user−keyring</code></em>(7)).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEY_SPEC_USER_SESSION_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's UID-session keyring
+            (<em class="replaceable"><code>user−session−keyring</code></em>(7)).</p>
+          </dd>
+        </dl>
+      </div>
+      <div class="refsect2">
+        <a id="add-key-2_sect2" name="add-key-2_sect2" shape="rect"> </a>
+        <h3>Key types</h3>
+        <p>The key <em class="parameter"><code>type</code></em> is
+        a string that specifies the key's type. Internally, the
+        kernel defines a number of key types that are available in
+        the core key management code. Among the types that are
+        available for user-space use and can be specified as the
+        <em class="parameter"><code>type</code></em> argument to
+        <code class="function">add_key</code>() are the
+        following:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="replaceable"><code>"keyring"</code></em></span></dt>
+            <dd>
+              <p>Keyrings are special key types that may contain
+              links to sequences of other keys of any type. If this
+              interface is used to create a keyring, then
+              <em class="parameter"><code>payload</code></em>
+              should be NULL and <em class="parameter"><code>plen</code></em> should be
+              zero.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>"user"</code></em></span></dt>
+            <dd>
+              <p>This is a general purpose key type whose payload
+              may be read and updated by user-space applications.
+              The key is kept entirely within kernel memory. The
+              payload for keys of this type is a blob of arbitrary
+              data of up to 32,767 bytes.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>"logon"</code></em> (since Linux
+            3.3)</span></dt>
+            <dd>
+              <p>This key type is essentially the same as
+              <em class="replaceable"><code>"user"</code></em>, but
+              it does not permit the key to read. This is suitable
+              for storing payloads that you do not want to be
+              readable from user space.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>This key type vets the <em class="parameter"><code>description</code></em> to ensure that it
+        is qualified by a "service" prefix, by checking to ensure
+        that the <em class="parameter"><code>description</code></em> contains a ':'
+        that is preceded by other characters.</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="replaceable"><code>"big_key"</code></em> (since Linux
+            3.13)</span></dt>
+            <dd>
+              <p>This key type is similar to <em class="replaceable"><code>"user"</code></em>, but may hold
+              a payload of up to 1 MiB. If the key payload is large
+              enough, then it may be stored encrypted in tmpfs
+              (which can be swapped out) rather than kernel
+              memory.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>For further details on these key types, see <a class="link" href="../htmlman7/keyrings.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyrings</span>(7)</span></a>.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="add-key-2_sect3" name="add-key-2_sect3" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">add_key</code>()
+      returns the serial number of the key it created or updated.
+      On error, −1 is returned and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="add-key-2_sect4" name="add-key-2_sect4" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p>The keyring wasn't available for modification by the
+            user.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EDQUOT</span></span></dt>
+          <dd>
+            <p>The key quota for this user would be exceeded by
+            creating this key or linking it to the keyring.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p>One or more of <em class="parameter"><code>type</code></em>, <em class="parameter"><code>description</code></em>, and
+            <em class="parameter"><code>payload</code></em> points
+            outside process's accessible address space.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The size of the string (including the terminating
+            null byte) specified in <em class="parameter"><code>type</code></em> or <em class="parameter"><code>description</code></em> exceeded the
+            limit (32 bytes and 4096 bytes respectively).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The payload data was invalid.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>type</code></em> was
+            <em class="replaceable"><code>"logon"</code></em> and
+            the <em class="parameter"><code>description</code></em>
+            was not qualified with a prefix string of the form
+            <em class="replaceable"><code>"service:"</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EKEYEXPIRED</span></span></dt>
+          <dd>
+            <p>The keyring has expired.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EKEYREVOKED</span></span></dt>
+          <dd>
+            <p>The keyring has been revoked.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOKEY</span></span></dt>
+          <dd>
+            <p>The keyring doesn't exist.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Insufficient memory to create a key.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p>The <em class="parameter"><code>type</code></em>
+            started with a period ('.'). Key types that begin with
+            a period are reserved to the implementation.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>type</code></em> was
+            <em class="replaceable"><code>"keyring"</code></em> and
+            the <em class="parameter"><code>description</code></em>
+            started with a period ('.'). Keyrings with descriptions
+            (names) that begin with a period are reserved to the
+            implementation.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="add-key-2_sect5" name="add-key-2_sect5" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>This system call first appeared in Linux 2.6.10.</p>
+    </div>
+    <div class="refsect1">
+      <a id="add-key-2_sect6" name="add-key-2_sect6" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>This system call is a nonstandard Linux extension.</p>
+    </div>
+    <div class="refsect1">
+      <a id="add-key-2_sect7" name="add-key-2_sect7" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call. A
+      wrapper is provided in the <em class="replaceable"><code>libkeyutils</code></em> package. When
+      employing the wrapper in that library, link with <code class="option">−lkeyutils</code>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="add-key-2_sect8" name="add-key-2_sect8" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below creates a key with the type,
+      description, and payload specified in its command-line
+      arguments, and links that key into the session keyring. The
+      following shell session demonstrates the use of the
+      program:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./a.out user mykey "Some payload"</em></span>
+Key ID is 64a4dca
+$ <span class="emphasis"><em>grep '64a4dca' /proc/keys</em></span>
+064a4dca I−−Q−−−    1 perm 3f010000  1000  1000 user    mykey: 12
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="add-key-2_sect9" name="add-key-2_sect9" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/types.h&gt;
+#include &lt;keyutils.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    key_serial_t key;
+
+    if (argc != 4) {
+        fprintf(stderr, "Usage: %s type description payload\n",
+                argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    key = add_key(argv[1], argv[2], argv[3], strlen(argv[3]),
+                KEY_SPEC_SESSION_KEYRING);
+    if (key == −1) {
+        perror("add_key");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Key ID is %jx\n", (uintmax_t) key);
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="add-key-2_sect10" name="add-key-2_sect10" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span>, <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a>, <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>,
+      <span class="citerefentry"><span class="refentrytitle">keyctl</span>(3)</span>, <a class="link" href="../htmlman7/keyrings.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyrings</span>(7)</span></a>, <span class="citerefentry"><span class="refentrytitle">keyutils</span>(7)</span>, <a class="link" href="../htmlman7/persistent-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">persistent-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/thread-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">thread-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>, <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a></p>
+      <p>The kernel source files <code class="filename">Documentation/security/keys/core.rst</code> and
+      <code class="filename">Documentation/keys/request−key.rst</code>
+      (or, before Linux 4.13, in the files <code class="filename">Documentation/security/keys.txt</code> and
+      <code class="filename">Documentation/security/keys−request−key.txt</code>).</p>
+    </div>
+    <div class="colophon">
+      <a id="add-key-2_sect11" name="add-key-2_sect11" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2006 Red Hat, Inc. All Rights Reserved.<br />
+
+                      Written by David Howells (dhowells<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com)<br />
+
+                  and Copyright (C) 2016 Michael Kerrisk &lt;mtk.man-pages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(GPLv2+_SW_ONEPARA)<br />
+                  This program is free software; you can redistribute it and/or<br />
+
+                  modify it under the terms of the GNU General Public License<br />
+
+                  as published by the Free Software Foundation; either version<br />
+
+                  2 of the License, or (at your option) any later version.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>lloadd.conf(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="lloadd.conf(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="lloadd.conf.5" name="lloadd.conf.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>lloadd.conf — configuration file for lloadd, the
+      stand-alone LDAP daemon</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+ETCDIR/lloadd.conf
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect1" name="lloadd-conf-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The file <em class="replaceable"><code>ETCDIR/lloadd.conf</code></em> contains
+      configuration information for the <a class="link" href="../htmlman8/lloadd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lloadd</span>(8)</span></a>daemon.</p>
+      <p>The <em class="replaceable"><code>lloadd.conf</code></em>
+      file consists of a series of global configuration options
+      that apply to <em class="replaceable"><code>lloadd</code></em> as a whole (including
+      all backends), followed by zero or more backend definitions
+      that contain information specific how a backend instance
+      should be contacted. The configuration options are
+      case-insensitive; their value, on a case by case basis, may
+      be case-sensitive.</p>
+      <p>The general format of <em class="replaceable"><code>lloadd.conf</code></em> is as
+      follows:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+    # comment - these options apply to the server as a whole
+    &lt;global configuration options&gt;
+    # first backend definition
+    backend-server &lt;backend 1 definition&gt;
+    # subsequent backend definitions
+    ...
+</pre>
+      </div>
+      <p>As many backend servers may be configured as desired.</p>
+      <p>If a line begins with white space, it is considered a
+      continuation of the previous line. No physical line should be
+      over 2000 bytes long.</p>
+      <p>Blank lines and comment lines beginning with a `#'
+      character are ignored. Note: continuation lines are unwrapped
+      before comment processing is applied.</p>
+      <p>Arguments on configuration lines are separated by white
+      space. If an argument contains white space, the argument
+      should be enclosed in double quotes. If an argument contains
+      a double quote (`"') or a backslash character (`\'), the
+      character should be preceded by a backslash character.</p>
+      <p>The specific configuration options available are discussed
+      below in the Global Configuration Options and General Backend
+      Options. Refer to the "OpenLDAP Administrator's Guide" for
+      more details on the lloadd configuration file.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect2" name="lloadd-conf-5_sect2" shape="rect"> </a>
+      <h2>SLAPD INTEGRATION</h2>
+      <p>Note that when <em class="replaceable"><code>lloadd</code></em> is configured as a
+      <em class="replaceable"><code>slapd</code></em> module, any
+      option that shares the same name as an option in <a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a>, the
+      <em class="replaceable"><code>slapd</code></em>
+      interpretation wins and the <em class="replaceable"><code>lloadd</code></em> option mentioned is
+      unavailable through <a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a> directly,
+      instead, it would have to be configured via a dedicated
+      attribute in cn=config. In particular, unless the <em class="replaceable"><code>TLSShareSlapdCTX</code></em> option is
+      set, <em class="replaceable"><code>lloadd</code></em> keeps
+      its own TLS context which cannot be configured except through
+      the dynamic configuration.</p>
+      <p>An additional option is available when running as a
+      <em class="replaceable"><code>slapd</code></em> module:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="emphasis"><em>listen
+          &lt;listen URIs&gt;</em></span></span></dt>
+          <dd>
+            <p>The URIs the Load Balancer module should listen on.
+            Must not overlap with the ones that <em class="replaceable"><code>slapd</code></em> uses for its own
+            listening sockets. The related <em class="replaceable"><code>cn=config</code></em> attribute is
+            <em class="replaceable"><code>olcBkLloadListen</code></em> with
+            each URI provided as a separate value. No changes to
+            this attribute made after the server has started up
+            will take effect until it is restarted.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect3" name="lloadd-conf-5_sect3" shape="rect"> </a>
+      <h2>GLOBAL CONFIGURATION OPTIONS</h2>
+      <p>Options described in this section apply to all backends.
+      Arguments that should be replaced by actual text are shown in
+      brackets &lt;&gt;.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="emphasis"><em>argsfile
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>The (absolute) name of a file that will hold the
+            <em class="replaceable"><code>lloadd</code></em>
+            server's command line (program name and options).</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>concurrency
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify a desired level of concurrency. Provided to
+            the underlying thread system as a hint. The default is
+            not to provide any hint.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>feature
+          &lt;feature&gt; [...]</em></span></span></dt>
+          <dd>
+            <p>Switch additional features supported by the LDAP
+            Load Balancer on. Supported features are:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="blockquote">
+                  <blockquote class="blockquote">
+                    <div class="variablelist">
+                      <dl class="variablelist">
+                        <dt><span class="term"><em class="replaceable"><code>proxyauthz</code></em></span></dt>
+                        <dd>
+                          <p>when proxying an operation, pass the
+                          client's authorized identity using the
+                          proxy authorization control (RFC 4370).
+                          No control is added to the operation if
+                          initiated by a client whose bound
+                          identity matches the identity configured
+                          in <em class="replaceable"><code>bindconf</code></em>
+                          (no normalisation of the DN is
+                          attempted).</p>
+                          <p>If SASL binds are issued by clients
+                          and this feature is enabled, backend
+                          servers need to support LDAP Who Am I?
+                          extended operation for the Load Balancer
+                          to detect the correct authorization
+                          identity.</p>
+                        </dd>
+                      </dl>
+                    </div>
+                  </blockquote>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>include
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>Read additional configuration information from the
+            given file before continuing with the next line of the
+            current file.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>io-threads
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the number of threads to use for the
+            connection manager. The default is 1 and this is
+            typically adequate for up to 16 CPU cores. The value
+            should be set to a power of 2.</p>
+            <p>If modified after server starts up, a change to this
+            option will not take effect until the server has been
+            restarted.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>logfile
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify a file for recording lloadd debug messages.
+            By default these messages only go to stderr, are not
+            recorded anywhere else, and are unrelated to messages
+            exposed by the <em class="replaceable"><code>loglevel</code></em> configuration
+            parameter. Specifying a logfile copies messages to both
+            stderr and the logfile.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>loglevel &lt;integer&gt;
+          [...]</em></span></span></dt>
+          <dd>
+            <p>Specify the level at which debugging statements and
+            operation statistics should be syslogged (currently
+            logged to the <span class="citerefentry"><span class="refentrytitle">syslogd</span>(8)</span> LOG_LOCAL4
+            facility). They must be considered subsystems rather
+            than increasingly verbose log levels. Some messages
+            with higher priority are logged regardless of the
+            configured loglevel as soon as any logging is
+            configured. Log levels are additive, and available
+            levels are:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="blockquote">
+                  <blockquote class="blockquote">
+                    <div class="variablelist">
+                      <dl class="variablelist">
+                        <dt><span class="term"><code class="constant">1</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x1
+                          trace)</em></span> trace function
+                          calls</p>
+                        </dd>
+                        <dt><span class="term"><code class="constant">2</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x2
+                          packets)</em></span> debug packet
+                          handling</p>
+                        </dd>
+                        <dt><span class="term"><code class="constant">4</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x4
+                          args)</em></span> heavy trace debugging
+                          (function args)</p>
+                        </dd>
+                        <dt><span class="term"><code class="constant">8</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x8
+                          conns)</em></span> connection
+                          management</p>
+                        </dd>
+                        <dt><span class="term"><code class="constant">16</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x10
+                          BER)</em></span> print out packets sent
+                          and received</p>
+                        </dd>
+                        <dt><span class="term"><code class="constant">64</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x40
+                          config)</em></span> configuration file
+                          processing</p>
+                        </dd>
+                        <dt><span class="term"><code class="constant">256</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x100
+                          stats)</em></span> connections, LDAP
+                          operations, results (recommended)</p>
+                        </dd>
+                        <dt><span class="term"><code class="constant">512</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x200
+                          stats2)</em></span> stats log entries
+                          sent</p>
+                        </dd>
+                        <dt><span class="term"><code class="constant">32768</code></span></dt>
+                        <dd>
+                          <p><span class="emphasis"><em>(0x8000
+                          none)</em></span> only messages that get
+                          logged whatever log level is set</p>
+                        </dd>
+                      </dl>
+                    </div>
+                  </blockquote>
+                </div>
+                <p>The desired log level can be input as a single
+                integer that combines the (ORed) desired levels,
+                both in decimal or in hexadecimal notation, as a
+                list of integers (that are ORed internally), or as
+                a list of the names that are shown between
+                parentheses, such that</p>
+                <div class="informalexample">
+                  <pre class="programlisting" xml:space="preserve">
+    loglevel 513
+    loglevel 0x201
+    loglevel 512 1
+    loglevel 0x200 0x1
+    loglevel stats trace
+</pre>
+                </div>
+                <p>are equivalent. The keyword <em class="replaceable"><code>any</code></em> can be used as
+                a shortcut to enable logging at all levels
+                (equivalent to −1). The keyword <em class="replaceable"><code>none</code></em>, or the
+                equivalent integer representation, causes those
+                messages that are logged regardless of the
+                configured loglevel to be logged. In fact, if
+                loglevel is set to 0, no logging occurs, so at
+                least the <em class="replaceable"><code>none</code></em> level is
+                required to have high priority messages logged.</p>
+                <p>The loglevel defaults to <em class="replaceable"><code>stats</code></em>. This level
+                should usually also be included when using other
+                loglevels, to help analyze the logs.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>pidfile
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>The (absolute) name of a file that will hold the
+            <em class="replaceable"><code>lloadd</code></em>
+            server's process ID (see <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a>).</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>sockbuf_max_incoming_client
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the maximum LDAP PDU size accepted coming
+            from clients. The default is 262143.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>sockbuf_max_incoming_upstream
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the maximum LDAP PDU size accepted coming
+            from upstream connections. The default is 4194303.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>tcp-buffer [listener=&lt;URL&gt;]
+          [{read|write}=]&lt;size&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the size of the TCP buffer. A global value
+            for both read and write TCP buffers related to any
+            listener is defined, unless the listener is explicitly
+            specified, or either the read or write qualifiers are
+            used. See <a class="link" href="../htmlman7/tcp.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcp</span>(7)</span></a> for details.
+            Note that some OS-es implement automatic TCP buffer
+            tuning.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>threads
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the maximum size of the primary thread pool.
+            The default is 16; the minimum value is 2.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>threadqueues
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the number of work queues to use for the
+            primary thread pool. The default is 1 and this is
+            typically adequate for up to 8 CPU cores. The value
+            should not exceed the number of CPUs in the system.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>max_pdus_per_cycle
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>If set to 0, PDUs are handled by the I/O threads
+            directly, otherwise a task is queued to be picked up by
+            the thread pool. This task will process PDUs from the
+            connection until there is no more data to be read or
+            this limit is reached when the I/O thread can pick it
+            up again. Very high values have a potential to cause
+            some connections to be starved in a very high-bandwidth
+            environment. The default is 1000.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>client_max_pending
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Will cause the load balancer to limit the number
+            unfinished operations for each client connection. The
+            default is 0, unlimited.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>iotimeout
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the number of milliseconds to wait before
+            forcibly closing a connection with an outstanding
+            write. This allows faster recovery from various network
+            hang conditions. An iotimeout of 0 disables this
+            feature. The default is 10000.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect4" name="lloadd-conf-5_sect4" shape="rect"> </a>
+      <h2>TLS OPTIONS</h2>
+      <p>If <em class="replaceable"><code>lloadd</code></em> is
+      built with support for Transport Layer Security, there are
+      more options you can specify.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="emphasis"><em>TLSShareSlapdCTX { on | off
+          }</em></span></span></dt>
+          <dd>
+            <p>If set to no (the default), <em class="replaceable"><code>lloadd</code></em> will use its own
+            TLS context (needs to be configured via <em class="replaceable"><code>cn=config</code></em> unless
+            <em class="replaceable"><code>lloadd</code></em> is run
+            as a standalone daemon). If enabled, the options for
+            <em class="replaceable"><code>slapd</code></em> apply
+            instead, since the <em class="replaceable"><code>slapd</code></em>'s TLS context is
+            used then.</p>
+            <p>The following options are available only when
+            compiled as a standalone daemon. When compiled as a
+            <a class="link" href="../htmlman8/slapd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd</span>(8)</span></a> module, the
+            cn=config equivalents need to be used if a separate TLS
+            context for the module is needed, otherwise use the
+            <em class="replaceable"><code>TLSShareSlapdCTX</code></em>
+            option.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSCipherSuite
+          &lt;cipher-suite-spec&gt;</em></span></span></dt>
+          <dd>
+            <p>Permits configuring what ciphers will be accepted
+            and the preference order. &lt;cipher-suite-spec&gt;
+            should be a cipher specification for the TLS library in
+            use (OpenSSL, GnuTLS, or Mozilla NSS). Example:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="blockquote">
+                  <blockquote class="blockquote">
+                    <div class="variablelist">
+                      <dl class="variablelist">
+                        <dt><span class="term"><em class="replaceable"><code>OpenSSL:</code></em></span></dt>
+                        <dd>
+                          <p>TLSCipherSuite HIGH:MEDIUM:+SSLv2</p>
+                        </dd>
+                        <dt><span class="term"><em class="replaceable"><code>GnuTLS:</code></em></span></dt>
+                        <dd>
+                          <p>TLSCiphersuite
+                          SECURE256:!AES-128-CBC</p>
+                        </dd>
+                      </dl>
+                    </div>
+                  </blockquote>
+                </div>
+                <p>To check what ciphers a given spec selects in
+                OpenSSL, use:</p>
+                <div class="informalexample">
+                  <pre class="programlisting" xml:space="preserve">
+        openssl ciphers −v &lt;cipher-suite-spec&gt;
+</pre>
+                </div>
+                <p>With GnuTLS the available specs can be found in
+                the manual page of <span class="citerefentry"><span class="refentrytitle">gnutls-cli</span>(1)</span> (see
+                the description of the option <code class="option">−−priority</code>).</p>
+                <p>In older versions of GnuTLS, where
+                gnutls−cli does not support the option
+                −−priority, you can obtain the —
+                more limited — list of ciphers by
+                calling:</p>
+                <div class="informalexample">
+                  <pre class="programlisting" xml:space="preserve">
+        gnutls−cli −l
+</pre>
+                </div>
+                <p>When using Mozilla NSS, the OpenSSL cipher suite
+                specifications are used and translated into the
+                format used internally by Mozilla NSS. There isn't
+                an easy way to list the cipher suites from the
+                command line. The authoritative list is in the
+                source code for Mozilla NSS in the file sslinfo.c
+                in the structure</p>
+                <div class="informalexample">
+                  <pre class="programlisting" xml:space="preserve">
+        static const SSLCipherSuiteInfo suiteInfo[]
+</pre>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSCACertificateFile
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>Specifies the file that contains certificates for
+            all of the Certificate Authorities that <em class="replaceable"><code>lloadd</code></em> will recognize.
+            The certificate for the CA that signed the server
+            certificate must be included among these certificates.
+            If the signing CA was not a top-level (root) CA,
+            certificates for the entire sequence of CA's from the
+            signing CA to the top-level CA should be present.
+            Multiple certificates are simply appended to the file;
+            the order is not significant.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSCACertificatePath
+          &lt;path&gt;</em></span></span></dt>
+          <dd>
+            <p>Specifies the path of a directory that contains
+            Certificate Authority certificates in separate
+            individual files. Usually only one of this or the
+            TLSCACertificateFile is used. This directive is not
+            supported when using GnuTLS.</p>
+            <p>When using Mozilla NSS, &lt;path&gt; may contain a
+            Mozilla NSS cert/key database. If &lt;path&gt; contains
+            a Mozilla NSS cert/key database and CA cert files,
+            OpenLDAP will use the cert/key database and will ignore
+            the CA cert files.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSCertificateFile
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>Specifies the file that contains the <em class="replaceable"><code>lloadd</code></em> server
+            certificate.</p>
+            <p>When using Mozilla NSS, if using a cert/key database
+            (specified with TLSCACertificatePath),
+            TLSCertificateFile specifies the name of the
+            certificate to use:</p>
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+        TLSCertificateFile Server-Cert
+</pre>
+            </div>
+            <p>If using a token other than the internal built in
+            token, specify the token name first, followed by a
+            colon:</p>
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+        TLSCertificateFile my hardware device:Server-Cert
+</pre>
+            </div>
+            <p>Use certutil −L to list the certificates by
+            name:</p>
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+        certutil −d /path/to/certdbdir −L
+</pre>
+            </div>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSCertificateKeyFile
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>Specifies the file that contains the <em class="replaceable"><code>lloadd</code></em> server private
+            key that matches the certificate stored in the
+            <em class="replaceable"><code>TLSCertificateFile</code></em>
+            file. Currently, the private key must not be protected
+            with a password, so it is of critical importance that
+            it is protected carefully.</p>
+            <p>When using Mozilla NSS, TLSCertificateKeyFile
+            specifies the name of a file that contains the password
+            for the key for the certificate specified with
+            TLSCertificateFile. The modutil command can be used to
+            turn off password protection for the cert/key database.
+            For example, if TLSCACertificatePath specifies
+            /etc/openldap/certdb as the location of the cert/key
+            database, use modutil to change the password to the
+            empty string:</p>
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+        modutil −dbdir /etc/openldap/certdb −changepw 'NSS Certificate DB'
+</pre>
+            </div>
+            <p>You must have the old password, if any. Ignore the
+            WARNING about the running browser. Press 'Enter' for
+            the new password.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSDHParamFile
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>This directive specifies the file that contains
+            parameters for Diffie-Hellman ephemeral key exchange.
+            This is required in order to use a DSA certificate on
+            the server, or an RSA certificate missing the "key
+            encipherment" key usage. Note that setting this option
+            may also enable Anonymous Diffie-Hellman key exchanges
+            in certain non-default cipher suites. Anonymous key
+            exchanges should generally be avoided since they
+            provide no actual client or server authentication and
+            provide no protection against man-in-the-middle
+            attacks. You should append "!ADH" to your cipher suites
+            to ensure that these suites are not used. When using
+            Mozilla NSS these parameters are always generated
+            randomly so this directive is ignored.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSECName
+          &lt;name&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the name of a curve to use for Elliptic
+            curve Diffie-Hellman ephemeral key exchange. This is
+            required to enable ECDHE algorithms in OpenSSL. This
+            option is not used with GnuTLS; the curves may be
+            chosen in the GnuTLS ciphersuite specification. This
+            option is also ignored for Mozilla NSS.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSProtocolMin
+          &lt;major&gt;[.&lt;minor&gt;]</em></span></span></dt>
+          <dd>
+            <p>Specifies minimum SSL/TLS protocol version that will
+            be negotiated. If the server doesn't support at least
+            that version, the SSL handshake will fail. To require
+            TLS 1.x or higher, set this option to 3.(x+1),
+            e.g.,</p>
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+        TLSProtocolMin 3.2
+</pre>
+            </div>
+            <p>would require TLS 1.1. Specifying a minimum that is
+            higher than that supported by the OpenLDAP
+            implementation will result in it requiring the highest
+            level that it does support. This directive is ignored
+            with GnuTLS.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSRandFile
+          &lt;filename&gt;</em></span></span></dt>
+          <dd>
+            <p>Specifies the file to obtain random bits from when
+            /dev/[u]random is not available. Generally set to the
+            name of the EGD/PRNGD socket. The environment variable
+            RANDFILE can also be used to specify the filename. This
+            directive is ignored with GnuTLS and Mozilla NSS.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>TLSVerifyClient
+          &lt;level&gt;</em></span></span></dt>
+          <dd>
+            <p>Specifies what checks to perform on client
+            certificates in an incoming TLS session, if any. The
+            <em class="replaceable"><code>&lt;level&gt;</code></em>
+            can be specified as one of the following keywords:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><em class="replaceable"><code>never</code></em></span></dt>
+                    <dd>
+                      <p>This is the default. <em class="replaceable"><code>lloadd</code></em> will
+                      not ask the client for a certificate.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>allow</code></em></span></dt>
+                    <dd>
+                      <p>The client certificate is requested. If no
+                      certificate is provided, the session proceeds
+                      normally. If a bad certificate is provided,
+                      it will be ignored and the session proceeds
+                      normally.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>try</code></em></span></dt>
+                    <dd>
+                      <p>The client certificate is requested. If no
+                      certificate is provided, the session proceeds
+                      normally. If a bad certificate is provided,
+                      the session is immediately terminated.</p>
+                    </dd>
+                    <dt><span class="term"><span class="emphasis"><em>demand | hard |
+                    true</em></span></span></dt>
+                    <dd>
+                      <p>These keywords are all equivalent, for
+                      compatibility reasons. The client certificate
+                      is requested. If no certificate is provided,
+                      or a bad certificate is provided, the session
+                      is immediately terminated.</p>
+                    </dd>
+                    <dt><span class="term"><span class="emphasis"><em>TLSCRLCheck
+                    &lt;level&gt;</em></span></span></dt>
+                    <dd>
+                      <p>Specifies if the Certificate Revocation
+                      List (CRL) of the CA should be used to verify
+                      if the client certificates have not been
+                      revoked. This requires <em class="replaceable"><code>TLSCACertificatePath</code></em>
+                      parameter to be set. This directive is
+                      ignored with GnuTLS and Mozilla NSS.
+                      <em class="replaceable"><code>&lt;level&gt;</code></em>
+                      can be specified as one of the following
+                      keywords:</p>
+                      <div class="blockquote">
+                        <blockquote class="blockquote">
+                          <div class="variablelist">
+                            <dl class="variablelist">
+                              <dt><span class="term"><em class="replaceable"><code>none</code></em></span></dt>
+                              <dd>
+                                <p>No CRL checks are performed</p>
+                              </dd>
+                              <dt><span class="term"><em class="replaceable"><code>peer</code></em></span></dt>
+                              <dd>
+                                <p>Check the CRL of the peer
+                                certificate</p>
+                              </dd>
+                              <dt><span class="term"><em class="replaceable"><code>all</code></em></span></dt>
+                              <dd>
+                                <p>Check the CRL for a whole
+                                certificate chain</p>
+                              </dd>
+                            </dl>
+                          </div>
+                        </blockquote>
+                      </div>
+                    </dd>
+                    <dt><span class="term"><span class="emphasis"><em>TLSCRLFile
+                    &lt;filename&gt;</em></span></span></dt>
+                    <dd>
+                      <p>Specifies a file containing a Certificate
+                      Revocation List to be used for verifying that
+                      certificates have not been revoked. This
+                      directive is only valid when using GnuTLS and
+                      Mozilla NSS.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect5" name="lloadd-conf-5_sect5" shape="rect"> </a>
+      <h2>BACKEND CONFIGURATION</h2>
+      <p>Options in this section describe how the <em class="replaceable"><code>lloadd</code></em> connects and
+      authenticates to the backend servers.</p>
+      <p>It is assumed all backend servers serve the same data. On
+      startup, the configured connections are set up and those not
+      dedicated to handle bind requests are authenticated with the
+      backend using the information in the <em class="replaceable"><code>bindconf</code></em> option. The
+      authentication configuration is shared between them.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><em class="replaceable"><code>bindconf</code></em></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>[bindmethod=simple|sasl]</code></em>
+            <em class="replaceable"><code>[binddn=&lt;dn&gt;]</code></em>
+            <em class="replaceable"><code>[saslmech=&lt;mech&gt;]</code></em>
+            <em class="replaceable"><code>[authcid=&lt;identity&gt;]</code></em>
+            <em class="replaceable"><code>[authzid=&lt;identity&gt;]</code></em>
+            <em class="replaceable"><code>[credentials=&lt;passwd&gt;]</code></em>
+            <em class="replaceable"><code>[realm=&lt;realm&gt;]</code></em>
+            <em class="replaceable"><code>[secprops=&lt;properties&gt;]</code></em>
+            <em class="replaceable"><code>[timeout=&lt;seconds&gt;]</code></em>
+            <em class="replaceable"><code>[network−timeout=&lt;seconds&gt;]</code></em></p>
+            <p>Specifies the bind credentials <em class="replaceable"><code>lloadd</code></em> uses when
+            setting up its regular connections to all backends.</p>
+            <p>A <em class="replaceable"><code>bindmethod</code></em> of
+            <em class="replaceable"><code>simple</code></em>
+            requires the options <em class="replaceable"><code>binddn</code></em> and <em class="replaceable"><code>credentials</code></em> and should
+            only be used when adequate security services (e.g. TLS
+            or IPSEC) are in place. <span class="emphasis"><em>REMEMBER: simple bind credentials must
+            be in cleartext!</em></span> A <em class="replaceable"><code>bindmethod</code></em> of
+            <em class="replaceable"><code>sasl</code></em> requires
+            the option <em class="replaceable"><code>saslmech.</code></em> Depending on
+            the mechanism, an authentication identity and/or
+            credentials can be specified using <em class="replaceable"><code>authcid</code></em> and <em class="replaceable"><code>credentials.</code></em> The
+            <em class="replaceable"><code>authzid</code></em>
+            parameter may be used to specify an authorization
+            identity. Specific security properties (as with the
+            <em class="replaceable"><code>sasl−secprops</code></em>
+            keyword above) for a SASL bind can be set with the
+            <em class="replaceable"><code>secprops</code></em>
+            option. A non default SASL realm can be set with the
+            <em class="replaceable"><code>realm</code></em>
+            option.</p>
+            <p>The <em class="replaceable"><code>timeout</code></em> parameter
+            indicates how long an operation can be pending a
+            response (result, search entry, ...) from the server in
+            seconds. Due to how timeouts are detected, the timeout
+            might not be detected and handled up to <em class="replaceable"><code>timeout</code></em> seconds after
+            it happens.</p>
+            <p>The <em class="replaceable"><code>network−timeout</code></em>
+            parameter sets how long the consumer will wait to
+            establish a network connection to the provider. Once a
+            connection is established, the <em class="replaceable"><code>timeout</code></em> parameter
+            determines how long the consumer will wait for the
+            initial Bind request to complete.</p>
+            <p>Timeout set to 0 means no timeout is in effect and
+            by default, no timeouts are in effect.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect6" name="lloadd-conf-5_sect6" shape="rect"> </a>
+      <h2>BACKEND OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">backend-server</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>uri=ldap[s]://&lt;hostname&gt;[:port]</code></em>
+            <span class="emphasis"><em>[retry=&lt;retry interval in
+            ms&gt;]</em></span> <em class="replaceable"><code>[keepalive=&lt;idle&gt;:&lt;probes&gt;:&lt;interval&gt;]</code></em>
+            <em class="replaceable"><code>[starttls=yes|critical]</code></em>
+            <em class="replaceable"><code>[tls_cert=&lt;file&gt;]</code></em>
+            <em class="replaceable"><code>[tls_key=&lt;file&gt;]</code></em>
+            <em class="replaceable"><code>[tls_cacert=&lt;file&gt;]</code></em>
+            <em class="replaceable"><code>[tls_cacertdir=&lt;path&gt;]</code></em>
+            <em class="replaceable"><code>[tls_reqcert=never|allow|try|demand]</code></em>
+            <em class="replaceable"><code>[tls_cipher_suite=&lt;ciphers&gt;]</code></em>
+            <em class="replaceable"><code>[tls_crlcheck=none|peer|all]</code></em>
+            <em class="replaceable"><code>[tls_protocol_min=&lt;major&gt;[.&lt;minor&gt;]]</code></em>
+            <em class="replaceable"><code>[numconns=&lt;conns&gt;]</code></em>
+            <em class="replaceable"><code>[bindconns=&lt;conns&gt;]</code></em>
+            <em class="replaceable"><code>[max-pending-ops=&lt;ops&gt;]</code></em>
+            <em class="replaceable"><code>[conn-max-pending=&lt;ops&gt;]</code></em></p>
+            <p>Marks the beginning of a backend definition.</p>
+            <p><em class="replaceable"><code>uri</code></em>
+            specifies the backend as an LDAP URI. If &lt;port&gt;
+            is not given, the standard LDAP port number (389 or
+            636) is used.</p>
+            <p>Lloadd will attempt to maintain <em class="replaceable"><code>numconns</code></em> active
+            connections and also <em class="replaceable"><code>bindconns</code></em> active
+            connections dedicated to handling client bind
+            requests.</p>
+            <p>If an error occurs on a working connection, a new
+            connection attempt is made immediately, if one happens
+            on establishing a new connection to this backend,
+            lloadd will wait before a new reconnect attempt is made
+            according to the <em class="replaceable"><code>retry</code></em> parameter
+            (default is 5 seconds).</p>
+            <p>Operations will be distributed across the backend's
+            connections (<em class="replaceable"><code>upstreams</code></em>).</p>
+            <p>The parameter <em class="replaceable"><code>conn-max-pending</code></em> unless
+            set to <code class="constant">0</code> (the default),
+            will limit the number unfinished operations per
+            upstream connection. Similarly, <em class="replaceable"><code>max-pending-ops</code></em> will
+            limit the total number or unfinished operations across
+            all backend's connections, <code class="constant">0</code>, the default, means no limit will
+            be imposed for this backend.</p>
+            <p>The <em class="replaceable"><code>keepalive</code></em> parameter
+            sets the values of <em class="replaceable"><code>idle</code></em>, <em class="replaceable"><code>probes</code></em>, and <em class="replaceable"><code>interval</code></em> used to check
+            whether a socket is alive; <em class="replaceable"><code>idle</code></em> is the number of
+            seconds a connection needs to remain idle before TCP
+            starts sending keepalive probes; <em class="replaceable"><code>probes</code></em> is the maximum
+            number of keepalive probes TCP should send before
+            dropping the connection; <em class="replaceable"><code>interval</code></em> is interval in
+            seconds between individual keepalive probes. Only some
+            systems support the customization of these values; the
+            <em class="replaceable"><code>keepalive</code></em>
+            parameter is ignored otherwise, and system-wide
+            settings are used.</p>
+            <p>The <em class="replaceable"><code>starttls</code></em> parameter
+            specifies use of the StartTLS extended operation to
+            establish a TLS session before Binding to the provider.
+            If the <em class="replaceable"><code>critical</code></em> argument is
+            supplied, the session will be aborted if the StartTLS
+            request fails. Otherwise the syncrepl session continues
+            without TLS. The tls_reqcert setting defaults to
+            "demand" and the other TLS settings default to the same
+            as the main slapd TLS settings.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect7" name="lloadd-conf-5_sect7" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>Here is a short example of a configuration file:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+argsfile  LOCALSTATEDIR/run/lloadd.args
+pidfile   LOCALSTATEDIR/run/lloadd.pid
+
+bindconf
+    bindmethod=simple
+    binddn=cn=test
+    credentials=pass
+
+backend-server
+    uri=ldap://ldap1.example.com
+    numconns=3
+    bindconns=2
+    retry=5000
+    max-pending-ops=5
+    conn-max-pending=3
+
+backend-server
+    uri=ldap://ldap2.example.com
+    numconns=3
+    bindconns=2
+    retry=5000
+    max-pending-ops=5
+    conn-max-pending=3
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>"OpenLDAP Administrator's Guide" contains a longer
+      annotated example of a configuration file. The original
+      ETCDIR/lloadd.conf is another example.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect8" name="lloadd-conf-5_sect8" shape="rect"> </a>
+      <h2>LIMITATIONS</h2>
+      <p>Support for proxying SASL Binds is limited to the
+      <code class="constant">EXTERNAL</code> mechanism (and only to
+      extract the DN of a client TLS cerificate if used during the
+      last renegotiation) and mechanisms that rely neither on
+      connection metadata (as Kerberos does) nor establish a SASL
+      integrity/confidentialiy layer (again, some Kerberos
+      mechanisms, <em class="replaceable"><code>DIGEST-MD5</code></em> can negotiate
+      this).</p>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect9" name="lloadd-conf-5_sect9" shape="rect"> </a>
+      <h2>FILES</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">ETCDIR/lloadd.conf</span></dt>
+          <dd>
+            <p>default lloadd configuration file</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect10" name="lloadd-conf-5_sect10" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/ldap.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ldap</span>(3)</span></a>, <span class="citerefentry"><span class="refentrytitle">gnutls-cli</span>(1)</span>, <a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a>, <a class="link" href="../htmlman8/lloadd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lloadd</span>(8)</span></a>, <a class="link" href="../htmlman8/slapd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd</span>(8)</span></a>.</p>
+      <p>"OpenLDAP Administrator's Guide"
+      (http://www.OpenLDAP.org/doc/admin/)</p>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-conf-5_sect11" name="lloadd-conf-5_sect11" shape="rect"> </a>
+      <h2>ACKNOWLEDGEMENTS</h2>
+      <p><span class="emphasis"><em>OpenLDAP Software</em></span>
+      is developed and maintained by The OpenLDAP Project
+      &lt;<a class="literalurl" href="http://www.openldap.org/" target="_top" shape="rect">http://www.openldap.org/</a>&gt;. <span class="emphasis"><em>OpenLDAP Software</em></span> is derived from
+      the University of Michigan LDAP 3.3 Release.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                  See the following documents: <a class="ulink" href="../openldap-COPYRIGHT.html" target="_top" shape="rect">COPYRIGHT</a>, <a class="ulink" href="../openldap-LICENSE.html" target="_top" shape="rect">LICENSE</a><br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

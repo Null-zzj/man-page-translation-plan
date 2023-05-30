@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>cal(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="cal(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="cal.1" name="cal.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>cal — display a calendar</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">cal</code> [options] [ [ [day]
+        month ] year ]</p>
+      </div>
+      <div class="cmdsynopsis">
+        <p><code class="command">cal</code> [options] [ timestamp |
+        monthname ]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="cal-1_sect1" name="cal-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><span class="command"><strong>cal</strong></span> displays
+      a simple calendar. If no arguments are specified, the current
+      month is displayed.</p>
+      <p>The <em class="parameter"><code>month</code></em> may be
+      specified as a number (1-12), as a month name or as an
+      abbreviated month name according to the current locales.</p>
+      <p>Two different calendar systems are used, Gregorian and
+      Julian. These are nearly identical systems with Gregorian
+      making a small adjustment to the frequency of leap years;
+      this facilitates improved synchronization with solar events
+      like the equinoxes. The Gregorian calendar reform was
+      introduced in 1582, but its adoption continued up to 1923. By
+      default <span class="command"><strong>cal</strong></span>
+      uses the adoption date of 3 Sept 1752. From that date forward
+      the Gregorian calendar is displayed; previous dates use the
+      Julian calendar system. 11 days were removed at the time of
+      adoption to bring the calendar in sync with solar events. So
+      Sept 1752 has a mix of Julian and Gregorian dates by which
+      the 2nd is followed by the 14th (the 3rd through the 13th are
+      absent).</p>
+      <p>Optionally, either the proleptic Gregorian calendar or the
+      Julian calendar may be used exclusively. See <code class="option">−−reform</code>below.</p>
+    </div>
+    <div class="refsect1">
+      <a id="cal-1_sect2" name="cal-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="emphasis"><em>−1</em></span>, <code class="option">−−one</code></span></dt>
+          <dd>
+            <p>Display single month output. (This is the
+            default.)</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>−3</em></span>, <code class="option">−−three</code></span></dt>
+          <dd>
+            <p>Display three months spanning the date.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n ,
+          −−months</code> <span class="command"><strong>number</strong></span></span></dt>
+          <dd>
+            <p>Display <span class="command"><strong>number</strong></span> of months,
+            starting from the month containing the date.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−S</code>, <code class="option">−−span</code></span></dt>
+          <dd>
+            <p>Display months spanning the date.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−s</code>, <code class="option">−−sunday</code></span></dt>
+          <dd>
+            <p>Display Sunday as the first day of the week.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−m</code>, <code class="option">−−monday</code></span></dt>
+          <dd>
+            <p>Display Monday as the first day of the week.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−v</code>, <code class="option">−−vertical</code></span></dt>
+          <dd>
+            <p>Display using a vertical layout (aka ncal mode).</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−iso</code></span></dt>
+          <dd>
+            <p>Display the proleptic Gregorian calendar
+            exclusively. This option does not affect week numbers
+            and the first day of the week. See <code class="option">−−reform</code>below.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−j</code>, <code class="option">−−julian</code></span></dt>
+          <dd>
+            <p>Use day-of-year numbering for all calendars. These
+            are also called ordinal days. Ordinal days range from 1
+            to 366. This option does not switch from the Gregorian
+            to the Julian calendar system, that is controlled by
+            the <code class="option">−−reform</code>option.</p>
+            <p>Sometimes Gregorian calendars using ordinal dates
+            are referred to as Julian calendars. This can be
+            confusing due to the many date related conventions that
+            use Julian in their name: (ordinal) julian date, julian
+            (calendar) date, (astronomical) julian date, (modified)
+            julian date, and more. This option is named julian,
+            because ordinal days are identified as julian by the
+            POSIX standard. However, be aware that <span class="command"><strong>cal</strong></span> also uses the
+            Julian calendar system. See <code class="constant">DESCRIPTION</code>above.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−reform val</code></span></dt>
+          <dd>
+            <p>This option sets the adoption date of the Gregorian
+            calendar reform. Calendar dates previous to reform use
+            the Julian calendar system. Calendar dates after reform
+            use the Gregorian calendar system. The argument
+            <span class="command"><strong>val</strong></span> can
+            be:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="itemizedlist">
+                  <ul class="itemizedlist" style="list-style-type: disc;">
+                    <li class="listitem">
+                      <p><code class="constant">1752</code> - sets
+                      3 September 1752 as the reform date
+                      (default). This is when the Gregorian
+                      calendar reform was adopted by the British
+                      Empire.</p>
+                    </li>
+                    <li class="listitem">
+                      <p><span class="command"><strong>gregorian</strong></span> -
+                      display Gregorian calendars exclusively. This
+                      special placeholder sets the reform date
+                      below the smallest year that <span class="command"><strong>cal</strong></span> can
+                      use; meaning all calendar output uses the
+                      Gregorian calendar system. This is called the
+                      proleptic Gregorian calendar, because dates
+                      prior to the calendar system's creation use
+                      extrapolated values.</p>
+                    </li>
+                    <li class="listitem">
+                      <p><span class="command"><strong>iso</strong></span> - alias
+                      of <span class="command"><strong>gregorian</strong></span>.
+                      The ISO 8601 standard for the representation
+                      of dates and times in information interchange
+                      requires using the proleptic Gregorian
+                      calendar.</p>
+                    </li>
+                    <li class="listitem">
+                      <p><span class="command"><strong>julian</strong></span> -
+                      display Julian calendars exclusively. This
+                      special placeholder sets the reform date
+                      above the largest year that <span class="command"><strong>cal</strong></span> can
+                      use; meaning all calendar output uses the
+                      Julian calendar system.</p>
+                    </li>
+                  </ul>
+                </div>
+                <p>See <code class="constant">DESCRIPTION</code>above.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><code class="option">−y</code>, <code class="option">−−year</code></span></dt>
+          <dd>
+            <p>Display a calendar for the whole year.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−Y</code>, <code class="option">−−twelve</code></span></dt>
+          <dd>
+            <p>Display a calendar for the next twelve months.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−w</code>, <code class="option">−−week</code>[=<span class="command"><strong>number</strong></span>]</span></dt>
+          <dd>
+            <p>Display week numbers in the calendar (US or
+            ISO-8601). See NOTES section for more details.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−color</code>[=<span class="command"><strong>when</strong></span>]</span></dt>
+          <dd>
+            <p>Colorize the output. The optional argument
+            <span class="command"><strong>when</strong></span> can
+            be <span class="command"><strong>auto</strong></span>,
+            <span class="command"><strong>never</strong></span> or
+            <span class="command"><strong>always</strong></span>.
+            If the <span class="command"><strong>when</strong></span> argument is
+            omitted, it defaults to <span class="command"><strong>auto</strong></span>. The colors can
+            be disabled; for the current built-in default see the
+            <code class="option">−−help</code> output.
+            See also the <code class="constant">COLORS</code>
+            section.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V</code>, <code class="option">−−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h</code>, <code class="option">−−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="cal-1_sect3" name="cal-1_sect3" shape="rect"> </a>
+      <h2>PARAMETERS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="emphasis"><em>Single
+          digits-only parameter (e.g., 'cal
+          2020')</em></span></span></dt>
+          <dd>
+            <p>Specifies the <em class="parameter"><code>year</code></em> to be displayed;
+            note the year must be fully specified: <span class="emphasis"><em>cal 89</em></span> will not display a
+            calendar for 1989.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>Single
+          string parameter (e.g., 'cal tomorrow' or 'cal
+          August')</em></span></span></dt>
+          <dd>
+            <p>Specifies <em class="parameter"><code>timestamp</code></em> or a
+            <span class="emphasis"><em>month name</em></span> (or
+            abbreviated name) according to the current locales.</p>
+            <p>The special placeholders are accepted when parsing
+            timestamp, "now" may be used to refer to the current
+            time, "today", "yesterday", "tomorrow" refer to of the
+            current day, the day before or the next day,
+            respectively.</p>
+            <p>The relative date specifications are also accepted,
+            in this case "+" is evaluated to the current time plus
+            the specified time span. Correspondingly, a time span
+            that is prefixed with "-" is evaluated to the current
+            time minus the specified time span, for example
+            '+2days'. Instead of prefixing the time span with "+"
+            or "-", it may also be suffixed with a space and the
+            word "left" or "ago" (for example '1 week ago').</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>Two
+          parameters (e.g., 'cal 11 2020')</em></span></span></dt>
+          <dd>
+            <p>Denote the <em class="parameter"><code>month</code></em> (1 - 12) and
+            <em class="parameter"><code>year</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>Three
+          parameters (e.g., 'cal 25 11
+          2020')</em></span></span></dt>
+          <dd>
+            <p>Denote the <em class="parameter"><code>day</code></em> (1-31), <em class="parameter"><code>month</code></em> and <em class="parameter"><code>year</code></em>, and the day will be
+            highlighted if the calendar is displayed on a terminal.
+            If no parameters are specified, the current month's
+            calendar is displayed.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="cal-1_sect4" name="cal-1_sect4" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>A year starts on January 1. The first day of the week is
+      determined by the locale or the <code class="option">−−sunday</code><span class="command"><strong>and</strong></span><code class="option">−−monday</code><em class="replaceable"><code>options.</code></em></p>
+      <p>The week numbering depends on the choice of the first day
+      of the week. If it is Sunday then the customary North
+      American numbering is used, where 1 January is in week number
+      1. If it is Monday (<code class="option">−m</code>)
+      then the ISO 8601 standard week numbering is used, where the
+      first Thursday is in week number 1.</p>
+    </div>
+    <div class="refsect1">
+      <a id="cal-1_sect5" name="cal-1_sect5" shape="rect"> </a>
+      <h2>COLORS</h2>
+      <p>Implicit coloring can be disabled as follows:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <p><span class="emphasis"><em>touch
+          /etc/terminal-colors.d/cal.disable</em></span></p>
+        </blockquote>
+      </div>
+      <p>See <a class="link" href="../htmlman5/terminal-colors.d.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">terminal-colors.d</span>(5)</span></a> for
+      more details about colorization configuration.</p>
+    </div>
+    <div class="refsect1">
+      <a id="cal-1_sect6" name="cal-1_sect6" shape="rect"> </a>
+      <h2>HISTORY</h2>
+      <p>A cal command appeared in Version 6 AT&amp;T UNIX.</p>
+    </div>
+    <div class="refsect1">
+      <a id="cal-1_sect7" name="cal-1_sect7" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p>The default <span class="command"><strong>cal</strong></span> output uses 3 September
+      1752 as the Gregorian calendar reform date. The historical
+      reform dates for the other locales, including its
+      introduction in October 1582, are not implemented.</p>
+      <p>Alternative calendars, such as the Umm al-Qura, the Solar
+      Hijri, the Ge'ez, or the lunisolar Hindu, are not
+      supported.</p>
+    </div>
+    <div class="refsect1">
+      <a id="cal-1_sect8" name="cal-1_sect8" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The cal command is part of the util-linux package and is
+      available from
+      https://www.kernel.org/pub/linux/utils/util-linux/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 1989, 1990, 1993<br />
+
+                  The Regents of the University of California.  All rights reserved.<br />
+
+                  <br />
+                  This code is derived from software contributed to Berkeley by<br />
+
+                  Kim Letkeman.<br />
+                  <br />
+                  Redistribution and use in source and binary forms, with or without<br />
+
+                  modification, are permitted provided that the following conditions<br />
+
+                  are met:<br />
+                  1. Redistributions of source code must retain the above copyright<br />
+
+                     notice, this list of conditions and the following disclaimer.<br />
+
+                  2. Redistributions in binary form must reproduce the above copyright<br />
+
+                     notice, this list of conditions and the following disclaimer in the<br />
+
+                     documentation and/or other materials provided with the distribution.<br />
+
+                  3. All advertising materials mentioning features or use of this software<br />
+
+                     must display the following acknowledgement:<br />
+
+                  This product includes software developed by the University of<br />
+
+                  California, Berkeley and its contributors.<br />
+
+                  4. Neither the name of the University nor the names of its contributors<br />
+
+                     may be used to endorse or promote products derived from this software<br />
+
+                     without specific prior written permission.<br />
+
+                  <br />
+                  THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND<br />
+
+                  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE<br />
+
+                  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE<br />
+
+                  ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE<br />
+
+                  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL<br />
+
+                  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS<br />
+
+                  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)<br />
+
+                  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT<br />
+
+                  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY<br />
+
+                  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF<br />
+
+                  SUCH DAMAGE.<br />
+                  <br />
+                      <script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>(#)cal.1
+                  8.1 (Berkeley) 6/6/93<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

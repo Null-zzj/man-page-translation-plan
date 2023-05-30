@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>uuidgen(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="uuidgen(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="uuidgen.1" name="uuidgen.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>uuidgen — create a new UUID value</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">uuidgen</code> [options]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="uuidgen-1_sect1" name="uuidgen-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <span class="command"><strong>uuidgen</strong></span>
+      program creates (and prints) a new universally unique
+      identifier (UUID) using the <span class="citerefentry"><span class="refentrytitle">libuuid</span>(3)</span> library. The new
+      UUID can reasonably be considered unique among all UUIDs
+      created on the local system, and among UUIDs created on other
+      systems in the past and in the future.</p>
+      <p>There are three types of UUIDs which <span class="command"><strong>uuidgen</strong></span> can generate:
+      time-based UUIDs, random-based UUIDs, and hash-based UUIDs.
+      By default <span class="command"><strong>uuidgen</strong></span> will generate a
+      random-based UUID if a high-quality random number generator
+      is present. Otherwise, it will choose a time-based UUID. It
+      is possible to force the generation of one of these first two
+      UUID types by using the <code class="option">−−random</code> or <code class="option">−−time</code> options.</p>
+      <p>The third type of UUID is generated with the <code class="option">−−md5</code> or <code class="option">−−sha1</code> options, followed by
+      <code class="option">−−namespace</code>
+      <span class="command"><strong>namespace</strong></span> and
+      <code class="option">−−name</code> <span class="command"><strong>name</strong></span>. The <span class="command"><strong>namespace</strong></span> may either be a
+      well-known UUID, or else an alias to one of the well-known
+      UUIDs defined in RFC 4122, that is <span class="command"><strong>@dns</strong></span>, <span class="command"><strong>@url</strong></span>, <span class="command"><strong>@oid</strong></span>, or <span class="command"><strong>@x500</strong></span>. The <span class="command"><strong>name</strong></span> is an arbitrary string
+      value. The generated UUID is the digest of the concatenation
+      of the namespace UUID and the name value, hashed with the MD5
+      or SHA1 algorithms. It is, therefore, a predictable value
+      which may be useful when UUIDs are being used as handles or
+      nonces for more complex values or values which shouldn't be
+      disclosed directly. See the RFC for more information.</p>
+    </div>
+    <div class="refsect1">
+      <a id="uuidgen-1_sect2" name="uuidgen-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−r,
+          −−random</code></span></dt>
+          <dd>
+            <p>Generate a random-based UUID. This method creates a
+            UUID consisting mostly of random bits. It requires that
+            the operating system have a high quality random number
+            generator, such as <code class="filename">/dev/random</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−t,
+          −−time</code></span></dt>
+          <dd>
+            <p>Generate a time-based UUID. This method creates a
+            UUID based on the system clock plus the system's
+            ethernet hardware address, if present.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−m,
+          −−md5</code></span></dt>
+          <dd>
+            <p>Use MD5 as the hash algorithm.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−s,
+          −−sha1</code></span></dt>
+          <dd>
+            <p>Use SHA1 as the hash algorithm.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n,
+          −−namespace <em class="parameter"><code>namespace</code></em></code></span></dt>
+          <dd>
+            <p>Generate the hash with the <span class="command"><strong>namespace</strong></span> prefix. The
+            <span class="command"><strong>namespace</strong></span>
+            is UUID, or '@ns' where "ns" is well-known predefined
+            UUID addressed by namespace name (see above).</p>
+          </dd>
+          <dt><span class="term"><code class="option">−N,
+          −−name <em class="parameter"><code>name</code></em></code></span></dt>
+          <dd>
+            <p>Generate the hash of the <span class="command"><strong>name</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−x,
+          −−hex</code></span></dt>
+          <dd>
+            <p>Interpret name <span class="command"><strong>name</strong></span> as a hexadecimal
+            string.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="uuidgen-1_sect3" name="uuidgen-1_sect3" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>OSF DCE 1.1</p>
+    </div>
+    <div class="refsect1">
+      <a id="uuidgen-1_sect4" name="uuidgen-1_sect4" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>uuidgen −−sha1 −−namespace @dns
+      −−name "www.example.com"</p>
+    </div>
+    <div class="refsect1">
+      <a id="uuidgen-1_sect5" name="uuidgen-1_sect5" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><span class="command"><strong>uuidgen</strong></span> was
+      written by Andreas Dilger for libuuid.</p>
+    </div>
+    <div class="refsect1">
+      <a id="uuidgen-1_sect6" name="uuidgen-1_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">libuuid</span>(3)</span>, <span class="emphasis"><em>RFC 4122</em></span></p>
+    </div>
+    <div class="refsect1">
+      <a id="uuidgen-1_sect7" name="uuidgen-1_sect7" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The uuidgen command is part of the util-linux package and
+      is available from
+      https://www.kernel.org/pub/linux/utils/util-linux/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright 1999 Andreas Dilger (adilger<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>enel.ucalgary.ca)<br />
+
+                  <br />
+                  This file may be copied under the terms of the GNU Public License.<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

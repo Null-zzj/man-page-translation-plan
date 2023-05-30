@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>inode(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="inode(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="inode.7" name="inode.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>inode — file inode information</p>
+    </div>
+    <div class="refsect1">
+      <a id="inode-7_sect1" name="inode-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>Each file has an inode containing metadata about the file.
+      An application can retrieve this metadata using <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a> (or related calls),
+      which returns a <em class="replaceable"><code>stat</code></em> structure, or <a class="link" href="../htmlman2/statx.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">statx</span>(2)</span></a>, which returns a
+      <em class="replaceable"><code>statx</code></em>
+      structure.</p>
+      <p>The following is a list of the information typically found
+      in, or associated with, the file inode, with the names of the
+      corresponding structure fields returned by <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a> and <a class="link" href="../htmlman2/statx.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">statx</span>(2)</span></a>:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">Device where inode
+          resides</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_dev</code></em>; <em class="replaceable"><code>statx.stx_dev_minor</code></em> and
+            <em class="replaceable"><code>statx.stx_dev_major</code></em></p>
+            <p>Each inode (as well as the associated file) resides
+            in a filesystem that is hosted on a device. That device
+            is identified by the combination of its major ID (which
+            identifies the general class of device) and minor ID
+            (which identifies a specific instance in the general
+            class).</p>
+          </dd>
+          <dt><span class="term">Inode number</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_ino</code></em>; <em class="replaceable"><code>statx.stx_ino</code></em></p>
+            <p>Each file in a filesystem has a unique inode number.
+            Inode numbers are guaranteed to be unique only within a
+            filesystem (i.e., the same inode numbers may be used by
+            different filesystems, which is the reason that hard
+            links may not cross filesystem boundaries). This field
+            contains the file's inode number.</p>
+          </dd>
+          <dt><span class="term">File type and mode</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_mode</code></em>;
+            <em class="replaceable"><code>statx.stx_mode</code></em></p>
+            <p>See the discussion of file type and mode, below.</p>
+          </dd>
+          <dt><span class="term">Link count</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_nlink</code></em>;
+            <em class="replaceable"><code>statx.stx_nlink</code></em></p>
+            <p>This field contains the number of hard links to the
+            file. Additional links to an existing file are created
+            using <a class="link" href="../htmlman2/link.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">link</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term">User ID</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>st_uid</code></em>
+            <em class="replaceable"><code>stat.st_uid</code></em>;
+            <em class="replaceable"><code>statx.stx_uid</code></em></p>
+            <p>This field records the user ID of the owner of the
+            file. For newly created files, the file user ID is the
+            effective user ID of the creating process. The user ID
+            of a file can be changed using <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term">Group ID</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_gid</code></em>; <em class="replaceable"><code>statx.stx_gid</code></em></p>
+            <p>The inode records the ID of the group owner of the
+            file. For newly created files, the file group ID is
+            either the group ID of the parent directory or the
+            effective group ID of the creating process, depending
+            on whether or not the set-group-ID bit is set on the
+            parent directory (see below). The group ID of a file
+            can be changed using <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term">Device represented by this
+          inode</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_rdev</code></em>;
+            <em class="replaceable"><code>statx.stx_rdev_minor</code></em>
+            and <em class="replaceable"><code>statx.stx_rdev_major</code></em></p>
+            <p>If this file (inode) represents a device, then the
+            inode records the major and minor ID of that
+            device.</p>
+          </dd>
+          <dt><span class="term">File size</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_size</code></em>;
+            <em class="replaceable"><code>statx.stx_size</code></em></p>
+            <p>This field gives the size of the file (if it is a
+            regular file or a symbolic link) in bytes. The size of
+            a symbolic link is the length of the pathname it
+            contains, without a terminating null byte.</p>
+          </dd>
+          <dt><span class="term">Preferred block size for
+          I/O</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_blksize</code></em>;
+            <em class="replaceable"><code>statx.stx_blksize</code></em></p>
+            <p>This field gives the "preferred" blocksize for
+            efficient filesystem I/O. (Writing to a file in smaller
+            chunks may cause an inefficient
+            read-modify-rewrite.)</p>
+          </dd>
+          <dt><span class="term">Number of blocks allocated to the
+          file</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_blocks</code></em>;
+            <em class="replaceable"><code>statx.stx_size</code></em></p>
+            <p>This field indicates the number of blocks allocated
+            to the file, 512-byte units, (This may be smaller than
+            <em class="replaceable"><code>st_size</code></em>/512
+            when the file has holes.)</p>
+            <p>The POSIX.1 standard notes that the unit for the
+            <em class="replaceable"><code>st_blocks</code></em>
+            member of the <em class="replaceable"><code>stat</code></em> structure is not
+            defined by the standard. On many implementations it is
+            512 bytes; on a few systems, a different unit is used,
+            such as 1024. Furthermore, the unit may differ on a
+            per-filesystem basis.</p>
+          </dd>
+          <dt><span class="term">Last access timestamp
+          (atime)</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_atime</code></em>;
+            <em class="replaceable"><code>statx.stx_atime</code></em></p>
+            <p>This is the file's last access timestamp. It is
+            changed by file accesses, for example, by <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>, <a class="link" href="../htmlman2/mknod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mknod</span>(2)</span></a>, <a class="link" href="../htmlman2/pipe.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pipe</span>(2)</span></a>, <a class="link" href="../htmlman2/utime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">utime</span>(2)</span></a>, and
+            <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> (of more than
+            zero bytes). Other interfaces, such as <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>, may or may
+            not update the atime timestamp</p>
+            <p>Some filesystem types allow mounting in such a way
+            that file and/or directory accesses do not cause an
+            update of the atime timestamp. (See <em class="replaceable"><code>noatime</code></em>, <em class="replaceable"><code>nodiratime</code></em>, and
+            <em class="replaceable"><code>relatime</code></em> in
+            <a class="link" href="../htmlman8/mount.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount</span>(8)</span></a>, and related
+            information in <a class="link" href="../htmlman2/mount.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount</span>(2)</span></a>.) In
+            addition, the atime timestamp is not updated if a file
+            is opened with the <code class="constant">O_NOATIME</code> flag; see <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term">File creation (birth) timestamp
+          (btime)</span></dt>
+          <dd>
+            <p>(not returned in the <em class="replaceable"><code>stat</code></em> structure);
+            <em class="replaceable"><code>statx.stx_btime</code></em></p>
+            <p>The file's creation timestamp. This is set on file
+            creation and not changed subsequently.</p>
+            <p>The btime timestamp was not historically present on
+            UNIX systems and is not currently supported by most
+            Linux filesystems.</p>
+          </dd>
+          <dt><span class="term">Last modification timestamp
+          (mtime)</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_mtime</code></em>;
+            <em class="replaceable"><code>statx.stx_mtime</code></em></p>
+            <p>This is the file's last modification timestamp. It
+            is changed by file modifications, for example, by
+            <a class="link" href="../htmlman2/mknod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mknod</span>(2)</span></a>, <a class="link" href="../htmlman2/truncate.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">truncate</span>(2)</span></a>,
+            <a class="link" href="../htmlman2/utime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">utime</span>(2)</span></a>, and
+            <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a> (of more
+            than zero bytes). Moreover, the mtime timestamp of a
+            directory is changed by the creation or deletion of
+            files in that directory. The mtime timestamp is
+            <em class="replaceable"><code>not</code></em> changed
+            for changes in owner, group, hard link count, or
+            mode.</p>
+          </dd>
+          <dt><span class="term">Last status change timestamp
+          (ctime)</span></dt>
+          <dd>
+            <p><em class="replaceable"><code>stat.st_ctime</code></em>;
+            <em class="replaceable"><code>statx.stx_ctime</code></em></p>
+            <p>This is the file's last status change timestamp. It
+            is changed by writing or by setting inode information
+            (i.e., owner, group, link count, mode, etc.).</p>
+          </dd>
+        </dl>
+      </div>
+      <p>The timestamp fields report time measured with a zero
+      point at the <em class="replaceable"><code>Epoch</code></em>,
+      1970-01-01 00:00:00 +0000, UTC (see <a class="link" href="../htmlman7/time.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(7)</span></a>).</p>
+      <p>Nanosecond timestamps are supported on XFS, JFS, Btrfs,
+      and ext4 (since Linux 2.6.23). Nanosecond timestamps are not
+      supported in ext2, ext3, and Reiserfs. In order to return
+      timestamps with nanosecond precision, the timestamp fields in
+      the <em class="replaceable"><code>stat</code></em> and
+      <em class="replaceable"><code>statx</code></em> structures
+      are defined as structures that include a nanosecond
+      component. See <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a> and <a class="link" href="../htmlman2/statx.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">statx</span>(2)</span></a> for details. On
+      filesystems that do not support subsecond timestamps, the
+      nanosecond fields in the <em class="replaceable"><code>stat</code></em> and <em class="replaceable"><code>statx</code></em> structures are returned
+      with the value 0.</p>
+      <div class="refsect2">
+        <a id="inode-7_sect2" name="inode-7_sect2" shape="rect"> </a>
+        <h3>The file type and mode</h3>
+        <p>The <em class="replaceable"><code>stat.st_mode</code></em> field (for
+        <a class="link" href="../htmlman2/statx.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">statx</span>(2)</span></a>, the <em class="replaceable"><code>statx.stx_mode</code></em> field)
+        contains the file type and mode.</p>
+        <p>POSIX refers to the <em class="replaceable"><code>stat.st_mode</code></em> bits
+        corresponding to the mask <code class="constant">S_IFMT</code> (see below) as the <span class="emphasis"><em>file type</em></span>, the 12 bits
+        corresponding to the mask 07777 as the <span class="emphasis"><em>file mode bits</em></span> and the least
+        significant 9 bits (0777) as the <span class="emphasis"><em>file permission bits</em></span>.</p>
+        <p>The following mask values are defined for the file
+        type:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informaltable">
+              <table class="informaltable" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c0" span="1" />
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr style="">
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IFMT</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">0170000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">bit mask for the file
+                    type bit field</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IFSOCK</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">0140000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">socket</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IFLNK</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">0120000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">symbolic link</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IFREG</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">0100000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">regular file</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IFBLK</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">0060000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">block device</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IFDIR</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">0040000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">directory</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IFCHR</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">0020000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">character device</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IFIFO</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">0010000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">FIFO</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>Thus, to test for a regular file (for example), one
+        could write:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+stat(pathname, &amp;sb);
+if ((sb.st_mode &amp; S_IFMT) == S_IFREG) {
+    /* Handle regular file */
+}
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>Because tests of the above form are common, additional
+        macros are defined by POSIX to allow the test of the file
+        type in <em class="replaceable"><code>st_mode</code></em>
+        to be written more concisely:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="variablelist">
+              <dl class="variablelist">
+                <dt><span class="term"><code class="function">S_ISREG</code>(m)</span></dt>
+                <dd>
+                  <p>is it a regular file?</p>
+                </dd>
+                <dt><span class="term"><code class="function">S_ISDIR</code>(m)</span></dt>
+                <dd>
+                  <p>directory?</p>
+                </dd>
+                <dt><span class="term"><code class="function">S_ISCHR</code>(m)</span></dt>
+                <dd>
+                  <p>character device?</p>
+                </dd>
+                <dt><span class="term"><code class="function">S_ISBLK</code>(m)</span></dt>
+                <dd>
+                  <p>block device?</p>
+                </dd>
+                <dt><span class="term"><code class="function">S_ISFIFO</code>(m)</span></dt>
+                <dd>
+                  <p>FIFO (named pipe)?</p>
+                </dd>
+                <dt><span class="term"><code class="function">S_ISLNK</code>(m)</span></dt>
+                <dd>
+                  <p>symbolic link? (Not in POSIX.1-1996.)</p>
+                </dd>
+                <dt><span class="term"><code class="function">S_ISSOCK</code>(m)</span></dt>
+                <dd>
+                  <p>socket? (Not in POSIX.1-1996.)</p>
+                </dd>
+              </dl>
+            </div>
+          </blockquote>
+        </div>
+        <p>The preceding code snippet could thus be rewritten
+        as:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+stat(pathname, &amp;sb);
+if (S_ISREG(sb.st_mode)) {
+    /* Handle regular file */
+}
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>The definitions of most of the above file type test
+        macros are provided if any of the following feature test
+        macros is defined: <code class="constant">_BSD_SOURCE</code> (in glibc 2.19 and earlier),
+        <code class="constant">_SVID_SOURCE</code> (in glibc 2.19
+        and earlier), or <code class="constant">_DEFAULT_SOURCE</code> (in glibc 2.20 and
+        later). In addition, definitions of all of the above macros
+        except <code class="constant">S_IFSOCK</code> and
+        <code class="function">S_ISSOCK</code>() are provided if
+        <code class="constant">_XOPEN_SOURCE</code> is defined.</p>
+        <p>The definition of <code class="constant">S_IFSOCK</code>
+        can also be exposed either by defining <code class="constant">_XOPEN_SOURCE</code> with a value of 500 or
+        greater or (since glibc 2.24) by defining both <code class="constant">_XOPEN_SOURCE</code> and <code class="constant">_XOPEN_SOURCE_EXTENDED</code>.</p>
+        <p>The definition of <code class="function">S_ISSOCK</code>() is exposed if any of the
+        following feature test macros is defined: <code class="constant">_BSD_SOURCE</code> (in glibc 2.19 and earlier),
+        <code class="constant">_DEFAULT_SOURCE</code> (in glibc
+        2.20 and later), <code class="constant">_XOPEN_SOURCE</code> with a value of 500 or
+        greater, <code class="constant">_POSIX_C_SOURCE</code> with
+        a value of 200112L or greater, or (since glibc 2.24) by
+        defining both <code class="constant">_XOPEN_SOURCE</code>
+        and <code class="constant">_XOPEN_SOURCE_EXTENDED</code>.</p>
+        <p>The following mask values are defined for the file mode
+        component of the <em class="replaceable"><code>st_mode</code></em> field:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informaltable">
+              <table class="informaltable" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c0" span="1" />
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_ISUID</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">04000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">set-user-ID bit (see
+                    <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>)</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_ISGID</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">02000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">set-group-ID bit (see
+                    below)</td>
+                  </tr>
+                  <tr style="">
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_ISVTX</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">01000</td>
+                    <td style="" align="left" rowspan="1" colspan="1">sticky bit (see
+                    below)</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IRWXU</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00700</td>
+                    <td style="" align="left" rowspan="1" colspan="1">owner has read,
+                    write, and execute permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IRUSR</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00400</td>
+                    <td style="" align="left" rowspan="1" colspan="1">owner has read
+                    permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IWUSR</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00200</td>
+                    <td style="" align="left" rowspan="1" colspan="1">owner has write
+                    permission</td>
+                  </tr>
+                  <tr style="">
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IXUSR</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00100</td>
+                    <td style="" align="left" rowspan="1" colspan="1">owner has execute
+                    permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IRWXG</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00070</td>
+                    <td style="" align="left" rowspan="1" colspan="1">group has read,
+                    write, and execute permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IRGRP</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00040</td>
+                    <td style="" align="left" rowspan="1" colspan="1">group has read
+                    permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IWGRP</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00020</td>
+                    <td style="" align="left" rowspan="1" colspan="1">group has write
+                    permission</td>
+                  </tr>
+                  <tr style="">
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IXGRP</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00010</td>
+                    <td style="" align="left" rowspan="1" colspan="1">group has execute
+                    permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IRWXO</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00007</td>
+                    <td style="" align="left" rowspan="1" colspan="1">others (not in group)
+                    have read, write, and execute permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IROTH</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00004</td>
+                    <td style="" align="left" rowspan="1" colspan="1">others have read
+                    permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IWOTH</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00002</td>
+                    <td style="" align="left" rowspan="1" colspan="1">others have write
+                    permission</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">S_IXOTH</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">00001</td>
+                    <td style="" align="left" rowspan="1" colspan="1">others have execute
+                    permission</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>The set-group-ID bit (<code class="constant">S_ISGID</code>) has several special uses. For a
+        directory, it indicates that BSD semantics are to be used
+        for that directory: files created there inherit their group
+        ID from the directory, not from the effective group ID of
+        the creating process, and directories created there will
+        also get the <code class="constant">S_ISGID</code> bit set.
+        For an executable file, the set-group-ID bit causes the
+        effective group ID of a process that executes the file to
+        change as described in <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>. For a file
+        that does not have the group execution bit (<code class="constant">S_IXGRP</code>) set, the set-group-ID bit
+        indicates mandatory file/record locking.</p>
+        <p>The sticky bit (<code class="constant">S_ISVTX</code>)
+        on a directory means that a file in that directory can be
+        renamed or deleted only by the owner of the file, by the
+        owner of the directory, and by a privileged process.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="inode-7_sect3" name="inode-7_sect3" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>If you need to obtain the definition of the <em class="replaceable"><code>blkcnt_t</code></em> or <em class="replaceable"><code>blksize_t</code></em> types from
+      <code class="literal">&lt;</code><code class="filename">sys/stat.h</code><code class="literal">&gt;</code>
+      then define <code class="constant">_XOPEN_SOURCE</code> with
+      the value 500 or greater (before including <em class="replaceable"><code>any</code></em> header files).</p>
+      <p>POSIX.1-1990 did not describe the <code class="constant">S_IFMT</code>, <code class="constant">S_IFSOCK</code>, <code class="constant">S_IFLNK</code>, <code class="constant">S_IFREG</code>, <code class="constant">S_IFBLK</code>, <code class="constant">S_IFDIR</code>, <code class="constant">S_IFCHR</code>, <code class="constant">S_IFIFO</code>, and <code class="constant">S_ISVTX</code> constants, but instead specified
+      the use of the macros <code class="function">S_ISDIR</code>()
+      and so on. The <em class="replaceable"><code>S_IF*</code></em> constants are present
+      in POSIX.1-2001 and later.</p>
+      <p>The <code class="function">S_ISLNK</code>() and
+      <code class="function">S_ISSOCK</code>() macros were not in
+      POSIX.1-1996, but both are present in POSIX.1-2001; the
+      former is from SVID 4, the latter from SUSv2.</p>
+      <p>UNIX V7 (and later systems) had <code class="constant">S_IREAD</code>, <code class="constant">S_IWRITE</code>, <code class="constant">S_IEXEC</code>, and where POSIX prescribes the
+      synonyms <code class="constant">S_IRUSR</code>, <code class="constant">S_IWUSR</code>, and <code class="constant">S_IXUSR</code>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="inode-7_sect4" name="inode-7_sect4" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>For pseudofiles that are autogenerated by the kernel, the
+      file size (<em class="replaceable"><code>stat.st_size</code></em>; <em class="replaceable"><code>statx.stx_size</code></em>) reported by
+      the kernel is not accurate. For example, the value 0 is
+      returned for many files under the <code class="filename">/proc</code> directory, while various files under
+      <code class="filename">/sys</code> report a size of 4096
+      bytes, even though the file content is smaller. For such
+      files, one should simply try to read as many bytes as
+      possible (and append '\0' to the returned buffer if it is to
+      be interpreted as a string).</p>
+    </div>
+    <div class="refsect1">
+      <a id="inode-7_sect5" name="inode-7_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/stat.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(1)</span></a>, <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a>, <a class="link" href="../htmlman2/statx.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">statx</span>(2)</span></a>, <a class="link" href="../htmlman7/symlink.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">symlink</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="inode-7_sect6" name="inode-7_sect6" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2017 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

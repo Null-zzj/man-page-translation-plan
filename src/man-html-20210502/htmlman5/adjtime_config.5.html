@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>adjtime_config(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="adjtime_config(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="adjtime-config.5" name="adjtime-config.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>adjtime — information about hardware clock setting
+      and drift factor</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+.I /etc/adjtime
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="adjtime-config-5_sect1" name="adjtime-config-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The file <code class="filename">/etc/adjtime</code>
+      contains descriptive information about the hardware mode
+      clock setting and clock drift factor. The file is read and
+      write by hwclock; and read by programs like rtcwake to get
+      RTC time mode.</p>
+      <p>The file is usually located in /etc, but tools like
+      <a class="link" href="../htmlman8/hwclock.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">hwclock</span>(8)</span></a> or <a class="link" href="../htmlman8/rtcwake.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">rtcwake</span>(8)</span></a> can use
+      alternative location by command line options if write access
+      to /etc is unwanted. The default clock mode is "UTC" if the
+      file is missing.</p>
+      <p>The Hardware Clock is usually not very accurate. However,
+      much of its inaccuracy is completely predictable - it gains
+      or loses the same amount of time every day. This is called
+      systematic drift. The util hwclock keeps the file
+      /etc/adjtime, that keeps some historical information. For
+      more details see "<span class="emphasis"><em>The Adjust
+      Function</em></span>" and "<span class="emphasis"><em>The
+      Adjtime File</em></span>" sections from <a class="link" href="../htmlman8/hwclock.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">hwclock</span>(8)</span></a> man page.</p>
+      <p>The format of the adjtime file is, in ASCII.</p>
+      <div class="refsect2">
+        <a id="adjtime-config-5_sect2" name="adjtime-config-5_sect2" shape="rect"> </a>
+        <h3>First line</h3>
+        <p>Three numbers, separated by blanks:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term">"drift factor"</span></dt>
+            <dd>
+              <p>the systematic drift rate in seconds per day
+              (floating point decimal)</p>
+            </dd>
+            <dt><span class="term">last adjust time</span></dt>
+            <dd>
+              <p>the resulting number of seconds since 1969 UTC of
+              most recent adjustment or calibration (decimal
+              integer)</p>
+            </dd>
+            <dt><span class="term">"adjustment status"</span></dt>
+            <dd>
+              <p>zero (for compatibility with clock(8)) as a
+              floating point decimal</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="adjtime-config-5_sect3" name="adjtime-config-5_sect3" shape="rect"> </a>
+        <h3>Second line</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term">"last calibration
+            time"</span></dt>
+            <dd>
+              <p>The resulting number of seconds since 1969 UTC of
+              most recent calibration. Zero if there has been no
+              calibration yet or it is known that any previous
+              calibration is moot (for example, because the
+              Hardware Clock has been found, since that
+              calibration, not to contain a valid time). This is a
+              decimal integer.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="adjtime-config-5_sect4" name="adjtime-config-5_sect4" shape="rect"> </a>
+        <h3>Third line</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term">"clock mode"</span></dt>
+            <dd>
+              <p>Supported values are "UTC" or "LOCAL". Tells
+              whether the Hardware Clock is set to Coordinated
+              Universal Time or local time. You can always override
+              this value with options on the hwclock command
+              line.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="adjtime-config-5_sect5" name="adjtime-config-5_sect5" shape="rect"> </a>
+      <h2>FILES</h2>
+      <p><code class="filename">/etc/adjtime</code></p>
+    </div>
+    <div class="refsect1">
+      <a id="adjtime-config-5_sect6" name="adjtime-config-5_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman8/hwclock.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">hwclock</span>(8)</span></a>, <a class="link" href="../htmlman8/rtcwake.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">rtcwake</span>(8)</span></a></p>
+    </div>
+    <div class="refsect1">
+      <a id="adjtime-config-5_sect7" name="adjtime-config-5_sect7" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>This man page is part of the util-linux package and is
+      available from
+      https://www.kernel.org/pub/linux/utils/util-linux/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

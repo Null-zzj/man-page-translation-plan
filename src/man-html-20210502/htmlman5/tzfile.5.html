@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>tzfile(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="tzfile(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="tzfile.5" name="tzfile.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>tzfile — timezone information</p>
+    </div>
+    <div class="refsect1">
+      <a id="tzfile-5_sect1" name="tzfile-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The timezone information files used by <a class="link" href="../htmlman3/tzset.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tzset</span>(3)</span></a> are typically
+      found under a directory with a name like <code class="filename">/usr/share/zoneinfo</code>. These files use the
+      format described in Internet RFC 8536. Each file is a
+      sequence of 8-bit bytes. In a file, a binary integer is
+      represented by a sequence of one or more bytes in network
+      order (bigendian, or high-order byte first), with all bits
+      significant, a signed binary integer is represented using
+      two's complement, and a boolean is represented by a one-byte
+      binary integer that is either 0 (false) or 1 (true). The
+      format begins with a 44-byte header containing the following
+      fields:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>The magic four-byte ASCII sequence "TZif" identifies
+            the file as a timezone information file.</p>
+          </li>
+          <li class="listitem">
+            <p>A byte identifying the version of the file's format
+            (as of 2017, either an ASCII NUL, or "2", or "3" ).</p>
+          </li>
+          <li class="listitem">
+            <p>Fifteen bytes containing zeros reserved for future
+            use.</p>
+          </li>
+          <li class="listitem">
+            <p>Six four-byte integer values, in the following
+            order:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><em class="replaceable"><code>tzh_ttisutcnt</code></em></span></dt>
+                    <dd>
+                      <p>The number of UT/local indicators stored
+                      in the file. (UT is Universal Time.)</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>tzh_ttisstdcnt</code></em></span></dt>
+                    <dd>
+                      <p>The number of standard/wall indicators
+                      stored in the file.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>tzh_leapcnt</code></em></span></dt>
+                    <dd>
+                      <p>The number of leap seconds for which data
+                      entries are stored in the file.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>tzh_timecnt</code></em></span></dt>
+                    <dd>
+                      <p>The number of transition times for which
+                      data entries are stored in the file.</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>tzh_typecnt</code></em></span></dt>
+                    <dd>
+                      <p>The number of local time types for which
+                      data entries are stored in the file (must not
+                      be zero).</p>
+                    </dd>
+                    <dt><span class="term"><em class="replaceable"><code>tzh_charcnt</code></em></span></dt>
+                    <dd>
+                      <p>The number of bytes of time zone
+                      abbreviation strings stored in the file.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <p>The above header is followed by the following fields,
+      whose lengths depend on the contents of the header:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p><em class="replaceable"><code>tzh_timecnt</code></em> four-byte
+            signed integer values sorted in ascending order. These
+            values are written in network byte order. Each is used
+            as a transition time (as returned by <a class="link" href="../htmlman2/time.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(2)</span></a>) at which the
+            rules for computing local time change.</p>
+          </li>
+          <li class="listitem">
+            <p><em class="replaceable"><code>tzh_timecnt</code></em> one-byte
+            unsigned integer values; each one but the last tells
+            which of the different types of local time types
+            described in the file is associated with the time
+            period starting with the same-indexed transition time
+            and continuing up to but not including the next
+            transition time. (The last time type is present only
+            for consistency checking with the POSIX-style TZ string
+            described below.) These values serve as indices into
+            the next field.</p>
+          </li>
+          <li class="listitem">
+            <p><em class="replaceable"><code>tzh_typecnt</code></em> <em class="replaceable"><code>ttinfo</code></em> entries, each
+            defined as follows:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">ttinfo</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int32_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tt_utoff</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1"> </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tt_isdst</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1"> </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tt_desigidx</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1"> </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>Each structure is written as a four-byte signed
+                integer value for <em class="parameter"><code>tt_utoff</code></em>, in network
+                byte order, followed by a one-byte boolean for
+                <em class="parameter"><code>tt_isdst</code></em>
+                and a one-byte value for <em class="parameter"><code>tt_desigidx</code></em>. In each
+                structure, <em class="parameter"><code>tt_utoff</code></em> gives the
+                number of seconds to be added to UT, <em class="parameter"><code>tt_isdst</code></em> tells
+                whether <em class="replaceable"><code>tm_isdst</code></em> should be
+                set by <a class="link" href="../htmlman3/ctime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">localtime</span>(3)</span></a> and
+                <em class="parameter"><code>tt_desigidx</code></em>
+                serves as an index into the array of time zone
+                abbreviation bytes that follow the <em class="replaceable"><code>ttinfo</code></em> structure(s)
+                in the file. The <em class="parameter"><code>tt_utoff</code></em> value is
+                never equal to −2**31, to let 32-bit clients
+                negate it without overflow. Also, in realistic
+                applications <em class="parameter"><code>tt_utoff</code></em> is in the
+                range [−89999, 93599] (i.e., more than
+                −25 hours and less than 26 hours); this
+                allows easy support by implementations that already
+                support the POSIX-required range [−24:59:59,
+                25:59:59].</p>
+                <div class="itemizedlist">
+                  <ul class="itemizedlist" style="list-style-type: circle;">
+                    <li class="listitem">
+                      <p><em class="replaceable"><code>tzh_leapcnt</code></em>
+                      pairs of four-byte values, written in network
+                      byte order; the first value of each pair
+                      gives the nonnegative time (as returned by
+                      <a class="link" href="../htmlman2/time.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(2)</span></a>)
+                      at which a leap second occurs; the second is
+                      a signed integer specifying the <em class="replaceable"><code>total</code></em> number
+                      of leap seconds to be applied during the time
+                      period starting at the given time. The pairs
+                      of values are sorted in ascending order by
+                      time. Each transition is for one leap second,
+                      either positive or negative; transitions
+                      always separated by at least 28 days minus 1
+                      second.</p>
+                    </li>
+                    <li class="listitem">
+                      <p><em class="replaceable"><code>tzh_ttisstdcnt</code></em>
+                      standard/wall indicators, each stored as a
+                      one-byte boolean; they tell whether the
+                      transition times associated with local time
+                      types were specified as standard time or
+                      local (wall clock) time.</p>
+                    </li>
+                    <li class="listitem">
+                      <p><em class="replaceable"><code>tzh_ttisutcnt</code></em>
+                      UT/local indicators, each stored as a
+                      one-byte boolean; they tell whether the
+                      transition times associated with local time
+                      types were specified as UT or local time. If
+                      a UT/local indicator is set, the
+                      corresponding standard/wall indicator must
+                      also be set.</p>
+                    </li>
+                  </ul>
+                </div>
+                <p>The standard/wall and UT/local indicators were
+                designed for transforming a TZif file's transition
+                times into transitions appropriate for another time
+                zone specified via a POSIX-style TZ string that
+                lacks rules. For example, when TZ="EET-2EEST" and
+                there is no TZif file "EET-2EEST", the idea was to
+                adapt the transition times from a TZif file with
+                the well-known name "posixrules" that is present
+                only for this purpose and is a copy of the file
+                "Europe/Brussels", a file with a different UT
+                offset. POSIX does not specify this obsolete
+                transformational behavior, the default rules are
+                installation-dependent, and no implementation is
+                known to support this feature for timestamps past
+                2037, so users desiring (say) Greek time should
+                instead specify TZ="Europe/Athens" for better
+                historical coverage, falling back on
+                TZ="EET-2EEST,M3.5.0/3,M10.5.0/4" if POSIX
+                conformance is required and older timestamps need
+                not be handled accurately.</p>
+                <p>The <a class="link" href="../htmlman3/ctime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">localtime</span>(3)</span></a>
+                function normally uses the first <em class="replaceable"><code>ttinfo</code></em> structure in
+                the file if either <em class="replaceable"><code>tzh_timecnt</code></em> is zero
+                or the time argument is less than the first
+                transition time recorded in the file.</p>
+              </blockquote>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="refsect2">
+        <a id="tzfile-5_sect2" name="tzfile-5_sect2" shape="rect"> </a>
+        <h3>Version 2 format</h3>
+        <p>For version-2-format timezone files, the above header
+        and data are followed by a second header and data,
+        identical in format except that eight bytes are used for
+        each transition time or leap second time. (Leap second
+        counts remain four bytes.) After the second header and data
+        comes a newline-enclosed,
+        POSIX-TZ-environment-variable-style string for use in
+        handling instants after the last transition time stored in
+        the file or for all instants if the file has no
+        transitions. The POSIX-style TZ string is empty (i.e.,
+        nothing between the newlines) if there is no POSIX
+        representation for such instants. If nonempty, the
+        POSIX-style TZ string must agree with the local time type
+        after the last transition time if present in the eight-byte
+        data; for example, given the string
+        "WET0WEST,M3.5.0,M10.5.0/3" then if a last transition time
+        is in July, the transition's local time type must specify a
+        daylight-saving time abbreviated "WEST" that is one hour
+        east of UT. Also, if there is at least one transition, time
+        type 0 is associated with the time period from the
+        indefinite past up to but not including the earliest
+        transition time.</p>
+      </div>
+      <div class="refsect2">
+        <a id="tzfile-5_sect3" name="tzfile-5_sect3" shape="rect"> </a>
+        <h3>Version 3 format</h3>
+        <p>For version-3-format timezone files, the POSIX-TZ-style
+        string may use two minor extensions to the POSIX TZ format,
+        as described in <span class="citerefentry"><span class="refentrytitle">newtzset</span>(3)</span>. First, the hours
+        part of its transition times may be signed and range from
+        −167 through 167 instead of the POSIX-required
+        unsigned values from 0 through 24. Second, DST is in effect
+        all year if it starts January 1 at 00:00 and ends December
+        31 at 24:00 plus the difference between daylight saving and
+        standard time.</p>
+      </div>
+      <div class="refsect2">
+        <a id="tzfile-5_sect4" name="tzfile-5_sect4" shape="rect"> </a>
+        <h3>Interoperability considerations</h3>
+        <p>Future changes to the format may append more data.</p>
+        <p>Version 1 files are considered a legacy format and
+        should be avoided, as they do not support transition times
+        after the year 2038. Readers that only understand Version 1
+        must ignore any data that extends beyond the calculated end
+        of the version 1 data block.</p>
+        <p>Writers should generate a version 3 file if TZ string
+        extensions are necessary to accurately model transition
+        times. Otherwise, version 2 files should be generated.</p>
+        <p>The sequence of time changes defined by the version 1
+        header and data block should be a contiguous subsequence of
+        the time changes defined by the version 2+ header and data
+        block, and by the footer. This guideline helps obsolescent
+        version 1 readers agree with current readers about
+        timestamps within the contiguous subsequence. It also lets
+        writers not supporting obsolescent readers use a <em class="replaceable"><code>tzh_timecnt</code></em> of zero in the
+        version 1 data block to save space.</p>
+        <p>Time zone designations should consist of at least three
+        (3) and no more than six (6) ASCII characters from the set
+        of alphanumerics, "-", and "+". This is for compatibility
+        with POSIX requirements for time zone abbreviations.</p>
+        <p>When reading a version 2 or 3 file, readers should
+        ignore the version 1 header and data block except for the
+        purpose of skipping over them.</p>
+        <p>Readers should calculate the total lengths of the
+        headers and data blocks and check that they all fit within
+        the actual file size, as part of a validity check for the
+        file.</p>
+      </div>
+      <div class="refsect2">
+        <a id="tzfile-5_sect5" name="tzfile-5_sect5" shape="rect"> </a>
+        <h3>Common interoperability issues</h3>
+        <p>This section documents common problems in reading or
+        writing TZif files. Most of these are problems in
+        generating TZif files for use by older readers. The goals
+        of this section are:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>to help TZif writers output files that avoid
+              common pitfalls in older or buggy TZif readers,</p>
+            </li>
+            <li class="listitem">
+              <p>to help TZif readers avoid common pitfalls when
+              reading files generated by future TZif writers,
+              and</p>
+            </li>
+            <li class="listitem">
+              <p>to help any future specification authors see what
+              sort of problems arise when the TZif format is
+              changed.</p>
+            </li>
+          </ul>
+        </div>
+        <p>When new versions of the TZif format have been defined,
+        a design goal has been that a reader can successfully use a
+        TZif file even if the file is of a later TZif version than
+        what the reader was designed for. When complete
+        compatibility was not achieved, an attempt was made to
+        limit glitches to rarely used timestamps, and to allow
+        simple partial workarounds in writers designed to generate
+        new-version data useful even for older-version readers.
+        This section attempts to document these compatibility
+        issues and workarounds, as well as to document other common
+        bugs in readers.</p>
+        <p>Interoperability problems with TZif include the
+        following:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>Some readers examine only version 1 data. As a
+              partial workaround, a writer can output as much
+              version 1 data as possible. However, a reader should
+              ignore version 1 data, and should use version 2+ data
+              even if the reader's native timestamps have only 32
+              bits.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers designed for version 2 might
+              mishandle timestamps after a version 3 file's last
+              transition, because they cannot parse extensions to
+              POSIX in the TZ-like string. As a partial workaround,
+              a writer can output more transitions than necessary,
+              so that only far-future timestamps are mishandled by
+              version 2 readers.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers designed for version 2 do not support
+              permanent daylight saving time, e.g., a TZ string
+              "EST5EDT,0/0,J365/25" denoting permanent Eastern
+              Daylight Time (−04). As a partial workaround, a
+              writer can substitute standard time for the next time
+              zone east, e.g., "AST4" for permanent Atlantic
+              Standard Time (−04).</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers ignore the footer, and instead
+              predict future timestamps from the time type of the
+              last transition. As a partial workaround, a writer
+              can output more transitions than necessary.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers do not use time type 0 for timestamps
+              before the first transition, in that they infer a
+              time type using a heuristic that does not always
+              select time type 0. As a partial workaround, a writer
+              can output a dummy (no-op) first transition at an
+              early time.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle timestamps before the first
+              transition that has a timestamp not less than
+              −2**31. Readers that support only 32-bit
+              timestamps are likely to be more prone to this
+              problem, for example, when they process 64-bit
+              transitions only some of which are representable in
+              32 bits. As a partial workaround, a writer can output
+              a dummy transition at timestamp −2**31.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle a transition if its
+              timestamp has the minimum possible signed 64-bit
+              value. Timestamps less than −2**59 are not
+              recommended.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle POSIX-style TZ strings that
+              contain "&lt;" or "&gt;". As a partial workaround, a
+              writer can avoid using "&lt;" or "&gt;" for time zone
+              abbreviations containing only alphabetic
+              characters.</p>
+            </li>
+            <li class="listitem">
+              <p>Many readers mishandle time zone abbreviations
+              that contain non-ASCII characters. These characters
+              are not recommended.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers may mishandle time zone abbreviations
+              that contain fewer than 3 or more than 6 characters,
+              or that contain ASCII characters other than
+              alphanumerics, "-", and "+". These abbreviations are
+              not recommended.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle TZif files that specify
+              daylight-saving time UT offsets that are less than
+              the UT offsets for the corresponding standard time.
+              These readers do not support locations like Ireland,
+              which uses the equivalent of the POSIX TZ string
+              "IST-1GMT0,M10.5.0,M3.5.0/1", observing standard time
+              (IST, +01) in summer and daylight saving time (GMT,
+              +00) in winter. As a partial workaround, a writer can
+              output data for the equivalent of the POSIX TZ string
+              "GMT0IST,M3.5.0/1,M10.5.0", thus swapping standard
+              and daylight saving time. Although this workaround
+              misidentifies which part of the year uses daylight
+              saving time, it records UT offsets and time zone
+              abbreviations correctly.</p>
+            </li>
+          </ul>
+        </div>
+        <p>Some interoperability problems are reader bugs that are
+        listed here mostly as warnings to developers of
+        readers.</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>Some readers do not support negative timestamps.
+              Developers of distributed applications should keep
+              this in mind if they need to deal with pre-1970
+              data.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle timestamps before the first
+              transition that has a nonnegative timestamp. Readers
+              that do not support negative timestamps are likely to
+              be more prone to this problem.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle time zone abbreviations
+              like "-08" that contain "+", "-", or digits.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle UT offsets that are out of
+              the traditional range of −12 through +12 hours,
+              and so do not support locations like Kiritimati that
+              are outside this range.</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle UT offsets in the range
+              [−3599, −1] seconds from UT, because they
+              integer-divide the offset by 3600 to get 0 and then
+              display the hour part as "+00".</p>
+            </li>
+            <li class="listitem">
+              <p>Some readers mishandle UT offsets that are not a
+              multiple of one hour, or of 15 minutes, or of 1
+              minute.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="tzfile-5_sect6" name="tzfile-5_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/time.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(2)</span></a>, <a class="link" href="../htmlman3/ctime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">localtime</span>(3)</span></a>, <a class="link" href="../htmlman3/tzset.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tzset</span>(3)</span></a>, <a class="link" href="../htmlman8/tzselect.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tzselect</span>(8)</span></a>, <a class="link" href="../htmlman8/zdump.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">zdump</span>(8)</span></a>, <a class="link" href="../htmlman8/zic.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">zic</span>(8)</span></a>.</p>
+      <p>Olson A, Eggert P, Murchison K. The Time Zone Information
+      Format (TZif). 2019 Feb. <a class="literalurl" href="https://www.rfc-editor.org/info/rfc8536" target="_top" shape="rect">Internet RFC 8536</a> <a class="literalurl" href="https://doi.org/10.17487/RFC8536" target="_top" shape="rect">doi:10.17487/RFC8536</a></p>
+    </div>
+    <div class="colophon">
+      <a id="tzfile-5_sect7" name="tzfile-5_sect7" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    %%%LICENSE_START(PUBLIC_DOMAIN)<br />
+                  This file is in the public domain, so clarified as of<br />
+
+                  1996-06-05 by Arthur David Olson &lt;arthur_david_olson<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>nih.gov&gt;.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

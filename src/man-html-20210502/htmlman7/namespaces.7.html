@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>namespaces(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="namespaces(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="namespaces.7" name="namespaces.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>namespaces — overview of Linux namespaces</p>
+    </div>
+    <div class="refsect1">
+      <a id="namespaces-7_sect1" name="namespaces-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>A namespace wraps a global system resource in an
+      abstraction that makes it appear to the processes within the
+      namespace that they have their own isolated instance of the
+      global resource. Changes to the global resource are visible
+      to other processes that are members of the namespace, but are
+      invisible to other processes. One use of namespaces is to
+      implement containers.</p>
+      <p>This page provides pointers to information on the various
+      namespace types, describes the associated <code class="filename">/proc</code> files, and summarizes the APIs for
+      working with namespaces.</p>
+      <div class="refsect2">
+        <a id="namespaces-7_sect2" name="namespaces-7_sect2" shape="rect"> </a>
+        <h3>Namespace types</h3>
+        <p>The following table shows the namespace types available
+        on Linux. The second column of the table shows the flag
+        value that is used to specify the namespace type in various
+        APIs. The third column identifies the manual page that
+        provides details on the namespace type. The last column is
+        a summary of the resources that are isolated by the
+        namespace type.</p>
+        <div class="informaltable">
+          <table class="informaltable" style="border-collapse: collapse;">
+            <colgroup span="1">
+              <col class="c0" span="1" />
+              <col class="c1" span="1" />
+              <col class="c2" span="1" />
+              <col class="c3" span="1" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1"><em class="replaceable"><code>Namespace</code></em></td>
+                <td style="" align="left" rowspan="1" colspan="1"><em class="replaceable"><code>Flag</code></em></td>
+                <td style="" align="left" rowspan="1" colspan="1"><em class="replaceable"><code>Page</code></em></td>
+                <td style="" align="left" rowspan="1" colspan="1"><em class="replaceable"><code>Isolates</code></em></td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">Cgroup</td>
+                <td style="" align="left" rowspan="1" colspan="1"><code class="constant">CLONE_NEWCGROUP</code></td>
+                <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman7/cgroup_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroup_namespaces</span>(7)</span></a></td>
+                <td style="" align="left" rowspan="1" colspan="1">Cgroup root
+                directory</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">IPC</td>
+                <td style="" align="left" rowspan="1" colspan="1"><code class="constant">CLONE_NEWIPC</code></td>
+                <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman7/ipc_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipc_namespaces</span>(7)</span></a></td>
+                <td style="" align="left" rowspan="1" colspan="1">System V IPC, POSIX
+                message queues</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">Network</td>
+                <td style="" align="left" rowspan="1" colspan="1"><code class="constant">CLONE_NEWNET</code></td>
+                <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman7/network_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">network_namespaces</span>(7)</span></a></td>
+                <td style="" align="left" rowspan="1" colspan="1">Network devices, stacks,
+                ports, etc.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">Mount</td>
+                <td style="" align="left" rowspan="1" colspan="1"><code class="constant">CLONE_NEWNS</code></td>
+                <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman7/mount_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount_namespaces</span>(7)</span></a></td>
+                <td style="" align="left" rowspan="1" colspan="1">Mount points</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">PID</td>
+                <td style="" align="left" rowspan="1" colspan="1"><code class="constant">CLONE_NEWPID</code></td>
+                <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman7/pid_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pid_namespaces</span>(7)</span></a></td>
+                <td style="" align="left" rowspan="1" colspan="1">Process IDs</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">Time</td>
+                <td style="" align="left" rowspan="1" colspan="1"><code class="constant">CLONE_NEWTIME</code></td>
+                <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman7/time_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time_namespaces</span>(7)</span></a></td>
+                <td style="" align="left" rowspan="1" colspan="1">Boot and monotonic
+                clocks</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">User</td>
+                <td style="" align="left" rowspan="1" colspan="1"><code class="constant">CLONE_NEWUSER</code></td>
+                <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a></td>
+                <td style="" align="left" rowspan="1" colspan="1">T{User and group IDs</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">T}</td>
+                <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+                <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+                <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">UTS</td>
+                <td style="" align="left" rowspan="1" colspan="1"><code class="constant">CLONE_NEWUTS</code></td>
+                <td style="" align="left" rowspan="1" colspan="1"><a class="link" href="../htmlman7/uts_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">uts_namespaces</span>(7)</span></a></td>
+                <td style="" align="left" rowspan="1" colspan="1">Hostname and NIS domain
+                name</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="namespaces-7_sect3" name="namespaces-7_sect3" shape="rect"> </a>
+        <h3>The namespaces API</h3>
+        <p>As well as various <code class="filename">/proc</code>
+        files described below, the namespaces API includes the
+        following system calls:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a></span></dt>
+            <dd>
+              <p>The <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> system
+              call creates a new process. If the <em class="replaceable"><code>flags</code></em> argument of the
+              call specifies one or more of the <em class="replaceable"><code>CLONE_NEW*</code></em> flags
+              listed below, then new namespaces are created for
+              each flag, and the child process is made a member of
+              those namespaces. (This system call also implements a
+              number of features unrelated to namespaces.)</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a></span></dt>
+            <dd>
+              <p>The <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a> system
+              call allows the calling process to join an existing
+              namespace. The namespace to join is specified via a
+              file descriptor that refers to one of the
+              <code class="filename">/proc/[pid]/ns</code> files
+              described below.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a></span></dt>
+            <dd>
+              <p>The <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a> system
+              call moves the calling process to a new namespace. If
+              the <em class="replaceable"><code>flags</code></em>
+              argument of the call specifies one or more of the
+              <em class="replaceable"><code>CLONE_NEW*</code></em>
+              flags listed below, then new namespaces are created
+              for each flag, and the calling process is made a
+              member of those namespaces. (This system call also
+              implements a number of features unrelated to
+              namespaces.)</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Various <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations
+              can be used to discover information about namespaces.
+              These operations are described in <a class="link" href="../htmlman2/ioctl_ns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl_ns</span>(2)</span></a>.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>Creation of new namespaces using <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> and <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a> in most cases
+        requires the <code class="constant">CAP_SYS_ADMIN</code>
+        capability, since, in the new namespace, the creator will
+        have the power to change global resources that are visible
+        to other processes that are subsequently created in, or
+        join the namespace. User namespaces are the exception:
+        since Linux 3.8, no privilege is required to create a user
+        namespace.</p>
+      </div>
+      <div class="refsect2">
+        <a id="namespaces-7_sect4" name="namespaces-7_sect4" shape="rect"> </a>
+        <h3>The /proc/[pid]/ns/ directory</h3>
+        <p>Each process has a <code class="filename">/proc/[pid]/ns/</code> subdirectory containing
+        one entry for each namespace that supports being
+        manipulated by <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a>:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>ls −l /proc/$$/ns | awk '{print $1, $9, $10, $11}'</em></span>
+total 0
+lrwxrwxrwx. cgroup −&gt; cgroup:[4026531835]
+lrwxrwxrwx. ipc −&gt; ipc:[4026531839]
+lrwxrwxrwx. mnt −&gt; mnt:[4026531840]
+lrwxrwxrwx. net −&gt; net:[4026531969]
+lrwxrwxrwx. pid −&gt; pid:[4026531836]
+lrwxrwxrwx. pid_for_children −&gt; pid:[4026531834]
+lrwxrwxrwx. time −&gt; time:[4026531834]
+lrwxrwxrwx. time_for_children −&gt; time:[4026531834]
+lrwxrwxrwx. user −&gt; user:[4026531837]
+lrwxrwxrwx. uts −&gt; uts:[4026531838]
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>Bind mounting (see <a class="link" href="../htmlman2/mount.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount</span>(2)</span></a>) one of the
+        files in this directory to somewhere else in the filesystem
+        keeps the corresponding namespace of the process specified
+        by <em class="replaceable"><code>pid</code></em> alive even
+        if all processes currently in the namespace terminate.</p>
+        <p>Opening one of the files in this directory (or a file
+        that is bind mounted to one of these files) returns a file
+        handle for the corresponding namespace of the process
+        specified by <em class="replaceable"><code>pid</code></em>.
+        As long as this file descriptor remains open, the namespace
+        will remain alive, even if all processes in the namespace
+        terminate. The file descriptor can be passed to <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a>.</p>
+        <p>In Linux 3.7 and earlier, these files were visible as
+        hard links. Since Linux 3.8, they appear as symbolic links.
+        If two processes are in the same namespace, then the device
+        IDs and inode numbers of their <code class="filename">/proc/[pid]/ns/xxx</code> symbolic links will be
+        the same; an application can check this using the
+        <em class="replaceable"><code>stat.st_dev</code></em> and
+        <em class="replaceable"><code>stat.st_ino</code></em>
+        fields returned by <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a>. The content of
+        this symbolic link is a string containing the namespace
+        type and inode number as in the following example:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>readlink /proc/$$/ns/uts</em></span>
+uts:[4026531838]
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>The symbolic links in this subdirectory are as
+        follows:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/cgroup</code> (since Linux
+            4.6)</span></dt>
+            <dd>
+              <p>This file is a handle for the cgroup namespace of
+              the process.</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/ipc</code> (since Linux
+            3.0)</span></dt>
+            <dd>
+              <p>This file is a handle for the IPC namespace of the
+              process.</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/mnt</code> (since Linux
+            3.8)</span></dt>
+            <dd>
+              <p>This file is a handle for the mount namespace of
+              the process.</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/net</code> (since Linux
+            3.0)</span></dt>
+            <dd>
+              <p>This file is a handle for the network namespace of
+              the process.</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/pid</code> (since Linux
+            3.8)</span></dt>
+            <dd>
+              <p>This file is a handle for the PID namespace of the
+              process. This handle is permanent for the lifetime of
+              the process (i.e., a process's PID namespace
+              membership never changes).</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/pid_for_children</code>
+            (since Linux 4.12)</span></dt>
+            <dd>
+              <p>This file is a handle for the PID namespace of
+              child processes created by this process. This can
+              change as a consequence of calls to <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a> and
+              <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a> (see
+              <a class="link" href="../htmlman7/pid_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pid_namespaces</span>(7)</span></a>),
+              so the file may differ from <code class="filename">/proc/[pid]/ns/pid</code>. The symbolic
+              link gains a value only after the first child process
+              is created in the namespace. (Beforehand, <a class="link" href="../htmlman2/readlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readlink</span>(2)</span></a> of the
+              symbolic link will return an empty buffer.)</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/time</code> (since Linux
+            5.6)</span></dt>
+            <dd>
+              <p>This file is a handle for the time namespace of
+              the process.</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/time_for_children</code>
+            (since Linux 5.6)</span></dt>
+            <dd>
+              <p>This file is a handle for the time namespace of
+              child processes created by this process. This can
+              change as a consequence of calls to <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a> and
+              <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a> (see
+              <a class="link" href="../htmlman7/time_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time_namespaces</span>(7)</span></a>),
+              so the file may differ from <code class="filename">/proc/[pid]/ns/time</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/user</code> (since Linux
+            3.8)</span></dt>
+            <dd>
+              <p>This file is a handle for the user namespace of
+              the process.</p>
+            </dd>
+            <dt><span class="term"><code class="filename">/proc/[pid]/ns/uts</code> (since Linux
+            3.0)</span></dt>
+            <dd>
+              <p>This file is a handle for the UTS namespace of the
+              process.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>Permission to dereference or read (<a class="link" href="../htmlman2/readlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readlink</span>(2)</span></a>) these
+        symbolic links is governed by a ptrace access mode
+        <code class="constant">PTRACE_MODE_READ_FSCREDS</code>
+        check; see <a class="link" href="../htmlman2/ptrace.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ptrace</span>(2)</span></a>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="namespaces-7_sect5" name="namespaces-7_sect5" shape="rect"> </a>
+        <h3>The /proc/sys/user directory</h3>
+        <p>The files in the <code class="filename">/proc/sys/user</code> directory (which is
+        present since Linux 4.9) expose limits on the number of
+        namespaces of various types that can be created. The files
+        are as follows:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="replaceable"><code>max_cgroup_namespaces</code></em></span></dt>
+            <dd>
+              <p>The value in this file defines a per-user limit on
+              the number of cgroup namespaces that may be created
+              in the user namespace.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>max_ipc_namespaces</code></em></span></dt>
+            <dd>
+              <p>The value in this file defines a per-user limit on
+              the number of ipc namespaces that may be created in
+              the user namespace.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>max_mnt_namespaces</code></em></span></dt>
+            <dd>
+              <p>The value in this file defines a per-user limit on
+              the number of mount namespaces that may be created in
+              the user namespace.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>max_net_namespaces</code></em></span></dt>
+            <dd>
+              <p>The value in this file defines a per-user limit on
+              the number of network namespaces that may be created
+              in the user namespace.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>max_pid_namespaces</code></em></span></dt>
+            <dd>
+              <p>The value in this file defines a per-user limit on
+              the number of PID namespaces that may be created in
+              the user namespace.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>max_time_namespaces</code></em>
+            (since Linux 5.7)</span></dt>
+            <dd>
+              <p>The value in this file defines a per-user limit on
+              the number of time namespaces that may be created in
+              the user namespace.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>max_user_namespaces</code></em></span></dt>
+            <dd>
+              <p>The value in this file defines a per-user limit on
+              the number of user namespaces that may be created in
+              the user namespace.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>max_uts_namespaces</code></em></span></dt>
+            <dd>
+              <p>The value in this file defines a per-user limit on
+              the number of uts namespaces that may be created in
+              the user namespace.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>Note the following details about these files:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>The values in these files are modifiable by
+              privileged processes.</p>
+            </li>
+            <li class="listitem">
+              <p>The values exposed by these files are the limits
+              for the user namespace in which the opening process
+              resides.</p>
+            </li>
+            <li class="listitem">
+              <p>The limits are per-user. Each user in the same
+              user namespace can create namespaces up to the
+              defined limit.</p>
+            </li>
+            <li class="listitem">
+              <p>The limits apply to all users, including UID
+              0.</p>
+            </li>
+            <li class="listitem">
+              <p>These limits apply in addition to any other
+              per-namespace limits (such as those for PID and user
+              namespaces) that may be enforced.</p>
+            </li>
+            <li class="listitem">
+              <p>Upon encountering these limits, <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> and
+              <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a> fail
+              with the error <span class="errorname">ENOSPC</span>.</p>
+            </li>
+            <li class="listitem">
+              <p>For the initial user namespace, the default value
+              in each of these files is half the limit on the
+              number of threads that may be created (<code class="filename">/proc/sys/kernel/threads−max</code>).
+              In all descendant user namespaces, the default value
+              in each file is <code class="constant">MAXINT</code>.</p>
+            </li>
+            <li class="listitem">
+              <p>When a namespace is created, the object is also
+              accounted against ancestor namespaces. More
+              precisely:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term"><code class="literal">+</code></span></dt>
+                      <dd>
+                        <p>Each user namespace has a creator
+                        UID.</p>
+                      </dd>
+                      <dt><span class="term"><code class="literal">+</code></span></dt>
+                      <dd>
+                        <p>When a namespace is created, it is
+                        accounted against the creator UIDs in each
+                        of the ancestor user namespaces, and the
+                        kernel ensures that the corresponding
+                        namespace limit for the creator UID in the
+                        ancestor namespace is not exceeded.</p>
+                      </dd>
+                      <dt><span class="term"><code class="literal">+</code></span></dt>
+                      <dd>
+                        <p>The aforementioned point ensures that
+                        creating a new user namespace cannot be
+                        used as a means to escape the limits in
+                        force in the current user namespace.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="namespaces-7_sect6" name="namespaces-7_sect6" shape="rect"> </a>
+        <h3>Namespace lifetime</h3>
+        <p>Absent any other factors, a namespace is automatically
+        torn down when the last process in the namespace terminates
+        or leaves the namespace. However, there are a number of
+        other factors that may pin a namespace into existence even
+        though it has no member processes. These factors include
+        the following:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>An open file descriptor or a bind mount exists for
+              the corresponding <code class="filename">/proc/[pid]/ns/*</code> file.</p>
+            </li>
+            <li class="listitem">
+              <p>The namespace is hierarchical (i.e., a PID or user
+              namespace), and has a child namespace.</p>
+            </li>
+            <li class="listitem">
+              <p>It is a user namespace that owns one or more
+              nonuser namespaces.</p>
+            </li>
+            <li class="listitem">
+              <p>It is a PID namespace, and there is a process that
+              refers to the namespace via a <code class="filename">/proc/[pid]/ns/pid_for_children</code>
+              symbolic link.</p>
+            </li>
+            <li class="listitem">
+              <p>It is a time namespace, and there is a process
+              that refers to the namespace via a <code class="filename">/proc/[pid]/ns/time_for_children</code>
+              symbolic link.</p>
+            </li>
+            <li class="listitem">
+              <p>It is an IPC namespace, and a corresponding mount
+              of an <em class="replaceable"><code>mqueue</code></em> filesystem
+              (see <a class="link" href="../htmlman7/mq_overview.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mq_overview</span>(7)</span></a>)
+              refers to this namespace.</p>
+            </li>
+            <li class="listitem">
+              <p>It is a PID namespace, and a corresponding mount
+              of a <a class="link" href="../htmlman5/proc.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">proc</span>(5)</span></a> filesystem
+              refers to this namespace.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="namespaces-7_sect7" name="namespaces-7_sect7" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>See <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> and <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="namespaces-7_sect8" name="namespaces-7_sect8" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/nsenter.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">nsenter</span>(1)</span></a>, <a class="link" href="../htmlman1/readlink.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readlink</span>(1)</span></a>, <a class="link" href="../htmlman1/unshare.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(1)</span></a>, <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>, <a class="link" href="../htmlman2/ioctl_ns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl_ns</span>(2)</span></a>, <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a>, <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a>, <a class="link" href="../htmlman5/proc.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">proc</span>(5)</span></a>, <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>, <a class="link" href="../htmlman7/cgroup_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroup_namespaces</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/cgroups.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroups</span>(7)</span></a>, <a class="link" href="../htmlman7/credentials.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">credentials</span>(7)</span></a>, <a class="link" href="../htmlman7/ipc_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipc_namespaces</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/network_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">network_namespaces</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/pid_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pid_namespaces</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/uts_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">uts_namespaces</span>(7)</span></a>,
+      <a class="link" href="../htmlman8/lsns.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lsns</span>(8)</span></a>, <span class="citerefentry"><span class="refentrytitle">pam_namespace</span>(8)</span>, <a class="link" href="../htmlman8/switch_root.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">switch_root</span>(8)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="namespaces-7_sect9" name="namespaces-7_sect9" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2013, 2016, 2017 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  and Copyright (c) 2012 by Eric W. Biederman &lt;ebiederm<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>xmission.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

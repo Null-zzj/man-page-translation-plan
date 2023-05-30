@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>svipc(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="svipc(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="sysvipc.7" name="sysvipc.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>sysvipc — System V interprocess communication
+      mechanisms</p>
+    </div>
+    <div class="refsect1">
+      <a id="sysvipc-7_sect1" name="sysvipc-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>System V IPC is the name given to three interprocess
+      communication mechanisms that are widely available on UNIX
+      systems: message queues, semaphore, and shared memory.</p>
+      <div class="refsect2">
+        <a id="sysvipc-7_sect2" name="sysvipc-7_sect2" shape="rect"> </a>
+        <h3>Message queues</h3>
+        <p>System V message queues allow data to be exchanged in
+        units called messages. Each messages can have an associated
+        priority, POSIX message queues provide an alternative API
+        for achieving the same result; see <a class="link" href="../htmlman7/mq_overview.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mq_overview</span>(7)</span></a>.</p>
+        <p>The System V message queue API consists of the following
+        system calls:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><a class="link" href="../htmlman2/msgget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgget</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Create a new message queue or obtain the ID of an
+              existing message queue. This call returns an
+              identifier that is used in the remaining APIs.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/msgop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgsnd</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Add a message to a queue.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/msgop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgrcv</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Remove a message from a queue.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/msgctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgctl</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Perform various control operations on a queue,
+              including deletion.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="sysvipc-7_sect3" name="sysvipc-7_sect3" shape="rect"> </a>
+        <h3>Semaphore sets</h3>
+        <p>System V semaphores allow processes to synchronize their
+        actions System V semaphores are allocated in groups called
+        sets; each semaphore in a set is a counting semaphore.
+        POSIX semaphores provide an alternative API for achieving
+        the same result; see <a class="link" href="../htmlman7/sem_overview.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sem_overview</span>(7)</span></a>.</p>
+        <p>The System V semaphore API consists of the following
+        system calls:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><a class="link" href="../htmlman2/semget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semget</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Create a new set or obtain the ID of an existing
+              set. This call returns an identifier that is used in
+              the remaining APIs.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/semop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semop</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Perform operations on the semaphores in a set.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/semctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semctl</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Perform various control operations on a set,
+              including deletion.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="sysvipc-7_sect4" name="sysvipc-7_sect4" shape="rect"> </a>
+        <h3>Shared memory segments</h3>
+        <p>System V shared memory allows processes to share a
+        region a memory (a "segment"). POSIX shared memory is an
+        alternative API for achieving the same result; see
+        <a class="link" href="../htmlman7/shm_overview.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shm_overview</span>(7)</span></a>.</p>
+        <p>The System V shared memory API consists of the following
+        system calls:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><a class="link" href="../htmlman2/shmget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmget</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Create a new segment or obtain the ID of an
+              existing segment. This call returns an identifier
+              that is used in the remaining APIs.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/shmop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmat</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Attach an existing shared memory object into the
+              calling process's address space.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/shmop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmdt</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Detach a segment from the calling process's
+              address space.</p>
+            </dd>
+            <dt><span class="term"><a class="link" href="../htmlman2/shmctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmctl</span>(2)</span></a></span></dt>
+            <dd>
+              <p>Perform various control operations on a segment,
+              including deletion.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="sysvipc-7_sect5" name="sysvipc-7_sect5" shape="rect"> </a>
+        <h3>IPC namespaces</h3>
+        <p>For a discussion of the interaction of System V IPC
+        objects and IPC namespaces, see <a class="link" href="../htmlman7/ipc_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipc_namespaces</span>(7)</span></a>.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="sysvipc-7_sect6" name="sysvipc-7_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/ipcmk.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipcmk</span>(1)</span></a>, <a class="link" href="../htmlman1/ipcrm.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipcrm</span>(1)</span></a>, <a class="link" href="../htmlman1/ipcs.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipcs</span>(1)</span></a>, <a class="link" href="../htmlman1/lsipc.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lsipc</span>(1)</span></a>, <a class="link" href="../htmlman2/ipc.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipc</span>(2)</span></a>, <a class="link" href="../htmlman2/msgctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgctl</span>(2)</span></a>, <a class="link" href="../htmlman2/msgget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgget</span>(2)</span></a>, <a class="link" href="../htmlman2/msgop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgrcv</span>(2)</span></a>, <a class="link" href="../htmlman2/msgop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgsnd</span>(2)</span></a>, <a class="link" href="../htmlman2/semctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semctl</span>(2)</span></a>, <a class="link" href="../htmlman2/semget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semget</span>(2)</span></a>, <a class="link" href="../htmlman2/semop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semop</span>(2)</span></a>, <a class="link" href="../htmlman2/shmop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmat</span>(2)</span></a>, <a class="link" href="../htmlman2/shmctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmctl</span>(2)</span></a>, <a class="link" href="../htmlman2/shmop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmdt</span>(2)</span></a>, <a class="link" href="../htmlman2/shmget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmget</span>(2)</span></a>, <a class="link" href="../htmlman3/ftok.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ftok</span>(3)</span></a>, <a class="link" href="../htmlman7/ipc_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipc_namespaces</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="sysvipc-7_sect7" name="sysvipc-7_sect7" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright 2020 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>request_key(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="request_key(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="request-key.2" name="request-key.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>request_key — request a key from the kernel's key
+      management facility</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;keyutils.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">key_serial_t
+            <strong>request_key</strong>(</code></td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">type</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">description</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">callout_info</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">key_serial_t <var class="pdparam">dest_keyring</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="request-key-2_sect1" name="request-key-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><code class="function">request_key</code>() attempts to
+      find a key of the given <em class="parameter"><code>type</code></em> with a description (name)
+      that matches the specified <em class="parameter"><code>description</code></em>. If such a key
+      could not be found, then the key is optionally created. If
+      the key is found or created, <code class="function">request_key</code>() attaches it to the keyring
+      whose ID is specified in <em class="parameter"><code>dest_keyring</code></em> and returns the
+      key's serial number.</p>
+      <p><code class="function">request_key</code>() first
+      recursively searches for a matching key in all of the
+      keyrings attached to the calling process. The keyrings are
+      searched in the order: thread-specific keyring,
+      process-specific keyring, and then session keyring.</p>
+      <p>If <code class="function">request_key</code>() is called
+      from a program invoked by <code class="function">request_key</code>() on behalf of some other
+      process to generate a key, then the keyrings of that other
+      process will be searched next, using that other process's
+      user ID, group ID, supplementary group IDs, and security
+      context to determine access.</p>
+      <p>The search of the keyring tree is breadth-first: the keys
+      in each keyring searched are checked for a match before any
+      child keyrings are recursed into. Only keys for which the
+      caller has <em class="replaceable"><code>search</code></em>
+      permission be found, and only keyrings for which the caller
+      has <em class="replaceable"><code>search</code></em>
+      permission may be searched.</p>
+      <p>If the key is not found and <em class="replaceable"><code>callout</code></em> is NULL, then the
+      call fails with the error <span class="errorname">ENOKEY</span>.</p>
+      <p>If the key is not found and <em class="replaceable"><code>callout</code></em> is not NULL, then the
+      kernel attempts to invoke a user-space program to instantiate
+      the key. The details are given below.</p>
+      <p>The <em class="parameter"><code>dest_keyring</code></em>
+      serial number may be that of a valid keyring for which the
+      caller has <em class="replaceable"><code>write</code></em>
+      permission, or it may be one of the following special keyring
+      IDs:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">KEY_SPEC_THREAD_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's thread-specific keyring
+            (see <a class="link" href="../htmlman7/thread-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">thread-keyring</span>(7)</span></a>).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEY_SPEC_PROCESS_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's process-specific keyring
+            (see <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEY_SPEC_SESSION_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's session-specific keyring
+            (see <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEY_SPEC_USER_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's UID-specific keyring
+            (see <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">KEY_SPEC_USER_SESSION_KEYRING</code></span></dt>
+          <dd>
+            <p>This specifies the caller's UID-session keyring (see
+            <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a>).</p>
+          </dd>
+        </dl>
+      </div>
+      <p>When the <em class="parameter"><code>dest_keyring</code></em> is specified as 0
+      and no key construction has been performed, then no
+      additional linking is done.</p>
+      <p>Otherwise, if <em class="parameter"><code>dest_keyring</code></em> is 0 and a new key
+      is constructed, the new key will be linked to the "default"
+      keyring. More precisely, when the kernel tries to determine
+      to which keyring the newly constructed key should be linked,
+      it tries the following keyrings, beginning with the keyring
+      set via the <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a> <code class="constant">KEYCTL_SET_REQKEY_KEYRING</code> operation and
+      continuing in the order shown below until it finds the first
+      keyring that exists:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>The requestor keyring (<code class="constant">KEY_REQKEY_DEFL_REQUESTOR_KEYRING</code>,
+            since Linux 2.6.29).</p>
+          </li>
+          <li class="listitem">
+            <p>The thread-specific keyring (<code class="constant">KEY_REQKEY_DEFL_THREAD_KEYRING</code>; see
+            <a class="link" href="../htmlman7/thread-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">thread-keyring</span>(7)</span></a>).</p>
+          </li>
+          <li class="listitem">
+            <p>The process-specific keyring (<code class="constant">KEY_REQKEY_DEFL_PROCESS_KEYRING</code>; see
+            <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>).</p>
+          </li>
+          <li class="listitem">
+            <p>The session-specific keyring (<code class="constant">KEY_REQKEY_DEFL_SESSION_KEYRING</code>; see
+            <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>).</p>
+          </li>
+          <li class="listitem">
+            <p>The session keyring for the process's user ID
+            (<code class="constant">KEY_REQKEY_DEFL_USER_SESSION_KEYRING</code>;
+            see <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a>).
+            This keyring is expected to always exist.</p>
+          </li>
+          <li class="listitem">
+            <p>The UID-specific keyring (<code class="constant">KEY_REQKEY_DEFL_USER_KEYRING</code>; see
+            <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>).
+            This keyring is also expected to always exist.</p>
+          </li>
+        </ul>
+      </div>
+      <p>If the <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a> <code class="constant">KEYCTL_SET_REQKEY_KEYRING</code> operation
+      specifies <code class="constant">KEY_REQKEY_DEFL_DEFAULT</code> (or no <code class="constant">KEYCTL_SET_REQKEY_KEYRING</code> operation is
+      performed), then the kernel looks for a keyring starting from
+      the beginning of the list.</p>
+      <div class="refsect2">
+        <a id="request-key-2_sect2" name="request-key-2_sect2" shape="rect"> </a>
+        <h3>Requesting user-space instantiation of a key</h3>
+        <p>If the kernel cannot find a key matching <em class="parameter"><code>type</code></em> and <em class="parameter"><code>description</code></em>, and <em class="replaceable"><code>callout</code></em> is not NULL, then
+        the kernel attempts to invoke a user-space program to
+        instantiate a key with the given <em class="parameter"><code>type</code></em> and <em class="parameter"><code>description</code></em>. In this case,
+        the following steps are performed:</p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="a">
+            <li class="listitem">
+              <p>The kernel creates an uninstantiated key, U, with
+              the requested <em class="parameter"><code>type</code></em> and <em class="parameter"><code>description</code></em>.</p>
+            </li>
+            <li class="listitem">
+              <p>The kernel creates an authorization key, V, that
+              refers to the key U and records the facts that the
+              caller of <code class="function">request_key</code>()
+              is:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term"><em class="replaceable"><code>(1)</code></em></span></dt>
+                      <dd>
+                        <p>the context in which the key U should be
+                        instantiated and secured, and</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>(2)</code></em></span></dt>
+                      <dd>
+                        <p>the context from which associated key
+                        requests may be satisfied.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+              <p>The authorization key is constructed as
+              follows:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="itemizedlist">
+                    <ul class="itemizedlist" style="list-style-type: disc;">
+                      <li class="listitem">
+                        <p>The key type is <em class="replaceable"><code>".request_key_auth"</code></em>.</p>
+                      </li>
+                      <li class="listitem">
+                        <p>The key's UID and GID are the same as
+                        the corresponding filesystem IDs of the
+                        requesting process.</p>
+                      </li>
+                      <li class="listitem">
+                        <p>The key grants <em class="replaceable"><code>view</code></em>,
+                        <em class="replaceable"><code>read</code></em>, and
+                        <em class="replaceable"><code>search</code></em>
+                        permissions to the key possessor as well as
+                        <em class="replaceable"><code>view</code></em>
+                        permission for the key user.</p>
+                      </li>
+                      <li class="listitem">
+                        <p>The description (name) of the key is the
+                        hexadecimal string representing the ID of
+                        the key that is to be instantiated in the
+                        requesting program.</p>
+                      </li>
+                      <li class="listitem">
+                        <p>The payload of the key is taken from the
+                        data specified in <em class="parameter"><code>callout_info</code></em>.</p>
+                      </li>
+                      <li class="listitem">
+                        <p>Internally, the kernel also records the
+                        PID of the process that called <code class="function">request_key</code>().</p>
+                      </li>
+                    </ul>
+                  </div>
+                </blockquote>
+              </div>
+            </li>
+            <li class="listitem">
+              <p>The kernel creates a process that executes a
+              user-space service such as <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span> with a
+              new session keyring that contains a link to the
+              authorization key, V.</p>
+              <p>This program is supplied with the following
+              command-line arguments:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term"><em class="replaceable"><code>[0]</code></em></span></dt>
+                      <dd>
+                        <p>The string <em class="replaceable"><code>"/sbin/request−key"</code></em>.</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>[1]</code></em></span></dt>
+                      <dd>
+                        <p>The string <em class="replaceable"><code>"create"</code></em>
+                        (indicating that a key is to be
+                        created).</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>[2]</code></em></span></dt>
+                      <dd>
+                        <p>The ID of the key that is to be
+                        instantiated.</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>[3]</code></em></span></dt>
+                      <dd>
+                        <p>The filesystem UID of the caller of
+                        <code class="function">request_key</code>().</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>[4]</code></em></span></dt>
+                      <dd>
+                        <p>The filesystem GID of the caller of
+                        <code class="function">request_key</code>().</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>[5]</code></em></span></dt>
+                      <dd>
+                        <p>The ID of the thread keyring of the
+                        caller of <code class="function">request_key</code>(). This may
+                        be zero if that keyring hasn't been
+                        created.</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>[6]</code></em></span></dt>
+                      <dd>
+                        <p>The ID of the process keyring of the
+                        caller of <code class="function">request_key</code>(). This may
+                        be zero if that keyring hasn't been
+                        created.</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>[7]</code></em></span></dt>
+                      <dd>
+                        <p>The ID of the session keyring of the
+                        caller of <code class="function">request_key</code>().</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+              <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+                <table border="0" summary="Note">
+                  <tr>
+                    <td rowspan="2" align="center" valign="top" width="25" colspan="1"><img alt="[Note]" src="../stylesheet/note.png" /></td>
+                    <th align="left" rowspan="1" colspan="1">Note</th>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" rowspan="1" colspan="1">
+                      <p>each of the command-line arguments that is
+                      a key ID is encoded in <em class="replaceable"><code>decimal</code></em>
+                      (unlike the key IDs shown in <code class="filename">/proc/keys</code>, which are shown
+                      as hexadecimal values).</p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </li>
+            <li class="listitem">
+              <p>The program spawned in the previous step:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="itemizedlist">
+                    <ul class="itemizedlist" style="list-style-type: disc;">
+                      <li class="listitem">
+                        <p>Assumes the authority to instantiate the
+                        key U using the <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a>
+                        <code class="constant">KEYCTL_ASSUME_AUTHORITY</code>
+                        operation (typically via the <span class="citerefentry"><span class="refentrytitle">keyctl_assume_authority</span>(3)</span>
+                        function).</p>
+                      </li>
+                      <li class="listitem">
+                        <p>Obtains the callout data from the
+                        payload of the authorization key V (using
+                        the <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a>
+                        <code class="constant">KEYCTL_READ</code>
+                        operation (or, more commonly, the
+                        <span class="citerefentry"><span class="refentrytitle">keyctl_read</span>(3)</span>
+                        function) with a key ID value of
+                        <code class="constant">KEY_SPEC_REQKEY_AUTH_KEY</code>).</p>
+                      </li>
+                      <li class="listitem">
+                        <p>Instantiates the key (or execs another
+                        program that performs that task),
+                        specifying the payload and destination
+                        keyring. (The destination keyring that the
+                        requestor specified when calling
+                        <code class="function">request_key</code>()
+                        can be accessed using the special key ID
+                        <code class="constant">KEY_SPEC_REQUESTOR_KEYRING</code>.)
+                        Instantiation is performed using the
+                        <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a>
+                        <code class="constant">KEYCTL_INSTANTIATE</code>
+                        operation (or, more commonly, the
+                        <span class="citerefentry"><span class="refentrytitle">keyctl_instantiate</span>(3)</span>
+                        function). At this point, the <code class="function">request_key</code>() call
+                        completes, and the requesting program can
+                        continue execution.</p>
+                      </li>
+                    </ul>
+                  </div>
+                </blockquote>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p>If these steps are unsuccessful, then an <span class="errorname">ENOKEY</span> error will be returned to the
+        caller of <code class="function">request_key</code>() and a
+        temporary, negatively instantiated key will be installed in
+        the keyring specified by <em class="parameter"><code>dest_keyring</code></em>. This will
+        expire after a few seconds, but will cause subsequent calls
+        to <code class="function">request_key</code>() to fail
+        until it does. The purpose of this negatively instantiated
+        key is to prevent (possibly different) processes making
+        repeated requests (that require expensive <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span> upcalls) for a
+        key that can't (at the moment) be positively
+        instantiated.</p>
+        <p>Once the key has been instantiated, the authorization
+        key (<code class="constant">KEY_SPEC_REQKEY_AUTH_KEY</code>) is revoked, and
+        the destination keyring (<code class="constant">KEY_SPEC_REQUESTOR_KEYRING</code>) is no longer
+        accessible from the <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span> program.</p>
+        <p>If a key is created, then—regardless of whether it
+        is a valid key or a negatively instantiated key—it
+        will displace any other key with the same type and
+        description from the keyring specified in <em class="parameter"><code>dest_keyring</code></em>.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="request-key-2_sect3" name="request-key-2_sect3" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">request_key</code>()
+      returns the serial number of the key it found or caused to be
+      created. On error, −1 is returned and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="request-key-2_sect4" name="request-key-2_sect4" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p>The keyring wasn't available for modification by the
+            user.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EDQUOT</span></span></dt>
+          <dd>
+            <p>The key quota for this user would be exceeded by
+            creating this key or linking it to the keyring.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p>One of <em class="parameter"><code>type</code></em>,
+            <em class="parameter"><code>description</code></em>, or
+            <em class="parameter"><code>callout_info</code></em>
+            points outside the process's accessible address
+            space.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINTR</span></span></dt>
+          <dd>
+            <p>The request was interrupted by a signal; see
+            <a class="link" href="../htmlman7/signal.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">signal</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The size of the string (including the terminating
+            null byte) specified in <em class="parameter"><code>type</code></em> or <em class="parameter"><code>description</code></em> exceeded the
+            limit (32 bytes and 4096 bytes respectively).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The size of the string (including the terminating
+            null byte) specified in <em class="parameter"><code>callout_info</code></em> exceeded the
+            system page size.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EKEYEXPIRED</span></span></dt>
+          <dd>
+            <p>An expired key was found, but no replacement could
+            be obtained.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EKEYREJECTED</span></span></dt>
+          <dd>
+            <p>The attempt to generate a new key was rejected.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EKEYREVOKED</span></span></dt>
+          <dd>
+            <p>A revoked key was found, but no replacement could be
+            obtained.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOKEY</span></span></dt>
+          <dd>
+            <p>No matching key was found.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Insufficient memory to create a key.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p>The <em class="parameter"><code>type</code></em>
+            argument started with a period ('.').</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="request-key-2_sect5" name="request-key-2_sect5" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>This system call first appeared in Linux 2.6.10. The
+      ability to instantiate keys upon request was added in Linux
+      2.6.13.</p>
+    </div>
+    <div class="refsect1">
+      <a id="request-key-2_sect6" name="request-key-2_sect6" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>This system call is a nonstandard Linux extension.</p>
+    </div>
+    <div class="refsect1">
+      <a id="request-key-2_sect7" name="request-key-2_sect7" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call. A
+      wrapper is provided in the <em class="replaceable"><code>libkeyutils</code></em> package. When
+      employing the wrapper in that library, link with <code class="option">−lkeyutils</code>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="request-key-2_sect8" name="request-key-2_sect8" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below demonstrates the use of <code class="function">request_key</code>(). The <em class="parameter"><code>type</code></em>, <em class="parameter"><code>description</code></em>, and <em class="parameter"><code>callout_info</code></em> arguments for the
+      system call are taken from the values supplied in the
+      command-line arguments. The call specifies the session
+      keyring as the target keyring.</p>
+      <p>In order to demonstrate this program, we first create a
+      suitable entry in the file <code class="filename">/etc/request−key.conf</code>.</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ sudo sh
+# <span class="emphasis"><em>echo 'create user mtk:* *   /bin/keyctl instantiate %k %c %S' \</em></span>
+          <span class="emphasis"><em>&gt; /etc/request−key.conf</em></span>
+# <em class="replaceable"><code>exit</code></em>
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>This entry specifies that when a new "user" key with the
+      prefix "mtk:" must be instantiated, that task should be
+      performed via the <span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span> command's <em class="replaceable"><code>instantiate</code></em> operation. The
+      arguments supplied to the <em class="replaceable"><code>instantiate</code></em> operation are:
+      the ID of the uninstantiated key (<em class="replaceable"><code>%k</code></em>); the callout data
+      supplied to the <code class="function">request_key</code>()
+      call (<em class="replaceable"><code>%c</code></em>); and the
+      session keyring (<em class="replaceable"><code>%S</code></em>) of the requestor (i.e.,
+      the caller of <code class="function">request_key</code>()).
+      See <span class="citerefentry"><span class="refentrytitle">request-key.conf</span>(5)</span> for details
+      of these <code class="literal">%</code> specifiers.</p>
+      <p>Then we run the program and check the contents of
+      <code class="filename">/proc/keys</code> to verify that the
+      requested key has been instantiated:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./t_request_key user mtk:key1 "Payload data"</em></span>
+$ <span class="emphasis"><em>grep '2dddaf50' /proc/keys</em></span>
+2dddaf50 I−−Q−−−  1 perm 3f010000  1000  1000 user  mtk:key1: 12
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>For another example of the use of this program, see
+      <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a>.</p>
+      <div class="refsect2">
+        <a id="request-key-2_sect9" name="request-key-2_sect9" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+/* t_request_key.c */
+
+#include &lt;sys/types.h&gt;
+#include &lt;keyutils.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    key_serial_t key;
+
+    if (argc != 4) {
+        fprintf(stderr, "Usage: %s type description callout−data\n",
+                argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    key = request_key(argv[1], argv[2], argv[3],
+                      KEY_SPEC_SESSION_KEYRING);
+    if (key == −1) {
+        perror("request_key");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Key ID is %jx\n", (uintmax_t) key);
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="request-key-2_sect10" name="request-key-2_sect10" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span>, <a class="link" href="../htmlman2/add_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">add_key</span>(2)</span></a>, <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a>, <span class="citerefentry"><span class="refentrytitle">keyctl</span>(3)</span>, <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>, <a class="link" href="../htmlman7/keyrings.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyrings</span>(7)</span></a>, <span class="citerefentry"><span class="refentrytitle">keyutils</span>(7)</span>, <a class="link" href="../htmlman7/persistent-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">persistent-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/thread-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">thread-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>, <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a>,
+      <span class="citerefentry"><span class="refentrytitle">request-key</span>(8)</span></p>
+      <p>The kernel source files <code class="filename">Documentation/security/keys/core.rst</code> and
+      <code class="filename">Documentation/keys/request−key.rst</code>
+      (or, before Linux 4.13, in the files <code class="filename">Documentation/security/keys.txt</code> and
+      <code class="filename">Documentation/security/keys−request−key.txt</code>).</p>
+    </div>
+    <div class="colophon">
+      <a id="request-key-2_sect11" name="request-key-2_sect11" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2006 Red Hat, Inc. All Rights Reserved.<br />
+
+                      Written by David Howells (dhowells<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com)<br />
+
+                  and Copyright (C) 2016 Michael Kerrisk &lt;mtk.man-pages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(GPLv2+_SW_ONEPARA)<br />
+                  This program is free software; you can redistribute it and/or<br />
+
+                  modify it under the terms of the GNU General Public License<br />
+
+                  as published by the Free Software Foundation; either version<br />
+
+                  2 of the License, or (at your option) any later version.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

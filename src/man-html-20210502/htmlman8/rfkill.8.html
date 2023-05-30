@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>rfkill(8) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="rfkill(8) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index8.html" shape="rect">Section 8</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="rfkill.8" name="rfkill.8" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>rfkill — tool for enabling and disabling wireless
+      devices</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">rfkill</code> [options] [command]
+        [ id | type... ]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="rfkill-8_sect1" name="rfkill-8_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><span class="command"><strong>rfkill</strong></span>
+      lists, enabling and disabling wireless devices.</p>
+      <p>The command "list" output format is deprecated and
+      maintained for backward compatibility only. The new output
+      format is the default when no command is specified or when
+      the option <code class="option">−−output</code>
+      is used.</p>
+      <p>The default output is subject to change. So whenever
+      possible, you should avoid using default outputs in your
+      scripts. Always explicitly define expected columns by using
+      the <code class="option">−−output</code> option
+      together with a columns list in environments where a stable
+      output is required.</p>
+    </div>
+    <div class="refsect1">
+      <a id="rfkill-8_sect2" name="rfkill-8_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−J</code>, <code class="option">−−json</code></span></dt>
+          <dd>
+            <p>Use JSON output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n</code>, <code class="option">−−noheadings</code></span></dt>
+          <dd>
+            <p>Do not print a header line.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−o</code>, <code class="option">−−output</code></span></dt>
+          <dd>
+            <p>Specify which output columns to print. Use
+            −−help to get a list of available
+            columns.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−output−all</code></span></dt>
+          <dd>
+            <p>Output all available columns.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−r</code>, <code class="option">−−raw</code></span></dt>
+          <dd>
+            <p>Use the raw output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="rfkill-8_sect3" name="rfkill-8_sect3" shape="rect"> </a>
+      <h2>COMMANDS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="command"><strong>help</strong></span></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+          <dt><span class="term"><span class="command"><strong>event</strong></span></span></dt>
+          <dd>
+            <p>Listen for rfkill events and display them on
+            stdout.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>list</em></span> [<em class="parameter"><code>id</code></em>|<em class="parameter"><code>type</code></em> ...]</span></dt>
+          <dd>
+            <p>List the current state of all available devices. The
+            command output format is deprecated, see the section
+            DESCRIPTION. It is a good idea to check with
+            <span class="command"><strong>list</strong></span>
+            command <em class="parameter"><code>id</code></em> or
+            <em class="parameter"><code>type</code></em> scope is
+            appropriate before setting <span class="command"><strong>block</strong></span> or <span class="command"><strong>unblock</strong></span>. Special
+            <span class="command"><strong>all</strong></span> type
+            string will match everything. Use of multiple
+            <em class="parameter"><code>id</code></em> or
+            <em class="parameter"><code>type</code></em> arguments
+            is supported.</p>
+          </dd>
+          <dt><span class="term"><span class="command"><strong>block</strong></span> <em class="parameter"><code>id</code></em>|<em class="parameter"><code>type</code></em> [...]</span></dt>
+          <dd>
+            <p>Disable the corresponding device.</p>
+          </dd>
+          <dt><span class="term"><span class="command"><strong>unblock</strong></span> <em class="parameter"><code>id</code></em>|<em class="parameter"><code>type</code></em> [...]</span></dt>
+          <dd>
+            <p>Enable the corresponding device. If the device is
+            hard−blocked, for example via a hardware switch,
+            it will remain unavailable though it is now
+            soft−unblocked.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="rfkill-8_sect4" name="rfkill-8_sect4" shape="rect"> </a>
+      <h2>EXAMPLE</h2>
+      <p>rfkill --output ID,TYPE</p>
+      <p>rfkill block all</p>
+      <p>rfkill unblock wlan</p>
+      <p>rfkill block bluetooth uwb wimax wwan gps fm nfc</p>
+    </div>
+    <div class="refsect1">
+      <a id="rfkill-8_sect5" name="rfkill-8_sect5" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><span class="command"><strong>rfkill</strong></span> was
+      originally written by <a class="literalurl" href="mailto:johannes%20REMOVE%20@%20THIS%20sipsolutions.net" target="_top" shape="rect">Johannes Berg</a> and <a class="literalurl" href="mailto:marcel%20REMOVE%20@%20THIS%20holtmann.org" target="_top" shape="rect">Marcel Holtmann</a> The code has been later
+      modified by <a class="literalurl" href="mailto:kerolasa%20REMOVE%20@%20THIS%20iki.fi" target="_top" shape="rect">Sami Kerola</a> and <a class="literalurl" href="mailto:kzak%20REMOVE%20@%20THIS%20redhat.com" target="_top" shape="rect">Karel Zak</a> for util-linux project.</p>
+      <p>This manual page was written by <a class="literalurl" href="mailto:linux%20REMOVE%20@%20THIS%20youmustbejoking.demon.co.uk" target="_top" shape="rect">Darren Salt</a> for the Debian project (and may
+      be used by others).</p>
+    </div>
+    <div class="refsect1">
+      <a id="rfkill-8_sect6" name="rfkill-8_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">powertop</span>(8)</span>, <span class="citerefentry"><span class="refentrytitle">systemd-rfkill</span>(8)</span>, <a class="literalurl" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/driver-api/rfkill.rst" target="_top" shape="rect">Linux kernel documentation</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="rfkill-8_sect7" name="rfkill-8_sect7" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The rfkill command is part of the util−linux package
+      and is available from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util/-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

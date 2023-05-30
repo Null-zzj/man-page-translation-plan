@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>vsock(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="vsock(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="vsock.7" name="vsock.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>vsock — Linux VSOCK address family</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/socket.h&gt;
+#include &lt;linux/vm_sockets.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">stream_socket =
+            <strong>socket</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">AF_VSOCK</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">SOCK_STREAM</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">0</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">datagram_socket =
+            <strong>socket</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">AF_VSOCK</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">SOCK_DGRAM</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">0</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="vsock-7_sect1" name="vsock-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The VSOCK address family facilitates communication between
+      virtual machines and the host they are running on. This
+      address family is used by guest agents and hypervisor
+      services that need a communications channel that is
+      independent of virtual machine network configuration.</p>
+      <p>Valid socket types are <em class="parameter"><code>SOCK_STREAM</code></em> and <em class="parameter"><code>SOCK_DGRAM</code></em>. <em class="parameter"><code>SOCK_STREAM</code></em> provides
+      connection-oriented byte streams with guaranteed, in-order
+      delivery. <em class="parameter"><code>SOCK_DGRAM</code></em>
+      provides a connectionless datagram packet service with
+      best-effort delivery and best-effort ordering. Availability
+      of these socket types is dependent on the underlying
+      hypervisor.</p>
+      <p>A new socket is created with</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+socket(AF_VSOCK, socket_type, 0);
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>When a process wants to establish a connection, it calls
+      <a class="link" href="../htmlman2/connect.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">connect</span>(2)</span></a> with a given
+      destination socket address. The socket is automatically bound
+      to a free port if unbound.</p>
+      <p>A process can listen for incoming connections by first
+      binding to a socket address using <a class="link" href="../htmlman2/bind.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">bind</span>(2)</span></a> and then calling
+      <a class="link" href="../htmlman2/listen.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">listen</span>(2)</span></a>.</p>
+      <p>Data is transmitted using the <a class="link" href="../htmlman2/send.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">send</span>(2)</span></a> or <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a> families of system
+      calls and data is received using the <a class="link" href="../htmlman2/recv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">recv</span>(2)</span></a> or <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> families of system
+      calls.</p>
+      <div class="refsect2">
+        <a id="vsock-7_sect2" name="vsock-7_sect2" shape="rect"> </a>
+        <h3>Address format</h3>
+        <p>A socket address is defined as a combination of a 32-bit
+        Context Identifier (CID) and a 32-bit port number. The CID
+        identifies the source or destination, which is either a
+        virtual machine or the host. The port number differentiates
+        between multiple services running on a single machine.</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+struct sockaddr_vm {
+    sa_family_t    svm_family;     /* Address family: AF_VSOCK */
+    unsigned short svm_reserved1;
+    unsigned int   svm_port;       /* Port # in host byte order */
+    unsigned int   svm_cid;        /* Address in host byte order */
+    unsigned char  svm_zero[sizeof(struct sockaddr) −
+                            sizeof(sa_family_t) −
+                            sizeof(unsigned short) −
+                            sizeof(unsigned int) −
+                            sizeof(unsigned int)];
+};
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p><em class="replaceable"><code>svm_family</code></em> is
+        always set to <em class="parameter"><code>AF_VSOCK</code></em>. <em class="replaceable"><code>svm_reserved1</code></em> is always set
+        to 0. <em class="replaceable"><code>svm_port</code></em>
+        contains the port number in host byte order. The port
+        numbers below 1024 are called <span class="emphasis"><em>privileged ports</em></span>. Only a process
+        with the <code class="constant">CAP_NET_BIND_SERVICE</code>
+        capability may <a class="link" href="../htmlman2/bind.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">bind</span>(2)</span></a> to these port
+        numbers. <em class="replaceable"><code>svm_zero</code></em>
+        must be zero-filled.</p>
+        <p>There are several special addresses: <code class="constant">VMADDR_CID_ANY</code> (−1U) means any
+        address for binding; <code class="constant">VMADDR_CID_HYPERVISOR</code> (0) is reserved for
+        services built into the hypervisor; <code class="constant">VMADDR_CID_LOCAL</code> (1) is the well-known
+        address for local communication (loopback); <code class="constant">VMADDR_CID_HOST</code> (2) is the well-known
+        address of the host.</p>
+        <p>The special constant <code class="constant">VMADDR_PORT_ANY</code> (−1U) means any
+        port number for binding.</p>
+      </div>
+      <div class="refsect2">
+        <a id="vsock-7_sect3" name="vsock-7_sect3" shape="rect"> </a>
+        <h3>Live migration</h3>
+        <p>Sockets are affected by live migration of virtual
+        machines. Connected <em class="parameter"><code>SOCK_STREAM</code></em> sockets become
+        disconnected when the virtual machine migrates to a new
+        host. Applications must reconnect when this happens.</p>
+        <p>The local CID may change across live migration if the
+        old CID is not available on the new host. Bound sockets are
+        automatically updated to the new CID.</p>
+      </div>
+      <div class="refsect2">
+        <a id="vsock-7_sect4" name="vsock-7_sect4" shape="rect"> </a>
+        <h3>Ioctls</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">IOCTL_VM_SOCKETS_GET_LOCAL_CID</code></span></dt>
+            <dd>
+              <p>Get the CID of the local machine. The argument is
+              a pointer to an <span class="emphasis"><em>unsigned
+              int</em></span>.</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="informalexample">
+                    <pre class="programlisting" xml:space="preserve">
+ioctl(socket, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &amp;cid);
+</pre>
+                  </div>
+                </blockquote>
+              </div>
+              <p>Consider using <code class="constant">VMADDR_CID_ANY</code> when binding instead
+              of getting the local CID with <code class="constant">IOCTL_VM_SOCKETS_GET_LOCAL_CID</code>.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="vsock-7_sect5" name="vsock-7_sect5" shape="rect"> </a>
+        <h3>Local communication</h3>
+        <p><code class="constant">VMADDR_CID_LOCAL</code> (1)
+        directs packets to the same host that generated them. This
+        is useful for testing applications on a single host and for
+        debugging.</p>
+        <p>The local CID obtained with <code class="constant">IOCTL_VM_SOCKETS_GET_LOCAL_CID</code> can be
+        used for the same purpose, but it is preferable to use
+        <span class="emphasis"><em>VMADDR_CID_LOCAL
+        .</em></span></p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="vsock-7_sect6" name="vsock-7_sect6" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p>Unable to bind to a privileged port without the
+            <code class="constant">CAP_NET_BIND_SERVICE</code>
+            capability.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EADDRINUSE</span></span></dt>
+          <dd>
+            <p>Unable to bind to a port that is already in use.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EADDRNOTAVAIL</span></span></dt>
+          <dd>
+            <p>Unable to find a free port for binding or unable to
+            bind to a nonlocal CID.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Invalid parameters. This includes: attempting to
+            bind a socket that is already bound, providing an
+            invalid struct <em class="replaceable"><code>sockaddr_vm</code></em>, and other
+            input validation errors.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOPROTOOPT</span></span></dt>
+          <dd>
+            <p>Invalid socket option in <a class="link" href="../htmlman2/getsockopt.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setsockopt</span>(2)</span></a> or
+            <a class="link" href="../htmlman2/getsockopt.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getsockopt</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOTCONN</span></span></dt>
+          <dd>
+            <p>Unable to perform operation on an unconnected
+            socket.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EOPNOTSUPP</span></span></dt>
+          <dd>
+            <p>Operation not supported. This includes: the
+            <code class="constant">MSG_OOB</code> flag that is not
+            implemented for the <a class="link" href="../htmlman2/send.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">send</span>(2)</span></a> family of
+            syscalls and <code class="constant">MSG_PEEK</code> for
+            the <a class="link" href="../htmlman2/recv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">recv</span>(2)</span></a> family of
+            syscalls.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPROTONOSUPPORT</span></span></dt>
+          <dd>
+            <p>Invalid socket protocol number. The protocol should
+            always be 0.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ESOCKTNOSUPPORT</span></span></dt>
+          <dd>
+            <p>Unsupported socket type in <a class="link" href="../htmlman2/socket.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">socket</span>(2)</span></a>. Only
+            <em class="parameter"><code>SOCK_STREAM</code></em> and
+            <em class="parameter"><code>SOCK_DGRAM</code></em> are
+            valid.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="vsock-7_sect7" name="vsock-7_sect7" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>Support for VMware (VMCI) has been available since Linux
+      3.9. KVM (virtio) is supported since Linux 4.8. Hyper-V is
+      supported since Linux 4.14.</p>
+      <p>VMADDR_CID_LOCAL is supported since Linux 5.6. Local
+      communication in the guest and on the host is available since
+      Linux 5.6. Previous versions supported only local
+      communication within a guest (not on the host), and with only
+      some transports (VMCI and virtio).</p>
+    </div>
+    <div class="refsect1">
+      <a id="vsock-7_sect8" name="vsock-7_sect8" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/bind.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">bind</span>(2)</span></a>, <a class="link" href="../htmlman2/connect.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">connect</span>(2)</span></a>, <a class="link" href="../htmlman2/listen.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">listen</span>(2)</span></a>, <a class="link" href="../htmlman2/recv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">recv</span>(2)</span></a>, <a class="link" href="../htmlman2/send.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">send</span>(2)</span></a>, <a class="link" href="../htmlman2/socket.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">socket</span>(2)</span></a>, <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="vsock-7_sect9" name="vsock-7_sect9" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2018, Stefan Hajnoczi &lt;stefanha<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

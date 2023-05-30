@@ -1,0 +1,942 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>ioctl_tty(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="ioctl_tty(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="ioctl-tty.2" name="ioctl-tty.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>ioctl_tty — ioctls for terminals and serial
+      lines</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;termios.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>ioctl</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">fd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">cmd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">...</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-tty-2_sect1" name="ioctl-tty-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> call for terminals
+      and serial ports accepts many possible command arguments.
+      Most require a third argument, of varying type, here called
+      <em class="replaceable"><code>argp</code></em> or <em class="replaceable"><code>arg</code></em>.</p>
+      <p>Use of <em class="replaceable"><code>ioctl</code></em>
+      makes for nonportable programs. Use the POSIX interface
+      described in <a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">termios</span>(3)</span></a> whenever
+      possible.</p>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect2" name="ioctl-tty-2_sect2" shape="rect"> </a>
+        <h3>Get and set terminal attributes</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TCGETS</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">struct termios
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Equivalent to <span class="emphasis"><em>tcgetattr(fd, argp)</em></span>.</p>
+              <p>Get the current serial port settings.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TCSETS</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const struct termios
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Equivalent to <span class="emphasis"><em>tcsetattr(fd, TCSANOW,
+              argp)</em></span>.</p>
+              <p>Set the current serial port settings.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TCSETSW</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const struct termios
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Equivalent to <span class="emphasis"><em>tcsetattr(fd, TCSADRAIN,
+              argp)</em></span>.</p>
+              <p>Allow the output buffer to drain, and set the
+              current serial port settings.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TCSETSF</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const struct termios
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Equivalent to <span class="emphasis"><em>tcsetattr(fd, TCSAFLUSH,
+              argp)</em></span>.</p>
+              <p>Allow the output buffer to drain, discard pending
+              input, and set the current serial port settings.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The following four ioctls are just like <code class="constant">TCGETS</code>, <code class="constant">TCSETS</code>, <code class="constant">TCSETSW</code>, <code class="constant">TCSETSF</code>, except that they take a
+        <span class="type">struct termio *</span> instead of a
+        <span class="type">struct termios *</span>.</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p><span class="emphasis"><em>TCGETA struct termio
+              *</em></span><em class="replaceable"><code>argp</code></em></p>
+            </li>
+            <li class="listitem">
+              <p><span class="emphasis"><em>TCSETA const struct
+              termio *</em></span><em class="replaceable"><code>argp</code></em></p>
+            </li>
+            <li class="listitem">
+              <p><span class="emphasis"><em>TCSETAW const struct
+              termio *</em></span><em class="replaceable"><code>argp</code></em></p>
+            </li>
+            <li class="listitem">
+              <p><span class="emphasis"><em>TCSETAF const struct
+              termio *</em></span><em class="replaceable"><code>argp</code></em></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect3" name="ioctl-tty-2_sect3" shape="rect"> </a>
+        <h3>Locking the termios structure</h3>
+        <p>The <em class="replaceable"><code>termios</code></em>
+        structure of a terminal can be locked. The lock is itself a
+        <em class="replaceable"><code>termios</code></em>
+        structure, with nonzero bits or fields indicating a locked
+        value.</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCGLCKTRMIOS</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">struct termios
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Gets the locking status of the <em class="replaceable"><code>termios</code></em> structure of
+              the terminal.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCSLCKTRMIOS</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const struct termios
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Sets the locking status of the <em class="replaceable"><code>termios</code></em> structure of
+              the terminal. Only a process with the <code class="constant">CAP_SYS_ADMIN</code> capability can do
+              this.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect4" name="ioctl-tty-2_sect4" shape="rect"> </a>
+        <h3>Get and set window size</h3>
+        <p>Window sizes are kept in the kernel, but not used by the
+        kernel (except in the case of virtual consoles, where the
+        kernel will update the window size when the size of the
+        virtual console changes, for example, by loading a new
+        font).</p>
+        <p>The following constants and structure are defined in
+        <code class="literal">&lt;</code><code class="filename">sys/ioctl.h</code><code class="literal">&gt;</code></p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCGWINSZ</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">struct winsize
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Get window size.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCSWINSZ</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const struct winsize
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Set window size.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The struct used by these ioctls is defined as</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">winsize</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned short</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>ws_row</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned short</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>ws_col</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned short</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>ws_xpixel</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        /* unused */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned short</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>ws_ypixel</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        /* unused */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>When the window size changes, a <code class="constant">SIGWINCH</code> signal is sent to the foreground
+        process group.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect5" name="ioctl-tty-2_sect5" shape="rect"> </a>
+        <h3>Sending a break</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TCSBRK</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int</span> <em class="replaceable"><code>arg</code></em></p>
+              <p>Equivalent to <span class="emphasis"><em>tcsendbreak(fd, arg)</em></span>.</p>
+              <p>If the terminal is using asynchronous serial data
+              transmission, and <em class="replaceable"><code>arg</code></em> is zero, then
+              send a break (a stream of zero bits) for between 0.25
+              and 0.5 seconds. If the terminal is not using
+              asynchronous serial data transmission, then either a
+              break is sent, or the function returns without doing
+              anything. When <em class="replaceable"><code>arg</code></em> is nonzero,
+              nobody knows what will happen.</p>
+              <p>(SVr4, UnixWare, Solaris, Linux treat <em class="replaceable"><code>tcsendbreak(fd,arg)</code></em>
+              with nonzero <em class="replaceable"><code>arg</code></em> like <em class="replaceable"><code>tcdrain(fd)</code></em>. SunOS
+              treats <em class="replaceable"><code>arg</code></em>
+              as a multiplier, and sends a stream of bits
+              <em class="replaceable"><code>arg</code></em> times
+              as long as done for zero <em class="replaceable"><code>arg</code></em>. DG/UX and AIX
+              treat <em class="replaceable"><code>arg</code></em>
+              (when nonzero) as a time interval measured in
+              milliseconds. HP-UX ignores <em class="replaceable"><code>arg</code></em>.)</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TCSBRKP</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int</span> <em class="replaceable"><code>arg</code></em></p>
+              <p>So-called "POSIX version" of <code class="constant">TCSBRK</code>. It treats nonzero
+              <em class="replaceable"><code>arg</code></em> as a
+              time interval measured in deciseconds, and does
+              nothing when the driver does not support breaks.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCSBRK</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">void</span></p>
+              <p>Turn break on, that is, start sending zero
+              bits.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCCBRK</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">void</span></p>
+              <p>Turn break off, that is, stop sending zero
+              bits.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect6" name="ioctl-tty-2_sect6" shape="rect"> </a>
+        <h3>Software flow control</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TCXONC</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int</span> <em class="replaceable"><code>arg</code></em></p>
+              <p>Equivalent to <span class="emphasis"><em>tcflow(fd, arg)</em></span>.</p>
+              <p>See <a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcflow</span>(3)</span></a> for the
+              argument values <code class="constant">TCOOFF</code>,
+              <code class="constant">TCOON</code>, <code class="constant">TCIOFF</code>, <code class="constant">TCION</code>.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect7" name="ioctl-tty-2_sect7" shape="rect"> </a>
+        <h3>Buffer count and flushing</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">FIONREAD</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Get the number of bytes in the input buffer.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCINQ</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Same as <code class="constant">FIONREAD</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCOUTQ</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Get the number of bytes in the output buffer.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TCFLSH</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int</span> <em class="replaceable"><code>arg</code></em></p>
+              <p>Equivalent to <span class="emphasis"><em>tcflush(fd, arg)</em></span>.</p>
+              <p>See <a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tcflush</span>(3)</span></a> for the
+              argument values <code class="constant">TCIFLUSH</code>, <code class="constant">TCOFLUSH</code>, <code class="constant">TCIOFLUSH</code>.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect8" name="ioctl-tty-2_sect8" shape="rect"> </a>
+        <h3>Faking input</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCSTI</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const char
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Insert the given byte in the input queue.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect9" name="ioctl-tty-2_sect9" shape="rect"> </a>
+        <h3>Redirecting console output</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCCONS</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">void</span></p>
+              <p>Redirect output that would have gone to
+              <code class="filename">/dev/console</code> or
+              <code class="filename">/dev/tty0</code> to the given
+              terminal. If that was a pseudoterminal master, send
+              it to the slave. In Linux before version 2.6.10,
+              anybody can do this as long as the output was not
+              redirected yet; since version 2.6.10, only a process
+              with the <code class="constant">CAP_SYS_ADMIN</code>
+              capability may do this. If output was redirected
+              already, then <span class="errorname">EBUSY</span> is
+              returned, but redirection can be stopped by using
+              this ioctl with <em class="parameter"><code>fd</code></em> pointing at
+              <code class="filename">/dev/console</code> or
+              <code class="filename">/dev/tty0</code>.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect10" name="ioctl-tty-2_sect10" shape="rect"> </a>
+        <h3>Controlling terminal</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCSCTTY</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int</span> <em class="replaceable"><code>arg</code></em></p>
+              <p>Make the given terminal the controlling terminal
+              of the calling process. The calling process must be a
+              session leader and not have a controlling terminal
+              already. For this case, <em class="replaceable"><code>arg</code></em> should be
+              specified as zero.</p>
+              <p>If this terminal is already the controlling
+              terminal of a different session group, then the ioctl
+              fails with <span class="errorname">EPERM</span>,
+              unless the caller has the <code class="constant">CAP_SYS_ADMIN</code> capability and
+              <em class="replaceable"><code>arg</code></em> equals
+              1, in which case the terminal is stolen, and all
+              processes that had it as controlling terminal lose
+              it.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCNOTTY</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">void</span></p>
+              <p>If the given terminal was the controlling terminal
+              of the calling process, give up this controlling
+              terminal. If the process was session leader, then
+              send <code class="constant">SIGHUP</code> and
+              <code class="constant">SIGCONT</code> to the
+              foreground process group and all processes in the
+              current session lose their controlling terminal.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect11" name="ioctl-tty-2_sect11" shape="rect"> </a>
+        <h3>Process group and session ID</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCGPGRP</code></span></dt>
+            <dd>
+              <p>Argument: <span class="emphasis"><em>pid_t
+              *</em></span><em class="replaceable"><code>argp</code></em></p>
+              <p>When successful, equivalent to <span class="emphasis"><em>*argp = tcgetpgrp(fd)</em></span>.</p>
+              <p>Get the process group ID of the foreground process
+              group on this terminal.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCSPGRP</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const pid_t
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Equivalent to <span class="emphasis"><em>tcsetpgrp(fd, *argp)</em></span>.</p>
+              <p>Set the foreground process group ID of this
+              terminal.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCGSID</code></span></dt>
+            <dd>
+              <p>Argument: <span class="emphasis"><em>pid_t
+              *</em></span><em class="replaceable"><code>argp</code></em></p>
+              <p>Get the session ID of the given terminal. This
+              fails with the error <span class="errorname">ENOTTY</span> if the terminal is not a
+              master pseudoterminal and not our controlling
+              terminal. Strange.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect12" name="ioctl-tty-2_sect12" shape="rect"> </a>
+        <h3>Exclusive mode</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCEXCL</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">void</span></p>
+              <p>Put the terminal into exclusive mode. No further
+              <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a> operations
+              on the terminal are permitted. (They fail with
+              <span class="errorname">EBUSY</span>, except for a
+              process with the <code class="constant">CAP_SYS_ADMIN</code> capability.)</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCGEXCL</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>(since Linux 3.8) If the terminal is currently in
+              exclusive mode, place a nonzero value in the location
+              pointed to by <em class="replaceable"><code>argp</code></em>; otherwise,
+              place zero in <em class="replaceable"><code>*argp</code></em>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCNXCL</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">void</span></p>
+              <p>Disable exclusive mode.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect13" name="ioctl-tty-2_sect13" shape="rect"> </a>
+        <h3>Line discipline</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCGETD</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Get the line discipline of the terminal.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCSETD</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Set the line discipline of the terminal.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect14" name="ioctl-tty-2_sect14" shape="rect"> </a>
+        <h3>Pseudoterminal ioctls</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCPKT</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Enable (when *<em class="replaceable"><code>argp</code></em> is nonzero) or
+              disable packet mode. Can be applied to the master
+              side of a pseudoterminal only (and will return
+              <span class="errorname">ENOTTY</span> otherwise). In
+              packet mode, each subsequent <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> will return
+              a packet that either contains a single nonzero
+              control byte, or has a single byte containing zero
+              ('\0') followed by data written on the slave side of
+              the pseudoterminal. If the first byte is not
+              <code class="constant">TIOCPKT_DATA</code> (0), it is
+              an OR of one or more of the following bits:</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="informaltable">
+          <table class="informaltable" style="border-collapse: collapse;">
+            <colgroup span="1">
+              <col class="c0" span="1" />
+              <col class="c1" span="1" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCPKT_FLUSHREAD</td>
+                <td style="" align="left" rowspan="1" colspan="1">The read queue for the
+                terminal is flushed.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCPKT_FLUSHWRITE</td>
+                <td style="" align="left" rowspan="1" colspan="1">The write queue for the
+                terminal is flushed.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCPKT_STOP</td>
+                <td style="" align="left" rowspan="1" colspan="1">Output to the terminal is
+                stopped.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCPKT_START</td>
+                <td style="" align="left" rowspan="1" colspan="1">Output to the terminal is
+                restarted.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCPKT_DOSTOP</td>
+                <td style="" align="left" rowspan="1" colspan="1">The start and stop
+                characters are <code class="literal">^S</code>/<code class="literal">^Q</code>.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCPKT_NOSTOP</td>
+                <td style="" align="left" rowspan="1" colspan="1">The start and stop
+                characters are not <code class="literal">^S</code>/<code class="literal">^Q</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>While packet mode is in use, the presence of
+              control status information to be read from the master
+              side may be detected by a <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a> for
+              exceptional conditions or a <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">poll</span>(2)</span></a> for the
+              <code class="constant">POLLPRI</code> event.</p>
+            </li>
+            <li class="listitem">
+              <p>This mode is used by <span class="citerefentry"><span class="refentrytitle">rlogin</span>(1)</span> and
+              <span class="citerefentry"><span class="refentrytitle">rlogind</span>(8)</span> to implement
+              a remote-echoed, locally <code class="literal">^S</code>/<code class="literal">^Q</code>
+              flow-controlled remote login.</p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt><span class="term"><code class="constant">TIOCGPKT</code></span></dt>
+                  <dd>
+                    <p>Argument: <span class="type">const int
+                    *</span><em class="replaceable"><code>argp</code></em></p>
+                    <p>(since Linux 3.8) Return the current packet
+                    mode setting in the integer pointed to by
+                    <em class="replaceable"><code>argp</code></em>.</p>
+                  </dd>
+                  <dt><span class="term"><code class="constant">TIOCSPTLCK</code></span></dt>
+                  <dd>
+                    <p>Argument: <span class="type">int
+                    *</span><em class="replaceable"><code>argp</code></em></p>
+                    <p>Set (if <em class="replaceable"><code>*argp</code></em> is
+                    nonzero) or remove (if <em class="replaceable"><code>*argp</code></em> is zero)
+                    the lock on the pseudoterminal slave device.
+                    (See also <a class="link" href="../htmlman3/unlockpt.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unlockpt</span>(3)</span></a>.)</p>
+                  </dd>
+                  <dt><span class="term"><code class="constant">TIOCGPTLCK</code></span></dt>
+                  <dd>
+                    <p>Argument: <span class="type">int
+                    *</span><em class="replaceable"><code>argp</code></em></p>
+                    <p>(since Linux 3.8) Place the current lock
+                    state of the pseudoterminal slave device in the
+                    location pointed to by <em class="replaceable"><code>argp</code></em>.</p>
+                  </dd>
+                  <dt><span class="term"><code class="constant">TIOCGPTPEER</code></span></dt>
+                  <dd>
+                    <p>Argument: <span class="type">int</span>
+                    <em class="replaceable"><code>flags</code></em></p>
+                    <p>(since Linux 4.13) Given a file descriptor
+                    in <em class="parameter"><code>fd</code></em>
+                    that refers to a pseudoterminal master, open
+                    (with the given <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>-style
+                    <em class="replaceable"><code>flags</code></em>) and
+                    return a new file descriptor that refers to the
+                    peer pseudoterminal slave device. This
+                    operation can be performed regardless of
+                    whether the pathname of the slave device is
+                    accessible through the calling process's mount
+                    namespace.</p>
+                    <p>Security-conscious programs interacting with
+                    namespaces may wish to use this operation
+                    rather than <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a> with
+                    the pathname returned by <a class="link" href="../htmlman3/ptsname.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ptsname</span>(3)</span></a>,
+                    and similar library functions that have
+                    insecure APIs. (For example, confusion can
+                    occur in some cases using <a class="link" href="../htmlman3/ptsname.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ptsname</span>(3)</span></a>
+                    with a pathname where a devpts filesystem has
+                    been mounted in a different mount
+                    namespace.)</p>
+                  </dd>
+                </dl>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <p>The BSD ioctls <code class="constant">TIOCSTOP</code>,
+        <code class="constant">TIOCSTART</code>, <code class="constant">TIOCUCNTL</code>, <code class="constant">TIOCREMOTE</code> have not been implemented
+        under Linux.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect15" name="ioctl-tty-2_sect15" shape="rect"> </a>
+        <h3>Modem control</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCMGET</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Get the status of modem bits.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCMSET</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Set the status of modem bits.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCMBIC</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Clear the indicated modem bits.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCMBIS</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Set the indicated modem bits.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The following bits are used by the above ioctls:</p>
+        <div class="informaltable">
+          <table class="informaltable" style="border-collapse: collapse;">
+            <colgroup span="1">
+              <col class="c0" span="1" />
+              <col class="c1" span="1" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_LE</td>
+                <td style="" align="left" rowspan="1" colspan="1">DSR (data set ready/line
+                enable)</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_DTR</td>
+                <td style="" align="left" rowspan="1" colspan="1">DTR (data terminal
+                ready)</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_RTS</td>
+                <td style="" align="left" rowspan="1" colspan="1">RTS (request to
+                send)</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_ST</td>
+                <td style="" align="left" rowspan="1" colspan="1">Secondary TXD
+                (transmit)</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_SR</td>
+                <td style="" align="left" rowspan="1" colspan="1">Secondary RXD
+                (receive)</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_CTS</td>
+                <td style="" align="left" rowspan="1" colspan="1">CTS (clear to send)</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_CAR</td>
+                <td style="" align="left" rowspan="1" colspan="1">DCD (data carrier
+                detect)</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_CD</td>
+                <td style="" align="left" rowspan="1" colspan="1">see TIOCM_CAR</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_RNG</td>
+                <td style="" align="left" rowspan="1" colspan="1">RNG (ring)</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_RI</td>
+                <td style="" align="left" rowspan="1" colspan="1">see TIOCM_RNG</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">TIOCM_DSR</td>
+                <td style="" align="left" rowspan="1" colspan="1">DSR (data set ready)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCMIWAIT</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int</span> <em class="replaceable"><code>arg</code></em></p>
+              <p>Wait for any of the 4 modem bits (DCD, RI, DSR,
+              CTS) to change. The bits of interest are specified as
+              a bit mask in <em class="replaceable"><code>arg</code></em>, by ORing
+              together any of the bit values, <code class="constant">TIOCM_RNG</code>, <code class="constant">TIOCM_DSR</code>, <code class="constant">TIOCM_CD</code>, and <code class="constant">TIOCM_CTS</code>. The caller should use
+              <code class="constant">TIOCGICOUNT</code> to see
+              which bit has changed.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCGICOUNT</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">struct
+              serial_icounter_struct *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Get counts of input serial line interrupts (DCD,
+              RI, DSR, CTS). The counts are written to the
+              <em class="replaceable"><code>serial_icounter_struct</code></em>
+              structure pointed to by <em class="replaceable"><code>argp</code></em>.</p>
+              <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+                <table border="0" summary="Note">
+                  <tr>
+                    <td rowspan="2" align="center" valign="top" width="25" colspan="1"><img alt="[Note]" src="../stylesheet/note.png" /></td>
+                    <th align="left" rowspan="1" colspan="1">Note</th>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" rowspan="1" colspan="1">
+                      <p>Both 1-&gt;0 and 0-&gt;1 transitions are
+                      counted, except for RI, where only 0-&gt;1
+                      transitions are counted.</p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect16" name="ioctl-tty-2_sect16" shape="rect"> </a>
+        <h3>Marking a line as local</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCGSOFTCAR</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>("Get software carrier flag") Get the status of
+              the CLOCAL flag in the c_cflag field of the
+              <em class="replaceable"><code>termios</code></em>
+              structure.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">TIOCSSOFTCAR</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">const int
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>("Set software carrier flag") Set the CLOCAL flag
+              in the <em class="replaceable"><code>termios</code></em> structure
+              when *<em class="replaceable"><code>argp</code></em>
+              is nonzero, and clear it otherwise.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>If the <code class="constant">CLOCAL</code> flag for a
+        line is off, the hardware carrier detect (DCD) signal is
+        significant, and an <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a> of the
+        corresponding terminal will block until DCD is asserted,
+        unless the <code class="constant">O_NONBLOCK</code> flag is
+        given. If <code class="constant">CLOCAL</code> is set, the
+        line behaves as if DCD is always asserted. The software
+        carrier flag is usually turned on for local devices, and is
+        off for lines with modems.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect17" name="ioctl-tty-2_sect17" shape="rect"> </a>
+        <h3>Linux-specific</h3>
+        <p>For the <code class="constant">TIOCLINUX</code> ioctl,
+        see <a class="link" href="../htmlman2/ioctl_console.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl_console</span>(2)</span></a>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-tty-2_sect18" name="ioctl-tty-2_sect18" shape="rect"> </a>
+        <h3>Kernel debugging</h3>
+        <p><span class="emphasis"><em>#include
+        &lt;linux/tty.h&gt;</em></span></p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">TIOCTTYGSTRUCT</code></span></dt>
+            <dd>
+              <p>Argument: <span class="type">struct tty_struct
+              *</span><em class="replaceable"><code>argp</code></em></p>
+              <p>Get the <em class="replaceable"><code>tty_struct</code></em>
+              corresponding to <em class="parameter"><code>fd</code></em>. This command was
+              removed in Linux 2.5.67.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-tty-2_sect19" name="ioctl-tty-2_sect19" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>The <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> system call
+      returns 0 on success. On error, it returns −1 and sets
+      <code class="varname">errno</code> to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-tty-2_sect20" name="ioctl-tty-2_sect20" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Invalid command parameter.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ENOIOCTLCMD</code></span></dt>
+          <dd>
+            <p>Unknown command.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOTTY</span></span></dt>
+          <dd>
+            <p>Inappropriate <em class="parameter"><code>fd</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p>Insufficient permission.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-tty-2_sect21" name="ioctl-tty-2_sect21" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>Check the condition of DTR on the serial port.</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;termios.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/ioctl.h&gt;
+
+int
+main(void)
+{
+    int fd, serial;
+
+    fd = open("/dev/ttyS0", O_RDONLY);
+    ioctl(fd, TIOCMGET, &amp;serial);
+    if (serial &amp; TIOCM_DTR)
+        puts("TIOCM_DTR is set");
+    else
+        puts("TIOCM_DTR is not set");
+    close(fd);
+}
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-tty-2_sect22" name="ioctl-tty-2_sect22" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">ldattach</span>(1)</span>, <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>, <a class="link" href="../htmlman2/ioctl_console.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl_console</span>(2)</span></a>, <a class="link" href="../htmlman3/termios.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">termios</span>(3)</span></a>, <a class="link" href="../htmlman7/pty.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pty</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="ioctl-tty-2_sect23" name="ioctl-tty-2_sect23" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright 2002 Walter Harms &lt;walter.harms<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>informatik.uni-oldenburg.de&gt;<br />
+
+                  and Andries Brouwer &lt;aeb<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cwi.nl&gt;.<br />
+
+                  <br />
+                  %%%LICENSE_START(GPL_NOVERSION_ONELINE)<br />
+                  Distributed under GPL<br />
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

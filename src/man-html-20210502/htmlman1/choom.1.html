@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>choom(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="choom(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="choom.1" name="choom.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>choom — display and adjust OOM-killer score.</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">choom</code> <code class="option">−p</code> pid</p>
+      </div>
+      <div class="cmdsynopsis">
+        <p><code class="command">choom</code> <code class="option">−p</code> pid <code class="option">−n</code> number</p>
+      </div>
+      <div class="cmdsynopsis">
+        <p><code class="command">choom</code> <code class="option">−n</code> number [<code class="option">−−</code>] command [ argument... ]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="choom-1_sect1" name="choom-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <span class="command"><strong>choom</strong></span>
+      command displays and adjusts Out-Of-Memory killer score
+      setting.</p>
+    </div>
+    <div class="refsect1">
+      <a id="choom-1_sect2" name="choom-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−p,
+          −−pid <em class="parameter"><code>pid</code></em></code></span></dt>
+          <dd>
+            <p>Specifies process ID.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n,
+          −−adjust <em class="parameter"><code>value</code></em></code></span></dt>
+          <dd>
+            <p>Specify the adjust score value.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="choom-1_sect3" name="choom-1_sect3" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Linux kernel uses the badness heuristic to select which
+      process gets killed in out of memory conditions.</p>
+      <p>The badness heuristic assigns a value to each candidate
+      task ranging from 0 (never kill) to 1000 (always kill) to
+      determine which process is targeted. The units are roughly a
+      proportion along that range of allowed memory the process may
+      allocate from based on an estimation of its current memory
+      and swap use. For example, if a task is using all allowed
+      memory, its badness score will be 1000. If it is using half
+      of its allowed memory, its score will be 500.</p>
+      <p>There is an additional factor included in the badness
+      score: the current memory and swap usage is discounted by 3%
+      for root processes.</p>
+      <p>The amount of "allowed" memory depends on the context in
+      which the oom killer was called. If it is due to the memory
+      assigned to the allocating task's cpuset being exhausted, the
+      allowed memory represents the set of mems assigned to that
+      cpuset. If it is due to a mempolicy's node(s) being
+      exhausted, the allowed memory represents the set of mempolicy
+      nodes. If it is due to a memory limit (or swap limit) being
+      reached, the allowed memory is that configured limit.
+      Finally, if it is due to the entire system being out of
+      memory, the allowed memory represents all allocatable
+      resources.</p>
+      <p>The adjust score value is added to the badness score
+      before it is used to determine which task to kill. Acceptable
+      values range from -1000 to +1000. This allows userspace to
+      polarize the preference for oom killing either by always
+      preferring a certain task or completely disabling it. The
+      lowest possible value, -1000, is equivalent to disabling oom
+      killing entirely for that task since it will always report a
+      badness score of 0.</p>
+      <p>Setting an adjust score value of +500, for example, is
+      roughly equivalent to allowing the remainder of tasks sharing
+      the same system, cpuset, mempolicy, or memory controller
+      resources to use at least 50% more memory. A value of -500,
+      on the other hand, would be roughly equivalent to discounting
+      50% of the task's allowed memory from being considered as
+      scoring against the task.</p>
+    </div>
+    <div class="refsect1">
+      <a id="choom-1_sect4" name="choom-1_sect4" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+Karel Zak &lt;kzak@redhat.com&gt;
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="choom-1_sect5" name="choom-1_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman5/proc.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">proc</span>(5)</span></a></p>
+    </div>
+    <div class="refsect1">
+      <a id="choom-1_sect6" name="choom-1_sect6" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The <span class="command"><strong>choom</strong></span>
+      command is part of the util-linux package and is available
+      from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>thread-keyring(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="thread-keyring(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="thread-keyring.7" name="thread-keyring.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>thread-keyring — per-thread keyring</p>
+    </div>
+    <div class="refsect1">
+      <a id="thread-keyring-7_sect1" name="thread-keyring-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The thread keyring is a keyring used to anchor keys on
+      behalf of a process. It is created only when a thread
+      requests it. The thread keyring has the name (description)
+      <em class="replaceable"><code>_tid</code></em>.</p>
+      <p>A special serial number value, <code class="constant">KEY_SPEC_THREAD_KEYRING</code>, is defined that
+      can be used in lieu of the actual serial number of the
+      calling thread's thread keyring.</p>
+      <p>From the <span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span> utility, '<em class="replaceable"><code>@t</code></em>' can be used instead of a
+      numeric key ID in much the same way, but as <span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span> is a program run
+      after forking, this is of no utility.</p>
+      <p>Thread keyrings are not inherited across <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> and <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> and are cleared by
+      <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>. A thread keyring
+      is destroyed when the thread that refers to it
+      terminates.</p>
+      <p>Initially, a thread does not have a thread keyring. If a
+      thread doesn't have a thread keyring when it is accessed,
+      then it will be created if it is to be modified; otherwise
+      the operation fails with the error <span class="errorname">ENOKEY</span>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="thread-keyring-7_sect2" name="thread-keyring-7_sect2" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl</span>(3)</span>, <a class="link" href="../htmlman7/keyrings.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyrings</span>(7)</span></a>, <a class="link" href="../htmlman7/persistent-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">persistent-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>, <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="thread-keyring-7_sect3" name="thread-keyring-7_sect3" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.<br />
+
+                  Written by David Howells (dhowells<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com)<br />
+
+                  <br />
+                  %%%LICENSE_START(GPLv2+_SW_ONEPARA)<br />
+                  This program is free software; you can redistribute it and/or<br />
+
+                  modify it under the terms of the GNU General Public License<br />
+
+                  as published by the Free Software Foundation; either version<br />
+
+                  2 of the License, or (at your option) any later version.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

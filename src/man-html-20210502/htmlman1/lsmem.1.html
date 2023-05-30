@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>lsmem(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="lsmem(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="lsmem.1" name="lsmem.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>lsmem — list the ranges of available memory with
+      their online status</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">lsmem</code> [options]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsmem-1_sect1" name="lsmem-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <span class="command"><strong>lsmem</strong></span>
+      command lists the ranges of available memory with their
+      online status. The listed memory blocks correspond to the
+      memory block representation in sysfs. The command also shows
+      the memory block size and the amount of memory in online and
+      offline state.</p>
+      <p>The default output compatible with original implementation
+      from s390-tools, but it's strongly recommended to avoid using
+      default outputs in your scripts. Always explicitly define
+      expected columns by using the <code class="option">−−output</code> option together with a
+      columns list in environments where a stable output is
+      required.</p>
+      <p>The <span class="command"><strong>lsmem</strong></span>
+      command lists a new memory range always when the current
+      memory block distinguish from the previous block by some
+      output column. This default behavior is possible to override
+      by the <code class="option">−−split</code> option
+      (e.g., <em class="replaceable"><code>lsmem−−split=ZONES</code></em>).
+      The special word "none" may be used to ignore all differences
+      between memory blocks and to create as large as possible
+      continuous ranges. The opposite semantic is <code class="option">−−all</code> to list individual memory
+      blocks.</p>
+      <p>Note that some output columns may provide inaccurate
+      information if a split policy forces <span class="command"><strong>lsmem</strong></span> to ignore differences
+      in some attributes. For example if you merge removable and
+      non-removable memory blocks to the one range than all the
+      range will be marked as non-removable on <span class="command"><strong>lsmem</strong></span> output.</p>
+      <p>Not all columns are supported on all systems. If an
+      unsupported column is specified, <span class="command"><strong>lsmem</strong></span> prints the column but
+      does not provide any data for it.</p>
+      <p>Use the <code class="option">−−help</code>
+      option to see the columns description.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lsmem-1_sect2" name="lsmem-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−a,
+          −−all</code></span></dt>
+          <dd>
+            <p>List each individual memory block, instead of
+            combining memory blocks with similar attributes.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−b,
+          −−bytes</code></span></dt>
+          <dd>
+            <p>Print the SIZE column in bytes rather than in a
+            human-readable format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−J,
+          −−json</code></span></dt>
+          <dd>
+            <p>Use JSON output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n,
+          −−noheadings</code></span></dt>
+          <dd>
+            <p>Do not print a header line.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−o,
+          −−output <em class="parameter"><code>list</code></em></code></span></dt>
+          <dd>
+            <p>Specify which output columns to print. Use
+            <code class="option">−−help</code> to get a
+            list of all supported columns. The default list of
+            columns may be extended if <span class="command"><strong>list</strong></span> is specified in
+            the format <code class="literal">+</code><span class="command"><strong>list</strong></span> (e.g.,
+            <span class="emphasis"><em>lsmem −o
+            +NODE</em></span>).</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−output−all</code></span></dt>
+          <dd>
+            <p>Output all available columns.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−P,
+          −−pairs</code></span></dt>
+          <dd>
+            <p>Produce output in the form of key="value" pairs. All
+            potentially unsafe characters are hex-escaped
+            (\x&lt;code&gt;).</p>
+          </dd>
+          <dt><span class="term"><code class="option">−r,
+          −−raw</code></span></dt>
+          <dd>
+            <p>Produce output in raw format. All potentially unsafe
+            characters are hex-escaped (\x&lt;code&gt;).</p>
+          </dd>
+          <dt><span class="term"><code class="option">−S,
+          −−split <em class="parameter"><code>list</code></em></code></span></dt>
+          <dd>
+            <p>Specify which columns (attributes) use to split
+            memory blocks to ranges. The supported columns are
+            STATE, REMOVABLE, NODE and ZONES, or "none". The other
+            columns are silently ignored. For more details see
+            DESCRIPTION above.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−s,
+          −−sysroot <em class="parameter"><code>directory</code></em></code></span></dt>
+          <dd>
+            <p>Gather memory data for a Linux instance other than
+            the instance from which the <span class="command"><strong>lsmem</strong></span> command is
+            issued. The specified <span class="command"><strong>directory</strong></span> is the
+            system root of the Linux instance to be inspected.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−summary</code>[=<span class="command"><strong>when</strong></span>]</span></dt>
+          <dd>
+            <p>This option controls summary lines output. The
+            optional argument <span class="command"><strong>when</strong></span> can be
+            <span class="command"><strong>never</strong></span>,
+            <span class="command"><strong>always</strong></span> or
+            <span class="command"><strong>only</strong></span>. If
+            the <span class="command"><strong>when</strong></span>
+            argument is omitted, it defaults to <span class="command"><strong>"only"</strong></span>. The summary
+            output is suppressed for <code class="option">−−raw</code>, <code class="option">−−pairs</code> and <code class="option">−−json</code>.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsmem-1_sect3" name="lsmem-1_sect3" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><span class="command"><strong>lsmem</strong></span> was
+      originally written by Gerald Schaefer for s390-tools in Perl.
+      The C version for util-linux was written by Clemens von Mann,
+      Heiko Carstens and Karel Zak.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lsmem-1_sect4" name="lsmem-1_sect4" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman8/chmem.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chmem</span>(8)</span></a></p>
+    </div>
+    <div class="refsect1">
+      <a id="lsmem-1_sect5" name="lsmem-1_sect5" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The <span class="command"><strong>lsmem</strong></span>
+      command is part of the util-linux package and is available
+      from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>lsipc(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="lsipc(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="lsipc.1" name="lsipc.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>lsipc — show information on IPC facilities currently
+      employed in the system</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">lsipc</code> [options]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsipc-1_sect1" name="lsipc-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><span class="command"><strong>lsipc</strong></span> shows
+      information on the System V inter-process communication
+      facilities for which the calling process has read access.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lsipc-1_sect2" name="lsipc-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−i</code>, <code class="option">−−id</code> <span class="command"><strong>id</strong></span></span></dt>
+          <dd>
+            <p>Show full details on just the one resource element
+            identified by <span class="command"><strong>id</strong></span>. This option needs
+            to be combined with one of the three resource options:
+            <code class="option">−m</code>, <code class="option">−q</code> or <code class="option">−s</code>. It is possible to override
+            the default output format for this option with the
+            <code class="option">−−list</code>,
+            <code class="option">−−raw</code>,
+            <code class="option">−−json</code> or
+            <code class="option">−−export</code>
+            option.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−g</code>, <code class="option">−−global</code></span></dt>
+          <dd>
+            <p>Show system-wide usage and limits of IPC resources.
+            This option may be combined with one of the three
+            resource options: <code class="option">−m</code>,
+            <code class="option">−q</code> or <code class="option">−s</code>. The default is to show
+            information about all resources.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h</code>, <code class="option">−−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V</code>, <code class="option">−−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+        </dl>
+      </div>
+      <div class="refsect2">
+        <a id="lsipc-1_sect3" name="lsipc-1_sect3" shape="rect"> </a>
+        <h3>Resource options</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="option">−m</code>, <code class="option">−−shmems</code></span></dt>
+            <dd>
+              <p>Write information about active shared memory
+              segments.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−q</code>, <code class="option">−−queues</code></span></dt>
+            <dd>
+              <p>Write information about active message queues.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−s</code>, <code class="option">−−semaphores</code></span></dt>
+            <dd>
+              <p>Write information about active semaphore sets.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="lsipc-1_sect4" name="lsipc-1_sect4" shape="rect"> </a>
+        <h3>Output formatting</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="option">−c</code>, <code class="option">−−creator</code></span></dt>
+            <dd>
+              <p>Show creator and owner.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−e</code>, <code class="option">−−export</code></span></dt>
+            <dd>
+              <p>Output data in the format of NAME=VALUE.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−J</code>, <code class="option">−−json</code></span></dt>
+            <dd>
+              <p>Use the JSON output format.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−l</code>, <code class="option">−−list</code></span></dt>
+            <dd>
+              <p>Use the list output format. This is the default,
+              except when <code class="option">−−id</code> is used.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−n</code>, <code class="option">−−newline</code></span></dt>
+            <dd>
+              <p>Display each piece of information on a separate
+              line.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−−noheadings</code></span></dt>
+            <dd>
+              <p>Do not print a header line.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−−notruncate</code></span></dt>
+            <dd>
+              <p>Don't truncate output.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−o</code>, <code class="option">−−output</code> <span class="command"><strong>list</strong></span></span></dt>
+            <dd>
+              <p>Specify which output columns to print. Use
+              <code class="option">−−help</code> to get
+              a list of all supported columns.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−b</code>, <code class="option">−−bytes</code></span></dt>
+            <dd>
+              <p>Print size in bytes rather than in human readable
+              format.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−r</code>, <code class="option">−−raw</code></span></dt>
+            <dd>
+              <p>Raw output (no columnation).</p>
+            </dd>
+            <dt><span class="term"><code class="option">−t</code>, <code class="option">−−time</code></span></dt>
+            <dd>
+              <p>Write time information. The time of the last
+              control operation that changed the access permissions
+              for all facilities, the time of the last <a class="link" href="../htmlman2/msgop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgsnd</span>(2)</span></a> and
+              <a class="link" href="../htmlman2/msgop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgrcv</span>(2)</span></a>
+              operations on message queues, the time of the last
+              <a class="link" href="../htmlman2/shmop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmat</span>(2)</span></a> and
+              <a class="link" href="../htmlman2/shmop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmdt</span>(2)</span></a> operations
+              on shared memory, and the time of the last <a class="link" href="../htmlman2/semop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semop</span>(2)</span></a> operation
+              on semaphores.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−−time−format</code>
+            <span class="command"><strong>type</strong></span></span></dt>
+            <dd>
+              <p>Display dates in short, full or iso format. The
+              default is short, this time format is designed to be
+              space efficient and human readable.</p>
+            </dd>
+            <dt><span class="term"><code class="option">−P</code>, <code class="option">−−numeric−perms</code></span></dt>
+            <dd>
+              <p>Print numeric permissions in PERMS column.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsipc-1_sect5" name="lsipc-1_sect5" shape="rect"> </a>
+      <h2>EXIT STATUS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">0</code></span></dt>
+          <dd>
+            <p>if OK,</p>
+          </dd>
+          <dt><span class="term"><code class="constant">1</code></span></dt>
+          <dd>
+            <p>if incorrect arguments specified,</p>
+          </dd>
+          <dt><span class="term"><code class="constant">2</code></span></dt>
+          <dd>
+            <p>if a serious error occurs.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsipc-1_sect6" name="lsipc-1_sect6" shape="rect"> </a>
+      <h2>HISTORY</h2>
+      <p>The <span class="command"><strong>lsipc</strong></span>
+      utility is inspired by the <span class="command"><strong>ipcs</strong></span> utility.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lsipc-1_sect7" name="lsipc-1_sect7" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><a class="literalurl" href="mailto:ooprala%20REMOVE%20@%20THIS%20redhat.com" target="_top" shape="rect">Ondrej Oprala</a></p>
+      <p><a class="literalurl" href="mailto:kzak%20REMOVE%20@%20THIS%20redhat.com" target="_top" shape="rect">Karel Zak</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="lsipc-1_sect8" name="lsipc-1_sect8" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/ipcmk.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipcmk</span>(1)</span></a>, <a class="link" href="../htmlman1/ipcrm.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipcrm</span>(1)</span></a>, <a class="link" href="../htmlman2/msgop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgrcv</span>(2)</span></a>, <a class="link" href="../htmlman2/msgop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">msgsnd</span>(2)</span></a>, <a class="link" href="../htmlman2/semget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semget</span>(2)</span></a>, <a class="link" href="../htmlman2/semop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semop</span>(2)</span></a>, <a class="link" href="../htmlman2/shmop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmat</span>(2)</span></a>, <a class="link" href="../htmlman2/shmop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmdt</span>(2)</span></a>, <a class="link" href="../htmlman2/shmget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmget</span>(2)</span></a>, <a class="link" href="../htmlman7/sysvipc.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sysvipc</span>(7)</span></a></p>
+    </div>
+    <div class="refsect1">
+      <a id="lsipc-1_sect9" name="lsipc-1_sect9" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The lsipc command is part of the util-linux package and is
+      available from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright 2015 Ondrej Oprala(ooprala<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com)<br />
+
+                  May be distributed under the GNU General Public License<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

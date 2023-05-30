@@ -1,0 +1,1399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>fuse(4) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="fuse(4) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index4.html" shape="rect">Section 4</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="fuse.4" name="fuse.4" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>fuse — Filesystem in Userspace (FUSE) device</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;linux/fuse.h&gt;
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="fuse-4_sect1" name="fuse-4_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>This device is the primary interface between the FUSE
+      filesystem driver and a user-space process wishing to provide
+      the filesystem (referred to in the rest of this manual page
+      as the <span class="emphasis"><em>filesystem
+      daemon</em></span>). This manual page is intended for those
+      interested in understanding the kernel interface itself.
+      Those implementing a FUSE filesystem may wish to make use of
+      a user-space library such as <code class="function">libfuse</code> that abstracts away the low-level
+      interface.</p>
+      <p>At its core, FUSE is a simple client-server protocol, in
+      which the Linux kernel is the client and the daemon is the
+      server. After obtaining a file descriptor for this device,
+      the daemon may <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> requests from that
+      file descriptor and is expected to <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a> back its replies.
+      It is important to note that a file descriptor is associated
+      with a unique FUSE filesystem. In particular, opening a
+      second copy of this device, will not allow access to
+      resources created through the first file descriptor (and vice
+      versa).</p>
+      <div class="refsect2">
+        <a id="fuse-4_sect2" name="fuse-4_sect2" shape="rect"> </a>
+        <h3>The basic protocol</h3>
+        <p>Every message that is read by the daemon begins with a
+        header described by the following structure:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_in_header</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>len</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Total length of the data,<br />
+
+                        including this header */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>opcode</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* The kind of operation (see below) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>unique</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* A unique identifier for this request */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>nodeid</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* ID of the filesystem object<br />
+
+                        being operated on */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>uid</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* UID of the requesting process */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>gid</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* GID of the requesting process */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>pid</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* PID of the requesting process */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>padding</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>The header is followed by a variable-length data portion
+        (which may be empty) specific to the requested operation
+        (the requested operation is indicated by <em class="parameter"><code>opcode</code></em>).</p>
+        <p>The daemon should then process the request and if
+        applicable send a reply (almost all operations require a
+        reply; if they do not, this is documented below), by
+        performing a <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a> to the file
+        descriptor. All replies must start with the following
+        header:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_out_header</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>len</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Total length of data written to<br />
+
+                        the file descriptor */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">int32_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>error</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Any error that occurred (0 if none) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>unique</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* The value from the<br />
+
+                        corresponding request */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>This header is also followed by (potentially empty)
+        variable-sized data depending on the executed request.
+        However, if the reply is an error reply (i.e., <em class="parameter"><code>error</code></em> is set), then no
+        further payload data should be sent, independent of the
+        request.</p>
+      </div>
+      <div class="refsect2">
+        <a id="fuse-4_sect3" name="fuse-4_sect3" shape="rect"> </a>
+        <h3>Exchanged messages</h3>
+        <p>This section should contain documentation for each of
+        the messages in the protocol. This manual page is currently
+        incomplete, so not all messages are documented. For each
+        message, first the struct sent by the kernel is given,
+        followed by a description of the semantics of the
+        message.</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">FUSE_INIT</code></span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_init_in</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>major</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>minor</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>max_readahead</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Since protocol v7.6 */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>flags</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Since protocol v7.6 */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>This is the first request sent by the kernel to
+              the daemon. It is used to negotiate the protocol
+              version and other filesystem parameters. Note that
+              the protocol version may affect the layout of any
+              structure in the protocol (including this structure).
+              The daemon must thus remember the negotiated version
+              and flags for each session. As of the writing of this
+              man page, the highest supported kernel protocol
+              version is <em class="replaceable"><code>7.26</code></em>.</p>
+              <p>Users should be aware that the descriptions in
+              this manual page may be incomplete or incorrect for
+              older or more recent protocol versions.</p>
+              <p>The reply for this request has the following
+              format:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_init_out</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>major</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>minor</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>max_readahead</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Since v7.6 */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>flags</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Since v7.6; some flags bits<br />
+
+                              were introduced later */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint16_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>max_background</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Since v7.13 */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint16_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>congestion_threshold</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Since v7.13 */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>max_write</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Since v7.5 */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>time_gran</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Since v7.6 */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>unused</code></em>[9];</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>If the major version supported by the kernel is
+              larger than that supported by the daemon, the reply
+              shall consist of only <span class="emphasis"><em>uint32_t major</em></span> (following
+              the usual header), indicating the largest major
+              version supported by the daemon. The kernel will then
+              issue a new <code class="constant">FUSE_INIT</code>
+              request conforming to the older version. In the
+              reverse case, the daemon should quietly fall back to
+              the kernel's major version.</p>
+              <p>The negotiated minor version is considered to be
+              the minimum of the minor versions provided by the
+              daemon and the kernel and both parties should use the
+              protocol corresponding to said minor version.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_GETATTR</code></span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="informalexample">
+                    <pre class="programlisting" xml:space="preserve">
+struct fuse_getattr_in {
+    uint32_t getattr_flags;
+    uint32_t dummy;
+    uint64_t fh;      /* Set only if
+                         (getattr_flags &amp; FUSE_GETATTR_FH)
+};
+</pre>
+                  </div>
+                </blockquote>
+              </div>
+              <p>The requested operation is to compute the
+              attributes to be returned by <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a> and similar
+              operations for the given filesystem object. The
+              object for which the attributes should be computed is
+              indicated either by <em class="replaceable"><code>header−&gt;nodeid</code></em>
+              or, if the <code class="constant">FUSE_GETATTR_FH</code> flag is set, by the
+              file handle <code class="function">fh</code>. The
+              latter case of operation is analogous to <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fstat</span>(2)</span></a>.</p>
+              <p>For performance reasons, these attributes may be
+              cached in the kernel for a specified duration of
+              time. While the cache timeout has not been exceeded,
+              the attributes will be served from the cache and will
+              not cause additional <code class="constant">FUSE_GETATTR</code> requests.</p>
+              <p>The computed attributes and the requested cache
+              timeout should then be returned in the following
+              structure:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="informalexample">
+                    <pre class="programlisting" xml:space="preserve">
+struct fuse_attr_out {
+    /* Attribute cache duration (seconds + nanoseconds) */
+    uint64_t attr_valid;
+    uint32_t attr_valid_nsec;
+    uint32_t dummy;
+    struct fuse_attr {
+        uint64_t ino;
+        uint64_t size;
+        uint64_t blocks;
+        uint64_t atime;
+        uint64_t mtime;
+        uint64_t ctime;
+        uint32_t atimensec;
+        uint32_t mtimensec;
+        uint32_t ctimensec;
+        uint32_t mode;
+        uint32_t nlink;
+        uint32_t uid;
+        uint32_t gid;
+        uint32_t rdev;
+        uint32_t blksize;
+        uint32_t padding;
+    } attr;
+};
+</pre>
+                  </div>
+                </blockquote>
+              </div>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_ACCESS</code></span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_access_in</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>mask</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>padding</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>If the <code class="function">default_permissions</code> mount options
+              is not used, this request may be used for permissions
+              checking. No reply data is expected, but errors may
+              be indicated as usual by setting the <em class="parameter"><code>error</code></em> field in the
+              reply header (in particular, access denied errors may
+              be indicated by returning <code class="option">−EACCES</code>).</p>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_OPEN</code> and <code class="constant">FUSE_OPENDIR</code></span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_open_in</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>flags</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* The flags that were passed<br />
+
+                              to the open(2) */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>unused</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>The requested operation is to open the node
+              indicated by <em class="replaceable"><code>header−&gt;nodeid</code></em>.
+              The exact semantics of what this means will depend on
+              the filesystem being implemented. However, at the
+              very least the filesystem should validate that the
+              requested <em class="parameter"><code>flags</code></em> are valid for the
+              indicated resource and then send a reply with the
+              following format:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_open_out</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fh</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>open_flags</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>padding</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>The <em class="parameter"><code>fh</code></em>
+              field is an opaque identifier that the kernel will
+              use to refer to this resource The <em class="parameter"><code>open_flags</code></em> field is a
+              bit mask of any number of the flags that indicate
+              properties of this file handle to the kernel:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term"><code class="constant">FOPEN_DIRECT_IO</code></span></dt>
+                      <dd>
+                        <p>Bypass page cache for this open
+                        file.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">FOPEN_KEEP_CACHE</code></span></dt>
+                      <dd>
+                        <p>Don't invalidate the data cache on
+                        open.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">FOPEN_NONSEEKABLE</code></span></dt>
+                      <dd>
+                        <p>The file is not seekable.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_READ</code> and <code class="constant">FUSE_READDIR</code></span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_read_in</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fh</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>offset</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>size</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>read_flags</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>lock_owner</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>flags</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>padding</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>The requested action is to read up to <em class="parameter"><code>size</code></em> bytes of the file
+              or directory, starting at <em class="parameter"><code>offset</code></em>. The bytes
+              should be returned directly following the usual reply
+              header.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_INTERRUPT</code></span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_interrupt_in</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>unique</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>The requested action is to cancel the pending
+              operation indicated by <em class="parameter"><code>unique</code></em>. This request
+              requires no response. However, receipt of this
+              message does not by itself cancel the indicated
+              operation. The kernel will still expect a reply to
+              said operation (e.g., an <span class="errorname">EINTR</span> error or a short read). At
+              most one <code class="constant">FUSE_INTERRUPT</code>
+              request will be issued for a given operation. After
+              issuing said operation, the kernel will wait
+              uninterruptibly for completion of the indicated
+              request.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_LOOKUP</code></span></dt>
+            <dd>
+              <p>Directly following the header is a filename to be
+              looked up in the directory indicated by <em class="replaceable"><code>header−&gt;nodeid</code></em>.
+              The expected reply is of the form:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_entry_out</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>nodeid</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              /* Inode ID */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>generation</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1">
+                            <div class="literallayout">
+                              
+                              /* Inode generation */
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>entry_valid</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>attr_valid</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>entry_valid_nsec</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>attr_valid_nsec</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct fuse_attr</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>attr</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>The combination of <em class="parameter"><code>nodeid</code></em> and <em class="parameter"><code>generation</code></em> must be
+              unique for the filesystem's lifetime.</p>
+              <p>The interpretation of timeouts and <em class="parameter"><code>attr</code></em> is as for
+              <code class="constant">FUSE_GETATTR</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_FLUSH</code></span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_flush_in</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fh</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>unused</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>padding</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>lock_owner</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>The requested action is to flush any pending
+              changes to the indicated file handle. No reply data
+              is expected. However, an empty reply message still
+              needs to be issued once the flush operation is
+              complete.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_RELEASE</code> and <code class="constant">FUSE_RELEASEDIR</code></span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_release_in</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fh</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>flags</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>release_flags</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>lock_owner</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>These are the converse of <code class="constant">FUSE_OPEN</code> and <code class="constant">FUSE_OPENDIR</code> respectively. The
+              daemon may now free any resources associated with the
+              file handle <em class="parameter"><code>fh</code></em> as the kernel will
+              no longer refer to it. There is no reply data
+              associated with this request, but a reply still needs
+              to be issued once the request has been completely
+              processed.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">FUSE_STATFS</code></span></dt>
+            <dd>
+              <p>This operation implements <a class="link" href="../htmlman2/statfs.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">statfs</span>(2)</span></a> for this
+              filesystem. There is no input data associated with
+              this request. The expected reply data has the
+              following structure:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="structdef">
+                    <table class="structdef" style="border-collapse: collapse;">
+                      <colgroup span="1">
+                        <col class="c1" span="1" />
+                        <col class="c2" span="1" />
+                        <col class="c3" span="1" />
+                        <col class="c4" span="1" />
+                        <col class="c5" span="1" />
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_kstatfs</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>blocks</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>bfree</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>bavail</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>files</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint64_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>ffree</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>bsize</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>namelen</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>frsize</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>padding</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">uint32_t</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>spare</code></em>[6];</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                        <tr>
+                          <td class="structsep" style="" colspan="5" align="left" rowspan="1"></td>
+                        </tr>
+                        <tr>
+                          <td class="structdefhdr2" style="" align="left" rowspan="1" colspan="1">struct</td>
+                          <td class="structdefhdr2" style="" colspan="4" align="left" rowspan="1"><span class="structname">fuse_statfs_out</span> {</td>
+                        </tr>
+                        <tr>
+                          <td style="" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct fuse_kstatfs</span></td>
+                          <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                          <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>st</code></em>;</td>
+                          <td style="" align="left" rowspan="1" colspan="1"> </td>
+                        </tr>
+                        <tr>
+                          <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </blockquote>
+              </div>
+              <p>For the interpretation of these fields, see
+              <a class="link" href="../htmlman2/statfs.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">statfs</span>(2)</span></a>.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="fuse-4_sect4" name="fuse-4_sect4" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">E2BIG</span></span></dt>
+          <dd>
+            <p>Returned from <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> operations
+            when the kernel's request is too large for the provided
+            buffer and the request was <code class="constant">FUSE_SETXATTR</code>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Returned from <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a> if
+            validation of the reply failed. Not all mistakes in
+            replies will be caught by this validation. However,
+            basic mistakes, such as short replies or an incorrect
+            <em class="parameter"><code>unique</code></em> value,
+            are detected.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EIO</span></span></dt>
+          <dd>
+            <p>Returned from <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> operations
+            when the kernel's request is too large for the provided
+            buffer.</p>
+            <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+              <table border="0" summary="Note">
+                <tr>
+                  <td rowspan="2" align="center" valign="top" width="25" colspan="1"><img alt="[Note]" src="../stylesheet/note.png" /></td>
+                  <th align="left" rowspan="1" colspan="1">Note</th>
+                </tr>
+                <tr>
+                  <td align="left" valign="top" rowspan="1" colspan="1">
+                    <p>There are various ways in which incorrect
+                    use of these interfaces can cause operations on
+                    the provided filesystem's files and directories
+                    to fail with <span class="errorname">EIO</span>. Among the possible
+                    incorrect uses are:</p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="itemizedlist">
+                  <ul class="itemizedlist" style="list-style-type: disc;">
+                    <li class="listitem">
+                      <p>changing <span class="emphasis"><em>mode
+                      &amp; S_IFMT</em></span> for an inode that
+                      has previously been reported to the kernel;
+                      or</p>
+                    </li>
+                    <li class="listitem">
+                      <p>giving replies to the kernel that are
+                      shorter than what the kernel expected.</p>
+                    </li>
+                  </ul>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENODEV</span></span></dt>
+          <dd>
+            <p>Returned from <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> and <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a> if the FUSE
+            filesystem was unmounted.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p>Returned from operations on a <code class="filename">/dev/fuse</code> file descriptor that has
+            not been mounted.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="fuse-4_sect5" name="fuse-4_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>The FUSE filesystem is Linux-specific.</p>
+    </div>
+    <div class="refsect1">
+      <a id="fuse-4_sect6" name="fuse-4_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>The following messages are not yet documented in this
+      manual page:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+<code class="constant">FUSE_BATCH_FORGET</code>
+<code class="constant">FUSE_BMAP</code>
+<code class="constant">FUSE_CREATE</code>
+<code class="constant">FUSE_DESTROY</code>
+<code class="constant">FUSE_FALLOCATE</code>
+<code class="constant">FUSE_FORGET</code>
+<code class="constant">FUSE_FSYNC</code>
+<code class="constant">FUSE_FSYNCDIR</code>
+<code class="constant">FUSE_GETLK</code>
+<code class="constant">FUSE_GETXATTR</code>
+<code class="constant">FUSE_IOCTL</code>
+<code class="constant">FUSE_LINK</code>
+<code class="constant">FUSE_LISTXATTR</code>
+<code class="constant">FUSE_LSEEK</code>
+<code class="constant">FUSE_MKDIR</code>
+<code class="constant">FUSE_MKNOD</code>
+<code class="constant">FUSE_NOTIFY_REPLY</code>
+<code class="constant">FUSE_POLL</code>
+<code class="constant">FUSE_READDIRPLUS</code>
+<code class="constant">FUSE_READLINK</code>
+<code class="constant">FUSE_REMOVEXATTR</code>
+<code class="constant">FUSE_RENAME</code>
+<code class="constant">FUSE_RENAME2</code>
+<code class="constant">FUSE_RMDIR</code>
+<code class="constant">FUSE_SETATTR</code>
+<code class="constant">FUSE_SETLK</code>
+<code class="constant">FUSE_SETLKW</code>
+<code class="constant">FUSE_SYMLINK</code>
+<code class="constant">FUSE_UNLINK</code>
+<code class="constant">FUSE_WRITE</code>
+</pre>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="fuse-4_sect7" name="fuse-4_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">fusermount</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mount.fuse</span>(8)</span></p>
+    </div>
+    <div class="colophon">
+      <a id="fuse-4_sect8" name="fuse-4_sect8" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2016 Julia Computing Inc, Keno Fischer<br />
+
+                  Description based on include/uapi/fuse.h and code in fs/fuse<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>pcre2_pattern_convert(3) — Linux manual
+  pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="pcre2_pattern_convert(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="pcre2-pattern-convert.3" name="pcre2-pattern-convert.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>PCRE2 — Perl-compatible regular expressions (revised
+      API)</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;pcre2.h&gt;
+
+int pcre2_pattern_convert(PCRE2_SPTR <code class="function">pattern</code>, PCRE2_SIZE <code class="function">length</code>,
+  uint32_t <code class="function">options</code>, PCRE2_UCHAR **<code class="function">buffer</code>,
+  PCRE2_SIZE *<code class="function">blength</code>, pcre2_convert_context *<code class="function">cvcontext</code>);
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pcre2-pattern-convert-3_sect1" name="pcre2-pattern-convert-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>This function is part of an experimental set of pattern
+      conversion functions. It converts a foreign pattern (for
+      example, a glob) into a PCRE2 regular expression pattern. Its
+      arguments are:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+ <code class="function">pattern</code>     The foreign pattern
+ <code class="function">length</code>      The length of the input pattern or PCRE2_ZERO_TERMINATED
+ <code class="function">options</code>     Option bits
+ <code class="function">buffer</code>      Pointer to pointer to output buffer, or NULL
+ <code class="function">blength</code>     Pointer to output length field
+ <code class="function">cvcontext</code>   Pointer to a convert context or NULL
+</pre>
+      </div>
+      <p>The length of the converted pattern (excluding the
+      terminating zero) is returned via <code class="function">blength</code>. If <code class="function">buffer</code> is NULL, the function just returns
+      the output length. If <code class="function">buffer</code>
+      points to a NULL pointer, heap memory is obtained for the
+      converted pattern, using the allocator in the context if
+      present (or else <code class="function">malloc</code>()), and
+      the field pointed to by <code class="function">buffer</code>
+      is updated. If <code class="function">buffer</code> points to
+      a non-NULL field, that must point to a buffer whose size is
+      in the variable pointed to by <code class="function">blength</code>. This value is updated.</p>
+      <p>The option bits are:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+ PCRE2_CONVERT_UTF                     Input is UTF
+ PCRE2_CONVERT_NO_UTF_CHECK            Do not check UTF validity
+ PCRE2_CONVERT_POSIX_BASIC             Convert POSIX basic pattern
+ PCRE2_CONVERT_POSIX_EXTENDED          Convert POSIX extended pattern
+ PCRE2_CONVERT_GLOB                    ) Convert
+ PCRE2_CONVERT_GLOB_NO_WILD_SEPARATOR  )   various types
+ PCRE2_CONVERT_GLOB_NO_STARSTAR        )     of glob
+</pre>
+      </div>
+      <p>The return value from <code class="function">pcre2_pattern_convert</code>() is zero on success
+      or a non-zero PCRE2 error code.</p>
+      <p>The pattern conversion functions are described in the
+      <a class="link" href="../htmlman3/pcre2convert.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pcre2convert</span>(3)</span></a>
+      documentation.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="" rowspan="1" colspan="1">COPYRIGHT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <p>This manual page is taken from the <a class="ulink" href="http://www.PCRE.org/" target="_top" shape="rect">PCRE library</a>, which is distributed under
+                the BSD license.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

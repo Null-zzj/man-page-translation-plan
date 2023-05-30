@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>cgroup_namespaces(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="cgroup_namespaces(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="cgroup-namespaces.7" name="cgroup-namespaces.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>cgroup_namespaces — overview of Linux cgroup
+      namespaces</p>
+    </div>
+    <div class="refsect1">
+      <a id="cgroup-namespaces-7_sect1" name="cgroup-namespaces-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>For an overview of namespaces, see <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a>.</p>
+      <p>Cgroup namespaces virtualize the view of a process's
+      cgroups (see <a class="link" href="../htmlman7/cgroups.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroups</span>(7)</span></a>) as seen via
+      <code class="filename">/proc/[pid]/cgroup</code> and
+      <code class="filename">/proc/[pid]/mountinfo</code>.</p>
+      <p>Each cgroup namespace has its own set of cgroup root
+      directories. These root directories are the base points for
+      the relative locations displayed in the corresponding records
+      in the <code class="filename">/proc/[pid]/cgroup</code> file.
+      When a process creates a new cgroup namespace using <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> or <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a> with the
+      <code class="constant">CLONE_NEWCGROUP</code> flag, its
+      current cgroups directories become the cgroup root
+      directories of the new namespace. (This applies both for the
+      cgroups version 1 hierarchies and the cgroups version 2
+      unified hierarchy.)</p>
+      <p>When reading the cgroup memberships of a "target" process
+      from <code class="filename">/proc/[pid]/cgroup</code>, the
+      pathname shown in the third field of each record will be
+      relative to the reading process's root directory for the
+      corresponding cgroup hierarchy. If the cgroup directory of
+      the target process lies outside the root directory of the
+      reading process's cgroup namespace, then the pathname will
+      show <em class="replaceable"><code>../</code></em> entries
+      for each ancestor level in the cgroup hierarchy.</p>
+      <p>The following shell session demonstrates the effect of
+      creating a new cgroup namespace.</p>
+      <p>First, (as superuser) in a shell in the initial cgroup
+      namespace, we create a child cgroup in the <em class="replaceable"><code>freezer</code></em> hierarchy, and place
+      a process in that cgroup that we will use as part of the
+      demonstration below:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+# <span class="emphasis"><em>mkdir −p /sys/fs/cgroup/freezer/sub2</em></span>
+# <span class="emphasis"><em>sleep 10000 &amp;</em></span>     # Create a process that lives for a while
+[1] 20124
+# <span class="emphasis"><em>echo 20124 &gt; /sys/fs/cgroup/freezer/sub2/cgroup.procs</em></span>
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>We then create another child cgroup in the <em class="replaceable"><code>freezer</code></em> hierarchy and put the
+      shell into that cgroup:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+# <span class="emphasis"><em>mkdir −p /sys/fs/cgroup/freezer/sub</em></span>
+# <span class="emphasis"><em>echo $$</em></span>                      # Show PID of this shell
+30655
+# <span class="emphasis"><em>echo 30655 &gt; /sys/fs/cgroup/freezer/sub/cgroup.procs</em></span>
+# <span class="emphasis"><em>cat /proc/self/cgroup | grep freezer</em></span>
+7:freezer:/sub
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Next, we use <a class="link" href="../htmlman1/unshare.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(1)</span></a> to create a
+      process running a new shell in new cgroup and mount
+      namespaces:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+# <span class="emphasis"><em>PS1="sh2# " unshare −Cm bash</em></span>
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>From the new shell started by <a class="link" href="../htmlman1/unshare.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(1)</span></a>, we then inspect
+      the <code class="filename">/proc/[pid]/cgroup</code> files
+      of, respectively, the new shell, a process that is in the
+      initial cgroup namespace (<em class="replaceable"><code>init</code></em>, with PID 1), and the
+      process in the sibling cgroup (<em class="replaceable"><code>sub2</code></em>):</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+sh2# <span class="emphasis"><em>cat /proc/self/cgroup | grep freezer</em></span>
+7:freezer:/
+sh2# <span class="emphasis"><em>cat /proc/1/cgroup | grep freezer</em></span>
+7:freezer:/..
+sh2# <span class="emphasis"><em>cat /proc/20124/cgroup | grep freezer</em></span>
+7:freezer:/../sub2
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>From the output of the first command, we see that the
+      freezer cgroup membership of the new shell (which is in the
+      same cgroup as the initial shell) is shown defined relative
+      to the freezer cgroup root directory that was established
+      when the new cgroup namespace was created. (In absolute
+      terms, the new shell is in the <code class="filename">/sub</code> freezer cgroup, and the root directory
+      of the freezer cgroup hierarchy in the new cgroup namespace
+      is also <code class="filename">/sub</code>. Thus, the new
+      shell's cgroup membership is displayed as '/'.)</p>
+      <p>However, when we look in <code class="filename">/proc/self/mountinfo</code> we see the following
+      anomaly:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+sh2# <span class="emphasis"><em>cat /proc/self/mountinfo | grep freezer</em></span>
+155 145 0:32 /.. /sys/fs/cgroup/freezer ...
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>The fourth field of this line (<code class="filename">/..</code>) should show the directory in the
+      cgroup filesystem which forms the root of this mount. Since
+      by the definition of cgroup namespaces, the process's current
+      freezer cgroup directory became its root freezer cgroup
+      directory, we should see '/' in this field. The problem here
+      is that we are seeing a mount entry for the cgroup filesystem
+      corresponding to the initial cgroup namespace (whose cgroup
+      filesystem is indeed rooted at the parent directory of
+      <em class="replaceable"><code>sub</code></em>). To fix this
+      problem, we must remount the freezer cgroup filesystem from
+      the new shell (i.e., perform the mount from a process that is
+      in the new cgroup namespace), after which we see the expected
+      results:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+sh2# <span class="emphasis"><em>mount −−make−rslave /</em></span>     # Don't propagate mount events
+                               # to other namespaces
+sh2# <span class="emphasis"><em>umount /sys/fs/cgroup/freezer</em></span>
+sh2# <span class="emphasis"><em>mount −t cgroup −o freezer freezer /sys/fs/cgroup/freezer</em></span>
+sh2# <span class="emphasis"><em>cat /proc/self/mountinfo | grep freezer</em></span>
+155 145 0:32 / /sys/fs/cgroup/freezer rw,relatime ...
+</pre>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="cgroup-namespaces-7_sect2" name="cgroup-namespaces-7_sect2" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>Namespaces are a Linux-specific feature.</p>
+    </div>
+    <div class="refsect1">
+      <a id="cgroup-namespaces-7_sect3" name="cgroup-namespaces-7_sect3" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Use of cgroup namespaces requires a kernel that is
+      configured with the <code class="constant">CONFIG_CGROUPS</code> option.</p>
+      <p>The virtualization provided by cgroup namespaces serves a
+      number of purposes:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>It prevents information leaks whereby cgroup
+            directory paths outside of a container would otherwise
+            be visible to processes in the container. Such leakages
+            could, for example, reveal information about the
+            container framework to containerized applications.</p>
+          </li>
+          <li class="listitem">
+            <p>It eases tasks such as container migration. The
+            virtualization provided by cgroup namespaces allows
+            containers to be isolated from knowledge of the
+            pathnames of ancestor cgroups. Without such isolation,
+            the full cgroup pathnames (displayed in <code class="filename">/proc/self/cgroups</code>) would need to be
+            replicated on the target system when migrating a
+            container; those pathnames would also need to be
+            unique, so that they don't conflict with other
+            pathnames on the target system.</p>
+          </li>
+          <li class="listitem">
+            <p>It allows better confinement of containerized
+            processes, because it is possible to mount the
+            container's cgroup filesystems such that the container
+            processes can't gain access to ancestor cgroup
+            directories. Consider, for example, the following
+            scenario:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="itemizedlist">
+                  <ul class="itemizedlist" style="list-style-type: circle;">
+                    <li class="listitem">
+                      <p>We have a cgroup directory, <code class="filename">/cg/1</code>, that is owned by
+                      user ID 9000.</p>
+                    </li>
+                    <li class="listitem">
+                      <p>We have a process, <code class="constant">X</code>, also owned by user ID
+                      9000, that is namespaced under the cgroup
+                      <code class="filename">/cg/1/2</code> (i.e.,
+                      <code class="constant">X</code> was placed in
+                      a new cgroup namespace via <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>
+                      or <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a>
+                      with the <code class="constant">CLONE_NEWCGROUP</code> flag).</p>
+                    </li>
+                  </ul>
+                </div>
+              </blockquote>
+            </div>
+          </li>
+          <li class="listitem">
+            <p>In the absence of cgroup namespacing, because the
+            cgroup directory <code class="filename">/cg/1</code> is
+            owned (and writable) by UID 9000 and process
+            <code class="constant">X</code> is also owned by user
+            ID 9000, process <code class="constant">X</code> would
+            be able to modify the contents of cgroups files (i.e.,
+            change cgroup settings) not only in <code class="filename">/cg/1/2</code> but also in the ancestor
+            cgroup directory <code class="filename">/cg/1</code>.
+            Namespacing process <code class="constant">X</code>
+            under the cgroup directory <code class="filename">/cg/1/2</code>, in combination with suitable
+            mount operations for the cgroup filesystem (as shown
+            above), prevents it modifying files in <code class="filename">/cg/1</code>, since it cannot even see the
+            contents of that directory (or of further removed
+            cgroup ancestor directories). Combined with correct
+            enforcement of hierarchical limits, this prevents
+            process <code class="constant">X</code> from escaping
+            the limits imposed by ancestor cgroups.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="cgroup-namespaces-7_sect4" name="cgroup-namespaces-7_sect4" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/unshare.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(1)</span></a>, <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>, <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a>, <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a>, <a class="link" href="../htmlman5/proc.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">proc</span>(5)</span></a>, <a class="link" href="../htmlman7/cgroups.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroups</span>(7)</span></a>, <a class="link" href="../htmlman7/credentials.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">credentials</span>(7)</span></a>, <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a>, <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="cgroup-namespaces-7_sect5" name="cgroup-namespaces-7_sect5" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2016 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

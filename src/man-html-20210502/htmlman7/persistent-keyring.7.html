@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>persistent-keyring(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="persistent-keyring(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="persistent-keyring.7" name="persistent-keyring.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>persistent-keyring — per-user persistent keyring</p>
+    </div>
+    <div class="refsect1">
+      <a id="persistent-keyring-7_sect1" name="persistent-keyring-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The persistent keyring is a keyring used to anchor keys on
+      behalf of a user. Each UID the kernel deals with has its own
+      persistent keyring that is shared between all threads owned
+      by that UID. The persistent keyring has a name (description)
+      of the form <em class="replaceable"><code>_persistent.&lt;UID&gt;</code></em> where
+      <em class="replaceable"><code>&lt;UID&gt;</code></em> is the
+      user ID of the corresponding user.</p>
+      <p>The persistent keyring may not be accessed directly, even
+      by processes with the appropriate UID. Instead, it must first
+      be linked to one of a process's keyrings, before that keyring
+      can access the persistent keyring by virtue of its possessor
+      permits. This linking is done with the <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>
+      function.</p>
+      <p>If a persistent keyring does not exist when it is accessed
+      by the <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>
+      operation, it will be automatically created.</p>
+      <p>Each time the <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>
+      operation is performed, the persistent key's expiration timer
+      is reset to the value in:</p>
+      <p>/proc/sys/kernel/keys/persistent_keyring_expiry</p>
+      <p>Should the timeout be reached, the persistent keyring will
+      be removed and everything it pins can then be garbage
+      collected. The key will then be re-created on a subsequent
+      call to <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>.</p>
+      <p>The persistent keyring is not directly searched by
+      <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>; it is
+      searched only if it is linked into one of the keyrings that
+      is searched by <a class="link" href="../htmlman2/request_key.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">request_key</span>(2)</span></a>.</p>
+      <p>The persistent keyring is independent of <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>, <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a>, <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>, and <a class="link" href="../htmlman2/_exit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">_exit</span>(2)</span></a>. It persists until
+      its expiration timer triggers, at which point it is garbage
+      collected. This allows the persistent keyring to carry keys
+      beyond the life of the kernel's record of the corresponding
+      UID (the destruction of which results in the destruction of
+      the <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a> and the
+      <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a>).
+      The persistent keyring can thus be used to hold
+      authentication tokens for processes that run without user
+      interaction, such as programs started by <span class="citerefentry"><span class="refentrytitle">cron</span>(8)</span>.</p>
+      <p>The persistent keyring is used to store UID-specific
+      objects that themselves have limited lifetimes (e.g.,
+      kerberos tokens). If those tokens cease to be used (i.e., the
+      persistent keyring is not accessed), then the timeout of the
+      persistent keyring ensures that the corresponding objects are
+      automatically discarded.</p>
+      <div class="refsect2">
+        <a id="persistent-keyring-7_sect2" name="persistent-keyring-7_sect2" shape="rect"> </a>
+        <h3>Special operations</h3>
+        <p>The <em class="replaceable"><code>keyutils</code></em>
+        library provides the <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>
+        function for manipulating persistent keyrings. (This
+        function is an interface to the <a class="link" href="../htmlman2/keyctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyctl</span>(2)</span></a> <code class="constant">KEYCTL_GET_PERSISTENT</code> operation.) This
+        operation allows the calling thread to get the persistent
+        keyring corresponding to its own UID or, if the thread has
+        the <code class="constant">CAP_SETUID</code> capability,
+        the persistent keyring corresponding to some other UID in
+        the same user namespace.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="persistent-keyring-7_sect3" name="persistent-keyring-7_sect3" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Each user namespace owns a keyring called <em class="replaceable"><code>.persistent_register</code></em> that
+      contains links to all of the persistent keys in that
+      namespace. (The <em class="replaceable"><code>.persistent_register</code></em> keyring
+      can be seen when reading the contents of the <code class="filename">/proc/keys</code> file for the UID 0 in the
+      namespace.) The <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>
+      operation looks for a key with a name of the form <em class="replaceable"><code>_persistent.&lt;UID&gt;</code></em> in
+      that keyring, creates the key if it does not exist, and links
+      it into the keyring.</p>
+    </div>
+    <div class="refsect1">
+      <a id="persistent-keyring-7_sect4" name="persistent-keyring-7_sect4" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">keyctl</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl</span>(3)</span>, <span class="citerefentry"><span class="refentrytitle">keyctl_get_persistent</span>(3)</span>,
+      <a class="link" href="../htmlman7/keyrings.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">keyrings</span>(7)</span></a>, <a class="link" href="../htmlman7/process-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">session-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/thread-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">thread-keyring</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/user-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-keyring</span>(7)</span></a>, <a class="link" href="../htmlman7/user-session-keyring.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user-session-keyring</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="persistent-keyring-7_sect5" name="persistent-keyring-7_sect5" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.<br />
+
+                  Written by David Howells (dhowells<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com)<br />
+
+                  <br />
+                  %%%LICENSE_START(GPLv2+_SW_ONEPARA)<br />
+                  This program is free software; you can redistribute it and/or<br />
+
+                  modify it under the terms of the GNU General Public License<br />
+
+                  as published by the Free Software Foundation; either version<br />
+
+                  2 of the License, or (at your option) any later version.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

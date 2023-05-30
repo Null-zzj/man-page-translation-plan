@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>pthread_spin_init(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="pthread_spin_init(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="pthread-spin-init.3" name="pthread-spin-init.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>pthread_spin_init, pthread_spin_destroy — initialize
+      or destroy a spin lock</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;pthread.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>pthread_spin_init</strong>(</code></td>
+            <td rowspan="1" colspan="1">pthread_spinlock_t *<var class="pdparam">lock</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">pshared</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>pthread_spin_destroy</strong>(</code></td>
+            <td rowspan="1" colspan="1">pthread_spinlock_t *<var class="pdparam">lock</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <div class="featuretests">
+                <table class="featuretests" style="border-collapse: collapse;">
+                  <colgroup span="1">
+                    <col span="1" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th style="" rowspan="1" colspan="1">Feature Test Macro Requirements
+                      for glibc (see <a class="link" href="../htmlman7/feature_test_macros.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">feature_test_macros</span>(7)</span></a>):</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="" rowspan="1" colspan="1"><code class="function">pthread_spin_init</code>(),
+                      <code class="function">pthread_spin_destroy</code>():</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">
+                      <code class="constant">_POSIX_C_SOURCE</code>
+                      &gt;= 200112L</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <p>Compile and link with <code class="option">−pthread</code>.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-spin-init-3_sect1" name="pthread-spin-init-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><span class="emphasis"><em>General note</em></span>: Most
+      programs should use mutexes instead of spin locks. Spin locks
+      are primarily useful in conjunction with real-time scheduling
+      policies. See NOTES.</p>
+      <p>The <code class="function">pthread_spin_init</code>()
+      function allocates any resources required for the use of the
+      spin lock referred to by <em class="parameter"><code>lock</code></em> and initializes the lock
+      to be in the unlocked state. The <em class="parameter"><code>pshared</code></em> argument must have one
+      of the following values:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">PTHREAD_PROCESS_PRIVATE</code></span></dt>
+          <dd>
+            <p>The spin lock is to be operated on only by threads
+            in the same process as the thread that calls
+            <code class="function">pthread_spin_init</code>().
+            (Attempting to share the spin lock between processes
+            results in undefined behavior.)</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PTHREAD_PROCESS_SHARED</code></span></dt>
+          <dd>
+            <p>The spin lock may be operated on by any thread in
+            any process that has access to the memory containing
+            the lock (i.e., the lock may be in a shared memory
+            object that is shared among multiple processes).</p>
+          </dd>
+        </dl>
+      </div>
+      <p>Calling <code class="function">pthread_spin_init</code>()
+      on a spin lock that has already been initialized results in
+      undefined behavior.</p>
+      <p>The <code class="function">pthread_spin_destroy</code>()
+      function destroys a previously initialized spin lock, freeing
+      any resources that were allocated for that lock. Destroying a
+      spin lock that has not been previously been initialized or
+      destroying a spin lock while another thread holds the lock
+      results in undefined behavior.</p>
+      <p>Once a spin lock has been destroyed, performing any
+      operation on the lock other than once more initializing it
+      with <code class="function">pthread_spin_init</code>()
+      results in undefined behavior.</p>
+      <p>The result of performing operations such as <a class="link" href="../htmlman3/pthread_spin_lock.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_spin_lock</span>(3)</span></a>,
+      <a class="link" href="../htmlman3/pthread_spin_lock.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_spin_unlock</span>(3)</span></a>, and
+      <code class="function">pthread_spin_destroy</code>() on
+      <code class="function">copies</code> of the object referred
+      to by <em class="parameter"><code>lock</code></em> is
+      undefined.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-spin-init-3_sect2" name="pthread-spin-init-3_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, there functions return zero. On failure, they
+      return an error number. In the event that <code class="function">pthread_spin_init</code>() fails, the lock is not
+      initialized.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-spin-init-3_sect3" name="pthread-spin-init-3_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <p><code class="function">pthread_spin_init</code>() may fail
+      with the following errors:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EAGAIN</span></span></dt>
+          <dd>
+            <p>The system has insufficient resources to initialize
+            a new spin lock.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Insufficient memory to initialize the spin lock.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-spin-init-3_sect4" name="pthread-spin-init-3_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>These functions first appeared in glibc in version
+      2.2.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-spin-init-3_sect5" name="pthread-spin-init-3_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>POSIX.1-2001.</p>
+      <p>Support for process-shared spin locks is a POSIX option.
+      The option is supported in the glibc implementation.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-spin-init-3_sect6" name="pthread-spin-init-3_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Spin locks should be employed in conjunction with
+      real-time scheduling policies (<code class="constant">SCHED_FIFO</code>, or possibly <code class="constant">SCHED_RR</code>). Use of spin locks with
+      nondeterministic scheduling policies such as <code class="constant">SCHED_OTHER</code> probably indicates a design
+      mistake. The problem is that if a thread operating under such
+      a policy is scheduled off the CPU while it holds a spin lock,
+      then other threads will waste time spinning on the lock until
+      the lock holder is once more rescheduled and releases the
+      lock.</p>
+      <p>If threads create a deadlock situation while employing
+      spin locks, those threads will spin forever consuming CPU
+      time.</p>
+      <p>User-space spin locks are <span class="emphasis"><em>not</em></span> applicable as a general
+      locking solution. They are, by definition, prone to priority
+      inversion and unbounded spin times. A programmer using spin
+      locks must be exceptionally careful not only in the code, but
+      also in terms of system configuration, thread placement, and
+      priority assignment.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-spin-init-3_sect7" name="pthread-spin-init-3_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">pthread_mutex_init</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">pthread_mutex_lock</span>(3)</span>,
+      <a class="link" href="../htmlman3/pthread_spin_lock.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_spin_lock</span>(3)</span></a>,
+      <a class="link" href="../htmlman3/pthread_spin_lock.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_spin_unlock</span>(3)</span></a>,
+      <a class="link" href="../htmlman7/pthreads.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthreads</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="pthread-spin-init-3_sect8" name="pthread-spin-init-3_sect8" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2017, Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

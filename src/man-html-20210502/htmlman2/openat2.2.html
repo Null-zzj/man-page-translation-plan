@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>openat2(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="openat2(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="openat2.2" name="openat2.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>openat2 — open and possibly create a file
+      (extended)</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;linux/openat2.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">long
+            <strong>openat2</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">dirfd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">pathname</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct open_how *<var class="pdparam">how</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">size_t <var class="pdparam">size</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="openat2-2_sect1" name="openat2-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">openat2</code>() system call is
+      an extension of <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a> and provides a
+      superset of its functionality.</p>
+      <p>The <code class="function">openat2</code>() system call
+      opens the file specified by <em class="parameter"><code>pathname</code></em>. If the specified file
+      does not exist, it may optionally (if <code class="constant">O_CREAT</code> is specified in <em class="replaceable"><code>how.flags</code></em>) be created.</p>
+      <p>As with <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a>, if <em class="parameter"><code>pathname</code></em> is a relative
+      pathname, then it is interpreted relative to the directory
+      referred to by the file descriptor <em class="parameter"><code>dirfd</code></em> (or the current working
+      directory of the calling process, if <em class="parameter"><code>dirfd</code></em> is the special value
+      <code class="constant">AT_FDCWD</code>). If <em class="parameter"><code>pathname</code></em> is an absolute
+      pathname, then <em class="parameter"><code>dirfd</code></em>
+      is ignored (unless <em class="replaceable"><code>how.resolve</code></em> contains
+      <code class="constant">RESOLVE_IN_ROOT</code>, in which case
+      <em class="parameter"><code>pathname</code></em> is resolved
+      relative to <em class="parameter"><code>dirfd</code></em>).</p>
+      <p>Rather than taking a single <em class="replaceable"><code>flags</code></em> argument, an extensible
+      structure (<em class="parameter"><code>how</code></em>) is
+      passed to allow for future extensions. The <em class="parameter"><code>size</code></em> argument must be specified
+      as <span class="emphasis"><em>sizeof(struct
+      open_how)</em></span>.</p>
+      <div class="refsect2">
+        <a id="openat2-2_sect2" name="openat2-2_sect2" shape="rect"> </a>
+        <h3>The open_how structure</h3>
+        <p>The <em class="parameter"><code>how</code></em> argument
+        specifies how <em class="parameter"><code>pathname</code></em> should be opened,
+        and acts as a superset of the <em class="replaceable"><code>flags</code></em> and <em class="replaceable"><code>mode</code></em> arguments to <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a>. This argument
+        is a pointer to a structure of the following form:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">open_how</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>flags</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        /* O_* flags */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>mode</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Mode for O_{CREAT,TMPFILE} */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>resolve</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        /* RESOLVE_* flags */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" colspan="5" align="left" rowspan="1">
+                      <div class="literallayout">
+                        /* ... */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>Any future extensions to <code class="function">openat2</code>() will be implemented as new
+        fields appended to the above structure, with a zero value
+        in a new field resulting in the kernel behaving as though
+        that extension field was not present. Therefore, the caller
+        <em class="replaceable"><code>must</code></em> zero-fill
+        this structure on initialization. (See the "Extensibility"
+        section of the <code class="constant">NOTES</code> for more
+        detail on why this is necessary.)</p>
+        <p>The fields of the <span class="structname">open_how</span> structure are as follows:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="parameter"><code>flags</code></em></span></dt>
+            <dd>
+              <p>This field specifies the file creation and file
+              status flags to use when opening the file. All of the
+              <em class="replaceable"><code>O_*</code></em> flags
+              defined for <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a> are valid
+              <code class="function">openat2</code>() flag
+              values.</p>
+              <p>Whereas <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a> ignores
+              unknown bits in its <em class="parameter"><code>flags</code></em> argument,
+              <code class="function">openat2</code>() returns an
+              error if unknown or conflicting flags are specified
+              in <em class="replaceable"><code>how.flags</code></em>.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>mode</code></em></span></dt>
+            <dd>
+              <p>This field specifies the mode for the new file,
+              with identical semantics to the <em class="parameter"><code>mode</code></em> argument of
+              <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a>.</p>
+              <p>Whereas <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a> ignores
+              bits other than those in the range <code class="constant">07777</code> in its <em class="parameter"><code>mode</code></em> argument,
+              <code class="function">openat2</code>() returns an
+              error if <em class="replaceable"><code>how.mode</code></em> contains
+              bits other than <code class="constant">07777</code>.
+              Similarly, an error is returned if <code class="function">openat2</code>() is called with a nonzero
+              <em class="replaceable"><code>how.mode</code></em>
+              and <em class="replaceable"><code>how.flags</code></em> does not
+              contain <code class="constant">O_CREAT</code> or
+              <code class="constant">O_TMPFILE</code>.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>resolve</code></em></span></dt>
+            <dd>
+              <p>This is a bit-mask of flags that modify the way in
+              which <em class="replaceable"><code>all</code></em>
+              components of <em class="parameter"><code>pathname</code></em> will be
+              resolved. (See <a class="link" href="../htmlman7/path_resolution.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">path_resolution</span>(7)</span></a>
+              for background information.)</p>
+              <p>The primary use case for these flags is to allow
+              trusted programs to restrict how untrusted paths (or
+              paths inside untrusted directories) are resolved. The
+              full list of <em class="parameter"><code>resolve</code></em> flags is as
+              follows:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term"><code class="constant">RESOLVE_BENEATH</code></span></dt>
+                      <dd>
+                        <p>Do not permit the path resolution to
+                        succeed if any component of the resolution
+                        is not a descendant of the directory
+                        indicated by <em class="parameter"><code>dirfd</code></em>. This
+                        causes absolute symbolic links (and
+                        absolute values of <em class="parameter"><code>pathname</code></em>) to
+                        be rejected.</p>
+                        <p>Currently, this flag also disables
+                        magic-link resolution (see below). However,
+                        this may change in the future. Therefore,
+                        to ensure that magic links are not
+                        resolved, the caller should explicitly
+                        specify <code class="constant">RESOLVE_NO_MAGICLINKS</code>.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">RESOLVE_IN_ROOT</code></span></dt>
+                      <dd>
+                        <p>Treat the directory referred to by
+                        <em class="parameter"><code>dirfd</code></em> as the
+                        root directory while resolving <em class="parameter"><code>pathname</code></em>.
+                        Absolute symbolic links are interpreted
+                        relative to <em class="parameter"><code>dirfd</code></em>. If a
+                        prefix component of <em class="parameter"><code>pathname</code></em>
+                        equates to <em class="parameter"><code>dirfd</code></em>, then
+                        an immediately following <code class="filename">..</code> component likewise
+                        equates to <em class="parameter"><code>dirfd</code></em> (just
+                        as <code class="filename">/..</code> is
+                        traditionally equivalent to <code class="filename">/</code>). If <em class="parameter"><code>pathname</code></em> is
+                        an absolute path, it is also interpreted
+                        relative to <em class="parameter"><code>dirfd</code></em>.</p>
+                        <p>The effect of this flag is as though the
+                        calling process had used <a class="link" href="../htmlman2/chroot.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chroot</span>(2)</span></a>
+                        to (temporarily) modify its root directory
+                        (to the directory referred to by <em class="parameter"><code>dirfd</code></em>).
+                        However, unlike <a class="link" href="../htmlman2/chroot.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chroot</span>(2)</span></a>
+                        (which changes the filesystem root
+                        permanently for a process), <code class="constant">RESOLVE_IN_ROOT</code> allows a
+                        program to efficiently restrict path
+                        resolution on a per-open basis.</p>
+                        <p>Currently, this flag also disables
+                        magic-link resolution. However, this may
+                        change in the future. Therefore, to ensure
+                        that magic links are not resolved, the
+                        caller should explicitly specify
+                        <code class="constant">RESOLVE_NO_MAGICLINKS</code>.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">RESOLVE_NO_MAGICLINKS</code></span></dt>
+                      <dd>
+                        <p>Disallow all magic-link resolution
+                        during path resolution.</p>
+                        <p>Magic links are symbolic link-like
+                        objects that are most notably found in
+                        <a class="link" href="../htmlman5/proc.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">proc</span>(5)</span></a>;
+                        examples include <code class="filename">/proc/[pid]/exe</code> and
+                        <code class="filename">/proc/[pid]/fd/*</code>. (See
+                        <a class="link" href="../htmlman7/symlink.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">symlink</span>(7)</span></a>
+                        for more details.)</p>
+                        <p>Unknowingly opening magic links can be
+                        risky for some applications. Examples of
+                        such risks include the following:</p>
+                        <div class="blockquote">
+                          <blockquote class="blockquote">
+                            <div class="itemizedlist">
+                              <ul class="itemizedlist" style="list-style-type: disc;">
+                                <li class="listitem">
+                                  <p>If the process opening a
+                                  pathname is a controlling process
+                                  that currently has no controlling
+                                  terminal (see <a class="link" href="../htmlman7/credentials.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">credentials</span>(7)</span></a>),
+                                  then opening a magic link inside
+                                  <code class="filename">/proc/[pid]/fd</code>
+                                  that happens to refer to a
+                                  terminal would cause the process
+                                  to acquire a controlling
+                                  terminal.</p>
+                                </li>
+                                <li class="listitem">
+                                  <p>In a containerized
+                                  environment, a magic link inside
+                                  <code class="filename">/proc</code> may refer
+                                  to an object outside the
+                                  container, and thus may provide a
+                                  means to escape from the
+                                  container.</p>
+                                </li>
+                              </ul>
+                            </div>
+                          </blockquote>
+                        </div>
+                        <p>Because of such risks, an application
+                        may prefer to disable magic link resolution
+                        using the <code class="constant">RESOLVE_NO_MAGICLINKS</code>
+                        flag.</p>
+                        <p>If the trailing component (i.e.,
+                        basename) of <em class="parameter"><code>pathname</code></em> is a
+                        magic link, <em class="replaceable"><code>how.resolve</code></em>
+                        contains <code class="constant">RESOLVE_NO_MAGICLINKS</code>,
+                        and <em class="replaceable"><code>how.flags</code></em>
+                        contains both <code class="constant">O_PATH</code> and <code class="constant">O_NOFOLLOW</code>, then an
+                        <code class="constant">O_PATH</code> file
+                        descriptor referencing the magic link will
+                        be returned.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">RESOLVE_NO_SYMLINKS</code></span></dt>
+                      <dd>
+                        <p>Disallow resolution of symbolic links
+                        during path resolution. This option implies
+                        <code class="constant">RESOLVE_NO_MAGICLINKS</code>.</p>
+                        <p>If the trailing component (i.e.,
+                        basename) of <em class="parameter"><code>pathname</code></em> is a
+                        symbolic link, <em class="replaceable"><code>how.resolve</code></em>
+                        contains <code class="constant">RESOLVE_NO_SYMLINKS</code>, and
+                        <em class="replaceable"><code>how.flags</code></em>
+                        contains both <code class="constant">O_PATH</code> and <code class="constant">O_NOFOLLOW</code>, then an
+                        <code class="constant">O_PATH</code> file
+                        descriptor referencing the symbolic link
+                        will be returned.</p>
+                        <p>Note that the effect of the <code class="constant">RESOLVE_NO_SYMLINKS</code> flag,
+                        which affects the treatment of symbolic
+                        links in all of the components of
+                        <em class="parameter"><code>pathname</code></em>,
+                        differs from the effect of the <code class="constant">O_NOFOLLOW</code> file creation
+                        flag (in <em class="replaceable"><code>how.flags</code></em>),
+                        which affects the handling of symbolic
+                        links only in the final component of
+                        <em class="parameter"><code>pathname</code></em>.</p>
+                        <p>Applications that employ the
+                        <code class="constant">RESOLVE_NO_SYMLINKS</code>
+                        flag are encouraged to make its use
+                        configurable (unless it is used for a
+                        specific security purpose), as symbolic
+                        links are very widely used by end-users.
+                        Setting this flag
+                        indiscriminately—i.e., for purposes
+                        not specifically related to
+                        security—for all uses of <code class="function">openat2</code>() may result in
+                        spurious errors on previously functional
+                        systems. This may occur if, for example, a
+                        system pathname that is used by an
+                        application is modified (e.g., in a new
+                        distribution release) so that a pathname
+                        component (now) contains a symbolic
+                        link.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">RESOLVE_NO_XDEV</code></span></dt>
+                      <dd>
+                        <p>Disallow traversal of mount points
+                        during path resolution (including all bind
+                        mounts). Consequently, <em class="parameter"><code>pathname</code></em> must
+                        either be on the same mount as the
+                        directory referred to by <em class="parameter"><code>dirfd</code></em>, or on
+                        the same mount as the current working
+                        directory if <em class="parameter"><code>dirfd</code></em> is
+                        specified as <code class="constant">AT_FDCWD</code>.</p>
+                        <p>Applications that employ the
+                        <code class="constant">RESOLVE_NO_XDEV</code>
+                        flag are encouraged to make its use
+                        configurable (unless it is used for a
+                        specific security purpose), as bind mounts
+                        are widely used by end-users. Setting this
+                        flag indiscriminately—i.e., for
+                        purposes not specifically related to
+                        security—for all uses of <code class="function">openat2</code>() may result in
+                        spurious errors on previously functional
+                        systems. This may occur if, for example, a
+                        system pathname that is used by an
+                        application is modified (e.g., in a new
+                        distribution release) so that a pathname
+                        component (now) contains a bind mount.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">RESOLVE_CACHED</code></span></dt>
+                      <dd>
+                        <p>Make the open operation fail unless all
+                        path components are already present in the
+                        kernel's lookup cache. If any kind of
+                        revalidation or I/O is needed to satisfy
+                        the lookup, <code class="function">openat2</code>() fails with the
+                        error <span class="emphasis"><em>EAGAIN
+                        .</em></span> This is useful in providing a
+                        fast-path open that can be performed
+                        without resorting to thread offload, or
+                        other mechanisms that an application might
+                        use to offload slower operations.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+              <p>If any bits other than those listed above are set
+              in <em class="replaceable"><code>how.resolve</code></em>, an error
+              is returned.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="openat2-2_sect3" name="openat2-2_sect3" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, a new file descriptor is returned. On error,
+      −1 is returned, and <code class="varname">errno</code>
+      is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="openat2-2_sect4" name="openat2-2_sect4" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <p>The set of errors returned by <code class="function">openat2</code>() includes all of the errors
+      returned by <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a>, as well as the
+      following additional errors:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">E2BIG</span></span></dt>
+          <dd>
+            <p>An extension that this kernel does not support was
+            specified in <em class="parameter"><code>how</code></em>. (See the
+            "Extensibility" section of <code class="constant">NOTES</code> for more detail on how
+            extensions are handled.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EAGAIN</span></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>how.resolve</code></em> contains
+            either <code class="constant">RESOLVE_IN_ROOT</code> or
+            <code class="constant">RESOLVE_BENEATH</code>, and the
+            kernel could not ensure that a ".." component didn't
+            escape (due to a race condition or potential attack).
+            The caller may choose to retry the <code class="function">openat2</code>() call.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EAGAIN</span></span></dt>
+          <dd>
+            <p><code class="constant">RESOLVE_CACHED</code> was
+            set, and the open operation cannot be performed using
+            only cached information. The caller should retry
+            without <code class="constant">RESOLVE_CACHED</code>
+            set in <span class="emphasis"><em>how.resolve
+            .</em></span></p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>An unknown flag or invalid value was specified in
+            <em class="parameter"><code>how</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>mode</code></em> is
+            nonzero, but <em class="replaceable"><code>how.flags</code></em> does not
+            contain <code class="constant">O_CREAT</code> or
+            <code class="constant">O_TMPFILE</code>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>size</code></em> was
+            smaller than any known version of <span class="emphasis"><em>struct open_how</em></span>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ELOOP</span></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>how.resolve</code></em> contains
+            <code class="constant">RESOLVE_NO_SYMLINKS</code>, and
+            one of the path components was a symbolic link (or
+            magic link).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ELOOP</span></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>how.resolve</code></em> contains
+            <code class="constant">RESOLVE_NO_MAGICLINKS</code>,
+            and one of the path components was a magic link.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EXDEV</span></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>how.resolve</code></em> contains
+            either <code class="constant">RESOLVE_IN_ROOT</code> or
+            <code class="constant">RESOLVE_BENEATH</code>, and an
+            escape from the root during path resolution was
+            detected.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EXDEV</span></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>how.resolve</code></em> contains
+            <code class="constant">RESOLVE_NO_XDEV</code>, and a
+            path component crosses a mount point.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="openat2-2_sect5" name="openat2-2_sect5" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">openat2</code>() first appeared in
+      Linux 5.6.</p>
+    </div>
+    <div class="refsect1">
+      <a id="openat2-2_sect6" name="openat2-2_sect6" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>This system call is Linux-specific.</p>
+      <p>The semantics of <code class="constant">RESOLVE_BENEATH</code> were modeled after
+      FreeBSD's <code class="constant">O_BENEATH</code>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="openat2-2_sect7" name="openat2-2_sect7" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call;
+      call it using <a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a>.</p>
+      <div class="refsect2">
+        <a id="openat2-2_sect8" name="openat2-2_sect8" shape="rect"> </a>
+        <h3>Extensibility</h3>
+        <p>In order to allow for future extensibility, <code class="function">openat2</code>() requires the user-space
+        application to specify the size of the <span class="structname">open_how</span> structure that it is passing.
+        By providing this information, it is possible for
+        <code class="function">openat2</code>() to provide both
+        forwards- and backwards-compatibility, with <em class="parameter"><code>size</code></em> acting as an implicit
+        version number. (Because new extension fields will always
+        be appended, the structure size will always increase.) This
+        extensibility design is very similar to other system calls
+        such as <a class="link" href="../htmlman2/sched_setattr.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sched_setattr</span>(2)</span></a>,
+        <a class="link" href="../htmlman2/perf_event_open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">perf_event_open</span>(2)</span></a>, and
+        <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone3</span>(2)</span></a>.</p>
+        <p>If we let <em class="replaceable"><code>usize</code></em> be the size of the
+        structure as specified by the user-space application, and
+        <em class="replaceable"><code>ksize</code></em> be the size
+        of the structure which the kernel supports, then there are
+        three cases to consider:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>If <em class="replaceable"><code>ksize</code></em>
+              equals <em class="replaceable"><code>usize</code></em>, then there is
+              no version mismatch and <em class="parameter"><code>how</code></em> can be used
+              verbatim.</p>
+            </li>
+            <li class="listitem">
+              <p>If <em class="replaceable"><code>ksize</code></em>
+              is larger than <em class="replaceable"><code>usize</code></em>, then there are
+              some extension fields that the kernel supports which
+              the user-space application is unaware of. Because a
+              zero value in any added extension field signifies a
+              no-op, the kernel treats all of the extension fields
+              not provided by the user-space application as having
+              zero values. This provides
+              backwards-compatibility.</p>
+            </li>
+            <li class="listitem">
+              <p>If <em class="replaceable"><code>ksize</code></em>
+              is smaller than <em class="replaceable"><code>usize</code></em>, then there are
+              some extension fields which the user-space
+              application is aware of but which the kernel does not
+              support. Because any extension field must have its
+              zero values signify a no-op, the kernel can safely
+              ignore the unsupported extension fields if they are
+              all-zero. If any unsupported extension fields are
+              nonzero, then −1 is returned and <code class="varname">errno</code> is set to <span class="errorname">E2BIG</span>. This provides
+              forwards-compatibility.</p>
+            </li>
+          </ul>
+        </div>
+        <p>Because the definition of <span class="emphasis"><em>struct open_how</em></span> may change in
+        the future (with new fields being added when system headers
+        are updated), user-space applications should zero-fill
+        <span class="emphasis"><em>struct open_how</em></span> to
+        ensure that recompiling the program with new headers will
+        not result in spurious errors at runtime. The simplest way
+        is to use a designated initializer:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+struct open_how how = { .flags = O_RDWR,
+                        .resolve = RESOLVE_IN_ROOT };
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>or explicitly using <a class="link" href="../htmlman3/memset.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memset</span>(3)</span></a> or similar:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+struct open_how how;
+memset(&amp;how, 0, sizeof(how));
+how.flags = O_RDWR;
+how.resolve = RESOLVE_IN_ROOT;
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>A user-space application that wishes to determine which
+        extensions the running kernel supports can do so by
+        conducting a binary search on <em class="parameter"><code>size</code></em> with a structure which
+        has every byte nonzero (to find the largest value which
+        doesn't produce an error of <span class="errorname">E2BIG</span>).</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="openat2-2_sect9" name="openat2-2_sect9" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a>, <a class="link" href="../htmlman7/path_resolution.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">path_resolution</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/symlink.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">symlink</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="openat2-2_sect10" name="openat2-2_sect10" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2019 Aleksa Sarai &lt;cyphar<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cyphar.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

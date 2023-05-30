@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>stat(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="stat(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="stat.2" name="stat.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>stat, fstat, lstat, fstatat — get file status</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>stat</strong>(</code></td>
+            <td rowspan="1" colspan="1">const char *restrict <var class="pdparam">pathname</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct stat *restrict <var class="pdparam">statbuf</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>fstat</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">fd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct stat *<var class="pdparam">statbuf</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>lstat</strong>(</code></td>
+            <td rowspan="1" colspan="1">const char *restrict <var class="pdparam">pathname</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct stat *restrict <var class="pdparam">statbuf</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+
+#include &lt;fcntl.h&gt;            /* Definition of AT_* constants */
+#include &lt;sys/stat.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>fstatat</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">dirfd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *restrict <var class="pdparam">pathname</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct stat *restrict <var class="pdparam">statbuf</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">flags</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <div class="featuretests">
+                <table class="featuretests" style="border-collapse: collapse;">
+                  <colgroup span="1">
+                    <col span="1" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th style="" rowspan="1" colspan="1">Feature Test Macro Requirements
+                      for glibc (see <a class="link" href="../htmlman7/feature_test_macros.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">feature_test_macros</span>(7)</span></a>):</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="" rowspan="1" colspan="1"><code class="function">lstat</code>():</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">/* Since
+                      glibc 2.20 */ <code class="constant">_DEFAULT_SOURCE</code> ||
+                      <code class="constant">_XOPEN_SOURCE</code>
+                      &gt;= 500 || /* Since glibc 2.10:</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">*/
+                      <code class="constant">_POSIX_C_SOURCE</code>
+                      &gt;= 200112L || /* Glibc 2.19 and earlier */
+                      <code class="constant">_BSD_SOURCE</code></td>
+                    </tr>
+                    <tr>
+                      <td style="" rowspan="1" colspan="1"><code class="function">fstatat</code>():</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">Since
+                      glibc 2.10:</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">
+                      <code class="constant">_POSIX_C_SOURCE</code>
+                      &gt;= 200809L Before glibc 2.10:</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">
+                      <code class="constant">_ATFILE_SOURCE</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="stat-2_sect1" name="stat-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>These functions return information about a file, in the
+      buffer pointed to by <em class="parameter"><code>statbuf</code></em>. No permissions are
+      required on the file itself, but—in the case of
+      <code class="function">stat</code>(), <code class="function">fstatat</code>(), and <code class="function">lstat</code>()\(emexecute (search) permission is
+      required on all of the directories in <em class="parameter"><code>pathname</code></em> that lead to the
+      file.</p>
+      <p><code class="function">stat</code>() and <code class="function">fstatat</code>() retrieve information about the
+      file pointed to by <em class="parameter"><code>pathname</code></em>; the differences for
+      <code class="function">fstatat</code>() are described
+      below.</p>
+      <p><code class="function">lstat</code>() is identical to
+      <code class="function">stat</code>(), except that if
+      <em class="parameter"><code>pathname</code></em> is a
+      symbolic link, then it returns information about the link
+      itself, not the file that the link refers to.</p>
+      <p><code class="function">fstat</code>() is identical to
+      <code class="function">stat</code>(), except that the file
+      about which information is to be retrieved is specified by
+      the file descriptor <em class="parameter"><code>fd</code></em>.</p>
+      <div class="refsect2">
+        <a id="stat-2_sect2" name="stat-2_sect2" shape="rect"> </a>
+        <h3>The stat structure</h3>
+        <p>All of these system calls return a <span class="structname">stat</span> structure, which contains the
+        following fields:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+struct stat {
+    dev_t     st_dev;         /* ID of device containing file */
+    ino_t     st_ino;         /* Inode number */
+    mode_t    st_mode;        /* File type and mode */
+    nlink_t   st_nlink;       /* Number of hard links */
+    uid_t     st_uid;         /* User ID of owner */
+    gid_t     st_gid;         /* Group ID of owner */
+    dev_t     st_rdev;        /* Device ID (if special file) */
+    off_t     st_size;        /* Total size, in bytes */
+    blksize_t st_blksize;     /* Block size for filesystem I/O */
+    blkcnt_t  st_blocks;      /* Number of 512B blocks allocated */
+
+    /* Since Linux 2.6, the kernel supports nanosecond
+       precision for the following timestamp fields.
+       For the details before Linux 2.6, see NOTES. */
+
+    struct timespec st_atim;  /* Time of last access */
+    struct timespec st_mtim;  /* Time of last modification */
+    struct timespec st_ctim;  /* Time of last status change */
+
+#define st_atime st_atim.tv_sec      /* Backward compatibility */
+#define st_mtime st_mtim.tv_sec
+#define st_ctime st_ctim.tv_sec
+};
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+          <table border="0" summary="Note">
+            <tr>
+              <td rowspan="2" align="center" valign="top" width="25" colspan="1"><img alt="[Note]" src="../stylesheet/note.png" /></td>
+              <th align="left" rowspan="1" colspan="1">Note</th>
+            </tr>
+            <tr>
+              <td align="left" valign="top" rowspan="1" colspan="1">
+                <p>the order of fields in the <span class="structname">stat</span> structure varies somewhat
+                across architectures. In addition, the definition
+                above does not show the padding bytes that may be
+                present between some fields on various
+                architectures. Consult the glibc and kernel source
+                code if you need to know the details.</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+          <table border="0" summary="Note">
+            <tr>
+              <td rowspan="2" align="center" valign="top" width="25" colspan="1"><img alt="[Note]" src="../stylesheet/note.png" /></td>
+              <th align="left" rowspan="1" colspan="1">Note</th>
+            </tr>
+            <tr>
+              <td align="left" valign="top" rowspan="1" colspan="1">
+                <p>for performance and simplicity reasons,
+                different fields in the <span class="structname">stat</span> structure may contain
+                state information from different moments during the
+                execution of the system call. For example, if
+                <em class="replaceable"><code>st_mode</code></em>
+                or <em class="replaceable"><code>st_uid</code></em>
+                is changed by another process by calling <a class="link" href="../htmlman2/chmod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chmod</span>(2)</span></a> or
+                <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a>,
+                <code class="function">stat</code>() might return
+                the old <em class="replaceable"><code>st_mode</code></em> together
+                with the new <em class="replaceable"><code>st_uid</code></em>, or the old
+                <em class="replaceable"><code>st_uid</code></em>
+                together with the new <em class="replaceable"><code>st_mode</code></em>.</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <p>The fields in the <span class="structname">stat</span>
+        structure are as follows:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="replaceable"><code>st_dev</code></em></span></dt>
+            <dd>
+              <p>This field describes the device on which this file
+              resides. (The <a class="link" href="../htmlman3/makedev.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">major</span>(3)</span></a> and
+              <a class="link" href="../htmlman3/makedev.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">minor</span>(3)</span></a> macros may
+              be useful to decompose the device ID in this
+              field.)</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_ino</code></em></span></dt>
+            <dd>
+              <p>This field contains the file's inode number.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_mode</code></em></span></dt>
+            <dd>
+              <p>This field contains the file type and mode. See
+              <a class="link" href="../htmlman7/inode.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">inode</span>(7)</span></a> for
+              further information.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_nlink</code></em></span></dt>
+            <dd>
+              <p>This field contains the number of hard links to
+              the file.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_uid</code></em></span></dt>
+            <dd>
+              <p>This field contains the user ID of the owner of
+              the file.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_gid</code></em></span></dt>
+            <dd>
+              <p>This field contains the ID of the group owner of
+              the file.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_rdev</code></em></span></dt>
+            <dd>
+              <p>This field describes the device that this file
+              (inode) represents.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_size</code></em></span></dt>
+            <dd>
+              <p>This field gives the size of the file (if it is a
+              regular file or a symbolic link) in bytes. The size
+              of a symbolic link is the length of the pathname it
+              contains, without a terminating null byte.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_blksize</code></em></span></dt>
+            <dd>
+              <p>This field gives the "preferred" block size for
+              efficient filesystem I/O.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_blocks</code></em></span></dt>
+            <dd>
+              <p>This field indicates the number of blocks
+              allocated to the file, in 512-byte units. (This may
+              be smaller than <em class="replaceable"><code>st_size</code></em>/512 when the
+              file has holes.)</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_atime</code></em></span></dt>
+            <dd>
+              <p>This is the time of the last access of file
+              data.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_mtime</code></em></span></dt>
+            <dd>
+              <p>This is the time of last modification of file
+              data.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>st_ctime</code></em></span></dt>
+            <dd>
+              <p>This is the file's last status change timestamp
+              (time of last change to the inode).</p>
+            </dd>
+          </dl>
+        </div>
+        <p>For further information on the above fields, see
+        <a class="link" href="../htmlman7/inode.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">inode</span>(7)</span></a>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="stat-2_sect3" name="stat-2_sect3" shape="rect"> </a>
+        <h3>fstatat()</h3>
+        <p>The <code class="function">fstatat</code>() system call
+        is a more general interface for accessing file information
+        which can still provide exactly the behavior of each of
+        <code class="function">stat</code>(), <code class="function">lstat</code>(), and <code class="function">fstat</code>().</p>
+        <p>If the pathname given in <em class="parameter"><code>pathname</code></em> is relative, then it
+        is interpreted relative to the directory referred to by the
+        file descriptor <em class="parameter"><code>dirfd</code></em> (rather than relative
+        to the current working directory of the calling process, as
+        is done by <code class="function">stat</code>() and
+        <code class="function">lstat</code>() for a relative
+        pathname).</p>
+        <p>If <em class="parameter"><code>pathname</code></em> is
+        relative and <em class="parameter"><code>dirfd</code></em>
+        is the special value <code class="constant">AT_FDCWD</code>, then <em class="parameter"><code>pathname</code></em> is interpreted
+        relative to the current working directory of the calling
+        process (like <code class="function">stat</code>() and
+        <code class="function">lstat</code>()).</p>
+        <p>If <em class="parameter"><code>pathname</code></em> is
+        absolute, then <em class="parameter"><code>dirfd</code></em> is ignored.</p>
+        <p><em class="parameter"><code>flags</code></em> can either
+        be 0, or include one or more of the following flags
+        ORed:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">AT_EMPTY_PATH</code> (since Linux
+            2.6.39)</span></dt>
+            <dd>
+              <p>If <em class="parameter"><code>pathname</code></em> is an empty
+              string, operate on the file referred to by <em class="parameter"><code>dirfd</code></em> (which may have
+              been obtained using the <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>
+              <code class="constant">O_PATH</code> flag). In this
+              case, <em class="parameter"><code>dirfd</code></em>
+              can refer to any type of file, not just a directory,
+              and the behavior of <code class="function">fstatat</code>() is similar to that of
+              <code class="function">fstat</code>(). If <em class="parameter"><code>dirfd</code></em> is <code class="constant">AT_FDCWD</code>, the call operates on the
+              current working directory. This flag is
+              Linux-specific; define <code class="constant">_GNU_SOURCE</code> to obtain its
+              definition.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">AT_NO_AUTOMOUNT</code> (since Linux
+            2.6.38)</span></dt>
+            <dd>
+              <p>Don't automount the terminal ("basename")
+              component of <em class="parameter"><code>pathname</code></em> if it is a
+              directory that is an automount point. This allows the
+              caller to gather attributes of an automount point
+              (rather than the location it would mount). Since
+              Linux 4.14, also don't instantiate a nonexistent name
+              in an on-demand directory such as used for
+              automounter indirect maps. This flag has no effect if
+              the mount point has already been mounted over.</p>
+              <p>Both <code class="function">stat</code>() and
+              <code class="function">lstat</code>() act as though
+              <code class="constant">AT_NO_AUTOMOUNT</code> was
+              set.</p>
+              <p>The <code class="constant">AT_NO_AUTOMOUNT</code>
+              can be used in tools that scan directories to prevent
+              mass-automounting of a directory of automount
+              points.</p>
+              <p>This flag is Linux-specific; define <code class="constant">_GNU_SOURCE</code> to obtain its
+              definition.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">AT_SYMLINK_NOFOLLOW</code></span></dt>
+            <dd>
+              <p>If <em class="parameter"><code>pathname</code></em> is a symbolic
+              link, do not dereference it: instead return
+              information about the link itself, like <code class="function">lstat</code>(). (By default, <code class="function">fstatat</code>() dereferences symbolic
+              links, like <code class="function">stat</code>().)</p>
+            </dd>
+          </dl>
+        </div>
+        <p>See <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">openat</span>(2)</span></a> for an
+        explanation of the need for <code class="function">fstatat</code>().</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="stat-2_sect4" name="stat-2_sect4" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, zero is returned. On error, −1 is
+      returned, and <code class="varname">errno</code> is set to
+      indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="stat-2_sect5" name="stat-2_sect5" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p>Search permission is denied for one of the
+            directories in the path prefix of <em class="parameter"><code>pathname</code></em>. (See also
+            <a class="link" href="../htmlman7/path_resolution.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">path_resolution</span>(7)</span></a>.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EBADF</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>fd</code></em> is not a
+            valid open file descriptor.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p>Bad address.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ELOOP</span></span></dt>
+          <dd>
+            <p>Too many symbolic links encountered while traversing
+            the path.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENAMETOOLONG</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pathname</code></em> is
+            too long.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOENT</span></span></dt>
+          <dd>
+            <p>A component of <em class="parameter"><code>pathname</code></em> does not exist
+            or is a dangling symbolic link.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOENT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pathname</code></em> is
+            an empty string and <code class="constant">AT_EMPTY_PATH</code> was not specified in
+            <em class="parameter"><code>flags</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Out of memory (i.e., kernel memory).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOTDIR</span></span></dt>
+          <dd>
+            <p>A component of the path prefix of <em class="parameter"><code>pathname</code></em> is not a
+            directory.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EOVERFLOW</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pathname</code></em> or
+            <em class="parameter"><code>fd</code></em> refers to a
+            file whose size, inode number, or number of blocks
+            cannot be represented in, respectively, the types
+            <span class="type">off_t</span>, <span class="type">ino_t</span>, or <span class="type">blkcnt_t</span>. This error can occur when, for
+            example, an application compiled on a 32-bit platform
+            without <code class="option">−D_FILE_OFFSET_BITS=64</code> calls
+            <code class="function">stat</code>() on a file whose
+            size exceeds <em class="replaceable"><code>(1&lt;&lt;31)−1</code></em>
+            bytes.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>The following additional errors can occur for <code class="function">fstatat</code>():</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EBADF</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>dirfd</code></em> is not
+            a valid file descriptor.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Invalid flag specified in <em class="parameter"><code>flags</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOTDIR</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pathname</code></em> is
+            relative and <em class="parameter"><code>dirfd</code></em> is a file
+            descriptor referring to a file other than a
+            directory.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="stat-2_sect6" name="stat-2_sect6" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">fstatat</code>() was added to Linux
+      in kernel 2.6.16; library support was added to glibc in
+      version 2.4.</p>
+    </div>
+    <div class="refsect1">
+      <a id="stat-2_sect7" name="stat-2_sect7" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p><code class="function">stat</code>(), <code class="function">fstat</code>(), <code class="function">lstat</code>(): SVr4, 4.3BSD, POSIX.1-2001,
+      POSIX.1.2008.</p>
+      <p><code class="function">fstatat</code>(): POSIX.1-2008.</p>
+      <p>According to POSIX.1-2001, <code class="function">lstat</code>() on a symbolic link need return
+      valid information only in the <em class="replaceable"><code>st_size</code></em> field and the file
+      type of the <em class="replaceable"><code>st_mode</code></em>
+      field of the <span class="structname">stat</span> structure.
+      POSIX.1-2008 tightens the specification, requiring
+      <code class="function">lstat</code>() to return valid
+      information in all fields except the mode bits in <em class="replaceable"><code>st_mode</code></em>.</p>
+      <p>Use of the <em class="replaceable"><code>st_blocks</code></em> and <em class="replaceable"><code>st_blksize</code></em> fields may be less
+      portable. (They were introduced in BSD. The interpretation
+      differs between systems, and possibly on a single system when
+      NFS mounts are involved.)</p>
+    </div>
+    <div class="refsect1">
+      <a id="stat-2_sect8" name="stat-2_sect8" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <div class="refsect2">
+        <a id="stat-2_sect9" name="stat-2_sect9" shape="rect"> </a>
+        <h3>Timestamp fields</h3>
+        <p>Older kernels and older standards did not support
+        nanosecond timestamp fields. Instead, there were three
+        timestamp fields—<em class="replaceable"><code>st_atime</code></em>, <em class="replaceable"><code>st_mtime</code></em>, and <em class="replaceable"><code>st_ctime</code></em>—typed as
+        <span class="type">time_t</span> that recorded timestamps
+        with one-second precision.</p>
+        <p>Since kernel 2.5.48, the <span class="structname">stat</span> structure supports nanosecond
+        resolution for the three file timestamp fields. The
+        nanosecond components of each timestamp are available via
+        names of the form <em class="replaceable"><code>st_atim.tv_nsec</code></em>, if
+        suitable feature test macros are defined. Nanosecond
+        timestamps were standardized in POSIX.1-2008, and, starting
+        with version 2.12, glibc exposes the nanosecond component
+        names if <code class="constant">_POSIX_C_SOURCE</code> is
+        defined with the value 200809L or greater, or <code class="constant">_XOPEN_SOURCE</code> is defined with the value
+        700 or greater. Up to and including glibc 2.19, the
+        definitions of the nanoseconds components are also defined
+        if <code class="constant">_BSD_SOURCE</code> or
+        <code class="constant">_SVID_SOURCE</code> is defined. If
+        none of the aforementioned macros are defined, then the
+        nanosecond values are exposed with names of the form
+        <em class="replaceable"><code>st_atimensec</code></em>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="stat-2_sect10" name="stat-2_sect10" shape="rect"> </a>
+        <h3>C library/kernel differences</h3>
+        <p>Over time, increases in the size of the <span class="structname">stat</span> structure have led to three
+        successive versions of <code class="function">stat</code>(): <code class="function">sys_stat</code>() (slot <em class="replaceable"><code>__NR_oldstat</code></em>), <code class="function">sys_newstat</code>() (slot <em class="replaceable"><code>__NR_stat</code></em>), and
+        <code class="function">sys_stat64</code>() (slot <em class="replaceable"><code>__NR_stat64</code></em>) on 32-bit
+        platforms such as i386. The first two versions were already
+        present in Linux 1.0 (albeit with different names); the
+        last was added in Linux 2.4. Similar remarks apply for
+        <code class="function">fstat</code>() and <code class="function">lstat</code>().</p>
+        <p>The kernel-internal versions of the <span class="structname">stat</span> structure dealt with by the
+        different versions are, respectively:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="replaceable"><code>__old_kernel_stat</code></em></span></dt>
+            <dd>
+              <p>The original structure, with rather narrow fields,
+              and no padding.</p>
+            </dd>
+            <dt><span class="term"><span class="structname">stat</span></span></dt>
+            <dd>
+              <p>Larger <em class="replaceable"><code>st_ino</code></em> field and
+              padding added to various parts of the structure to
+              allow for future expansion.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>stat64</code></em></span></dt>
+            <dd>
+              <p>Even larger <em class="replaceable"><code>st_ino</code></em> field, larger
+              <em class="replaceable"><code>st_uid</code></em> and
+              <em class="replaceable"><code>st_gid</code></em>
+              fields to accommodate the Linux-2.4 expansion of UIDs
+              and GIDs to 32 bits, and various other enlarged
+              fields and further padding in the structure. (Various
+              padding bytes were eventually consumed in Linux 2.6,
+              with the advent of 32-bit device IDs and nanosecond
+              components for the timestamp fields.)</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The glibc <code class="function">stat</code>() wrapper
+        function hides these details from applications, invoking
+        the most recent version of the system call provided by the
+        kernel, and repacking the returned information if required
+        for old binaries.</p>
+        <p>On modern 64-bit systems, life is simpler: there is a
+        single <code class="function">stat</code>() system call and
+        the kernel deals with a <span class="structname">stat</span> structure that contains fields of
+        a sufficient size.</p>
+        <p>The underlying system call employed by the glibc
+        <code class="function">fstatat</code>() wrapper function is
+        actually called <code class="function">fstatat64</code>()
+        or, on some architectures, <code class="function">newfstatat</code>().</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="stat-2_sect11" name="stat-2_sect11" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The following program calls <code class="function">lstat</code>() and displays selected fields in the
+      returned <span class="structname">stat</span> structure.</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;time.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/sysmacros.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    struct stat sb;
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s &lt;pathname&gt;\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (lstat(argv[1], &amp;sb) == −1) {
+        perror("lstat");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("ID of containing device:  [%jx,%jx]\n",
+            (uintmax_t) major(sb.st_dev),
+            (uintmax_t) minor(sb.st_dev));
+
+    printf("File type:                ");
+
+    switch (sb.st_mode &amp; S_IFMT) {
+    case S_IFBLK:  printf("block device\n");            break;
+    case S_IFCHR:  printf("character device\n");        break;
+    case S_IFDIR:  printf("directory\n");               break;
+    case S_IFIFO:  printf("FIFO/pipe\n");               break;
+    case S_IFLNK:  printf("symlink\n");                 break;
+    case S_IFREG:  printf("regular file\n");            break;
+    case S_IFSOCK: printf("socket\n");                  break;
+    default:       printf("unknown?\n");                break;
+    }
+
+    printf("I−node number:            %ju\n", (uintmax_t) sb.st_ino);
+
+    printf("Mode:                     %jo (octal)\n",
+            (uintmax_t) sb.st_mode);
+
+    printf("Link count:               %ju\n", (uintmax_t) sb.st_nlink);
+    printf("Ownership:                UID=%ju   GID=%ju\n",
+            (uintmax_t) sb.st_uid, (uintmax_t) sb.st_gid);
+
+    printf("Preferred I/O block size: %jd bytes\n",
+            (intmax_t) sb.st_blksize);
+    printf("File size:                %jd bytes\n",
+            (intmax_t) sb.st_size);
+    printf("Blocks allocated:         %jd\n",
+            (intmax_t) sb.st_blocks);
+
+    printf("Last status change:       %s", ctime(&amp;sb.st_ctime));
+    printf("Last file access:         %s", ctime(&amp;sb.st_atime));
+    printf("Last file modification:   %s", ctime(&amp;sb.st_mtime));
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="stat-2_sect12" name="stat-2_sect12" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/ls.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ls</span>(1)</span></a>, <a class="link" href="../htmlman1/stat.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(1)</span></a>, <a class="link" href="../htmlman2/access.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">access</span>(2)</span></a>, <a class="link" href="../htmlman2/chmod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chmod</span>(2)</span></a>, <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a>, <a class="link" href="../htmlman2/readlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readlink</span>(2)</span></a>, <a class="link" href="../htmlman2/statx.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">statx</span>(2)</span></a>, <a class="link" href="../htmlman2/utime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">utime</span>(2)</span></a>, <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>, <a class="link" href="../htmlman7/inode.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">inode</span>(7)</span></a>, <a class="link" href="../htmlman7/symlink.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">symlink</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="stat-2_sect13" name="stat-2_sect13" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 1992 Drew Eckhardt (drew<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.colorado.edu), March 28, 1992<br />
+
+                  Parts Copyright (c) 1995 Nicolai Langfeldt (janl<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>ifi.uio.no), 1/1/95<br />
+
+                  and Copyright (c) 2006, 2007, 2014 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  Modified by Michael Haardt &lt;michael<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>moria.de&gt;<br />
+
+                  Modified 1993-07-24 by Rik Faith &lt;faith<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.unc.edu&gt;<br />
+
+                  Modified 1995-05-18 by Todd Larason &lt;jtl<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>molehill.org&gt;<br />
+
+                  Modified 1997-01-31 by Eric S. Raymond &lt;esr<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>thyrsus.com&gt;<br />
+
+                  Modified 1995-01-09 by Richard Kettlewell &lt;richard<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>greenend.org.uk&gt;<br />
+
+                  Modified 1998-05-13 by Michael Haardt &lt;michael<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cantor.informatik.rwth-aachen.de&gt;<br />
+
+                  Modified 1999-07-06 by aeb &amp; Albert Cahalan<br />
+
+                  Modified 2000-01-07 by aeb<br />
+                  Modified 2004-06-23 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  2007-06-08 mtk: Added example program<br />
+
+                  2007-07-05 mtk: Added details on underlying system call interfaces<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

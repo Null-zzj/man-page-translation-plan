@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>shm_open(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="shm_open(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="shm-open.3" name="shm-open.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>shm_open, shm_unlink — create/open or unlink POSIX
+      shared memory objects</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/mman.h&gt;
+#include &lt;sys/stat.h&gt;         /* For mode constants */
+#include &lt;fcntl.h&gt;            /* For O_* constants */</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>shm_open</strong>(</code></td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">name</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">oflag</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">mode_t <var class="pdparam">mode</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>shm_unlink</strong>(</code></td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">name</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <p>Link with <code class="option">−lrt</code>.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect1" name="shm-open-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><code class="function">shm_open</code>() creates and opens
+      a new, or opens an existing, POSIX shared memory object. A
+      POSIX shared memory object is in effect a handle which can be
+      used by unrelated processes to <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> the same region of
+      shared memory. The <code class="function">shm_unlink</code>()
+      function performs the converse operation, removing an object
+      previously created by <code class="function">shm_open</code>().</p>
+      <p>The operation of <code class="function">shm_open</code>()
+      is analogous to that of <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>. <em class="parameter"><code>name</code></em> specifies the shared
+      memory object to be created or opened. For portable use, a
+      shared memory object should be identified by a name of the
+      form <code class="filename">/somename</code>; that is, a
+      null-terminated string of up to <code class="constant">NAME_MAX</code> (i.e., 255) characters consisting
+      of an initial slash, followed by one or more characters, none
+      of which are slashes.</p>
+      <p><em class="parameter"><code>oflag</code></em> is a bit
+      mask created by ORing together exactly one of <code class="constant">O_RDONLY</code> or <code class="constant">O_RDWR</code> and any of the other flags listed
+      here:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">O_RDONLY</code></span></dt>
+          <dd>
+            <p>Open the object for read access. A shared memory
+            object opened in this way can be <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>ed only for
+            read (<code class="constant">PROT_READ</code>)
+            access.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">O_RDWR</code></span></dt>
+          <dd>
+            <p>Open the object for read-write access.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">O_CREAT</code></span></dt>
+          <dd>
+            <p>Create the shared memory object if it does not
+            exist. The user and group ownership of the object are
+            taken from the corresponding effective IDs of the
+            calling process, and the object's permission bits are
+            set according to the low-order 9 bits of <em class="parameter"><code>mode</code></em>, except that those
+            bits set in the process file mode creation mask (see
+            <a class="link" href="../htmlman2/umask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">umask</span>(2)</span></a>) are cleared
+            for the new object. A set of macro constants which can
+            be used to define <em class="parameter"><code>mode</code></em> is listed in
+            <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>. (Symbolic
+            definitions of these constants can be obtained by
+            including <code class="literal">&lt;</code><code class="filename">sys/stat.h</code><code class="literal">&gt;</code></p>
+            <p>A new shared memory object initially has zero
+            length—the size of the object can be set using
+            <a class="link" href="../htmlman2/truncate.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ftruncate</span>(2)</span></a>. The
+            newly allocated bytes of a shared memory object are
+            automatically initialized to 0.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">O_EXCL</code></span></dt>
+          <dd>
+            <p>If <code class="constant">O_CREAT</code> was also
+            specified, and a shared memory object with the given
+            <em class="parameter"><code>name</code></em> already
+            exists, return an error. The check for the existence of
+            the object, and its creation if it does not exist, are
+            performed atomically.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">O_TRUNC</code></span></dt>
+          <dd>
+            <p>If the shared memory object already exists, truncate
+            it to zero bytes.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>Definitions of these flag values can be obtained by
+      including <code class="literal">&lt;</code><code class="filename">fcntl.h</code><code class="literal">&gt;</code></p>
+      <p>On successful completion <code class="function">shm_open</code>() returns a new file descriptor
+      referring to the shared memory object. This file descriptor
+      is guaranteed to be the lowest-numbered file descriptor not
+      previously opened within the process. The <code class="constant">FD_CLOEXEC</code> flag (see <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>) is set for the
+      file descriptor.</p>
+      <p>The file descriptor is normally used in subsequent calls
+      to <a class="link" href="../htmlman2/truncate.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ftruncate</span>(2)</span></a> (for a newly
+      created object) and <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>. After a call to
+      <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> the file descriptor
+      may be closed without affecting the memory mapping.</p>
+      <p>The operation of <code class="function">shm_unlink</code>() is analogous to <a class="link" href="../htmlman2/unlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unlink</span>(2)</span></a>: it removes a
+      shared memory object name, and, once all processes have
+      unmapped the object, deallocates and destroys the contents of
+      the associated memory region. After a successful <code class="function">shm_unlink</code>(), attempts to <code class="function">shm_open</code>() an object with the same
+      <em class="parameter"><code>name</code></em> fail (unless
+      <code class="constant">O_CREAT</code> was specified, in which
+      case a new, distinct object is created).</p>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect2" name="shm-open-3_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">shm_open</code>()
+      returns a file descriptor (a nonnegative integer). On
+      success, <code class="function">shm_unlink</code>() returns
+      0. On failure, both functions return −1 and set
+      <code class="varname">errno</code> to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect3" name="shm-open-3_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p>Permission to <code class="function">shm_unlink</code>() the shared memory object
+            was denied.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p>Permission was denied to <code class="function">shm_open</code>() <em class="parameter"><code>name</code></em> in the specified
+            <em class="parameter"><code>mode</code></em>, or
+            <code class="constant">O_TRUNC</code> was specified and
+            the caller does not have write permission on the
+            object.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EEXIST</span></span></dt>
+          <dd>
+            <p>Both <code class="constant">O_CREAT</code> and
+            <code class="constant">O_EXCL</code> were specified to
+            <code class="function">shm_open</code>() and the shared
+            memory object specified by <em class="parameter"><code>name</code></em> already exists.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The <em class="parameter"><code>name</code></em>
+            argument to <code class="function">shm_open</code>()
+            was invalid.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EMFILE</span></span></dt>
+          <dd>
+            <p>The per-process limit on the number of open file
+            descriptors has been reached.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENAMETOOLONG</span></span></dt>
+          <dd>
+            <p>The length of <em class="parameter"><code>name</code></em> exceeds <code class="constant">PATH_MAX</code>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENFILE</span></span></dt>
+          <dd>
+            <p>The system-wide limit on the total number of open
+            files has been reached.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOENT</span></span></dt>
+          <dd>
+            <p>An attempt was made to <code class="function">shm_open</code>() a <em class="parameter"><code>name</code></em> that did not exist,
+            and <code class="constant">O_CREAT</code> was not
+            specified.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOENT</span></span></dt>
+          <dd>
+            <p>An attempt was to made to <code class="function">shm_unlink</code>() a <em class="parameter"><code>name</code></em> that does not
+            exist.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect4" name="shm-open-3_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>These functions are provided in glibc 2.2 and later.</p>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect5" name="shm-open-3_sect5" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">shm_open</code>(), <code class="literal">shm_unlink</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe locale</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect6" name="shm-open-3_sect6" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>POSIX.1-2001, POSIX.1-2008.</p>
+      <p>POSIX.1-2001 says that the group ownership of a newly
+      created shared memory object is set to either the calling
+      process's effective group ID or "a system default group ID".
+      POSIX.1-2008 says that the group ownership may be set to
+      either the calling process's effective group ID or, if the
+      object is visible in the filesystem, the group ID of the
+      parent directory.</p>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect7" name="shm-open-3_sect7" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>POSIX leaves the behavior of the combination of
+      <code class="constant">O_RDONLY</code> and <code class="constant">O_TRUNC</code> unspecified. On Linux, this will
+      successfully truncate an existing shared memory
+      object—this may not be so on other UNIX systems.</p>
+      <p>The POSIX shared memory object implementation on Linux
+      makes use of a dedicated <a class="link" href="../htmlman5/tmpfs.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tmpfs</span>(5)</span></a> filesystem that is
+      normally mounted under <code class="filename">/dev/shm</code>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect8" name="shm-open-3_sect8" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The programs below employ POSIX shared memory and POSIX
+      unnamed semaphores to exchange a piece of data. The "bounce"
+      program (which must be run first) raises the case of a string
+      that is placed into the shared memory by the "send" program.
+      Once the data has been modified, the "send" program then
+      prints the contents of the modified shared memory. An example
+      execution of the two programs is the following:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./pshm_ucase_bounce /myshm &amp;</em></span>
+[1] 270171
+$ <span class="emphasis"><em>./pshm_ucase_send /myshm hello</em></span>
+HELLO
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Further detail about these programs is provided below.</p>
+      <div class="refsect2">
+        <a id="shm-open-3_sect9" name="shm-open-3_sect9" shape="rect"> </a>
+        <h3>Program source: pshm_ucase.h</h3>
+        <p>The following header file is included by both programs
+        below. Its primary purpose is to define a structure that
+        will be imposed on the memory object that is shared between
+        the two programs.</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/mman.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;semaphore.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+#define BUF_SIZE 1024   /* Maximum size for exchanged string */
+
+/* Define a structure that will be imposed on the shared
+   memory object */
+
+struct shmbuf {
+    sem_t  sem1;            /* POSIX unnamed semaphore */
+    sem_t  sem2;            /* POSIX unnamed semaphore */
+    size_t cnt;             /* Number of bytes used in 'buf' */
+    char   buf[BUF_SIZE];   /* Data being transferred */
+};
+</pre>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="shm-open-3_sect10" name="shm-open-3_sect10" shape="rect"> </a>
+        <h3>Program source: pshm_ucase_bounce.c</h3>
+        <p>The "bounce" program creates a new shared memory object
+        with the name given in its command-line argument and sizes
+        the object to match the size of the <code class="function">shmbuf</code> structure defined in the header
+        file. It then maps the object into the process's address
+        space, and initializes two POSIX semaphores inside the
+        object to 0.</p>
+        <p>After the "send" program has posted the first of the
+        semaphores, the "bounce" program upper cases the data that
+        has been placed in the memory by the "send" program and
+        then posts the second semaphore to tell the "send" program
+        that it may now access the shared memory.</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+/* pshm_ucase_bounce.c
+
+   Licensed under GNU General Public License v2 or later.
+*/
+#include &lt;ctype.h&gt;
+#include "pshm_ucase.h"
+
+int
+main(int argc, char *argv[])
+{
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s /shm−path\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    char *shmpath = argv[1];
+
+    /* Create shared memory object and set its size to the size
+       of our structure. */
+
+    int fd = shm_open(shmpath, O_CREAT | O_EXCL | O_RDWR,
+                      S_IRUSR | S_IWUSR);
+    if (fd == −1)
+        errExit("shm_open");
+
+    if (ftruncate(fd, sizeof(struct shmbuf)) == −1)
+        errExit("ftruncate");
+
+    /* Map the object into the caller's address space. */
+
+    struct shmbuf *shmp = mmap(NULL, sizeof(*shmp),
+                               PROT_READ | PROT_WRITE,
+                               MAP_SHARED, fd, 0);
+    if (shmp == MAP_FAILED)
+        errExit("mmap");
+
+    /* Initialize semaphores as process−shared, with value 0. */
+
+    if (sem_init(&amp;shmp−&gt;sem1, 1, 0) == −1)
+        errExit("sem_init−sem1");
+    if (sem_init(&amp;shmp−&gt;sem2, 1, 0) == −1)
+        errExit("sem_init−sem2");
+
+    /* Wait for 'sem1' to be posted by peer before touching
+       shared memory. */
+
+    if (sem_wait(&amp;shmp−&gt;sem1) == −1)
+        errExit("sem_wait");
+
+    /* Convert data in shared memory into upper case. */
+
+    for (int j = 0; j &lt; shmp−&gt;cnt; j++)
+        shmp−&gt;buf[j] = toupper((unsigned char) shmp−&gt;buf[j]);
+
+    /* Post 'sem2' to tell the to tell peer that it can now
+       access the modified data in shared memory. */
+
+    if (sem_post(&amp;shmp−&gt;sem2) == −1)
+        errExit("sem_post");
+
+    /* Unlink the shared memory object. Even if the peer process
+       is still using the object, this is okay. The object will
+       be removed only after all open references are closed. */
+
+    shm_unlink(shmpath);
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="shm-open-3_sect11" name="shm-open-3_sect11" shape="rect"> </a>
+        <h3>Program source: pshm_ucase_send.c</h3>
+        <p>The "send" program takes two command-line arguments: the
+        pathname of a shared memory object previously created by
+        the "bounce" program and a string that is to be copied into
+        that object.</p>
+        <p>The program opens the shared memory object and maps the
+        object into its address space. It then copies the data
+        specified in its second argument into the shared memory,
+        and posts the first semaphore, which tells the "bounce"
+        program that it can now access that data. After the
+        "bounce" program posts the second semaphore, the "send"
+        program prints the contents of the shared memory on
+        standard output.</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+/* pshm_ucase_send.c
+
+   Licensed under GNU General Public License v2 or later.
+*/
+#include &lt;string.h&gt;
+#include "pshm_ucase.h"
+
+int
+main(int argc, char *argv[])
+{
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s /shm−path string\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    char *shmpath = argv[1];
+    char *string = argv[2];
+    size_t len = strlen(string);
+
+    if (len &gt; BUF_SIZE) {
+        fprintf(stderr, "String is too long\n");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Open the existing shared memory object and map it
+       into the caller's address space. */
+
+    int fd = shm_open(shmpath, O_RDWR, 0);
+    if (fd == −1)
+        errExit("shm_open");
+
+    struct shmbuf *shmp = mmap(NULL, sizeof(*shmp),
+                               PROT_READ | PROT_WRITE,
+                               MAP_SHARED, fd, 0);
+    if (shmp == MAP_FAILED)
+        errExit("mmap");
+
+    /* Copy data into the shared memory object. */
+
+    shmp−&gt;cnt = len;
+    memcpy(&amp;shmp−&gt;buf, string, len);
+
+    /* Tell peer that it can now access shared memory. */
+
+    if (sem_post(&amp;shmp−&gt;sem1) == −1)
+        errExit("sem_post");
+
+    /* Wait until peer says that it has finished accessing
+       the shared memory. */
+
+    if (sem_wait(&amp;shmp−&gt;sem2) == −1)
+        errExit("sem_wait");
+
+    /* Write modified data in shared memory to standard output. */
+
+    write(STDOUT_FILENO, &amp;shmp−&gt;buf, len);
+    write(STDOUT_FILENO, "\n", 1);
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="shm-open-3_sect12" name="shm-open-3_sect12" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/close.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">close</span>(2)</span></a>, <a class="link" href="../htmlman2/chmod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fchmod</span>(2)</span></a>, <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fchown</span>(2)</span></a>, <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>, <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fstat</span>(2)</span></a>, <a class="link" href="../htmlman2/truncate.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ftruncate</span>(2)</span></a>, <a class="link" href="../htmlman2/memfd_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memfd_create</span>(2)</span></a>, <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>, <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>, <a class="link" href="../htmlman2/umask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">umask</span>(2)</span></a>, <a class="link" href="../htmlman7/shm_overview.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shm_overview</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="shm-open-3_sect13" name="shm-open-3_sect13" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2002, 2020 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

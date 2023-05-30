@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>split(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="split(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="split.1" name="split.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>split — split a file into pieces</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">split</code> [<em class="replaceable"><code>OPTION</code></em>...] [ <em class="replaceable"><code>FILE</code></em> [<em class="replaceable"><code>PREFIX</code></em>] ]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="split-1_sect1" name="split-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>Output pieces of FILE to PREFIXaa, PREFIXab, ...; default
+      size is 1000 lines, and default PREFIX is 'x'.</p>
+      <p>With no FILE, or when FILE is −, read standard
+      input.</p>
+      <p>Mandatory arguments to long options are mandatory for
+      short options too.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−a</code>, <code class="option">−−suffix−length</code>=<span class="command"><strong>N/</strong></span></span></dt>
+          <dd>
+            <p>generate suffixes of length N (default 2)</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−additional−suffix</code>=<span class="command"><strong>SUFFIX/</strong></span></span></dt>
+          <dd>
+            <p>append an additional SUFFIX to file names</p>
+          </dd>
+          <dt><span class="term"><code class="option">−b</code>, <code class="option">−−bytes</code>=<span class="command"><strong>SIZE/</strong></span></span></dt>
+          <dd>
+            <p>put SIZE bytes per output file</p>
+          </dd>
+          <dt><span class="term"><code class="option">−C</code>, <code class="option">−−line−bytes</code>=<span class="command"><strong>SIZE/</strong></span></span></dt>
+          <dd>
+            <p>put at most SIZE bytes of records per output
+            file</p>
+          </dd>
+          <dt><span class="term"><code class="option">−d</code></span></dt>
+          <dd>
+            <p>use numeric suffixes starting at 0, not
+            alphabetic</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−numeric−suffixes</code>[=<span class="command"><strong>FROM/</strong></span>]</span></dt>
+          <dd>
+            <p>same as <code class="option">−d</code>, but
+            allow setting the start value</p>
+          </dd>
+          <dt><span class="term"><code class="option">−x</code></span></dt>
+          <dd>
+            <p>use hex suffixes starting at 0, not alphabetic</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−hex−suffixes</code>[=<span class="command"><strong>FROM/</strong></span>]</span></dt>
+          <dd>
+            <p>same as <code class="option">−x</code>, but
+            allow setting the start value</p>
+          </dd>
+          <dt><span class="term"><code class="option">−e</code>, <code class="option">−−elide−empty−files</code></span></dt>
+          <dd>
+            <p>do not generate empty output files with
+            '−n'</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−filter</code>=<span class="command"><strong>COMMAND/</strong></span></span></dt>
+          <dd>
+            <p>write to shell COMMAND; file name is $FILE</p>
+          </dd>
+          <dt><span class="term"><code class="option">−l</code>, <code class="option">−−lines</code>=<span class="command"><strong>NUMBER/</strong></span></span></dt>
+          <dd>
+            <p>put NUMBER lines/records per output file</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n</code>, <code class="option">−−number</code>=<span class="command"><strong>CHUNKS/</strong></span></span></dt>
+          <dd>
+            <p>generate CHUNKS output files; see explanation
+            below</p>
+          </dd>
+          <dt><span class="term"><code class="option">−t</code>, <code class="option">−−separator</code>=<span class="command"><strong>SEP/</strong></span></span></dt>
+          <dd>
+            <p>use SEP instead of newline as the record separator;
+            '\0' (zero) specifies the NUL character</p>
+          </dd>
+          <dt><span class="term"><code class="option">−u</code>, <code class="option">−−unbuffered</code></span></dt>
+          <dd>
+            <p>immediately copy input to output with '−n
+            r/...'</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−verbose</code></span></dt>
+          <dd>
+            <p>print a diagnostic just before each output file is
+            opened</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−help</code></span></dt>
+          <dd>
+            <p>display this help and exit</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−version</code></span></dt>
+          <dd>
+            <p>output version information and exit</p>
+          </dd>
+        </dl>
+      </div>
+      <p>The SIZE argument is an integer and optional unit
+      (example: 10K is 10*1024). Units are K,M,G,T,P,E,Z,Y (powers
+      of 1024) or KB,MB,... (powers of 1000). Binary prefixes can
+      be used, too: KiB=K, MiB=M, and so on.</p>
+      <div class="refsect2">
+        <a id="split-1_sect2" name="split-1_sect2" shape="rect"> </a>
+        <h3>CHUNKS may be:</h3>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">N</code></span></dt>
+            <dd>
+              <p>split into N files based on size of input</p>
+            </dd>
+            <dt><span class="term"><span class="command"><strong>K/N</strong></span></span></dt>
+            <dd>
+              <p>output Kth of N to stdout</p>
+            </dd>
+            <dt><span class="term"><span class="command"><strong>l/N</strong></span></span></dt>
+            <dd>
+              <p>split into N files without splitting
+              lines/records</p>
+            </dd>
+            <dt><span class="term"><span class="command"><strong>l/K/N</strong></span></span></dt>
+            <dd>
+              <p>output Kth of N to stdout without splitting
+              lines/records</p>
+            </dd>
+            <dt><span class="term"><span class="command"><strong>r/N</strong></span></span></dt>
+            <dd>
+              <p>like 'l' but use round robin distribution</p>
+            </dd>
+            <dt><span class="term"><span class="command"><strong>r/K/N</strong></span></span></dt>
+            <dd>
+              <p>likewise but only output Kth of N to stdout</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="split-1_sect3" name="split-1_sect3" shape="rect"> </a>
+      <h2>AUTHOR</h2>
+      <p>Written by Torbjorn Granlund and Richard M. Stallman.</p>
+    </div>
+    <div class="refsect1">
+      <a id="split-1_sect4" name="split-1_sect4" shape="rect"> </a>
+      <h2>REPORTING BUGS</h2>
+      <p>GNU coreutils online help:
+      &lt;https://www.gnu.org/software/coreutils/&gt;</p>
+      <p>Report any translation bugs to
+      &lt;https://translationproject.org/team/&gt;</p>
+    </div>
+    <div class="refsect1">
+      <a id="split-1_sect6" name="split-1_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p>Full documentation
+      &lt;https://www.gnu.org/software/coreutils/split&gt;</p>
+      <p>or available locally via: info '(coreutils) split
+      invocation'</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="" rowspan="1" colspan="1">COPYRIGHT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <p>Copyright © 2019 Free Software Foundation,
+                Inc. License GPLv3+: GNU GPL version 3 or later
+                &lt;https://gnu.org/licenses/gpl.html&gt;.</p>
+                <p>This is free software: you are free to change
+                and redistribute it. There is NO WARRANTY, to the
+                extent permitted by law.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>slapd-wt(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="slapd-wt(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="slapd-wt.5" name="slapd-wt.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>slapd−wt — WiredTiger backend to slapd</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+ETCDIR/slapd.conf
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapd-wt-5_sect1" name="slapd-wt-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <em class="replaceable"><code>wt</code></em> backend
+      to <a class="link" href="../htmlman8/slapd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd</span>(8)</span></a> uses WiredTiger
+      database library to store data.</p>
+      <p>The <em class="replaceable"><code>wt</code></em> backend
+      is experimental module that have potential high write
+      performance and high concurrency performance. This backend
+      have not some basic feature yet. Please backup data using
+      slapcat before update the module.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapd-wt-5_sect2" name="slapd-wt-5_sect2" shape="rect"> </a>
+      <h2>CONFIGURATION</h2>
+      <p>These <em class="replaceable"><code>slapd.conf</code></em>
+      options apply to the <em class="replaceable"><code>wt</code></em> backend database. That is,
+      they must follow a "database wt" line and come before any
+      subsequent "backend" or "database" lines. Other database
+      options are described in the <a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a> manual
+      page.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><em class="replaceable"><code>directory</code></em><em class="replaceable"><code>&lt;directory&gt;</code></em></span></dt>
+          <dd>
+            <p>Specify WiredTiger home directory that containing
+            this database and associated indexes live. A separate
+            directory must be specified for each database. The
+            default is <em class="replaceable"><code>LOCALSTATEDIR/openldap−data</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>wtconfig</em></span> {<em class="replaceable"><code>create</code></em>,<em class="replaceable"><code>cache_size=512M</code></em>,<em class="replaceable"><code>async=(enabled)</code></em>}</span></dt>
+          <dd>
+            <p>Specify configuration for wiredtiger, This parameter
+            is pass to <span class="citerefentry"><span class="refentrytitle">wiredtiger_open</span>(3)</span>.</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><em class="replaceable"><code>create</code></em></span></dt>
+                    <dd>
+                      <p>create the database if it does not
+                      exist.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><em class="replaceable"><code>cache_size</code></em></span></dt>
+                    <dd>
+                      <p>maximum heap memory to allocate for the
+                      cache.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><em class="replaceable"><code>async</code></em></span></dt>
+                    <dd>
+                      <p>asynchronous operations configuration
+                      options. disabled by default.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><span class="emphasis"><em>index</em></span> {<em class="replaceable"><code>&lt;attrlist&gt;</code></em>|<em class="replaceable"><code>default</code></em>}
+                    [<em class="replaceable"><code>pres</code></em>,<em class="replaceable"><code>eq</code></em>,<em class="replaceable"><code>approx</code></em>,<em class="replaceable"><code>sub</code></em>,<em class="replaceable"><code>&lt;special&gt;</code></em>]</span></dt>
+                    <dd>
+                      <p>Specify the indexes to maintain for the
+                      given attribute (or list of attributes). Some
+                      attributes only support a subset of indexes.
+                      If only an <em class="replaceable"><code>&lt;attr&gt;</code></em>
+                      is given, the indices specified for
+                      <em class="replaceable"><code>default</code></em>
+                      are maintained. Note that setting a default
+                      does not imply that all attributes will be
+                      indexed. Also, for best performance, an
+                      <em class="replaceable"><code>eq</code></em>
+                      index should always be configured for the
+                      <em class="replaceable"><code>objectClass</code></em>
+                      attribute.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapd-wt-5_sect3" name="slapd-wt-5_sect3" shape="rect"> </a>
+      <h2>ACCESS CONTROL</h2>
+      <p>The <em class="replaceable"><code>wt</code></em> backend
+      honors access control semantics as indicated in <a class="link" href="../htmlman5/slapd.access.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.access</span>(5)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapd-wt-5_sect4" name="slapd-wt-5_sect4" shape="rect"> </a>
+      <h2>FILES</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">ETCDIR/slapd.conf</span></dt>
+          <dd>
+            <p>default <em class="replaceable"><code>slapd</code></em> configuration
+            file</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapd-wt-5_sect5" name="slapd-wt-5_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a>, <a class="link" href="../htmlman5/slapd-config.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd-config</span>(5)</span></a>, <a class="link" href="../htmlman8/slapd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd</span>(8)</span></a>, <a class="link" href="../htmlman8/slapadd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapadd</span>(8)</span></a>, <a class="link" href="../htmlman8/slapcat.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapcat</span>(8)</span></a>, <a class="link" href="../htmlman8/slapindex.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapindex</span>(8)</span></a>, <a class="link" href="../htmlman8/slapmodify.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapmodify</span>(8)</span></a>, WiredTiger
+      documentation.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapd-wt-5_sect6" name="slapd-wt-5_sect6" shape="rect"> </a>
+      <h2>ACKNOWLEDGEMENTS</h2>
+      <p><span class="emphasis"><em>OpenLDAP Software</em></span>
+      is developed and maintained by The OpenLDAP Project
+      &lt;<a class="literalurl" href="http://www.openldap.org/" target="_top" shape="rect">http://www.openldap.org/</a>&gt;. <span class="emphasis"><em>OpenLDAP Software</em></span> is derived from
+      the University of Michigan LDAP 3.3 Release. Written by
+      HAMANO Tsukasa &lt;hamano@osstech.co.jp&gt;.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                  See the following documents: <a class="ulink" href="../openldap-COPYRIGHT.html" target="_top" shape="rect">COPYRIGHT</a>, <a class="ulink" href="../openldap-LICENSE.html" target="_top" shape="rect">LICENSE</a><br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

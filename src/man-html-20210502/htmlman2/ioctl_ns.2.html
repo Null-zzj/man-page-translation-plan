@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>ioctl_ns(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="ioctl_ns(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="ioctl-ns.2" name="ioctl-ns.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>ioctl_ns — ioctl() operations for Linux
+      namespaces</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-ns-2_sect1" name="ioctl-ns-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <div class="refsect2">
+        <a id="ioctl-ns-2_sect2" name="ioctl-ns-2_sect2" shape="rect"> </a>
+        <h3>Discovering namespace relationships</h3>
+        <p>The following <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations are
+        provided to allow discovery of namespace relationships (see
+        <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a> and
+        <a class="link" href="../htmlman7/pid_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pid_namespaces</span>(7)</span></a>). The
+        form of the calls is:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+new_fd = ioctl(fd, request);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>In each case, <em class="replaceable"><code>fd</code></em> refers to a <code class="filename">/proc/[pid]/ns/*</code> file. Both operations
+        return a new file descriptor on success.</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">NS_GET_USERNS</code> (since Linux
+            4.9)</span></dt>
+            <dd>
+              <p>Returns a file descriptor that refers to the
+              owning user namespace for the namespace referred to
+              by <em class="replaceable"><code>fd</code></em>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">NS_GET_PARENT</code> (since Linux
+            4.9)</span></dt>
+            <dd>
+              <p>Returns a file descriptor that refers to the
+              parent namespace of the namespace referred to by
+              <em class="replaceable"><code>fd</code></em>. This
+              operation is valid only for hierarchical namespaces
+              (i.e., PID and user namespaces). For user namespaces,
+              <code class="constant">NS_GET_PARENT</code> is
+              synonymous with <code class="constant">NS_GET_USERNS</code>.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The new file descriptor returned by these operations is
+        opened with the <code class="constant">O_RDONLY</code> and
+        <code class="constant">O_CLOEXEC</code> (close-on-exec; see
+        <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>) flags.</p>
+        <p>By applying <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fstat</span>(2)</span></a> to the returned
+        file descriptor, one obtains a <em class="replaceable"><code>stat</code></em> structure whose
+        <em class="replaceable"><code>st_dev</code></em> (resident
+        device) and <em class="replaceable"><code>st_ino</code></em> (inode number)
+        fields together identify the owning/parent namespace. This
+        inode number can be matched with the inode number of
+        another <code class="filename">/proc/[pid]/ns/{pid,user}</code> file to
+        determine whether that is the owning/parent namespace.</p>
+        <p>Either of these <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations can
+        fail with the following errors:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+            <dd>
+              <p>The requested namespace is outside of the caller's
+              namespace scope. This error can occur if, for
+              example, the owning user namespace is an ancestor of
+              the caller's current user namespace. It can also
+              occur on attempts to obtain the parent of the initial
+              user or PID namespace.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">ENOTTY</span></span></dt>
+            <dd>
+              <p>The operation is not supported by this kernel
+              version.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>Additionally, the <code class="constant">NS_GET_PARENT</code> operation can fail with the
+        following error:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p><em class="replaceable"><code>fd</code></em>
+              refers to a nonhierarchical namespace.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>See the EXAMPLES section for an example of the use of
+        these operations.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-ns-2_sect3" name="ioctl-ns-2_sect3" shape="rect"> </a>
+        <h3>Discovering the namespace type</h3>
+        <p>The <code class="constant">NS_GET_NSTYPE</code>
+        operation (available since Linux 4.11) can be used to
+        discover the type of namespace referred to by the file
+        descriptor <em class="replaceable"><code>fd</code></em>:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+nstype = ioctl(fd, NS_GET_NSTYPE);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p><em class="replaceable"><code>fd</code></em> refers to a
+        <code class="filename">/proc/[pid]/ns/*</code> file.</p>
+        <p>The return value is one of the <em class="replaceable"><code>CLONE_NEW*</code></em> values that can
+        be specified to <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> or <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a> in order to
+        create a namespace.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-ns-2_sect4" name="ioctl-ns-2_sect4" shape="rect"> </a>
+        <h3>Discovering the owner of a user namespace</h3>
+        <p>The <code class="constant">NS_GET_OWNER_UID</code>
+        operation (available since Linux 4.11) can be used to
+        discover the owner user ID of a user namespace (i.e., the
+        effective user ID of the process that created the user
+        namespace). The form of the call is:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+uid_t uid;
+ioctl(fd, NS_GET_OWNER_UID, &amp;uid);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p><em class="replaceable"><code>fd</code></em> refers to a
+        <code class="filename">/proc/[pid]/ns/user</code> file.</p>
+        <p>The owner user ID is returned in the <span class="type">uid_t</span> pointed to by the third argument.</p>
+        <p>This operation can fail with the following error:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p><em class="replaceable"><code>fd</code></em> does
+              not refer to a user namespace.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-ns-2_sect5" name="ioctl-ns-2_sect5" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <p>Any of the above <code class="function">ioctl</code>()
+      operations can return the following errors:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">ENOTTY</span></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>fd</code></em> does
+            not refer to a <code class="filename">/proc/[pid]/ns/*</code> file.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-ns-2_sect6" name="ioctl-ns-2_sect6" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>Namespaces and the operations described on this page are a
+      Linux-specific.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-ns-2_sect7" name="ioctl-ns-2_sect7" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The example shown below uses the <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations
+      described above to perform simple discovery of namespace
+      relationships. The following shell sessions show various
+      examples of the use of this program.</p>
+      <p>Trying to get the parent of the initial user namespace
+      fails, since it has no parent:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./ns_show /proc/self/ns/user p</em></span>
+The parent namespace is outside your namespace scope
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Create a process running <a class="link" href="../htmlman1/sleep.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sleep</span>(1)</span></a> that resides in
+      new user and UTS namespaces, and show that the new UTS
+      namespace is associated with the new user namespace:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>unshare −Uu sleep 1000 &amp;</em></span>
+[1] 23235
+$ <span class="emphasis"><em>./ns_show /proc/23235/ns/uts u</em></span>
+Device/Inode of owning user namespace is: [0,3] / 4026532448
+$ <span class="emphasis"><em>readlink /proc/23235/ns/user</em></span>
+user:[4026532448]
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Then show that the parent of the new user namespace in the
+      preceding example is the initial user namespace:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>readlink /proc/self/ns/user</em></span>
+user:[4026531837]
+$ <span class="emphasis"><em>./ns_show /proc/23235/ns/user p</em></span>
+Device/Inode of parent namespace is: [0,3] / 4026531837
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Start a shell in a new user namespace, and show that from
+      within this shell, the parent user namespace can't be
+      discovered. Similarly, the UTS namespace (which is associated
+      with the initial user namespace) can't be discovered.</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>PS1="sh2$ " unshare −U bash</em></span>
+sh2$ <span class="emphasis"><em>./ns_show /proc/self/ns/user p</em></span>
+The parent namespace is outside your namespace scope
+sh2$ <span class="emphasis"><em>./ns_show /proc/self/ns/uts u</em></span>
+The owning user namespace is outside your namespace scope
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-ns-2_sect8" name="ioctl-ns-2_sect8" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+/* ns_show.c
+
+   Licensed under the GNU General Public License v2 or later.
+*/
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/sysmacros.h&gt;
+
+#ifndef NS_GET_USERNS
+#define NSIO    0xb7
+#define NS_GET_USERNS   _IO(NSIO, 0x1)
+#define NS_GET_PARENT   _IO(NSIO, 0x2)
+#endif
+
+int
+main(int argc, char *argv[])
+{
+    int fd, userns_fd, parent_fd;
+    struct stat sb;
+
+    if (argc &lt; 2) {
+        fprintf(stderr, "Usage: %s /proc/[pid]/ns/[file] [p|u]\n",
+                argv[0]);
+        fprintf(stderr, "\nDisplay the result of one or both "
+                "of NS_GET_USERNS (u) or NS_GET_PARENT (p)\n"
+                "for the specified /proc/[pid]/ns/[file]. If neither "
+                "'p' nor 'u' is specified,\n"
+                "NS_GET_USERNS is the default.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Obtain a file descriptor for the 'ns' file specified
+       in argv[1]. */
+
+    fd = open(argv[1], O_RDONLY);
+    if (fd == −1) {
+        perror("open");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Obtain a file descriptor for the owning user namespace and
+       then obtain and display the inode number of that namespace. */
+
+    if (argc &lt; 3 || strchr(argv[2], 'u')) {
+        userns_fd = ioctl(fd, NS_GET_USERNS);
+
+        if (userns_fd == −1) {
+            if (errno == EPERM)
+                printf("The owning user namespace is outside "
+                        "your namespace scope\n");
+            else
+               perror("ioctl−NS_GET_USERNS");
+            exit(EXIT_FAILURE);
+         }
+
+        if (fstat(userns_fd, &amp;sb) == −1) {
+            perror("fstat−userns");
+            exit(EXIT_FAILURE);
+        }
+        printf("Device/Inode of owning user namespace is: "
+                "[%jx,%jx] / %ju\n",
+                (uintmax_t) major(sb.st_dev),
+                (uintmax_t) minor(sb.st_dev),
+                (uintmax_t) sb.st_ino);
+
+        close(userns_fd);
+    }
+
+    /* Obtain a file descriptor for the parent namespace and
+       then obtain and display the inode number of that namespace. */
+
+    if (argc &gt; 2 &amp;&amp; strchr(argv[2], 'p')) {
+        parent_fd = ioctl(fd, NS_GET_PARENT);
+
+        if (parent_fd == −1) {
+            if (errno == EINVAL)
+                printf("Can' get parent namespace of a "
+                        "nonhierarchical namespace\n");
+            else if (errno == EPERM)
+                printf("The parent namespace is outside "
+                        "your namespace scope\n");
+            else
+                perror("ioctl−NS_GET_PARENT");
+            exit(EXIT_FAILURE);
+        }
+
+        if (fstat(parent_fd, &amp;sb) == −1) {
+            perror("fstat−parentns");
+            exit(EXIT_FAILURE);
+        }
+        printf("Device/Inode of parent namespace is: [%jx,%jx] / %ju\n",
+                (uintmax_t) major(sb.st_dev),
+                (uintmax_t) minor(sb.st_dev),
+                (uintmax_t) sb.st_ino);
+
+        close(parent_fd);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-ns-2_sect9" name="ioctl-ns-2_sect9" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fstat</span>(2)</span></a>, <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>, <a class="link" href="../htmlman5/proc.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">proc</span>(5)</span></a>, <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="ioctl-ns-2_sect10" name="ioctl-ns-2_sect10" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2017 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

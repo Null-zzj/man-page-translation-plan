@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>pidfd_getfd(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="pidfd_getfd(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="pidfd-getfd.2" name="pidfd-getfd.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>pidfd_getfd — obtain a duplicate of another
+      process's file descriptor</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>pidfd_getfd</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">pidfd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">targetfd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned int <var class="pdparam">flags</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-getfd-2_sect1" name="pidfd-getfd-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">pidfd_getfd</code>() system
+      call allocates a new file descriptor in the calling process.
+      This new file descriptor is a duplicate of an existing file
+      descriptor, <em class="parameter"><code>targetfd</code></em>,
+      in the process referred to by the PID file descriptor
+      <em class="parameter"><code>pidfd</code></em>.</p>
+      <p>The duplicate file descriptor refers to the same open file
+      description (see <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>) as the original
+      file descriptor in the process referred to by <em class="parameter"><code>pidfd</code></em>. The two file descriptors
+      thus share file status flags and file offset. Furthermore,
+      operations on the underlying file object (for example,
+      assigning an address to a socket object using <a class="link" href="../htmlman2/bind.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">bind</span>(2)</span></a>) can equally be
+      performed via the duplicate file descriptor.</p>
+      <p>The close-on-exec flag (<code class="constant">FD_CLOEXEC</code>; see <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>) is set on the
+      file descriptor returned by <code class="function">pidfd_getfd</code>().</p>
+      <p>The <em class="parameter"><code>flags</code></em> argument
+      is reserved for future use. Currently, it must be specified
+      as 0.</p>
+      <p>Permission to duplicate another process's file descriptor
+      is governed by a ptrace access mode <code class="constant">PTRACE_MODE_ATTACH_REALCREDS</code> check (see
+      <a class="link" href="../htmlman2/ptrace.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ptrace</span>(2)</span></a>).</p>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-getfd-2_sect2" name="pidfd-getfd-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">pidfd_getfd</code>()
+      returns a file descriptor (a nonnegative integer). On error,
+      −1 is returned and <code class="varname">errno</code>
+      is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-getfd-2_sect3" name="pidfd-getfd-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EBADF</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pidfd</code></em> is not
+            a valid PID file descriptor.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EBADF</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>targetfd</code></em> is
+            not an open file descriptor in the process referred to
+            by <em class="parameter"><code>pidfd</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>flags</code></em> is not
+            0.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EMFILE</span></span></dt>
+          <dd>
+            <p>The per-process limit on the number of open file
+            descriptors has been reached (see the description of
+            <code class="constant">RLIMIT_NOFILE</code> in
+            <a class="link" href="../htmlman2/getrlimit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getrlimit</span>(2)</span></a>).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENFILE</span></span></dt>
+          <dd>
+            <p>The system-wide limit on the total number of open
+            files has been reached.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p>The calling process did not have <code class="constant">PTRACE_MODE_ATTACH_REALCREDS</code>
+            permissions (see <a class="link" href="../htmlman2/ptrace.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ptrace</span>(2)</span></a>) over the
+            process referred to by <em class="parameter"><code>pidfd</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ESRCH</span></span></dt>
+          <dd>
+            <p>The process referred to by <em class="parameter"><code>pidfd</code></em> does not exist
+            (i.e., it has terminated and been waited on).</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-getfd-2_sect4" name="pidfd-getfd-2_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">pidfd_getfd</code>() first appeared
+      in Linux 5.6.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-getfd-2_sect5" name="pidfd-getfd-2_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p><code class="function">pidfd_getfd</code>() is Linux
+      specific.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-getfd-2_sect6" name="pidfd-getfd-2_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call;
+      call it using <a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a>.</p>
+      <p>For a description of PID file descriptors, see <a class="link" href="../htmlman2/pidfd_open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_open</span>(2)</span></a>.</p>
+      <p>The effect of <code class="function">pidfd_getfd</code>()
+      is similar to the use of <code class="constant">SCM_RIGHTS</code> messages described in <a class="link" href="../htmlman7/unix.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unix</span>(7)</span></a>, but differs in the
+      following respects:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>In order to pass a file descriptor using an
+            <code class="constant">SCM_RIGHTS</code> message, the
+            two processes must first establish a UNIX domain socket
+            connection.</p>
+          </li>
+          <li class="listitem">
+            <p>The use of <code class="constant">SCM_RIGHTS</code>
+            requires cooperation on the part of the process whose
+            file descriptor is being copied. By contrast, no such
+            cooperation is necessary when using <code class="function">pidfd_getfd</code>().</p>
+          </li>
+          <li class="listitem">
+            <p>The ability to use <code class="function">pidfd_getfd</code>() is restricted by a
+            <code class="constant">PTRACE_MODE_ATTACH_REALCREDS</code> ptrace
+            access mode check.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-getfd-2_sect7" name="pidfd-getfd-2_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone3</span>(2)</span></a>, <a class="link" href="../htmlman2/dup.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dup</span>(2)</span></a>, <a class="link" href="../htmlman2/kcmp.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">kcmp</span>(2)</span></a>, <a class="link" href="../htmlman2/pidfd_open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_open</span>(2)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="pidfd-getfd-2_sect8" name="pidfd-getfd-2_sect8" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2020 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

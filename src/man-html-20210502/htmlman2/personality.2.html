@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>personality(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="personality(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="personality.2" name="personality.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>personality — set the process execution domain</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;sys/personality.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>personality</strong>(</code></td>
+            <td rowspan="1" colspan="1">unsigned long <var class="pdparam">persona</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="personality-2_sect1" name="personality-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>Linux supports different execution domains, or
+      personalities, for each process. Among other things,
+      execution domains tell Linux how to map signal numbers into
+      signal actions. The execution domain system allows Linux to
+      provide limited support for binaries compiled under other
+      UNIX-like operating systems.</p>
+      <p>If <em class="parameter"><code>persona</code></em> is not
+      0xffffffff, then <code class="function">personality</code>()
+      sets the caller's execution domain to the value specified by
+      <em class="parameter"><code>persona</code></em>. Specifying
+      <em class="parameter"><code>persona</code></em> as 0xffffffff
+      provides a way of retrieving the current persona without
+      changing it.</p>
+      <p>A list of the available execution domains can be found in
+      <code class="literal">&lt;</code><code class="filename">sys/personality.h</code><code class="literal">&gt;</code> The execution domain is a 32-bit value
+      in which the top three bytes are set aside for flags that
+      cause the kernel to modify the behavior of certain system
+      calls so as to emulate historical or architectural quirks.
+      The least significant byte is a value defining the
+      personality the kernel should assume. The flag values are as
+      follows:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">ADDR_COMPAT_LAYOUT</code> (since Linux
+          2.6.9)</span></dt>
+          <dd>
+            <p>With this flag set, provide legacy virtual address
+            space layout.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADDR_NO_RANDOMIZE</code> (since Linux
+          2.6.12)</span></dt>
+          <dd>
+            <p>With this flag set, disable address-space-layout
+            randomization.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADDR_LIMIT_32BIT</code> (since Linux
+          2.2)</span></dt>
+          <dd>
+            <p>Limit the address space to 32 bits.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADDR_LIMIT_3GB</code> (since Linux
+          2.4.0)</span></dt>
+          <dd>
+            <p>With this flag set, use 0xc0000000 as the offset at
+            which to search a virtual memory chunk on <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>; otherwise
+            use 0xffffe000.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FDPIC_FUNCPTRS</code> (since Linux
+          2.6.11)</span></dt>
+          <dd>
+            <p>User-space function pointers to signal handlers
+            point (on certain architectures) to descriptors.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">MMAP_PAGE_ZERO</code> (since Linux
+          2.4.0)</span></dt>
+          <dd>
+            <p>Map page 0 as read-only (to support binaries that
+            depend on this SVr4 behavior).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">READ_IMPLIES_EXEC</code> (since Linux
+          2.6.8)</span></dt>
+          <dd>
+            <p>With this flag set, <code class="constant">PROT_READ</code> implies <code class="constant">PROT_EXEC</code> for <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">SHORT_INODE</code> (since Linux
+          2.4.0)</span></dt>
+          <dd>
+            <p>No effects(?).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STICKY_TIMEOUTS</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>With this flag set, <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a>, <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pselect</span>(2)</span></a>, and
+            <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ppoll</span>(2)</span></a> do not
+            modify the returned timeout argument when interrupted
+            by a signal handler.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">UNAME26</code> (since Linux 3.1)</span></dt>
+          <dd>
+            <p>Have <a class="link" href="../htmlman2/uname.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">uname</span>(2)</span></a> report a
+            2.6.40+ version number rather than a 3.x version
+            number. Added as a stopgap measure to support broken
+            applications that could not handle the kernel
+            version-numbering switch from 2.6.x to 3.x.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">WHOLE_SECONDS</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>No effects(?).</p>
+          </dd>
+        </dl>
+      </div>
+      <p>The available execution domains are:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">PER_BSD</code> (since Linux 1.2.0)</span></dt>
+          <dd>
+            <p>BSD. (No effects.)</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_HPUX</code> (since Linux 2.4)</span></dt>
+          <dd>
+            <p>Support for 32-bit HP/UX. This support was never
+            complete, and was dropped so that since Linux 4.0, this
+            value has no effect.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_IRIX32</code> (since Linux
+          2.2)</span></dt>
+          <dd>
+            <p>IRIX 5 32-bit. Never fully functional; support
+            dropped in Linux 2.6.27. Implies <code class="constant">STICKY_TIMEOUTS</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_IRIX64</code> (since Linux
+          2.2)</span></dt>
+          <dd>
+            <p>IRIX 6 64-bit. Implies <code class="constant">STICKY_TIMEOUTS</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_IRIXN32</code> (since Linux
+          2.2)</span></dt>
+          <dd>
+            <p>IRIX 6 new 32-bit. Implies <code class="constant">STICKY_TIMEOUTS</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_ISCR4</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_LINUX</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>Linux.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_LINUX32</code> (since Linux
+          2.2)</span></dt>
+          <dd>
+            <p>[To be documented.]</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_LINUX32_3GB</code> (since Linux
+          2.4)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">ADDR_LIMIT_3GB</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_LINUX_32BIT</code> (since Linux
+          2.0)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">ADDR_LIMIT_32BIT</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_LINUX_FDPIC</code> (since Linux
+          2.6.11)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">FDPIC_FUNCPTRS</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_OSF4</code> (since Linux 2.4)</span></dt>
+          <dd>
+            <p>OSF/1 v4. On alpha, clear top 32 bits of iov_len in
+            the user's buffer for compatibility with old versions
+            of OSF/1 where iov_len was defined as. <span class="type">int</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_OSR5</code> (since Linux 2.4)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code> and <code class="constant">WHOLE_SECONDS</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_RISCOS</code> (since Linux
+          2.2)</span></dt>
+          <dd>
+            <p>[To be documented.]</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_SCOSVR3</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code>, <code class="constant">WHOLE_SECONDS</code>, and <code class="constant">SHORT_INODE</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_SOLARIS</code> (since Linux
+          2.4)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_SUNOS</code> (since Linux
+          2.4.0)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code>. Divert library and
+            dynamic linker searches to <code class="filename">/usr/gnemul</code>. Buggy, largely
+            unmaintained, and almost entirely unused; support was
+            removed in Linux 2.6.26.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_SVR3</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code> and <code class="constant">SHORT_INODE</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_SVR4</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code> and <code class="constant">MMAP_PAGE_ZERO</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_UW7</code> (since Linux 2.4)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code> and <code class="constant">MMAP_PAGE_ZERO</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_WYSEV386</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code> and <code class="constant">SHORT_INODE</code>; otherwise no
+            effects.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PER_XENIX</code> (since Linux
+          1.2.0)</span></dt>
+          <dd>
+            <p>Implies <code class="constant">STICKY_TIMEOUTS</code> and <code class="constant">SHORT_INODE</code>; otherwise no
+            effects.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="personality-2_sect2" name="personality-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, the previous <em class="parameter"><code>persona</code></em> is returned. On error,
+      −1 is returned, and <code class="varname">errno</code>
+      is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="personality-2_sect3" name="personality-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The kernel was unable to change the personality.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="personality-2_sect4" name="personality-2_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>This system call first appeared in Linux 1.1.20 (and thus
+      first in a stable kernel release with Linux 1.2.0); library
+      support was added in glibc 2.3.</p>
+    </div>
+    <div class="refsect1">
+      <a id="personality-2_sect5" name="personality-2_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p><code class="function">personality</code>() is
+      Linux-specific and should not be used in programs intended to
+      be portable.</p>
+    </div>
+    <div class="refsect1">
+      <a id="personality-2_sect6" name="personality-2_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman8/setarch.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setarch</span>(8)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="personality-2_sect7" name="personality-2_sect7" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 1995, Thomas K. Dyas &lt;tdyas<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>eden.rutgers.edu&gt;<br />
+
+                  and Copyright (C) 2016, Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  Created   Sat Aug 21 1995     Thomas K. Dyas &lt;tdyas<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>eden.rutgers.edu&gt;<br />
+
+                  <br />
+                  typo corrected, aeb, 950825<br />
+                  added layout change from joey, 960722<br />
+
+                  changed prototype, documented 0xffffffff, aeb, 030101<br />
+
+                  Modified 2004-11-03 patch from Martin Schulze &lt;joey<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>infodrom.org&gt;<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

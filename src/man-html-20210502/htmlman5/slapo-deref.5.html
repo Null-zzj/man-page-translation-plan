@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>slapo-deref(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="slapo-deref(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="slapo-deref.5" name="slapo-deref.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>slapo−deref — Dereference Control overlay to
+      slapd</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+ETCDIR/slapd.conf
+ETCDIR/slapd.d
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-deref-5_sect1" name="slapo-deref-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>This overlay implements the draft Dereference control. The
+      overlay can be used with any backend or globally for all
+      backends.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-deref-5_sect2" name="slapo-deref-5_sect2" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+  database mdb
+  ...
+  overlay deref
+</pre>
+      </div>
+      <p>Given these entries:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+  dn: cn=Howard Chu,ou=people,dc=example,dc=org
+  objectClass: inetOrgPerson
+  cn: Howard Chu
+  sn: Chu
+  uid: hyc
+
+  dn: cn=Pierangelo Masarati,ou=people,dc=example,dc=org
+  objectClass: inetOrgPerson
+  cn: Pierangelo Masarati
+  sn: Masarati
+  uid: ando
+
+  dn: cn=Test Group,ou=groups,dc=example,dc=org
+  objectClass: groupOfNames
+  cn: Test Group
+  member: cn=Howard Chu,ou=people,dc=example,dc=org
+  member: cn=Pierangelo Masarati,ou=people,dc=example,dc=org
+</pre>
+      </div>
+      <p>A search could be performed with a Dereference request
+      control value specified as</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+  { member, uid }
+</pre>
+      </div>
+      <p>I.e.,</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+  ldapsearch -x -b dc=example,dc=org -E 'deref=member:uid'
+</pre>
+      </div>
+      <p>and the "cn=Test Group" entry would be returned with the
+      response control value</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+  { { member, cn=Howard Chu,ou=people,dc=example,dc=org,
+      { { uid, [hyc] } } },
+    { member, cn=Pierangelo Masarati,ou=people,dc=example,dc=org,
+      { { uid, [ando] } } } }
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-deref-5_sect3" name="slapo-deref-5_sect3" shape="rect"> </a>
+      <h2>FILES</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">ETCDIR/slapd.conf</span></dt>
+          <dd>
+            <p>default slapd configuration file</p>
+          </dd>
+          <dt><span class="term">ETCDIR/slapd.d</span></dt>
+          <dd>
+            <p>default slapd configuration directory</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-deref-5_sect4" name="slapo-deref-5_sect4" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a>, <a class="link" href="../htmlman5/slapd-config.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd-config</span>(5)</span></a>.</p>
+      <p>"OpenLDAP Administrator's Guide"
+      (http://www.OpenLDAP.org/doc/admin/)</p>
+      <p>IETF LDAP Dereference Control proposal by P. Masarati, H.
+      Chu, in IETF document "draft-masarati-ldap-deref-00.txt".</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-deref-5_sect5" name="slapo-deref-5_sect5" shape="rect"> </a>
+      <h2>AUTHOR</h2>
+      <p>Pierangelo Masarati</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                  See the following documents: <a class="ulink" href="../openldap-COPYRIGHT.html" target="_top" shape="rect">COPYRIGHT</a>, <a class="ulink" href="../openldap-LICENSE.html" target="_top" shape="rect">LICENSE</a><br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>scriptlive(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="scriptlive(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="scriptlive.1" name="scriptlive.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>scriptlive — re-run session typescripts, using
+      timing information</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">scriptlive</code> [options]
+        [<code class="option">−t</code>] timingfile [
+        <code class="option">−I</code> | <code class="option">−B</code> ] typescript</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="scriptlive-1_sect1" name="scriptlive-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>This program re-runs a typescript, using stdin typescript
+      and timing information to ensure that input happens in the
+      same rhythm as it originally appeared when the script was
+      recorded.</p>
+      <p>The <span class="emphasis"><em>session is
+      executed</em></span> in a newly created pseudoterminal with
+      the user's $SHELL (or defaults to /bin/bash).</p>
+      <p><span class="emphasis"><em>Be careful!</em></span> Do not
+      forget that the typescript may contains arbitrary commands.
+      It is recommended to use <span class="emphasis"><em>"scriptreplay −−stream in
+      −−log−in typescript"</em></span> (or with
+      <code class="option">−−log−io</code>
+      instead of <code class="option">−−log−in</code>) to verify the
+      typescript before it is executed by <a class="link" href="../htmlman1/scriptlive.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scriptlive</span>(1)</span></a>.</p>
+      <p>The timing information is what <a class="link" href="../htmlman1/script.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">script</span>(1)</span></a> outputs to file
+      specified by <code class="option">−−log−timing</code>. The
+      typescript has to contain stdin information and it is what
+      <a class="link" href="../htmlman1/script.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">script</span>(1)</span></a> outputs to file
+      specified by <code class="option">−−log−in</code> or <code class="option">−−log−io</code>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="scriptlive-1_sect2" name="scriptlive-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−I,
+          −−log−in <em class="parameter"><code>file</code></em></code></span></dt>
+          <dd>
+            <p>File containing <span class="command"><strong>script</strong></span>'s terminal
+            input.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−B,
+          −−log−io <em class="parameter"><code>file</code></em></code></span></dt>
+          <dd>
+            <p>File containing <span class="command"><strong>script</strong></span>'s terminal
+            output and input.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−t,
+          −−timing <em class="parameter"><code>file</code></em></code></span></dt>
+          <dd>
+            <p>File containing <span class="command"><strong>script</strong></span>'s timing
+            output. This option overrides old-style arguments.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−T,
+          −−log−timing <em class="parameter"><code>file</code></em></code></span></dt>
+          <dd>
+            <p>Aliased to <code class="option">−t</code>,
+            maintained for compatibility with <a class="link" href="../htmlman1/script.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">script</span>(1)</span></a>
+            command-line options.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−d,
+          −−divisor <em class="parameter"><code>number</code></em></code></span></dt>
+          <dd>
+            <p>Speed up the replay displaying this <span class="command"><strong>number</strong></span> of times. The
+            argument is a floating-point number. It's called
+            divisor because it divides the timings by this factor.
+            This option overrides old-style arguments.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−m,
+          −−maxdelay <em class="parameter"><code>number</code></em></code></span></dt>
+          <dd>
+            <p>Set the maximum delay between updates to
+            <span class="command"><strong>number</strong></span> of
+            seconds. The argument is a floating-point number. This
+            can be used to avoid long pauses in the typescript
+            replay.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="scriptlive-1_sect3" name="scriptlive-1_sect3" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+% script --log-timing file.tm --log-in script.in
+Script started, file is script.out
+% date
+&lt;etc, etc&gt;
+% exit
+Script done, file is script.out
+% scriptlive --log-timing file.tm --log-in script.in
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="scriptlive-1_sect4" name="scriptlive-1_sect4" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><a class="literalurl" href="mailto:kzak%20REMOVE%20@%20THIS%20redhat.com" target="_top" shape="rect">Karel Zak</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="scriptlive-1_sect6" name="scriptlive-1_sect6" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/script.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">script</span>(1)</span></a>, <a class="link" href="../htmlman1/scriptreplay.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scriptreplay</span>(1)</span></a></p>
+    </div>
+    <div class="refsect1">
+      <a id="scriptlive-1_sect7" name="scriptlive-1_sect7" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The scriptlive command is part of the util-linux package
+      and is available from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="" rowspan="1" colspan="1">COPYRIGHT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <p>Copyright © 2019 Karel Zak</p>
+                <p>This is free software; see the source for
+                copying conditions. There is NO warranty; not even
+                for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+                PURPOSE.</p>
+                <p>Released under the GNU General Public License
+                version 2 or later.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

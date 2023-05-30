@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>ioctl_iflags(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="ioctl_iflags(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="ioctl-iflags.2" name="ioctl-iflags.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>ioctl_iflags — ioctl() operations for inode
+      flags</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-iflags-2_sect1" name="ioctl-iflags-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>Various Linux filesystems support the notion of
+      <span class="emphasis"><em>inode
+      flags</em></span>—attributes that modify the semantics
+      of files and directories. These flags can be retrieved and
+      modified using two <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+int attr;
+fd = open("pathname", ...);
+
+ioctl(fd, FS_IOC_GETFLAGS, &amp;attr);  /* Place current flags
+                                       in 'attr' */
+attr |= FS_NOATIME_FL;              /* Tweak returned bit mask */
+ioctl(fd, FS_IOC_SETFLAGS, &amp;attr);  /* Update flags for inode
+                                       referred to by 'fd' */
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>The <span class="citerefentry"><span class="refentrytitle">lsattr</span>(1)</span> and <span class="citerefentry"><span class="refentrytitle">chattr</span>(1)</span> shell commands
+      provide interfaces to these two operations, allowing a user
+      to view and modify the inode flags associated with a
+      file.</p>
+      <p>The following flags are supported (shown along with the
+      corresponding letter used to indicate the flag by
+      <span class="citerefentry"><span class="refentrytitle">lsattr</span>(1)</span> and <span class="citerefentry"><span class="refentrytitle">chattr</span>(1)</span>):</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">FS_APPEND_FL</code> 'a'</span></dt>
+          <dd>
+            <p>The file can be opened only with the <code class="constant">O_APPEND</code> flag. (This restriction
+            applies even to the superuser.) Only a privileged
+            process (<code class="constant">CAP_LINUX_IMMUTABLE</code>) can set or clear
+            this attribute.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_COMPR_FL</code> 'c'</span></dt>
+          <dd>
+            <p>Store the file in a compressed format on disk. This
+            flag is <em class="replaceable"><code>not</code></em>
+            supported by most of the mainstream filesystem
+            implementations; one exception is <span class="citerefentry"><span class="refentrytitle">btrfs</span>(5)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_DIRSYNC_FL</code> 'D' (since Linux
+          2.6.0)</span></dt>
+          <dd>
+            <p>Write directory changes synchronously to disk. This
+            flag provides semantics equivalent to the <a class="link" href="../htmlman2/mount.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount</span>(2)</span></a> <code class="constant">MS_DIRSYNC</code> option, but on a
+            per-directory basis. This flag can be applied only to
+            directories.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_IMMUTABLE_FL</code> 'i'</span></dt>
+          <dd>
+            <p>The file is immutable: no changes are permitted to
+            the file contents or metadata (permissions, timestamps,
+            ownership, link count, and so on). (This restriction
+            applies even to the superuser.) Only a privileged
+            process (<code class="constant">CAP_LINUX_IMMUTABLE</code>) can set or clear
+            this attribute.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_JOURNAL_DATA_FL</code> 'j'</span></dt>
+          <dd>
+            <p>Enable journaling of file data on <span class="citerefentry"><span class="refentrytitle">ext3</span>(5)</span> and <span class="citerefentry"><span class="refentrytitle">ext4</span>(5)</span> filesystems. On a
+            filesystem that is journaling in <em class="replaceable"><code>ordered</code></em> or <em class="replaceable"><code>writeback</code></em> mode, a
+            privileged (<code class="constant">CAP_SYS_RESOURCE</code>) process can set
+            this flag to enable journaling of data updates on a
+            per-file basis.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_NOATIME_FL</code> 'A'</span></dt>
+          <dd>
+            <p>Don't update the file last access time when the file
+            is accessed. This can provide I/O performance benefits
+            for applications that do not care about the accuracy of
+            this timestamp. This flag provides functionality
+            similar to the <a class="link" href="../htmlman2/mount.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount</span>(2)</span></a> <code class="constant">MS_NOATIME</code> flag, but on a per-file
+            basis.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_NOCOW_FL</code> 'C' (since Linux
+          2.6.39)</span></dt>
+          <dd>
+            <p>The file will not be subject to copy-on-write
+            updates. This flag has an effect only on filesystems
+            that support copy-on-write semantics, such as Btrfs.
+            See <span class="citerefentry"><span class="refentrytitle">chattr</span>(1)</span> and
+            <span class="citerefentry"><span class="refentrytitle">btrfs</span>(5)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_NODUMP_FL</code> 'd'</span></dt>
+          <dd>
+            <p>Don't include this file in backups made using
+            <span class="citerefentry"><span class="refentrytitle">dump</span>(8)</span>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_NOTAIL_FL</code> 't'</span></dt>
+          <dd>
+            <p>This flag is supported only on Reiserfs. It disables
+            the Reiserfs tail-packing feature, which tries to pack
+            small files (and the final fragment of larger files)
+            into the same disk block as the file metadata.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_PROJINHERIT_FL</code> 'P' (since Linux
+          4.5)</span></dt>
+          <dd>
+            <p>Inherit the quota project ID. Files and
+            subdirectories will inherit the project ID of the
+            directory. This flag can be applied only to
+            directories.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_SECRM_FL</code> 's'</span></dt>
+          <dd>
+            <p>Mark the file for secure deletion. This feature is
+            not implemented by any filesystem, since the task of
+            securely erasing a file from a recording medium is
+            surprisingly difficult.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_SYNC_FL</code> 'S'</span></dt>
+          <dd>
+            <p>Make file updates synchronous. For files, this makes
+            all writes synchronous (as though all opens of the file
+            were with the <code class="constant">O_SYNC</code>
+            flag). For directories, this has the same effect as the
+            <code class="constant">FS_DIRSYNC_FL</code> flag.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_TOPDIR_FL</code> 'T'</span></dt>
+          <dd>
+            <p>Mark a directory for special treatment under the
+            Orlov block-allocation strategy. See <span class="citerefentry"><span class="refentrytitle">chattr</span>(1)</span> for details.
+            This flag can be applied only to directories and has an
+            effect only for ext2, ext3, and ext4.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">FS_UNRM_FL</code> 'u'</span></dt>
+          <dd>
+            <p>Allow the file to be undeleted if it is deleted.
+            This feature is not implemented by any filesystem,
+            since it is possible to implement file-recovery
+            mechanisms outside the kernel.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>In most cases, when any of the above flags is set on a
+      directory, the flag is inherited by files and subdirectories
+      created inside that directory. Exceptions include
+      <code class="constant">FS_TOPDIR_FL</code>, which is not
+      inheritable, and <code class="constant">FS_DIRSYNC_FL</code>,
+      which is inherited only by subdirectories.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-iflags-2_sect2" name="ioctl-iflags-2_sect2" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>Inode flags are a nonstandard Linux extension.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-iflags-2_sect3" name="ioctl-iflags-2_sect3" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>In order to change the inode flags of a file using the
+      <code class="constant">FS_IOC_SETFLAGS</code> operation, the
+      effective user ID of the caller must match the owner of the
+      file, or the caller must have the <code class="constant">CAP_FOWNER</code> capability.</p>
+      <p>The type of the argument given to the <code class="constant">FS_IOC_GETFLAGS</code> and <code class="constant">FS_IOC_SETFLAGS</code> operations is <span class="emphasis"><em>int *</em></span>, notwithstanding the
+      implication in the kernel source file <code class="filename">include/uapi/linux/fs.h</code> that the argument
+      is <span class="type">long *</span>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-iflags-2_sect4" name="ioctl-iflags-2_sect4" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">chattr</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">lsattr</span>(1)</span>, <a class="link" href="../htmlman2/mount.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount</span>(2)</span></a>, <span class="citerefentry"><span class="refentrytitle">btrfs</span>(5)</span>, <span class="citerefentry"><span class="refentrytitle">ext4</span>(5)</span>, <span class="citerefentry"><span class="refentrytitle">xfs</span>(5)</span>, <a class="link" href="../htmlman7/xattr.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">xattr</span>(7)</span></a>, <a class="link" href="../htmlman8/mount.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount</span>(8)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="ioctl-iflags-2_sect5" name="ioctl-iflags-2_sect5" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2017 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

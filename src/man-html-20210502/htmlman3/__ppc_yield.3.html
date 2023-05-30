@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>__ppc_yield(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="__ppc_yield(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="u--ppc-yield.3" name="u--ppc-yield.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>__ppc_yield, __ppc_mdoio, __ppc_mdoom — Hint the
+      processor to release shared resources</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;sys/platform/ppc.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>__ppc_yield</strong>(</code></td>
+            <td rowspan="1" colspan="1"><code>void)</code>;</td>
+            <td rowspan="1" colspan="1"> </td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>__ppc_mdoio</strong>(</code></td>
+            <td rowspan="1" colspan="1"><code>void)</code>;</td>
+            <td rowspan="1" colspan="1"> </td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>__ppc_mdoom</strong>(</code></td>
+            <td rowspan="1" colspan="1"><code>void)</code>;</td>
+            <td rowspan="1" colspan="1"> </td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-yield-3_sect1" name="u--ppc-yield-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>These functions provide hints about the usage of resources
+      that are shared with other processors on the Power
+      architecture. They can be used, for example, if a program
+      waiting on a lock intends to divert the shared resources to
+      be used by other processors.</p>
+      <p><code class="function">__ppc_yield</code>() provides a
+      hint that performance will probably be improved if shared
+      resources dedicated to the executing processor are released
+      for use by other processors.</p>
+      <p><code class="function">__ppc_mdoio</code>() provides a
+      hint that performance will probably be improved if shared
+      resources dedicated to the executing processor are released
+      until all outstanding storage accesses to caching-inhibited
+      storage have been completed.</p>
+      <p><code class="function">__ppc_mdoom</code>() provides a
+      hint that performance will probably be improved if shared
+      resources dedicated to the executing processor are released
+      until all outstanding storage accesses to cacheable storage
+      for which the data is not in the cache have been
+      completed.</p>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-yield-3_sect2" name="u--ppc-yield-3_sect2" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>These functions first appeared in glibc in version
+      2.18.</p>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-yield-3_sect3" name="u--ppc-yield-3_sect3" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">__ppc_yield</code>(), <code class="literal">__ppc_mdoio</code>(), <code class="literal">__ppc_mdoom</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-yield-3_sect4" name="u--ppc-yield-3_sect4" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>These functions are nonstandard GNU extensions.</p>
+    </div>
+    <div class="refsect1">
+      <a id="u--ppc-yield-3_sect5" name="u--ppc-yield-3_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/__ppc_set_ppr_med.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">__ppc_set_ppr_med</span>(3)</span></a></p>
+      <p><span class="emphasis"><em>Power ISA, Book II - Section
+      3.2 ("or" architecture)</em></span></p>
+    </div>
+    <div class="colophon">
+      <a id="u--ppc-yield-3_sect6" name="u--ppc-yield-3_sect6" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2015, IBM Corporation.<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of<br />
+
+                  this manual under the conditions for verbatim copying, provided that<br />
+
+                  the entire resulting derived work is distributed under the terms of<br />
+
+                  a permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume.<br />
+
+                  no responsibility for errors or omissions, or for damages resulting.<br />
+
+                  from the use of the information contained herein.  The author(s) may.<br />
+
+                  not have taken the same level of care in the production of this.<br />
+
+                  manual, which is licensed free of charge, as they might when working.<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

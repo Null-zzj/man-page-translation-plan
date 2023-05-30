@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>nsenter(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="nsenter(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="nsenter.1" name="nsenter.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>nsenter — run program in different namespaces</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">nsenter</code> [options] [ program
+        [arguments] ]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="nsenter-1_sect1" name="nsenter-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <span class="command"><strong>nsenter</strong></span>
+      command executes <em class="parameter"><code>program</code></em> in the namespace(s)
+      that are specified in the command-line options (described
+      below). If <em class="parameter"><code>program</code></em> is
+      not given, then ``${SHELL}'' is run (default: /bin/sh).</p>
+      <p>Enterable namespaces are:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">mount namespace</span></dt>
+          <dd>
+            <p>Mounting and unmounting filesystems will not affect
+            the rest of the system, except for filesystems which
+            are explicitly marked as shared (with <span class="emphasis"><em>mount --make-shared</em></span>; see
+            <code class="filename">/proc/self/mountinfo</code> for
+            the <span class="command"><strong>shared</strong></span> flag). For
+            further details, see <a class="link" href="../htmlman7/mount_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount_namespaces</span>(7)</span></a>
+            and the discussion of the <code class="constant">CLONE_NEWNS</code> flag in <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term">UTS namespace</span></dt>
+          <dd>
+            <p>Setting hostname or domainname will not affect the
+            rest of the system. For further details, see <a class="link" href="../htmlman7/uts_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">uts_namespaces</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term">IPC namespace</span></dt>
+          <dd>
+            <p>The process will have an independent namespace for
+            POSIX message queues as well as System V message
+            queues, semaphore sets and shared memory segments. For
+            further details, see <a class="link" href="../htmlman7/ipc_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipc_namespaces</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term">network namespace</span></dt>
+          <dd>
+            <p>The process will have independent IPv4 and IPv6
+            stacks, IP routing tables, firewall rules, the
+            <code class="filename">/proc/net</code> and
+            <code class="filename">/sys/class/net</code> directory
+            trees, sockets, etc. For further details, see <a class="link" href="../htmlman7/network_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">network_namespaces</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term">PID namespace</span></dt>
+          <dd>
+            <p>Children will have a set of PID to process mappings
+            separate from the <span class="command"><strong>nsenter</strong></span> process.
+            <span class="command"><strong>nsenter</strong></span>
+            will fork by default if changing the PID namespace, so
+            that the new program and its children share the same
+            PID namespace and are visible to each other. If
+            <code class="option">−−no−fork</code>
+            is used, the new program will be exec'ed without
+            forking. For further details, see <a class="link" href="../htmlman7/pid_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pid_namespaces</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term">user namespace</span></dt>
+          <dd>
+            <p>The process will have a distinct set of UIDs, GIDs
+            and capabilities. For further details, see <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term">cgroup namespace</span></dt>
+          <dd>
+            <p>The process will have a virtualized view of
+            <code class="filename">/proc/self/cgroup</code>, and
+            new cgroup mounts will be rooted at the namespace
+            cgroup root. For further details, see <a class="link" href="../htmlman7/cgroup_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroup_namespaces</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term">time namespace</span></dt>
+          <dd>
+            <p>The process can have a distinct view of <code class="constant">CLOCK_MONOTONIC</code> and/or <code class="constant">CLOCK_BOOTTIME</code> which can be changed
+            using <code class="filename">/proc/self/timens_offsets</code>. For
+            further details, see <a class="link" href="../htmlman7/time_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time_namespaces</span>(7)</span></a>.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="nsenter-1_sect2" name="nsenter-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <p>Various of the options below that relate to namespaces
+      take an optional <span class="command"><strong>file</strong></span> argument. This should
+      be one of the <code class="filename">/proc/[pid]/ns/*</code>
+      files described in <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a>, or the
+      pathname of a bind mount that was created on one of those
+      files.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−a</code>, <code class="option">−−all</code></span></dt>
+          <dd>
+            <p>Enter all namespaces of the target process by the
+            default <code class="filename">/proc/[pid]/ns/*</code>
+            namespace paths. The default paths to the target
+            process namespaces may be overwritten by namespace
+            specific options (e.g., --all --mount=[path]).</p>
+            <p>The user namespace will be ignored if the same as
+            the caller's current user namespace. It prevents a
+            caller that has dropped capabilities from regaining
+            those capabilities via a call to setns(). See <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a> for more
+            details.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−t</code>, <code class="option">−−target</code> <span class="command"><strong>pid</strong></span></span></dt>
+          <dd>
+            <p>Specify a target process to get contexts from. The
+            paths to the contexts specified by <span class="command"><strong>pid</strong></span> are:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/ns/mnt</code></span></dt>
+                    <dd>
+                      <p>the mount namespace</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/ns/uts</code></span></dt>
+                    <dd>
+                      <p>the UTS namespace</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/ns/ipc</code></span></dt>
+                    <dd>
+                      <p>the IPC namespace</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/ns/net</code></span></dt>
+                    <dd>
+                      <p>the network namespace</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/ns/pid</code></span></dt>
+                    <dd>
+                      <p>the PID namespace</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/ns/user</code></span></dt>
+                    <dd>
+                      <p>the user namespace</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/ns/cgroup</code></span></dt>
+                    <dd>
+                      <p>the cgroup namespace</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/ns/time</code></span></dt>
+                    <dd>
+                      <p>the time namespace</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/root</code></span></dt>
+                    <dd>
+                      <p>the root directory</p>
+                    </dd>
+                    <dt><span class="term"><code class="filename">/proc/<span class="command"><strong>pid</strong></span>/cwd</code></span></dt>
+                    <dd>
+                      <p>the working directory respectively</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><code class="option">−m</code>, <code class="option">−−mount</code>[=<span class="command"><strong>file</strong></span>]</span></dt>
+          <dd>
+            <p>Enter the mount namespace. If no file is specified,
+            enter the mount namespace of the target process. If
+            <span class="command"><strong>file</strong></span> is
+            specified, enter the mount namespace specified by
+            <span class="command"><strong>file</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−u</code>, <code class="option">−−uts</code>[=<span class="command"><strong>file</strong></span>]</span></dt>
+          <dd>
+            <p>Enter the UTS namespace. If no file is specified,
+            enter the UTS namespace of the target process. If
+            <span class="command"><strong>file</strong></span> is
+            specified, enter the UTS namespace specified by
+            <span class="command"><strong>file</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−i</code>, <code class="option">−−ipc</code>[=<span class="command"><strong>file</strong></span>]</span></dt>
+          <dd>
+            <p>Enter the IPC namespace. If no file is specified,
+            enter the IPC namespace of the target process. If
+            <span class="command"><strong>file</strong></span> is
+            specified, enter the IPC namespace specified by
+            <span class="command"><strong>file</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n</code>, <code class="option">−−net</code>[=<span class="command"><strong>file</strong></span>]</span></dt>
+          <dd>
+            <p>Enter the network namespace. If no file is
+            specified, enter the network namespace of the target
+            process. If <span class="command"><strong>file</strong></span> is specified,
+            enter the network namespace specified by <span class="command"><strong>file</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−p</code>, <code class="option">−−pid</code>[=<span class="command"><strong>file</strong></span>]</span></dt>
+          <dd>
+            <p>Enter the PID namespace. If no file is specified,
+            enter the PID namespace of the target process. If
+            <span class="command"><strong>file</strong></span> is
+            specified, enter the PID namespace specified by
+            <span class="command"><strong>file</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−U</code>, <code class="option">−−user</code>[=<span class="command"><strong>file</strong></span>]</span></dt>
+          <dd>
+            <p>Enter the user namespace. If no file is specified,
+            enter the user namespace of the target process. If
+            <span class="command"><strong>file</strong></span> is
+            specified, enter the user namespace specified by
+            <span class="command"><strong>file</strong></span>. See
+            also the <code class="option">−−setuid</code> and <code class="option">−−setgid</code> options.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−C</code>, <code class="option">−−cgroup</code>[=<span class="command"><strong>file</strong></span>]</span></dt>
+          <dd>
+            <p>Enter the cgroup namespace. If no file is specified,
+            enter the cgroup namespace of the target process. If
+            <span class="command"><strong>file</strong></span> is
+            specified, enter the cgroup namespace specified by
+            <span class="command"><strong>file</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−T</code>, <code class="option">−−time</code>[=<span class="command"><strong>file</strong></span>]</span></dt>
+          <dd>
+            <p>Enter the time namespace. If no file is specified,
+            enter the time namespace of the target process. If
+            <span class="command"><strong>file</strong></span> is
+            specified, enter the time namespace specified by
+            <span class="command"><strong>file</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−G</code>, <code class="option">−−setgid</code> <span class="command"><strong>gid</strong></span></span></dt>
+          <dd>
+            <p>Set the group ID which will be used in the entered
+            namespace and drop supplementary groups. <a class="link" href="../htmlman1/nsenter.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">nsenter</span>(1)</span></a> always
+            sets GID for user namespaces, the default is 0.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−S</code>, <code class="option">−−setuid</code> <span class="command"><strong>uid</strong></span></span></dt>
+          <dd>
+            <p>Set the user ID which will be used in the entered
+            namespace. <a class="link" href="../htmlman1/nsenter.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">nsenter</span>(1)</span></a> always
+            sets UID for user namespaces, the default is 0.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−preserve−credentials</code></span></dt>
+          <dd>
+            <p>Don't modify UID and GID when enter user namespace.
+            The default is to drops supplementary groups and sets
+            GID and UID to 0.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−r</code>, <code class="option">−−root</code>[=<span class="command"><strong>directory</strong></span>]</span></dt>
+          <dd>
+            <p>Set the root directory. If no directory is
+            specified, set the root directory to the root directory
+            of the target process. If directory is specified, set
+            the root directory to the specified directory.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−w</code>, <code class="option">−−wd</code>[=<span class="command"><strong>directory</strong></span>]</span></dt>
+          <dd>
+            <p>Set the working directory. If no directory is
+            specified, set the working directory to the working
+            directory of the target process. If directory is
+            specified, set the working directory to the specified
+            directory.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−F</code>, <code class="option">−−no−fork</code></span></dt>
+          <dd>
+            <p>Do not fork before exec'ing the specified program.
+            By default, when entering a PID namespace, <span class="command"><strong>nsenter</strong></span> calls
+            <span class="command"><strong>fork</strong></span>
+            before calling <span class="command"><strong>exec</strong></span> so that any
+            children will also be in the newly entered PID
+            namespace.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−Z</code>, <code class="option">−−follow−context</code></span></dt>
+          <dd>
+            <p>Set the SELinux security context used for executing
+            a new process according to already running process
+            specified by <code class="option">−−target</code> PID. (The
+            util-linux has to be compiled with SELinux support
+            otherwise the option is unavailable.)</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V</code>, <code class="option">−−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h</code>, <code class="option">−−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="nsenter-1_sect3" name="nsenter-1_sect3" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><a class="literalurl" href="mailto:biederm%20REMOVE%20@%20THIS%20xmission.com" target="_top" shape="rect">Eric Biederman</a></p>
+      <p><a class="literalurl" href="mailto:kzak%20REMOVE%20@%20THIS%20redhat.com" target="_top" shape="rect">Karel Zak</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="nsenter-1_sect4" name="nsenter-1_sect4" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>, <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a>, <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a></p>
+    </div>
+    <div class="refsect1">
+      <a id="nsenter-1_sect5" name="nsenter-1_sect5" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The nsenter command is part of the util-linux package and
+      is available from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

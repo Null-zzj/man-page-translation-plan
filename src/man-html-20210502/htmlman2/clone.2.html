@@ -1,0 +1,1989 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>clone(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="clone(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="clone.2" name="clone.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>clone, __clone2, clone3 — create a child process</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+/* Prototype for the glibc wrapper function */
+
+#define _GNU_SOURCE
+#include &lt;sched.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>clone</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">(*fn)</var><code>(</code>void
+            *<code>)</code>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">void *<var class="pdparam">stack</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">flags</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">void *<var class="pdparam">arg</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">... /* pid_t *parent_tid, void
+            *tls, pid_t *child_tid */</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">/* For the prototype of the raw clone() system call, see NOTES */</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">long
+            <strong>clone3</strong>(</code></td>
+            <td rowspan="1" colspan="1">struct clone_args *<var class="pdparam">cl_args</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">size_t <var class="pdparam">size</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for</td>
+          </tr>
+        </table>
+      </div>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+.BR clone3 ();
+see NOTES.
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect1" name="clone-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>These system calls create a new ("child") process, in a
+      manner similar to <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>.</p>
+      <p>By contrast with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, these system calls
+      provide more precise control over what pieces of execution
+      context are shared between the calling process and the child
+      process. For example, using these system calls, the caller
+      can control whether or not the two processes share the
+      virtual address space, the table of file descriptors, and the
+      table of signal handlers. These system calls also allow the
+      new child process to be placed in separate <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a>.</p>
+      <p>Note that in this manual page, "calling process" normally
+      corresponds to "parent process". But see the descriptions of
+      <code class="constant">CLONE_PARENT</code> and <code class="constant">CLONE_THREAD</code> below.</p>
+      <p>This page describes the following interfaces:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>The glibc <code class="function">clone</code>()
+            wrapper function and the underlying system call on
+            which it is based. The main text describes the wrapper
+            function; the differences for the raw system call are
+            described toward the end of this page.</p>
+          </li>
+          <li class="listitem">
+            <p>The newer <code class="function">clone3</code>()
+            system call.</p>
+          </li>
+        </ul>
+      </div>
+      <p>In the remainder of this page, the terminology "the clone
+      call" is used when noting details that apply to all of these
+      interfaces,</p>
+      <div class="refsect2">
+        <a id="clone-2_sect2" name="clone-2_sect2" shape="rect"> </a>
+        <h3>The clone() wrapper function</h3>
+        <p>When the child process is created with the <code class="function">clone</code>() wrapper function, it commences
+        execution by calling the function pointed to by the
+        argument <em class="parameter"><code>fn</code></em>. (This
+        differs from <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, where execution
+        continues in the child from the point of the <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> call.) The
+        <em class="parameter"><code>arg</code></em> argument is
+        passed as the argument of the function <em class="parameter"><code>fn</code></em>.</p>
+        <p>When the <em class="parameter"><code>fn</code></em>(<em class="parameter"><code>arg</code></em>) function returns, the
+        child process terminates. The integer returned by
+        <em class="parameter"><code>fn</code></em> is the exit
+        status for the child process. The child process may also
+        terminate explicitly by calling <a class="link" href="../htmlman2/_exit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">exit</span>(2)</span></a> or after
+        receiving a fatal signal.</p>
+        <p>The <em class="parameter"><code>stack</code></em>
+        argument specifies the location of the stack used by the
+        child process. Since the child and calling process may
+        share memory, it is not possible for the child process to
+        execute in the same stack as the calling process. The
+        calling process must therefore set up memory space for the
+        child stack and pass a pointer to this space to
+        <code class="function">clone</code>(). Stacks grow downward
+        on all processors that run Linux (except the HP PA
+        processors), so <em class="parameter"><code>stack</code></em> usually points to the
+        topmost address of the memory space set up for the child
+        stack. Note that <code class="function">clone</code>() does
+        not provide a means whereby the caller can inform the
+        kernel of the size of the stack area.</p>
+        <p>The remaining arguments to <code class="function">clone</code>() are discussed below.</p>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect3" name="clone-2_sect3" shape="rect"> </a>
+        <h3>clone3()</h3>
+        <p>The <code class="function">clone3</code>() system call
+        provides a superset of the functionality of the older
+        <code class="function">clone</code>() interface. It also
+        provides a number of API improvements, including: space for
+        additional flags bits; cleaner separation in the use of
+        various arguments; and the ability to specify the size of
+        the child's stack area.</p>
+        <p>As with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, <code class="function">clone3</code>() returns in both the parent and
+        the child. It returns 0 in the child process and returns
+        the PID of the child in the parent.</p>
+        <p>The <em class="parameter"><code>cl_args</code></em>
+        argument of <code class="function">clone3</code>() is a
+        structure of the following form:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">clone_args</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>flags</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Flags bit mask */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>pidfd</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Where to store PID file descriptor<br />
+
+                        (int *) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>child_tid</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Where to store child TID,<br />
+
+                        in child\(aqs memory (pid_t *) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>parent_tid</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Where to store child TID,<br />
+
+                        in parent\(aqs memory (pid_t *) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>exit_signal</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Signal to deliver to parent on<br />
+
+                        child termination */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stack</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Pointer to lowest byte of stack */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stack_size</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Size of stack */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tls</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Location of new TLS */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>set_tid</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Pointer to a pid_t array<br />
+
+                        (since Linux 5.5) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>set_tid_size</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Number of elements in set_tid<br />
+
+                        (since Linux 5.5) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>cgroup</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* File descriptor for target cgroup<br />
+
+                        of child (since Linux 5.7) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>The <em class="parameter"><code>size</code></em>
+        argument that is supplied to <code class="function">clone3</code>() should be initialized to the
+        size of this structure. (The existence of the <em class="parameter"><code>size</code></em> argument permits future
+        extensions to the <span class="structname">clone_args</span> structure.)</p>
+        <p>The stack for the child process is specified via
+        <em class="replaceable"><code>cl_args.stack</code></em>,
+        which points to the lowest byte of the stack area, and
+        <em class="replaceable"><code>cl_args.stack_size</code></em>, which
+        specifies the size of the stack in bytes. In the case where
+        the <code class="constant">CLONE_VM</code> flag (see below)
+        is specified, a stack must be explicitly allocated and
+        specified. Otherwise, these two fields can be specified as
+        NULL and 0, which causes the child to use the same stack
+        area as the parent (in the child's own virtual address
+        space).</p>
+        <p>The remaining fields in the <em class="parameter"><code>cl_args</code></em> argument are
+        discussed below.</p>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect4" name="clone-2_sect4" shape="rect"> </a>
+        <h3>Equivalence between clone() and clone3() arguments</h3>
+        <p>Unlike the older <code class="function">clone</code>()
+        interface, where arguments are passed individually, in the
+        newer <code class="function">clone3</code>() interface the
+        arguments are packaged into the <span class="structname">clone_args</span> structure shown above. This
+        structure allows for a superset of the information passed
+        via the <code class="function">clone</code>()
+        arguments.</p>
+        <p>The following table shows the equivalence between the
+        arguments of <code class="function">clone</code>() and the
+        fields in the <span class="structname">clone_args</span>
+        argument supplied to <code class="function">clone3</code>():</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informaltable">
+              <table class="informaltable" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c0" span="1" />
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">clone()</td>
+                    <td style="" align="left" rowspan="1" colspan="1">clone3() <em class="parameter"><code>cl_args</code></em>
+                    field</td>
+                    <td style="" align="left" rowspan="1" colspan="1">Notes</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">flags &amp;
+                    ~0xff</td>
+                    <td style="" align="left" rowspan="1" colspan="1">flags</td>
+                    <td style="" align="left" rowspan="1" colspan="1">For most flags;
+                    details below</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">parent_tid</td>
+                    <td style="" align="left" rowspan="1" colspan="1">pidfd</td>
+                    <td style="" align="left" rowspan="1" colspan="1">See CLONE_PIDFD</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">child_tid</td>
+                    <td style="" align="left" rowspan="1" colspan="1">child_tid</td>
+                    <td style="" align="left" rowspan="1" colspan="1">See
+                    CLONE_CHILD_SETTID</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">parent_tid</td>
+                    <td style="" align="left" rowspan="1" colspan="1">parent_tid</td>
+                    <td style="" align="left" rowspan="1" colspan="1">See
+                    CLONE_PARENT_SETTID</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">flags &amp; 0xff</td>
+                    <td style="" align="left" rowspan="1" colspan="1">exit_signal</td>
+                    <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">stack</td>
+                    <td style="" align="left" rowspan="1" colspan="1">stack</td>
+                    <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="option">−−−</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">stack_size</td>
+                    <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">tls</td>
+                    <td style="" align="left" rowspan="1" colspan="1">tls</td>
+                    <td style="" align="left" rowspan="1" colspan="1">See CLONE_SETTLS</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="option">−−−</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">set_tid</td>
+                    <td style="" align="left" rowspan="1" colspan="1">See below for
+                    details</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="option">−−−</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">set_tid_size</td>
+                    <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="option">−−−</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">cgroup</td>
+                    <td style="" align="left" rowspan="1" colspan="1">See
+                    CLONE_INTO_CGROUP</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect5" name="clone-2_sect5" shape="rect"> </a>
+        <h3>The child termination signal</h3>
+        <p>When the child process terminates, a signal may be sent
+        to the parent. The termination signal is specified in the
+        low byte of <em class="parameter"><code>flags</code></em>
+        (<code class="function">clone</code>()) or in <em class="replaceable"><code>cl_args.exit_signal</code></em>
+        (<code class="function">clone3</code>()). If this signal is
+        specified as anything other than <code class="constant">SIGCHLD</code>, then the parent process must
+        specify the <code class="constant">__WALL</code> or
+        <code class="constant">__WCLONE</code> options when waiting
+        for the child with <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wait</span>(2)</span></a>. If no signal
+        (i.e., zero) is specified, then the parent process is not
+        signaled when the child terminates.</p>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect6" name="clone-2_sect6" shape="rect"> </a>
+        <h3>The set_tid array</h3>
+        <p>By default, the kernel chooses the next sequential PID
+        for the new process in each of the PID namespaces where it
+        is present. When creating a process with <code class="function">clone3</code>(), the <em class="parameter"><code>set_tid</code></em> array (available
+        since Linux 5.5) can be used to select specific PIDs for
+        the process in some or all of the PID namespaces where it
+        is present. If the PID of the newly created process should
+        be set only for the current PID namespace or in the newly
+        created PID namespace (if <em class="parameter"><code>flags</code></em> contains <code class="constant">CLONE_NEWPID</code>) then the first element in
+        the <em class="parameter"><code>set_tid</code></em> array
+        has to be the desired PID and <em class="parameter"><code>set_tid_size</code></em> needs to be
+        1.</p>
+        <p>If the PID of the newly created process should have a
+        certain value in multiple PID namespaces, then the
+        <em class="parameter"><code>set_tid</code></em> array can
+        have multiple entries. The first entry defines the PID in
+        the most deeply nested PID namespace and each of the
+        following entries contains the PID in the corresponding
+        ancestor PID namespace. The number of PID namespaces in
+        which a PID should be set is defined by <em class="parameter"><code>set_tid_size</code></em> which cannot be
+        larger than the number of currently nested PID
+        namespaces.</p>
+        <p>To create a process with the following PIDs in a PID
+        namespace hierarchy:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informaltable">
+              <table class="informaltable" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c0" span="1" />
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">PID NS level</td>
+                    <td style="" align="left" rowspan="1" colspan="1">Requested PID</td>
+                    <td style="" align="left" rowspan="1" colspan="1">Notes</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">0</td>
+                    <td style="" align="left" rowspan="1" colspan="1">31496</td>
+                    <td style="" align="left" rowspan="1" colspan="1">Outermost PID
+                    namespace</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">1</td>
+                    <td style="" align="left" rowspan="1" colspan="1">42</td>
+                    <td class="auto-generated" style="" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1">2</td>
+                    <td style="" align="left" rowspan="1" colspan="1">7</td>
+                    <td style="" align="left" rowspan="1" colspan="1">Innermost PID
+                    namespace</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>Set the array to:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+set_tid[0] = 7;
+set_tid[1] = 42;
+set_tid[2] = 31496;
+set_tid_size = 3;
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>If only the PIDs in the two innermost PID namespaces
+        need to be specified, set the array to:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+set_tid[0] = 7;
+set_tid[1] = 42;
+set_tid_size = 2;
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>The PID in the PID namespaces outside the two innermost
+        PID namespaces is selected the same way as any other PID is
+        selected.</p>
+        <p>The <em class="parameter"><code>set_tid</code></em>
+        feature requires <code class="constant">CAP_SYS_ADMIN</code> or (since Linux 5.9)
+        <code class="constant">CAP_CHECKPOINT_RESTORE</code> in all
+        owning user namespaces of the target PID namespaces.</p>
+        <p>Callers may only choose a PID greater than 1 in a given
+        PID namespace if an <em class="replaceable"><code>init</code></em> process (i.e., a
+        process with PID 1) already exists in that namespace.
+        Otherwise the PID entry for this PID namespace must be
+        1.</p>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect7" name="clone-2_sect7" shape="rect"> </a>
+        <h3>The flags mask</h3>
+        <p>Both <code class="function">clone</code>() and
+        <code class="function">clone3</code>() allow a flags bit
+        mask that modifies their behavior and allows the caller to
+        specify what is shared between the calling process and the
+        child process. This bit mask—the <em class="parameter"><code>flags</code></em> argument of
+        <code class="function">clone</code>() or the <em class="replaceable"><code>cl_args.flags</code></em> field passed
+        to <code class="function">clone3</code>()\(emis referred to
+        as the <em class="parameter"><code>flags</code></em> mask
+        in the remainder of this page.</p>
+        <p>The <em class="parameter"><code>flags</code></em> mask
+        is specified as a bitwise-OR of zero or more of the
+        constants listed below. Except as noted below, these flags
+        are available (and have the same effect) in both
+        <code class="function">clone</code>() and <code class="function">clone3</code>().</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">CLONE_CHILD_CLEARTID</code> (since Linux
+            2.5.49)</span></dt>
+            <dd>
+              <p>Clear (zero) the child thread ID at the location
+              pointed to by <em class="parameter"><code>child_tid</code></em> (<code class="function">clone</code>()) or <em class="replaceable"><code>cl_args.child_tid</code></em>
+              (<code class="function">clone3</code>()) in child
+              memory when the child exits, and do a wakeup on the
+              futex at that address. The address involved may be
+              changed by the <a class="link" href="../htmlman2/set_tid_address.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">set_tid_address</span>(2)</span></a>
+              system call. This is used by threading libraries.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_CHILD_SETTID</code> (since Linux
+            2.5.49)</span></dt>
+            <dd>
+              <p>Store the child thread ID at the location pointed
+              to by <em class="parameter"><code>child_tid</code></em> (<code class="function">clone</code>()) or <em class="replaceable"><code>cl_args.child_tid</code></em>
+              (<code class="function">clone3</code>()) in the
+              child's memory. The store operation completes before
+              the clone call returns control to user space in the
+              child process. (Note that the store operation may not
+              have completed before the clone call returns in the
+              parent process, which is relevant if the <code class="constant">CLONE_VM</code> flag is also
+              employed.)</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_CLEAR_SIGHAND</code> (since Linux
+            5.5)</span></dt>
+            <dd>
+              <p>By default, signal dispositions in the child
+              thread are the same as in the parent. If this flag is
+              specified, then all signals that are handled in the
+              parent are reset to their default dispositions
+              (<code class="constant">SIG_DFL</code>) in the
+              child.</p>
+              <p>Specifying this flag together with <code class="constant">CLONE_SIGHAND</code> is nonsensical and
+              disallowed.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_DETACHED</code>
+            (historical)</span></dt>
+            <dd>
+              <p>For a while (during the Linux 2.5 development
+              series) there was a <code class="constant">CLONE_DETACHED</code> flag, which caused
+              the parent not to receive a signal when the child
+              terminated. Ultimately, the effect of this flag was
+              subsumed under the <code class="constant">CLONE_THREAD</code> flag and by the time
+              Linux 2.6.0 was released, this flag had no effect.
+              Starting in Linux 2.6.2, the need to give this flag
+              together with <code class="constant">CLONE_THREAD</code> disappeared.</p>
+              <p>This flag is still defined, but it is usually
+              ignored when calling <code class="function">clone</code>(). However, see the
+              description of <code class="constant">CLONE_PIDFD</code> for some
+              exceptions.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_FILES</code> (since Linux
+            2.0)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_FILES</code> is
+              set, the calling process and the child process share
+              the same file descriptor table. Any file descriptor
+              created by the calling process or by the child
+              process is also valid in the other process.
+              Similarly, if one of the processes closes a file
+              descriptor, or changes its associated flags (using
+              the <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>
+              <code class="constant">F_SETFD</code> operation), the
+              other process is also affected. If a process sharing
+              a file descriptor table calls <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>, its file
+              descriptor table is duplicated (unshared).</p>
+              <p>If <code class="constant">CLONE_FILES</code> is
+              not set, the child process inherits a copy of all
+              file descriptors opened in the calling process at the
+              time of the clone call. Subsequent operations that
+              open or close file descriptors, or change file
+              descriptor flags, performed by either the calling
+              process or the child process do not affect the other
+              process. Note, however, that the duplicated file
+              descriptors in the child refer to the same open file
+              descriptions as the corresponding file descriptors in
+              the calling process, and thus share file offsets and
+              file status flags (see <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>).</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_FS</code> (since Linux
+            2.0)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_FS</code> is set,
+              the caller and the child process share the same
+              filesystem information. This includes the root of the
+              filesystem, the current working directory, and the
+              umask. Any call to <a class="link" href="../htmlman2/chroot.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chroot</span>(2)</span></a>,
+              <a class="link" href="../htmlman2/chdir.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chdir</span>(2)</span></a>, or
+              <a class="link" href="../htmlman2/umask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">umask</span>(2)</span></a> performed
+              by the calling process or the child process also
+              affects the other process.</p>
+              <p>If <code class="constant">CLONE_FS</code> is not
+              set, the child process works on a copy of the
+              filesystem information of the calling process at the
+              time of the clone call. Calls to <a class="link" href="../htmlman2/chroot.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chroot</span>(2)</span></a>,
+              <a class="link" href="../htmlman2/chdir.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chdir</span>(2)</span></a>, or
+              <a class="link" href="../htmlman2/umask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">umask</span>(2)</span></a> performed
+              later by one of the processes do not affect the other
+              process.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_INTO_CGROUP</code> (since Linux
+            5.7)</span></dt>
+            <dd>
+              <p>By default, a child process is placed in the same
+              version 2 cgroup as its parent. The <code class="constant">CLONE_INTO_CGROUP</code> flag allows the
+              child process to be created in a different version 2
+              cgroup. (Note that <code class="constant">CLONE_INTO_CGROUP</code> has effect only
+              for version 2 cgroups.)</p>
+              <p>In order to place the child process in a different
+              cgroup, the caller specifies <code class="constant">CLONE_INTO_CGROUP</code> in <em class="replaceable"><code>cl_args.flags</code></em> and
+              passes a file descriptor that refers to a version 2
+              cgroup in the <em class="replaceable"><code>cl_args.cgroup</code></em> field.
+              (This file descriptor can be obtained by opening a
+              cgroup v2 directory using either the <code class="constant">O_RDONLY</code> or the <code class="constant">O_PATH</code> flag.) Note that all of the
+              usual restrictions (described in <a class="link" href="../htmlman7/cgroups.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroups</span>(7)</span></a>) on
+              placing a process into a version 2 cgroup apply.</p>
+              <p>Among the possible use cases for <code class="constant">CLONE_INTO_CGROUP</code> are the
+              following:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="itemizedlist">
+                    <ul class="itemizedlist" style="list-style-type: disc;">
+                      <li class="listitem">
+                        <p>Spawning a process into a cgroup
+                        different from the parent's cgroup makes it
+                        possible for a service manager to directly
+                        spawn new services into dedicated cgroups.
+                        This eliminates the accounting jitter that
+                        would be caused if the child process was
+                        first created in the same cgroup as the
+                        parent and then moved into the target
+                        cgroup. Furthermore, spawning the child
+                        process directly into a target cgroup is
+                        significantly cheaper than moving the child
+                        process into the target cgroup after it has
+                        been created.</p>
+                      </li>
+                      <li class="listitem">
+                        <p>The <code class="constant">CLONE_INTO_CGROUP</code> flag
+                        also allows the creation of frozen child
+                        processes by spawning them into a frozen
+                        cgroup. (See <a class="link" href="../htmlman7/cgroups.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroups</span>(7)</span></a>
+                        for a description of the freezer
+                        controller.)</p>
+                      </li>
+                      <li class="listitem">
+                        <p>For threaded applications (or even
+                        thread implementations which make use of
+                        cgroups to limit individual threads), it is
+                        possible to establish a fixed cgroup layout
+                        before spawning each thread directly into
+                        its target cgroup.</p>
+                      </li>
+                    </ul>
+                  </div>
+                </blockquote>
+              </div>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_IO</code> (since Linux
+            2.6.25)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_IO</code> is set,
+              then the new process shares an I/O context with the
+              calling process. If this flag is not set, then (as
+              with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>) the new
+              process has its own I/O context.</p>
+              <p>The I/O context is the I/O scope of the disk
+              scheduler (i.e., what the I/O scheduler uses to model
+              scheduling of a process's I/O). If processes share
+              the same I/O context, they are treated as one by the
+              I/O scheduler. As a consequence, they get to share
+              disk time. For some I/O schedulers, if two processes
+              share an I/O context, they will be allowed to
+              interleave their disk access. If several threads are
+              doing I/O on behalf of the same process (<a class="link" href="../htmlman3/aio_read.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_read</span>(3)</span></a>, for
+              instance), they should employ <code class="constant">CLONE_IO</code> to get better I/O
+              performance.</p>
+              <p>If the kernel is not configured with the
+              <code class="constant">CONFIG_BLOCK</code> option,
+              this flag is a no-op.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_NEWCGROUP</code> (since Linux
+            4.6)</span></dt>
+            <dd>
+              <p>Create the process in a new cgroup namespace. If
+              this flag is not set, then (as with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>) the
+              process is created in the same cgroup namespaces as
+              the calling process.</p>
+              <p>For further information on cgroup namespaces, see
+              <a class="link" href="../htmlman7/cgroup_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">cgroup_namespaces</span>(7)</span></a>.</p>
+              <p>Only a privileged process (<code class="constant">CAP_SYS_ADMIN</code>) can employ
+              <code class="constant">CLONE_NEWCGROUP</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_NEWIPC</code> (since Linux
+            2.6.19)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_NEWIPC</code> is
+              set, then create the process in a new IPC namespace.
+              If this flag is not set, then (as with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>), the
+              process is created in the same IPC namespace as the
+              calling process.</p>
+              <p>For further information on IPC namespaces, see
+              <a class="link" href="../htmlman7/ipc_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ipc_namespaces</span>(7)</span></a>.</p>
+              <p>Only a privileged process (<code class="constant">CAP_SYS_ADMIN</code>) can employ
+              <code class="constant">CLONE_NEWIPC</code>. This flag
+              can't be specified in conjunction with <code class="constant">CLONE_SYSVSEM</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_NEWNET</code> (since Linux
+            2.6.24)</span></dt>
+            <dd>
+              <p>(The implementation of this flag was completed
+              only by about kernel version 2.6.29.)</p>
+              <p>If <code class="constant">CLONE_NEWNET</code> is
+              set, then create the process in a new network
+              namespace. If this flag is not set, then (as with
+              <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>) the
+              process is created in the same network namespace as
+              the calling process.</p>
+              <p>For further information on network namespaces, see
+              <a class="link" href="../htmlman7/network_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">network_namespaces</span>(7)</span></a>.</p>
+              <p>Only a privileged process (<code class="constant">CAP_SYS_ADMIN</code>) can employ
+              <code class="constant">CLONE_NEWNET</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_NEWNS</code> (since Linux
+            2.4.19)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_NEWNS</code> is
+              set, the cloned child is started in a new mount
+              namespace, initialized with a copy of the namespace
+              of the parent. If <code class="constant">CLONE_NEWNS</code> is not set, the child
+              lives in the same mount namespace as the parent.</p>
+              <p>For further information on mount namespaces, see
+              <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a> and
+              <a class="link" href="../htmlman7/mount_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount_namespaces</span>(7)</span></a>.</p>
+              <p>Only a privileged process (<code class="constant">CAP_SYS_ADMIN</code>) can employ
+              <code class="constant">CLONE_NEWNS</code>. It is not
+              permitted to specify both <code class="constant">CLONE_NEWNS</code> and <code class="constant">CLONE_FS</code> in the same clone
+              call.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_NEWPID</code> (since Linux
+            2.6.24)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_NEWPID</code> is
+              set, then create the process in a new PID namespace.
+              If this flag is not set, then (as with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>) the
+              process is created in the same PID namespace as the
+              calling process.</p>
+              <p>For further information on PID namespaces, see
+              <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a> and
+              <a class="link" href="../htmlman7/pid_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pid_namespaces</span>(7)</span></a>.</p>
+              <p>Only a privileged process (<code class="constant">CAP_SYS_ADMIN</code>) can employ
+              <code class="constant">CLONE_NEWPID</code>. This flag
+              can't be specified in conjunction with <code class="constant">CLONE_THREAD</code> or <code class="constant">CLONE_PARENT</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_NEWUSER</code></span></dt>
+            <dd>
+              <p>(This flag first became meaningful for
+              <code class="function">clone</code>() in Linux
+              2.6.23, the current <code class="function">clone</code>() semantics were merged in
+              Linux 3.5, and the final pieces to make the user
+              namespaces completely usable were merged in Linux
+              3.8.)</p>
+              <p>If <code class="constant">CLONE_NEWUSER</code> is
+              set, then create the process in a new user namespace.
+              If this flag is not set, then (as with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>) the
+              process is created in the same user namespace as the
+              calling process.</p>
+              <p>For further information on user namespaces, see
+              <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a> and
+              <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a>.</p>
+              <p>Before Linux 3.8, use of <code class="constant">CLONE_NEWUSER</code> required that the
+              caller have three capabilities: <code class="constant">CAP_SYS_ADMIN</code>, <code class="constant">CAP_SETUID</code>, and <code class="constant">CAP_SETGID</code>. Starting with Linux
+              3.8, no privileges are needed to create a user
+              namespace.</p>
+              <p>This flag can't be specified in conjunction with
+              <code class="constant">CLONE_THREAD</code> or
+              <code class="constant">CLONE_PARENT</code>. For
+              security reasons, <code class="constant">CLONE_NEWUSER</code> cannot be specified
+              in conjunction with <code class="constant">CLONE_FS</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_NEWUTS</code> (since Linux
+            2.6.19)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_NEWUTS</code> is
+              set, then create the process in a new UTS namespace,
+              whose identifiers are initialized by duplicating the
+              identifiers from the UTS namespace of the calling
+              process. If this flag is not set, then (as with
+              <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>) the
+              process is created in the same UTS namespace as the
+              calling process.</p>
+              <p>For further information on UTS namespaces, see
+              <a class="link" href="../htmlman7/uts_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">uts_namespaces</span>(7)</span></a>.</p>
+              <p>Only a privileged process (<code class="constant">CAP_SYS_ADMIN</code>) can employ
+              <code class="constant">CLONE_NEWUTS</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_PARENT</code> (since Linux
+            2.3.12)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_PARENT</code> is
+              set, then the parent of the new child (as returned by
+              <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getppid</span>(2)</span></a>) will be
+              the same as that of the calling process.</p>
+              <p>If <code class="constant">CLONE_PARENT</code> is
+              not set, then (as with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>) the
+              child's parent is the calling process.</p>
+              <p>Note that it is the parent process, as returned by
+              <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getppid</span>(2)</span></a>, which
+              is signaled when the child terminates, so that if
+              <code class="constant">CLONE_PARENT</code> is set,
+              then the parent of the calling process, rather than
+              the calling process itself, is signaled.</p>
+              <p>The <code class="constant">CLONE_PARENT</code>
+              flag can't be used in clone calls by the global init
+              process (PID 1 in the initial PID namespace) and init
+              processes in other PID namespaces. This restriction
+              prevents the creation of multi-rooted process trees
+              as well as the creation of unreapable zombies in the
+              initial PID namespace.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_PARENT_SETTID</code> (since Linux
+            2.5.49)</span></dt>
+            <dd>
+              <p>Store the child thread ID at the location pointed
+              to by <em class="parameter"><code>parent_tid</code></em>
+              (<code class="function">clone</code>()) or <em class="replaceable"><code>cl_args.parent_tid</code></em>
+              (<code class="function">clone3</code>()) in the
+              parent's memory. (In Linux 2.5.32-2.5.48 there was a
+              flag <code class="constant">CLONE_SETTID</code> that
+              did this.) The store operation completes before the
+              clone call returns control to user space.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_PID</code> (Linux 2.0 to
+            2.5.15)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_PID</code> is set,
+              the child process is created with the same process ID
+              as the calling process. This is good for hacking the
+              system, but otherwise of not much use. From Linux
+              2.3.21 onward, this flag could be specified only by
+              the system boot process (PID 0). The flag disappeared
+              completely from the kernel sources in Linux 2.5.16.
+              Subsequently, the kernel silently ignored this bit if
+              it was specified in the <em class="parameter"><code>flags</code></em> mask. Much later,
+              the same bit was recycled for use as the <code class="constant">CLONE_PIDFD</code> flag.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_PIDFD</code> (since Linux
+            5.2)</span></dt>
+            <dd>
+              <p>If this flag is specified, a PID file descriptor
+              referring to the child process is allocated and
+              placed at a specified location in the parent's
+              memory. The close-on-exec flag is set on this new
+              file descriptor. PID file descriptors can be used for
+              the purposes described in <a class="link" href="../htmlman2/pidfd_open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_open</span>(2)</span></a>.</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="itemizedlist">
+                    <ul class="itemizedlist" style="list-style-type: disc;">
+                      <li class="listitem">
+                        <p>When using <code class="function">clone3</code>(), the PID file
+                        descriptor is placed at the location
+                        pointed to by <em class="replaceable"><code>cl_args.pidfd</code></em>.</p>
+                      </li>
+                      <li class="listitem">
+                        <p>When using <code class="function">clone</code>(), the PID file
+                        descriptor is placed at the location
+                        pointed to by <em class="parameter"><code>parent_tid</code></em>.
+                        Since the <em class="parameter"><code>parent_tid</code></em>
+                        argument is used to return the PID file
+                        descriptor, <code class="constant">CLONE_PIDFD</code> cannot be
+                        used with <code class="constant">CLONE_PARENT_SETTID</code> when
+                        calling <code class="function">clone</code>().</p>
+                      </li>
+                    </ul>
+                  </div>
+                </blockquote>
+              </div>
+              <p>It is currently not possible to use this flag
+              together with <em class="replaceable"><code>CLONE_THREAD.</code></em> This
+              means that the process identified by the PID file
+              descriptor will always be a thread group leader.</p>
+              <p>If the obsolete <code class="constant">CLONE_DETACHED</code> flag is specified
+              alongside <code class="constant">CLONE_PIDFD</code>
+              when calling <code class="function">clone</code>(),
+              an error is returned. An error also results if
+              <code class="constant">CLONE_DETACHED</code> is
+              specified when calling <code class="function">clone3</code>(). This error behavior
+              ensures that the bit corresponding to <code class="constant">CLONE_DETACHED</code> can be reused for
+              further PID file descriptor features in the
+              future.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_PTRACE</code> (since Linux
+            2.2)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_PTRACE</code> is
+              specified, and the calling process is being traced,
+              then trace the child also (see <a class="link" href="../htmlman2/ptrace.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ptrace</span>(2)</span></a>).</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_SETTLS</code> (since Linux
+            2.5.32)</span></dt>
+            <dd>
+              <p>The TLS (Thread Local Storage) descriptor is set
+              to <em class="parameter"><code>tls</code></em>.</p>
+              <p>The interpretation of <em class="parameter"><code>tls</code></em> and the resulting
+              effect is architecture dependent. On x86, <em class="parameter"><code>tls</code></em> is interpreted as a
+              <span class="type">struct user_desc *</span> (see
+              <a class="link" href="../htmlman2/set_thread_area.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">set_thread_area</span>(2)</span></a>).
+              On x86-64 it is the new value to be set for the %fs
+              base register (see the <code class="constant">ARCH_SET_FS</code> argument to <a class="link" href="../htmlman2/arch_prctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">arch_prctl</span>(2)</span></a>). On
+              architectures with a dedicated TLS register, it is
+              the new value of that register.</p>
+              <p>Use of this flag requires detailed knowledge and
+              generally it should not be used except in libraries
+              implementing threading.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_SIGHAND</code> (since Linux
+            2.0)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_SIGHAND</code> is
+              set, the calling process and the child process share
+              the same table of signal handlers. If the calling
+              process or child process calls <a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a> to
+              change the behavior associated with a signal, the
+              behavior is changed in the other process as well.
+              However, the calling process and child processes
+              still have distinct signal masks and sets of pending
+              signals. So, one of them may block or unblock signals
+              using <a class="link" href="../htmlman2/sigprocmask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigprocmask</span>(2)</span></a>
+              without affecting the other process.</p>
+              <p>If <code class="constant">CLONE_SIGHAND</code> is
+              not set, the child process inherits a copy of the
+              signal handlers of the calling process at the time of
+              the clone call. Calls to <a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a>
+              performed later by one of the processes have no
+              effect on the other process.</p>
+              <p>Since Linux 2.6.0, the <em class="parameter"><code>flags</code></em> mask must also
+              include <code class="constant">CLONE_VM</code> if
+              <code class="constant">CLONE_SIGHAND</code> is
+              specified</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_STOPPED</code> (since Linux
+            2.6.0)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_STOPPED</code> is
+              set, then the child is initially stopped (as though
+              it was sent a <code class="constant">SIGSTOP</code>
+              signal), and must be resumed by sending it a
+              <code class="constant">SIGCONT</code> signal.</p>
+              <p>This flag was <em class="replaceable"><code>deprecated</code></em> from Linux
+              2.6.25 onward, and was <em class="replaceable"><code>removed</code></em> altogether in
+              Linux 2.6.38. Since then, the kernel silently ignores
+              it without error. Starting with Linux 4.6, the same
+              bit was reused for the <code class="constant">CLONE_NEWCGROUP</code> flag.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_SYSVSEM</code> (since Linux
+            2.5.10)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_SYSVSEM</code> is
+              set, then the child and the calling process share a
+              single list of System V semaphore adjustment
+              (<em class="replaceable"><code>semadj</code></em>)
+              values (see <a class="link" href="../htmlman2/semop.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">semop</span>(2)</span></a>). In this
+              case, the shared list accumulates <em class="replaceable"><code>semadj</code></em> values across
+              all processes sharing the list, and semaphore
+              adjustments are performed only when the last process
+              that is sharing the list terminates (or ceases
+              sharing the list using <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a>). If
+              this flag is not set, then the child has a separate
+              <em class="replaceable"><code>semadj</code></em> list
+              that is initially empty.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_THREAD</code> (since Linux
+            2.4.0)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_THREAD</code> is
+              set, the child is placed in the same thread group as
+              the calling process. To make the remainder of the
+              discussion of <code class="constant">CLONE_THREAD</code> more readable, the
+              term "thread" is used to refer to the processes
+              within a thread group.</p>
+              <p>Thread groups were a feature added in Linux 2.4 to
+              support the POSIX threads notion of a set of threads
+              that share a single PID. Internally, this shared PID
+              is the so-called thread group identifier (TGID) for
+              the thread group. Since Linux 2.4, calls to <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a> return
+              the TGID of the caller.</p>
+              <p>The threads within a group can be distinguished by
+              their (system-wide) unique thread IDs (TID). A new
+              thread's TID is available as the function result
+              returned to the caller, and a thread can obtain its
+              own TID using <a class="link" href="../htmlman2/gettid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">gettid</span>(2)</span></a>.</p>
+              <p>When a clone call is made without specifying
+              <code class="constant">CLONE_THREAD</code>, then the
+              resulting thread is placed in a new thread group
+              whose TGID is the same as the thread's TID. This
+              thread is the <em class="replaceable"><code>leader</code></em> of the new
+              thread group.</p>
+              <p>A new thread created with <code class="constant">CLONE_THREAD</code> has the same parent
+              process as the process that made the clone call
+              (i.e., like <code class="constant">CLONE_PARENT</code>), so that calls to
+              <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getppid</span>(2)</span></a> return
+              the same value for all of the threads in a thread
+              group. When a <code class="constant">CLONE_THREAD</code> thread terminates, the
+              thread that created it is not sent a <code class="constant">SIGCHLD</code> (or other termination)
+              signal; nor can the status of such a thread be
+              obtained using <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wait</span>(2)</span></a>. (The
+              thread is said to be <em class="replaceable"><code>detached</code></em>.)</p>
+              <p>After all of the threads in a thread group
+              terminate the parent process of the thread group is
+              sent a <code class="constant">SIGCHLD</code> (or
+              other termination) signal.</p>
+              <p>If any of the threads in a thread group performs
+              an <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>, then all
+              threads other than the thread group leader are
+              terminated, and the new program is executed in the
+              thread group leader.</p>
+              <p>If one of the threads in a thread group creates a
+              child using <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, then any
+              thread in the group can <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wait</span>(2)</span></a> for that
+              child.</p>
+              <p>Since Linux 2.5.35, the <em class="parameter"><code>flags</code></em> mask must also
+              include <code class="constant">CLONE_SIGHAND</code>
+              if <code class="constant">CLONE_THREAD</code> is
+              specified (and note that, since Linux 2.6.0,
+              <code class="constant">CLONE_SIGHAND</code> also
+              requires <code class="constant">CLONE_VM</code> to be
+              included).</p>
+              <p>Signal dispositions and actions are process-wide:
+              if an unhandled signal is delivered to a thread, then
+              it will affect (terminate, stop, continue, be ignored
+              in) all members of the thread group.</p>
+              <p>Each thread has its own signal mask, as set by
+              <a class="link" href="../htmlman2/sigprocmask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigprocmask</span>(2)</span></a>.</p>
+              <p>A signal may be process-directed or
+              thread-directed. A process-directed signal is
+              targeted at a thread group (i.e., a TGID), and is
+              delivered to an arbitrarily selected thread from
+              among those that are not blocking the signal. A
+              signal may be process-directed because it was
+              generated by the kernel for reasons other than a
+              hardware exception, or because it was sent using
+              <a class="link" href="../htmlman2/kill.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">kill</span>(2)</span></a> or
+              <a class="link" href="../htmlman3/sigqueue.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigqueue</span>(3)</span></a>. A
+              thread-directed signal is targeted at (i.e.,
+              delivered to) a specific thread. A signal may be
+              thread directed because it was sent using <a class="link" href="../htmlman2/tkill.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tgkill</span>(2)</span></a> or
+              <a class="link" href="../htmlman3/pthread_sigqueue.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_sigqueue</span>(3)</span></a>,
+              or because the thread executed a machine language
+              instruction that triggered a hardware exception
+              (e.g., invalid memory access triggering <code class="constant">SIGSEGV</code> or a floating-point
+              exception triggering <code class="constant">SIGFPE</code>).</p>
+              <p>A call to <a class="link" href="../htmlman2/sigpending.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigpending</span>(2)</span></a>
+              returns a signal set that is the union of the pending
+              process-directed signals and the signals that are
+              pending for the calling thread.</p>
+              <p>If a process-directed signal is delivered to a
+              thread group, and the thread group has installed a
+              handler for the signal, then the handler is invoked
+              in exactly one, arbitrarily selected member of the
+              thread group that has not blocked the signal. If
+              multiple threads in a group are waiting to accept the
+              same signal using <a class="link" href="../htmlman2/sigwaitinfo.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigwaitinfo</span>(2)</span></a>, the
+              kernel will arbitrarily select one of these threads
+              to receive the signal.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_UNTRACED</code> (since Linux
+            2.5.46)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_UNTRACED</code> is
+              specified, then a tracing process cannot force
+              <code class="constant">CLONE_PTRACE</code> on this
+              child process.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_VFORK</code> (since Linux
+            2.2)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_VFORK</code> is
+              set, the execution of the calling process is
+              suspended until the child releases its virtual memory
+              resources via a call to <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a> or
+              <a class="link" href="../htmlman2/_exit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">_exit</span>(2)</span></a> (as with
+              <a class="link" href="../htmlman2/vfork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">vfork</span>(2)</span></a>).</p>
+              <p>If <code class="constant">CLONE_VFORK</code> is
+              not set, then both the calling process and the child
+              are schedulable after the call, and an application
+              should not rely on execution occurring in any
+              particular order.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">CLONE_VM</code> (since Linux
+            2.0)</span></dt>
+            <dd>
+              <p>If <code class="constant">CLONE_VM</code> is set,
+              the calling process and the child process run in the
+              same memory space. In particular, memory writes
+              performed by the calling process or by the child
+              process are also visible in the other process.
+              Moreover, any memory mapping or unmapping performed
+              with <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> or
+              <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">munmap</span>(2)</span></a> by the
+              child or calling process also affects the other
+              process.</p>
+              <p>If <code class="constant">CLONE_VM</code> is not
+              set, the child process runs in a separate copy of the
+              memory space of the calling process at the time of
+              the clone call. Memory writes or file
+              mappings/unmappings performed by one of the processes
+              do not affect the other, as with <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>.</p>
+              <p>If the <code class="constant">CLONE_VM</code> flag
+              is specified and the <code class="constant">CLONE_VFORK</code> flag is not specified,
+              then any alternate signal stack that was established
+              by <a class="link" href="../htmlman2/sigaltstack.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaltstack</span>(2)</span></a> is
+              cleared in the child process.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect8" name="clone-2_sect8" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, the thread ID of the child process is returned
+      in the caller's thread of execution. On failure, −1 is
+      returned in the caller's context, no child process is
+      created, and <code class="varname">errno</code> is set to
+      indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect9" name="clone-2_sect9" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EAGAIN</span></span></dt>
+          <dd>
+            <p>Too many processes are already running; see
+            <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><code class="function">EBUSY
+          (clone3</code>() only)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_INTO_CGROUP</code> was
+            specified in <em class="replaceable"><code>cl_args.flags</code></em>, but the
+            file descriptor specified in <em class="replaceable"><code>cl_args.cgroup</code></em> refers
+            to a version 2 cgroup in which a domain controller is
+            enabled.</p>
+          </dd>
+          <dt><span class="term"><code class="function">EEXIST
+          (clone3</code>() only)</span></dt>
+          <dd>
+            <p>One (or more) of the PIDs specified in <em class="parameter"><code>set_tid</code></em> already exists in
+            the corresponding PID namespace.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Both <code class="constant">CLONE_SIGHAND</code> and
+            <code class="constant">CLONE_CLEAR_SIGHAND</code> were
+            specified in the <em class="parameter"><code>flags</code></em> mask.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_SIGHAND</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but
+            <code class="constant">CLONE_VM</code> was not. (Since
+            Linux 2.6.0.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_THREAD</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but
+            <code class="constant">CLONE_SIGHAND</code> was not.
+            (Since Linux 2.5.35.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_THREAD</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but the
+            current process previously called <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a> with the
+            <code class="constant">CLONE_NEWPID</code> flag or used
+            <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a> to
+            reassociate itself with a PID namespace.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Both <code class="constant">CLONE_FS</code> and
+            <code class="constant">CLONE_NEWNS</code> were
+            specified in the <em class="parameter"><code>flags</code></em> mask.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span> (since Linux 3.9)</span></dt>
+          <dd>
+            <p>Both <code class="constant">CLONE_NEWUSER</code> and
+            <code class="constant">CLONE_FS</code> were specified
+            in the <em class="parameter"><code>flags</code></em>
+            mask.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Both <code class="constant">CLONE_NEWIPC</code> and
+            <code class="constant">CLONE_SYSVSEM</code> were
+            specified in the <em class="parameter"><code>flags</code></em> mask.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>One (or both) of <code class="constant">CLONE_NEWPID</code> or <code class="constant">CLONE_NEWUSER</code> and one (or both) of
+            <code class="constant">CLONE_THREAD</code> or
+            <code class="constant">CLONE_PARENT</code> were
+            specified in the <em class="parameter"><code>flags</code></em> mask.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span> (since Linux
+          2.6.32)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_PARENT</code> was
+            specified, and the caller is an init process.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Returned by the glibc <code class="function">clone</code>() wrapper function when
+            <em class="parameter"><code>fn</code></em> or
+            <em class="parameter"><code>stack</code></em> is
+            specified as NULL.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWIPC</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but the
+            kernel was not configured with the <code class="constant">CONFIG_SYSVIPC</code> and <code class="constant">CONFIG_IPC_NS</code> options.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWNET</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but the
+            kernel was not configured with the <code class="constant">CONFIG_NET_NS</code> option.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWPID</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but the
+            kernel was not configured with the <code class="constant">CONFIG_PID_NS</code> option.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWUSER</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but the
+            kernel was not configured with the <code class="constant">CONFIG_USER_NS</code> option.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWUTS</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but the
+            kernel was not configured with the <code class="constant">CONFIG_UTS_NS</code> option.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>stack</code></em> is not
+            aligned to a suitable boundary for this architecture.
+            For example, on aarch64, <em class="parameter"><code>stack</code></em> must be a multiple
+            of 16.</p>
+          </dd>
+          <dt><span class="term"><code class="function">EINVAL
+          (clone3</code>() only)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_DETACHED</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask.</p>
+          </dd>
+          <dt><span class="term"><code class="function">EINVAL
+          (clone</code>() only)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_PIDFD</code> was
+            specified together with <code class="constant">CLONE_DETACHED</code> in the <em class="parameter"><code>flags</code></em> mask.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_PIDFD</code> was
+            specified together with <code class="constant">CLONE_THREAD</code> in the <em class="parameter"><code>flags</code></em> mask.</p>
+          </dd>
+          <dt><span class="term"><code class="function">EINVAL
+          (clone</code>() only)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_PIDFD</code> was
+            specified together with <code class="constant">CLONE_PARENT_SETTID</code> in the <em class="parameter"><code>flags</code></em> mask.</p>
+          </dd>
+          <dt><span class="term"><code class="function">EINVAL
+          (clone3</code>() only)</span></dt>
+          <dd>
+            <p><em class="parameter"><code>set_tid_size</code></em>
+            is greater than the number of nested PID
+            namespaces.</p>
+          </dd>
+          <dt><span class="term"><code class="function">EINVAL
+          (clone3</code>() only)</span></dt>
+          <dd>
+            <p>One of the PIDs specified in <em class="parameter"><code>set_tid</code></em> was an
+            invalid.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span> (AArch64 only, Linux 4.6 and
+          earlier)</span></dt>
+          <dd>
+            <p><em class="parameter"><code>stack</code></em> was
+            not aligned to a 126-bit boundary.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Cannot allocate sufficient memory to allocate a task
+            structure for the child, or to copy those parts of the
+            caller's context that need to be copied.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOSPC</span> (since Linux 3.7)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWPID</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but the limit
+            on the nesting depth of PID namespaces would have been
+            exceeded; see <a class="link" href="../htmlman7/pid_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pid_namespaces</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOSPC</span> (since Linux 4.9; beforehand
+          <span class="errorname">EUSERS</span>)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWUSER</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, and the call
+            would cause the limit on the number of nested user
+            namespaces to be exceeded. See <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a>.</p>
+            <p>From Linux 3.11 to Linux 4.8, the error diagnosed in
+            this case was <span class="errorname">EUSERS</span>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOSPC</span> (since Linux 4.9)</span></dt>
+          <dd>
+            <p>One of the values in the <em class="parameter"><code>flags</code></em> mask specified the
+            creation of a new user namespace, but doing so would
+            have caused the limit defined by the corresponding file
+            in <code class="filename">/proc/sys/user</code> to be
+            exceeded. For further details, see <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><code class="function">EOPNOTSUPP
+          (clone3</code>() only)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_INTO_CGROUP</code> was
+            specified in <em class="replaceable"><code>cl_args.flags</code></em>, but the
+            file descriptor specified in <em class="replaceable"><code>cl_args.cgroup</code></em> refers
+            to a version 2 cgroup that is in the <span class="emphasis"><em>domain invalid</em></span> state.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWCGROUP</code>,
+            <code class="constant">CLONE_NEWIPC</code>,
+            <code class="constant">CLONE_NEWNET</code>,
+            <code class="constant">CLONE_NEWNS</code>, <code class="constant">CLONE_NEWPID</code>, or <code class="constant">CLONE_NEWUTS</code> was specified by an
+            unprivileged process (process without <code class="constant">CAP_SYS_ADMIN</code>).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_PID</code> was
+            specified by a process other than process 0. (This
+            error occurs only on Linux 2.5.15 and earlier.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWUSER</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, but either
+            the effective user ID or the effective group ID of the
+            caller does not have a mapping in the parent namespace
+            (see <a class="link" href="../htmlman7/user_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">user_namespaces</span>(7)</span></a>).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span> (since Linux 3.9)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWUSER</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask and the caller
+            is in a chroot environment (i.e., the caller's root
+            directory does not match the root directory of the
+            mount namespace in which it resides).</p>
+          </dd>
+          <dt><span class="term"><code class="function">EPERM
+          (clone3</code>() only)</span></dt>
+          <dd>
+            <p><em class="parameter"><code>set_tid_size</code></em>
+            was greater than zero, and the caller lacks the
+            <code class="constant">CAP_SYS_ADMIN</code> capability
+            in one or more of the user namespaces that own the
+            corresponding PID namespaces.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ERESTARTNOINTR</code> (since Linux
+          2.6.17)</span></dt>
+          <dd>
+            <p>System call was interrupted by a signal and will be
+            restarted. (This can be seen only during a trace.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EUSERS</span> (Linux 3.11 to Linux
+          4.8)</span></dt>
+          <dd>
+            <p><code class="constant">CLONE_NEWUSER</code> was
+            specified in the <em class="parameter"><code>flags</code></em> mask, and the limit
+            on the number of nested user namespaces would be
+            exceeded. See the discussion of the <span class="errorname">ENOSPC</span> error above.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect10" name="clone-2_sect10" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>The <code class="function">clone3</code>() system call
+      first appeared in Linux 5.3.</p>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect11" name="clone-2_sect11" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>These system calls are Linux-specific and should not be
+      used in programs intended to be portable.</p>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect12" name="clone-2_sect12" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>One use of these systems calls is to implement threads:
+      multiple flows of control in a program that run concurrently
+      in a shared address space.</p>
+      <p>Glibc does not provide a wrapper for <code class="function">clone3</code>(); call it using <a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a>.</p>
+      <p>Note that the glibc <code class="function">clone</code>()
+      wrapper function makes some changes in the memory pointed to
+      by <em class="parameter"><code>stack</code></em> (changes
+      required to set the stack up correctly for the child)
+      <em class="replaceable"><code>before</code></em> invoking the
+      <code class="function">clone</code>() system call. So, in
+      cases where <code class="function">clone</code>() is used to
+      recursively create children, do not use the buffer employed
+      for the parent's stack as the stack of the child.</p>
+      <p>The <a class="link" href="../htmlman2/kcmp.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">kcmp</span>(2)</span></a> system call can be
+      used to test whether two processes share various resources
+      such as a file descriptor table, System V semaphore undo
+      operations, or a virtual address space.</p>
+      <p>Handlers registered using <a class="link" href="../htmlman3/pthread_atfork.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_atfork</span>(3)</span></a> are not
+      executed during a clone call.</p>
+      <p>In the Linux 2.4.x series, <code class="constant">CLONE_THREAD</code> generally does not make the
+      parent of the new thread the same as the parent of the
+      calling process. However, for kernel versions 2.4.7 to 2.4.18
+      the <code class="constant">CLONE_THREAD</code> flag implied
+      the <code class="constant">CLONE_PARENT</code> flag (as in
+      Linux 2.6.0 and later).</p>
+      <p>On i386, <code class="function">clone</code>() should not
+      be called through vsyscall, but directly through <span class="emphasis"><em>int $0x80</em></span>.</p>
+      <div class="refsect2">
+        <a id="clone-2_sect13" name="clone-2_sect13" shape="rect"> </a>
+        <h3>C library/kernel differences</h3>
+        <p>The raw <code class="function">clone</code>() system
+        call corresponds more closely to <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> in that execution
+        in the child continues from the point of the call. As such,
+        the <em class="parameter"><code>fn</code></em> and
+        <em class="parameter"><code>arg</code></em> arguments of
+        the <code class="function">clone</code>() wrapper function
+        are omitted.</p>
+        <p>In contrast to the glibc wrapper, the raw <code class="function">clone</code>() system call accepts NULL as a
+        <em class="parameter"><code>stack</code></em> argument (and
+        <code class="function">clone3</code>() likewise allows
+        <em class="replaceable"><code>cl_args.stack</code></em> to
+        be NULL). In this case, the child uses a duplicate of the
+        parent's stack. (Copy-on-write semantics ensure that the
+        child gets separate copies of stack pages when either
+        process modifies the stack.) In this case, for correct
+        operation, the <code class="constant">CLONE_VM</code>
+        option should not be specified. (If the child <em class="replaceable"><code>shares</code></em> the parent's memory
+        because of the use of the <code class="constant">CLONE_VM</code> flag, then no copy-on-write
+        duplication occurs and chaos is likely to result.)</p>
+        <p>The order of the arguments also differs in the raw
+        system call, and there are variations in the arguments
+        across architectures, as detailed in the following
+        paragraphs.</p>
+        <p>The raw system call interface on x86-64 and some other
+        architectures (including sh, tile, and alpha) is:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+  <code class="function">long clone</code>(<em class="parameter"><code>unsigned long flags</code></em>, <em class="parameter"><code>void *stack</code></em>, <em class="parameter"><code>int *parent_tid</code></em>, <em class="parameter"><code>int *child_tid</code></em>, <em class="parameter"><code>unsigned long tls</code></em>);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>On x86-32, and several other common architectures
+        (including score, ARM, ARM 64, PA-RISC, arc, Power PC,
+        xtensa, and MIPS), the order of the last two arguments is
+        reversed:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+  <code class="function">long clone</code>(<em class="parameter"><code>unsigned long flags</code></em>, <em class="parameter"><code>void *stack</code></em>, <em class="parameter"><code>int *parent_tid</code></em>, <em class="parameter"><code>unsigned long tls</code></em>, <em class="parameter"><code>int *child_tid</code></em>);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>On the cris and s390 architectures, the order of the
+        first two arguments is reversed:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+  <code class="function">long clone</code>(<em class="parameter"><code>void *stack</code></em>, <em class="parameter"><code>unsigned long flags</code></em>, <em class="parameter"><code>int *parent_tid</code></em>, <em class="parameter"><code>int *child_tid</code></em>, <em class="parameter"><code>unsigned long tls</code></em>);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>On the microblaze architecture, an additional argument
+        is supplied:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+  <code class="function">long clone</code>(<em class="parameter"><code>unsigned long flags</code></em>, <em class="parameter"><code>void *stack</code></em>, <em class="parameter"><code>int stack_size</code></em>, <em class="parameter"><code>\fR         /* Size of stack */            int *parent_tid</code></em>, <em class="parameter"><code>int *child_tid</code></em>, <em class="parameter"><code>unsigned long tls</code></em>);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect14" name="clone-2_sect14" shape="rect"> </a>
+        <h3>blackfin, m68k, and sparc</h3>
+        <p>The argument-passing conventions on blackfin, m68k, and
+        sparc are different from the descriptions above. For
+        details, see the kernel (and glibc) source.</p>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect15" name="clone-2_sect15" shape="rect"> </a>
+        <h3>ia64</h3>
+        <p>On ia64, a different interface is used:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="funcsynopsis">
+              <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+                <tr>
+                  <td rowspan="1" colspan="1"><code class="funcdef">int
+                  <strong>__clone2</strong>(</code></td>
+                  <td rowspan="1" colspan="1">int <var class="pdparam">(*fn)</var><code>(</code>void
+                  *<code>)</code>,</td>
+                </tr>
+                <tr>
+                  <td rowspan="1" colspan="1"> </td>
+                  <td rowspan="1" colspan="1">void *<var class="pdparam">stack_base</var>,</td>
+                </tr>
+                <tr>
+                  <td rowspan="1" colspan="1"> </td>
+                  <td rowspan="1" colspan="1">size_t <var class="pdparam">stack_size</var>,</td>
+                </tr>
+                <tr>
+                  <td rowspan="1" colspan="1"> </td>
+                  <td rowspan="1" colspan="1">int <var class="pdparam">flags</var>,</td>
+                </tr>
+                <tr>
+                  <td rowspan="1" colspan="1"> </td>
+                  <td rowspan="1" colspan="1">void *<var class="pdparam">arg</var>,</td>
+                </tr>
+                <tr>
+                  <td rowspan="1" colspan="1"> </td>
+                  <td rowspan="1" colspan="1"><var class="pdparam">... /* pid_t
+                  *parent_tid, struct user_desc *tls, pid_t
+                  *child_tid */</var><code>)</code>;</td>
+                </tr>
+              </table>
+              <div class="funcprototype-spacer">
+                 
+              </div>
+            </div>
+          </blockquote>
+        </div>
+        <p>The prototype shown above is for the glibc wrapper
+        function; for the system call itself, the prototype can be
+        described as follows (it is identical to the <code class="function">clone</code>() prototype on microblaze):</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+  <code class="function">long clone2</code>(<em class="parameter"><code>unsigned long flags</code></em>, <em class="parameter"><code>void *stack_base</code></em>, <em class="parameter"><code>int stack_size</code></em>, <em class="parameter"><code>\fR         /* Size of stack */             int *parent_tid</code></em>, <em class="parameter"><code>int *child_tid</code></em>, <em class="parameter"><code>unsigned long tls</code></em>);
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p><code class="function">__clone2</code>() operates in the
+        same way as <code class="function">clone</code>(), except
+        that <em class="replaceable"><code>stack_base</code></em>
+        points to the lowest address of the child's stack area, and
+        <em class="parameter"><code>stack_size</code></em>
+        specifies the size of the stack pointed to by <em class="replaceable"><code>stack_base</code></em>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect16" name="clone-2_sect16" shape="rect"> </a>
+        <h3>Linux 2.4 and earlier</h3>
+        <p>In Linux 2.4 and earlier, <code class="function">clone</code>() does not take arguments
+        <em class="parameter"><code>parent_tid</code></em>,
+        <em class="parameter"><code>tls</code></em>, and <em class="parameter"><code>child_tid</code></em>.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect17" name="clone-2_sect17" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p>GNU C library versions 2.3.4 up to and including 2.24
+      contained a wrapper function for <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a> that performed
+      caching of PIDs. This caching relied on support in the glibc
+      wrapper for <code class="function">clone</code>(), but
+      limitations in the implementation meant that the cache was
+      not up to date in some circumstances. In particular, if a
+      signal was delivered to the child immediately after the
+      <code class="function">clone</code>() call, then a call to
+      <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a> in a handler for
+      the signal could return the PID of the calling process ("the
+      parent"), if the clone wrapper had not yet had a chance to
+      update the PID cache in the child. (This discussion ignores
+      the case where the child was created using <code class="constant">CLONE_THREAD</code>, when <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a> <em class="replaceable"><code>should</code></em> return the same value
+      in the child and in the process that called <code class="function">clone</code>(), since the caller and the child are
+      in the same thread group. The stale-cache problem also does
+      not occur if the <em class="parameter"><code>flags</code></em> argument includes
+      <code class="constant">CLONE_VM</code>.) To get the truth, it
+      was sometimes necessary to use code such as the
+      following:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+#include &lt;syscall.h&gt;
+
+pid_t mypid;
+
+mypid = syscall(SYS_getpid);
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Because of the stale-cache problem, as well as other
+      problems noted in <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a>, the PID caching
+      feature was removed in glibc 2.25.</p>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect18" name="clone-2_sect18" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The following program demonstrates the use of <code class="function">clone</code>() to create a child process that
+      executes in a separate UTS namespace. The child changes the
+      hostname in its UTS namespace. Both parent and child then
+      display the system hostname, making it possible to see that
+      the hostname differs in the UTS namespaces of the parent and
+      child. For an example of the use of this program, see
+      <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a>.</p>
+      <p>Within the sample program, we allocate the memory that is
+      to be used for the child's stack using <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> rather than
+      <a class="link" href="../htmlman3/malloc.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">malloc</span>(3)</span></a> for the following
+      reasons:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p><a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> allocates a
+            block of memory that starts on a page boundary and is a
+            multiple of the page size. This is useful if we want to
+            establish a guard page (a page with protection
+            <code class="constant">PROT_NONE</code>) at the end of
+            the stack using <a class="link" href="../htmlman2/mprotect.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mprotect</span>(2)</span></a>.</p>
+          </li>
+          <li class="listitem">
+            <p>We can specify the <code class="constant">MAP_STACK</code> flag to request a mapping
+            that is suitable for a stack. For the moment, this flag
+            is a no-op on Linux, but it exists and has effect on
+            some other systems, so we should include it for
+            portability.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="refsect2">
+        <a id="clone-2_sect19" name="clone-2_sect19" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+#define _GNU_SOURCE
+#include &lt;sys/wait.h&gt;
+#include &lt;sys/utsname.h&gt;
+#include &lt;sched.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/mman.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+static int              /* Start function for cloned child */
+childFunc(void *arg)
+{
+    struct utsname uts;
+
+    /* Change hostname in UTS namespace of child. */
+
+    if (sethostname(arg, strlen(arg)) == −1)
+        errExit("sethostname");
+
+    /* Retrieve and display hostname. */
+
+    if (uname(&amp;uts) == −1)
+        errExit("uname");
+    printf("uts.nodename in child:  %s\n", uts.nodename);
+
+    /* Keep the namespace open for a while, by sleeping.
+       This allows some experimentation−−for example, another
+       process might join the namespace. */
+
+    sleep(200);
+
+    return 0;           /* Child terminates now */
+}
+
+#define STACK_SIZE (1024 * 1024)    /* Stack size for cloned child */
+
+int
+main(int argc, char *argv[])
+{
+    char *stack;                    /* Start of stack buffer */
+    char *stackTop;                 /* End of stack buffer */
+    pid_t pid;
+    struct utsname uts;
+
+    if (argc &lt; 2) {
+        fprintf(stderr, "Usage: %s &lt;child−hostname&gt;\n", argv[0]);
+        exit(EXIT_SUCCESS);
+    }
+
+    /* Allocate memory to be used for the stack of the child. */
+
+    stack = mmap(NULL, STACK_SIZE, PROT_READ | PROT_WRITE,
+                 MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, −1, 0);
+    if (stack == MAP_FAILED)
+        errExit("mmap");
+
+    stackTop = stack + STACK_SIZE;  /* Assume stack grows downward */
+
+    /* Create child that has its own UTS namespace;
+       child commences execution in childFunc(). */
+
+    pid = clone(childFunc, stackTop, CLONE_NEWUTS | SIGCHLD, argv[1]);
+    if (pid == −1)
+        errExit("clone");
+    printf("clone() returned %jd\n", (intmax_t) pid);
+
+    /* Parent falls through to here */
+
+    sleep(1);           /* Give child time to change its hostname */
+
+    /* Display hostname in parent's UTS namespace. This will be
+       different from hostname in child's UTS namespace. */
+
+    if (uname(&amp;uts) == −1)
+        errExit("uname");
+    printf("uts.nodename in parent: %s\n", uts.nodename);
+
+    if (waitpid(pid, NULL, 0) == −1)    /* Wait for child */
+        errExit("waitpid");
+    printf("child has terminated\n");
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="clone-2_sect20" name="clone-2_sect20" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, <a class="link" href="../htmlman2/futex.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">futex</span>(2)</span></a>, <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a>, <a class="link" href="../htmlman2/gettid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">gettid</span>(2)</span></a>, <a class="link" href="../htmlman2/kcmp.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">kcmp</span>(2)</span></a>, <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>, <a class="link" href="../htmlman2/pidfd_open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_open</span>(2)</span></a>, <a class="link" href="../htmlman2/set_thread_area.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">set_thread_area</span>(2)</span></a>,
+      <a class="link" href="../htmlman2/set_tid_address.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">set_tid_address</span>(2)</span></a>,
+      <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a>, <a class="link" href="../htmlman2/tkill.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tkill</span>(2)</span></a>, <a class="link" href="../htmlman2/unshare.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(2)</span></a>, <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wait</span>(2)</span></a>, <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>, <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a>, <a class="link" href="../htmlman7/pthreads.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthreads</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="clone-2_sect21" name="clone-2_sect21" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 1992 Drew Eckhardt &lt;drew<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.colorado.edu&gt;, March 28, 1992<br />
+
+                  and Copyright (c) Michael Kerrisk, 2001, 2002, 2005, 2013, 2019<br />
+
+                  <br />
+                  %%%LICENSE_START(GPL_NOVERSION_ONELINE)<br />
+                  May be distributed under the GNU General Public License.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  Modified by Michael Haardt &lt;michael<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>moria.de&gt;<br />
+
+                  Modified 24 Jul 1993 by Rik Faith &lt;faith<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.unc.edu&gt;<br />
+
+                  Modified 21 Aug 1994 by Michael Chastain &lt;mec<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>shell.portal.com&gt;:<br />
+
+                    New man page (copied from 'fork.2').<br />
+
+                  Modified 10 June 1995 by Andries Brouwer &lt;aeb<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cwi.nl&gt;<br />
+
+                  Modified 25 April 1998 by Xavier Leroy &lt;Xavier.Leroy<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>inria.fr&gt;<br />
+
+                  Modified 26 Jun 2001 by Michael Kerrisk<br />
+
+                      Mostly upgraded to 2.4.x<br />
+
+                      Added prototype for sys_clone() plus description<br />
+
+                  Added CLONE_THREAD with a brief description of thread groups<br />
+
+                  Added CLONE_PARENT and revised entire page remove ambiguity<br />
+
+                  between "calling process" and "parent process"<br />
+
+                  Added CLONE_PTRACE and CLONE_VFORK<br />
+
+                  Added EPERM and EINVAL error codes<br />
+
+                  Renamed "__clone" to "clone" (which is the prototype in &lt;sched.h&gt;)<br />
+
+                  various other minor tidy ups and clarifications.<br />
+
+                  Modified 26 Jun 2001 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  Updated notes for 2.4.7+ behavior of CLONE_THREAD<br />
+
+                  Modified 15 Oct 2002 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  Added description for CLONE_NEWNS, which was added in 2.4.19<br />
+
+                  Slightly rephrased, aeb.<br />
+                  Modified 1 Feb 2003 - added CLONE_SIGHAND restriction, aeb.<br />
+
+                  Modified 1 Jan 2004 - various updates, aeb<br />
+
+                  Modified 2004-09-10 - added CLONE_PARENT_SETTID etc. - aeb.<br />
+
+                  2005-04-12, mtk, noted the PID caching behavior of NPTL's getpid()<br />
+
+                  wrapper under BUGS.<br />
+                  2005-05-10, mtk, added CLONE_SYSVSEM, CLONE_UNTRACED, CLONE_STOPPED.<br />
+
+                  2005-05-17, mtk, Substantially enhanced discussion of CLONE_THREAD.<br />
+
+                  2008-11-18, mtk, order CLONE_* flags alphabetically<br />
+
+                  2008-11-18, mtk, document CLONE_NEWPID<br />
+
+                  2008-11-19, mtk, document CLONE_NEWUTS<br />
+
+                  2008-11-19, mtk, document CLONE_NEWIPC<br />
+
+                  2008-11-19, Jens Axboe, mtk, document CLONE_IO<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

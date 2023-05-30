@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>veth(4) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="veth(4) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index4.html" shape="rect">Section 4</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="veth.4" name="veth.4" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>veth — Virtual Ethernet Device</p>
+    </div>
+    <div class="refsect1">
+      <a id="veth-4_sect1" name="veth-4_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">veth</code> devices are virtual
+      Ethernet devices. They can act as tunnels between network
+      namespaces to create a bridge to a physical network device in
+      another namespace, but can also be used as standalone network
+      devices.</p>
+      <p><code class="function">veth</code> devices are always
+      created in interconnected pairs. A pair can be created using
+      the command:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+# ip link add &lt;p1-name&gt; type veth peer name &lt;p2-name&gt;
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>In the above, <em class="replaceable"><code>p1-name</code></em> and <em class="replaceable"><code>p2-name</code></em> are the names
+      assigned to the two connected end points.</p>
+      <p>Packets transmitted on one device in the pair are
+      immediately received on the other device. When either devices
+      is down the link state of the pair is down.</p>
+      <p><code class="function">veth</code> device pairs are useful
+      for combining the network facilities of the kernel together
+      in interesting ways. A particularly interesting use case is
+      to place one end of a <code class="function">veth</code> pair
+      in one network namespace and the other end in another network
+      namespace, thus allowing communication between network
+      namespaces. To do this, one can provide the <code class="function">netns</code> parameter when creating the
+      interfaces:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+# ip link add &lt;p1−name&gt; netns &lt;p1−ns&gt; type veth peer &lt;p2−name&gt; netns &lt;p2−ns&gt;
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>or, for an existing <code class="function">veth</code>
+      pair, move one side to the other namespace:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+# ip link set &lt;p2−name&gt; netns &lt;p2−ns&gt;
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p><span class="citerefentry"><span class="refentrytitle">ethtool</span>(8)</span> can be used to find
+      the peer of a <code class="function">veth</code> network
+      interface, using commands something like:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+# <span class="emphasis"><em>ip link add ve_A type veth peer name ve_B</em></span>   # Create veth pair
+# <span class="emphasis"><em>ethtool −S ve_A</em></span>         # Discover interface index of peer
+NIC statistics:
+     peer_ifindex: 16
+# <span class="emphasis"><em>ip link | grep '^16:'</em></span>   # Look up interface
+16: ve_B@ve_A: &lt;BROADCAST,MULTICAST,M−DOWN&gt; mtu 1500 qdisc ...
+</pre>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="veth-4_sect2" name="veth-4_sect2" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>, <a class="link" href="../htmlman7/network_namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">network_namespaces</span>(7)</span></a>,
+      <span class="citerefentry"><span class="refentrytitle">ip</span>(8)</span>, <span class="citerefentry"><span class="refentrytitle">ip-link</span>(8)</span>, <span class="citerefentry"><span class="refentrytitle">ip-netns</span>(8)</span></p>
+    </div>
+    <div class="colophon">
+      <a id="veth-4_sect3" name="veth-4_sect3" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2012 Tomáš Pospíšek (tpo_deb<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>sourcepole.ch),<br />
+
+                      Fri, 03 Nov 2012 22:35:33 +0100<br />
+
+                  and Copyright (c) 2012 Eric W. Biederman &lt;ebiederm<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>xmission.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(GPLv2+_DOC_FULL)<br />
+                  This is free documentation; you can redistribute it and/or<br />
+
+                  modify it under the terms of the GNU General Public License as<br />
+
+                  published by the Free Software Foundation; either version 2 of<br />
+
+                  the License, or (at your option) any later version.<br />
+
+                  <br />
+                  The GNU General Public License's references to "object code"<br />
+
+                  and "executables" are to be interpreted as the output of any<br />
+
+                  document formatting or typesetting system, including<br />
+
+                  intermediate and printed output.<br />
+
+                  <br />
+                  This manual is distributed in the hope that it will be useful,<br />
+
+                  but WITHOUT ANY WARRANTY; without even the implied warranty of<br />
+
+                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />
+
+                  GNU General Public License for more details.<br />
+
+                  <br />
+                  You should have received a copy of the GNU General Public<br />
+
+                  License along with this manual; if not, write to the Free<br />
+
+                  Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111,<br />
+
+                  USA.<br />
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

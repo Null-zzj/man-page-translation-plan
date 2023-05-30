@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>slist(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="slist(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="slist.3" name="slist.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>SLIST_EMPTY, SLIST_ENTRY, SLIST_FIRST, SLIST_FOREACH,
+      SLIST_HEAD, SLIST_HEAD_INITIALIZER, SLIST_INIT,
+      SLIST_INSERT_AFTER, SLIST_INSERT_HEAD, SLIST_NEXT,
+      SLIST_REMOVE, SLIST_REMOVE_HEAD — implementation of a
+      singly linked list</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;sys/queue.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_ENTRY</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1"><var class="pdparam">HEADNAME</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">TYPE</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">SLIST_HEAD
+            <strong>SLIST_HEAD_INITIALIZER</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD <var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>SLIST_INIT</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>SLIST_EMPTY</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>SLIST_INSERT_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>SLIST_INSERT_AFTER</strong>(</code></td>
+            <td rowspan="1" colspan="1">struct TYPE *<var class="pdparam">listelm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">struct TYPE
+            *<strong>SLIST_FIRST</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">struct TYPE
+            *<strong>SLIST_NEXT</strong>(</code></td>
+            <td rowspan="1" colspan="1">struct TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef"><strong>SLIST_FOREACH</strong>(</code></td>
+            <td rowspan="1" colspan="1">struct TYPE *<var class="pdparam">var</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>SLIST_REMOVE</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct TYPE *<var class="pdparam">elm</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">void
+            <strong>SLIST_REMOVE_HEAD</strong>(</code></td>
+            <td rowspan="1" colspan="1">SLIST_HEAD *<var class="pdparam">head</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">SLIST_ENTRY <var class="pdparam">NAME</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slist-3_sect1" name="slist-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>These macros define and operate on doubly linked
+      lists.</p>
+      <p>In the macro definitions, <em class="parameter"><code>TYPE</code></em> is the name of a
+      user-defined structure, that must contain a field of type
+      <code class="constant">SLIST_ENTRY</code>, named <em class="parameter"><code>NAME</code></em>. The argument <em class="parameter"><code>HEADNAME</code></em> is the name of a
+      user-defined structure that must be declared using the macro
+      <code class="function">SLIST_HEAD</code>().</p>
+      <div class="refsect2">
+        <a id="slist-3_sect2" name="slist-3_sect2" shape="rect"> </a>
+        <h3>Creation</h3>
+        <p>A singly linked list is headed by a structure defined by
+        the <code class="function">SLIST_HEAD</code>() macro. This
+        structure contains a single pointer to the first element on
+        the list. The elements are singly linked for minimum space
+        and pointer manipulation overhead at the expense of O(n)
+        removal for arbitrary elements. New elements can be added
+        to the list after an existing element or at the head of the
+        list. An <code class="constant">SLIST_HEAD</code> structure
+        is declared as follows:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+SLIST_HEAD(HEADNAME, TYPE) head;
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>where <span class="emphasis"><em>struct
+        HEADNAME</em></span> is the structure to be defined, and
+        <span class="emphasis"><em>struct TYPE</em></span> is the
+        type of the elements to be linked into the list. A pointer
+        to the head of the list can later be declared as:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+struct HEADNAME *headp;
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>(The names <em class="parameter"><code>head</code></em>
+        and <code class="function">headp</code> are user
+        selectable.)</p>
+        <p><code class="function">SLIST_ENTRY</code>() declares a
+        structure that connects the elements in the list.</p>
+        <p><code class="function">SLIST_HEAD_INITIALIZER</code>()
+        evaluates to an initializer for the list <em class="parameter"><code>head</code></em>.</p>
+        <p><code class="function">SLIST_INIT</code>() initializes
+        the list referenced by <em class="parameter"><code>head</code></em>.</p>
+        <p><code class="function">SLIST_EMPTY</code>() evaluates to
+        true if there are no elements in the list.</p>
+      </div>
+      <div class="refsect2">
+        <a id="slist-3_sect3" name="slist-3_sect3" shape="rect"> </a>
+        <h3>Insertion</h3>
+        <p><code class="function">SLIST_INSERT_HEAD</code>()
+        inserts the new element <em class="parameter"><code>elm</code></em> at the head of the
+        list.</p>
+        <p><code class="function">SLIST_INSERT_AFTER</code>()
+        inserts the new element <em class="parameter"><code>elm</code></em> after the element
+        <em class="parameter"><code>listelm</code></em>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="slist-3_sect4" name="slist-3_sect4" shape="rect"> </a>
+        <h3>Traversal</h3>
+        <p><code class="function">SLIST_FIRST</code>() returns the
+        first element in the list, or NULL if the list is
+        empty.</p>
+        <p><code class="function">SLIST_NEXT</code>() returns the
+        next element in the list.</p>
+        <p><code class="function">SLIST_FOREACH</code>() traverses
+        the list referenced by <em class="parameter"><code>head</code></em> in the forward
+        direction, assigning each element in turn to <em class="parameter"><code>var</code></em>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="slist-3_sect5" name="slist-3_sect5" shape="rect"> </a>
+        <h3>Removal</h3>
+        <p><code class="function">SLIST_REMOVE</code>() removes the
+        element <em class="parameter"><code>elm</code></em> from
+        the list.</p>
+        <p><code class="function">SLIST_REMOVE_HEAD</code>()
+        removes the element <em class="parameter"><code>elm</code></em> from the head of the
+        list. For optimum efficiency, elements being removed from
+        the head of the list should explicitly use this macro
+        instead of the generic <code class="function">SLIST_REMOVE</code>().</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slist-3_sect6" name="slist-3_sect6" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p><code class="function">SLIST_EMPTY</code>() returns
+      nonzero if the list is empty, and zero if the list contains
+      at least one entry.</p>
+      <p><code class="function">SLIST_FIRST</code>(), and
+      <code class="function">SLIST_NEXT</code>() return a pointer
+      to the first or next <em class="parameter"><code>TYPE</code></em> structure,
+      respectively.</p>
+      <p><code class="function">SLIST_HEAD_INITIALIZER</code>()
+      returns an initializer that can be assigned to the list
+      <em class="parameter"><code>head</code></em>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slist-3_sect7" name="slist-3_sect7" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>Not in POSIX.1, POSIX.1-2001, or POSIX.1-2008. Present on
+      the BSDs (SLIST macros first appeared in 4.4BSD).</p>
+    </div>
+    <div class="refsect1">
+      <a id="slist-3_sect8" name="slist-3_sect8" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p><code class="function">SLIST_FOREACH</code>() doesn't
+      allow <em class="parameter"><code>var</code></em> to be
+      removed or freed within the loop, as it would interfere with
+      the traversal. <code class="function">SLIST_FOREACH_SAFE</code>(), which is present on
+      the BSDs but is not present in glibc, fixes this limitation
+      by allowing <em class="parameter"><code>var</code></em> to
+      safely be removed from the list and freed from within the
+      loop without interfering with the traversal.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slist-3_sect9" name="slist-3_sect9" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;stddef.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/queue.h&gt;
+
+struct entry {
+    int data;
+    SLIST_ENTRY(entry) entries;             /* Singly linked list */
+};
+
+SLIST_HEAD(slisthead, entry);
+
+int
+main(void)
+{
+    struct entry *n1, *n2, *n3, *np;
+    struct slisthead head;                  /* Singly linked list
+                                               head */
+
+    SLIST_INIT(&amp;head);                      /* Initialize the queue */
+
+    n1 = malloc(sizeof(struct entry));      /* Insert at the head */
+    SLIST_INSERT_HEAD(&amp;head, n1, entries);
+
+    n2 = malloc(sizeof(struct entry));      /* Insert after */
+    SLIST_INSERT_AFTER(n1, n2, entries);
+
+    SLIST_REMOVE(&amp;head, n2, entry, entries);/* Deletion */
+    free(n2);
+
+    n3 = SLIST_FIRST(&amp;head);
+    SLIST_REMOVE_HEAD(&amp;head, entries);      /* Deletion from the head */
+    free(n3);
+
+    for (int i = 0; i &lt; 5; i++) {
+        n1 = malloc(sizeof(struct entry));
+        SLIST_INSERT_HEAD(&amp;head, n1, entries);
+        n1−&gt;data = i;
+    }
+
+                                            /* Forward traversal */
+    SLIST_FOREACH(np, &amp;head, entries)
+        printf("%i\n", np−&gt;data);
+
+    while (!SLIST_EMPTY(&amp;head)) {           /* List deletion */
+        n1 = SLIST_FIRST(&amp;head);
+        SLIST_REMOVE_HEAD(&amp;head, entries);
+        free(n1);
+    }
+    SLIST_INIT(&amp;head);
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slist-3_sect10" name="slist-3_sect10" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/insque.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">insque</span>(3)</span></a>, <a class="link" href="../htmlman7/queue.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">queue</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="slist-3_sect11" name="slist-3_sect11" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 1993<br />
+                     The Regents of the University of California.  All rights reserved.<br />
+
+                  and Copyright (c) 2020 by Alejandro Colomar &lt;colomar.6.4.3<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(BSD_3_CLAUSE_UCB)<br />
+                  Redistribution and use in source and binary forms, with or without<br />
+
+                  modification, are permitted provided that the following conditions<br />
+
+                  are met:<br />
+                  1. Redistributions of source code must retain the above copyright<br />
+
+                     notice, this list of conditions and the following disclaimer.<br />
+
+                  2. Redistributions in binary form must reproduce the above copyright<br />
+
+                     notice, this list of conditions and the following disclaimer in the<br />
+
+                     documentation and/or other materials provided with the distribution.<br />
+
+                  3. Neither the name of the University nor the names of its contributors<br />
+
+                     may be used to endorse or promote products derived from this software<br />
+
+                     without specific prior written permission.<br />
+
+                  <br />
+                  THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND<br />
+
+                  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE<br />
+
+                  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE<br />
+
+                  ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE<br />
+
+                  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL<br />
+
+                  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS<br />
+
+                  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)<br />
+
+                  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT<br />
+
+                  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY<br />
+
+                  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF<br />
+
+                  SUCH DAMAGE.<br />
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>slappw-argon2(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="slappw-argon2(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="slappw-argon2.5" name="slappw-argon2.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>slappw−argon2 — Argon2 password module to
+      slapd</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+ETCDIR/slapd.conf
+
+moduleload argon2
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slappw-argon2-5_sect1" name="slappw-argon2-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <em class="replaceable"><code>argon2</code></em>
+      module to <a class="link" href="../htmlman8/slapd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd</span>(8)</span></a> provides support
+      for the use of the key derivation function Argon2, that was
+      selected as the winner of the Password Hashing Competition in
+      July 2015, in hashed passwords in OpenLDAP.</p>
+      <p>It does so by providing the additional password scheme
+      <em class="replaceable"><code>{ARGON2}</code></em> for use in
+      slapd.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slappw-argon2-5_sect2" name="slappw-argon2-5_sect2" shape="rect"> </a>
+      <h2>CONFIGURATION</h2>
+      <p>The <em class="replaceable"><code>argon2</code></em>
+      module does not need any configuration, but it can be
+      configured by giving the following parameters:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><em class="replaceable"><code>m=</code></em><em class="replaceable"><code>&lt;memory&gt;</code></em></span></dt>
+          <dd>
+            <p>Set memory usage to <em class="replaceable"><code>&lt;memory&gt;</code></em> kiB.</p>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>p=</code></em><em class="replaceable"><code>&lt;parallelism&gt;</code></em></span></dt>
+          <dd>
+            <p>Set parallelism to <em class="replaceable"><code>&lt;parallelism&gt;</code></em>
+            threads. Currently supported only when linked with
+            <em class="replaceable"><code>libargon2</code></em>.</p>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>t=</code></em><em class="replaceable"><code>&lt;iterations&gt;</code></em></span></dt>
+          <dd>
+            <p>Set the number of iterations to <em class="replaceable"><code>&lt;iterations&gt;</code></em>.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>These replace defaults when preparing hashes for new
+      passwords where possible.</p>
+      <p>After loading the module, the password scheme <em class="replaceable"><code>{ARGON2}</code></em> will be recognised
+      in values of the <em class="replaceable"><code>userPassword</code></em> attribute.</p>
+      <p>You can then instruct OpenLDAP to use this scheme when
+      processing the LDAPv3 Password Modify (RFC 3062) extended
+      operations by using the <em class="replaceable"><code>password-hash</code></em> option in
+      <a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a>:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <p><span class="emphasis"><em>password−hash
+          {ARGON2}</em></span></p>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="slappw-argon2-5_sect3" name="slappw-argon2-5_sect3" shape="rect"> </a>
+        <h3>NOTES</h3>
+        <p>If you want to use the scheme described here with
+        <a class="link" href="../htmlman8/slappasswd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slappasswd</span>(8)</span></a>, remember
+        to load the module using its command line options. The
+        relevant option/value is:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p><code class="option">−o</code> <em class="replaceable"><code>module−load</code></em>=<em class="replaceable"><code>argon2</code></em></p>
+          </blockquote>
+        </div>
+        <p>Or if non-default parameters are required:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p><code class="option">−o</code> <em class="replaceable"><code>module−load</code></em>="<em class="replaceable"><code>argon2</code></em>
+            [<em class="replaceable"><code>&lt;param&gt;</code></em>...]"</p>
+          </blockquote>
+        </div>
+        <p>Depending on <em class="replaceable"><code>argon2</code></em>'s location, you may
+        also need:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p><code class="option">−o</code> <em class="replaceable"><code>module−path</code></em>=<em class="replaceable"><code><em class="replaceable"><code>pathspec</code></em></code></em></p>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slappw-argon2-5_sect4" name="slappw-argon2-5_sect4" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>Both userPassword LDAP attributes below encode the
+      password '<em class="replaceable"><code>secret</code></em>'
+      using different salts:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+userPassword: {ARGON2}$argon2i$v=19$m=4096,t=3,p=1$c2FsdHNhbHQ$DKlexoEJUoZTmkAAC3SaMWk30El9/RvVhlqGo6afIng
+
+userPassword: {ARGON2}$argon2i$v=19$m=4096,t=3,p=1$c2FsdHNhbHRzYWx0$qOCkx9nMeFlaGOO4DUmPDgrlUbgMMuO9T1+vQCFuyzw
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slappw-argon2-5_sect5" name="slappw-argon2-5_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a>, <a class="link" href="../htmlman1/ldappasswd.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ldappasswd</span>(1)</span></a>, <a class="link" href="../htmlman8/slappasswd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slappasswd</span>(8)</span></a>, <a class="link" href="../htmlman3/ldap.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ldap</span>(3)</span></a>,</p>
+      <p><a class="literalurl" href="http://www.OpenLDAP.org/doc/" target="_top" shape="rect">"OpenLDAP Administrator's Guide"</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="slappw-argon2-5_sect6" name="slappw-argon2-5_sect6" shape="rect"> </a>
+      <h2>ACKNOWLEDGEMENTS</h2>
+      <p>This manual page has been written by Peter Marschall based
+      on the module's README file written by <a class="literalurl" href="mailto:simon%20REMOVE%20@%20THIS%20levermann.de" target="_top" shape="rect">Simon Levermann</a></p>
+      <p><em class="replaceable"><code>OpenLDAP</code></em> is
+      developed and maintained by <a class="literalurl" href="http://www.openldap.org/" target="_top" shape="rect">The OpenLDAP
+      Project</a> <em class="replaceable"><code>OpenLDAP</code></em> is derived from
+      University of Michigan LDAP 3.3 Release.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                  See the following documents: <a class="ulink" href="../openldap-COPYRIGHT.html" target="_top" shape="rect">COPYRIGHT</a>, <a class="ulink" href="../openldap-LICENSE.html" target="_top" shape="rect">LICENSE</a><br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

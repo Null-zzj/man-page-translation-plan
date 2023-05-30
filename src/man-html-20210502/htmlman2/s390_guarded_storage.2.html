@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>s390_guarded_storage(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="s390_guarded_storage(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="s390-guarded-storage.2" name="s390-guarded-storage.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>s390_guarded_storage — operations with
+      z/Architecture guarded storage facility</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;asm/guarded_storage.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>s390_guarded_storage</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">command</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct gs_cb *<var class="pdparam">gs_cb</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="s390-guarded-storage-2_sect1" name="s390-guarded-storage-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">s390_guarded_storage</code>()
+      system call enables the use of the Guarded Storage Facility
+      (a z/Architecture-specific feature) for user-space
+      processes.</p>
+      <p>The guarded storage facility is a hardware feature that
+      allows marking up to 64 memory regions (as of z14) as
+      guarded; reading a pointer with a newly introduced "Load
+      Guarded" (LGG) or "Load Logical and Shift Guarded" (LLGFSG)
+      instructions will cause a range check on the loaded value and
+      invoke a (previously set up) user-space handler if one of the
+      guarded regions is affected.</p>
+      <p>The <em class="parameter"><code>command</code></em>
+      argument indicates which function to perform. The following
+      commands are supported:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">GS_ENABLE</code></span></dt>
+          <dd>
+            <p>Enable the guarded storage facility for the calling
+            task. The initial content of the guarded storage
+            control block will be all zeros. After enablement,
+            user-space code can use the "Load Guarded Storage
+            Controls" (LGSC) instruction (or the <code class="function">load_gs_cb</code>() function wrapper
+            provided in the <code class="filename">asm/guarded_storage.h</code> header) to load
+            an arbitrary control block. While a task is enabled,
+            the kernel will save and restore the calling content of
+            the guarded storage registers on context switch.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">GS_DISABLE</code></span></dt>
+          <dd>
+            <p>Disables the use of the guarded storage facility for
+            the calling task. The kernel will cease to save and
+            restore the content of the guarded storage registers,
+            the task-specific content of these registers is
+            lost.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">GS_SET_BC_CB</code></span></dt>
+          <dd>
+            <p>Set a broadcast guarded storage control block to the
+            one provided in the <em class="parameter"><code>gs_cb</code></em> argument. This is
+            called per thread and associates a specific guarded
+            storage control block with the calling task. This
+            control block will be used in the broadcast command
+            <code class="constant">GS_BROADCAST</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">GS_CLEAR_BC_CB</code></span></dt>
+          <dd>
+            <p>Clears the broadcast guarded storage control block.
+            The guarded storage control block will no longer have
+            the association established by the <code class="constant">GS_SET_BC_CB</code> command.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">GS_BROADCAST</code></span></dt>
+          <dd>
+            <p>Sends a broadcast to all thread siblings of the
+            calling task. Every sibling that has established a
+            broadcast guarded storage control block will load this
+            control block and will be enabled for guarded storage.
+            The broadcast guarded storage control block is
+            consumed; a second broadcast without a refresh of the
+            stored control block with <code class="constant">GS_SET_BC_CB</code> will not have any
+            effect.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>The <em class="parameter"><code>gs_cb</code></em> argument
+      specifies the address of a guarded storage control block
+      structure and is currently used only by the <code class="constant">GS_SET_BC_CB</code> command; all other
+      aforementioned commands ignore this argument.</p>
+    </div>
+    <div class="refsect1">
+      <a id="s390-guarded-storage-2_sect2" name="s390-guarded-storage-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, the return value of <code class="function">s390_guarded_storage</code>() is 0.</p>
+      <p>On error, −1 is returned, and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="s390-guarded-storage-2_sect3" name="s390-guarded-storage-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>command</code></em> was
+            <code class="constant">GS_SET_BC_CB</code> and the
+            copying of the guarded storage control block structure
+            pointed by the <em class="parameter"><code>gs_cb</code></em> argument has
+            failed.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The value provided in the <em class="parameter"><code>command</code></em> argument was not
+            valid.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>command</code></em> was
+            one of <code class="constant">GS_ENABLE</code> or
+            <code class="constant">GS_SET_BC_CB</code>, and the
+            allocation of a new guarded storage control block has
+            failed.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EOPNOTSUPP</span></span></dt>
+          <dd>
+            <p>The guarded storage facility is not supported by the
+            hardware.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="s390-guarded-storage-2_sect4" name="s390-guarded-storage-2_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>This system call is available since Linux 4.12.</p>
+    </div>
+    <div class="refsect1">
+      <a id="s390-guarded-storage-2_sect5" name="s390-guarded-storage-2_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>This Linux-specific system call is available only on the
+      s390 architecture.</p>
+      <p>The guarded storage facility is available beginning with
+      System z14.</p>
+    </div>
+    <div class="refsect1">
+      <a id="s390-guarded-storage-2_sect6" name="s390-guarded-storage-2_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call;
+      call it using <a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a>.</p>
+      <p>The description of the guarded storage facility along with
+      related instructions and Guarded Storage Control Block and
+      Guarded Storage Event Parameter List structure layouts is
+      available in "z/Architecture Principles of Operations"
+      beginning from the twelfth edition.</p>
+      <p>The <em class="parameter"><code>gs_cb</code></em>
+      structure has a field <em class="replaceable"><code>gsepla</code></em> (Guarded Storage Event
+      Parameter List Address), which is a user-space pointer to a
+      Guarded Storage Event Parameter List structure (that contains
+      the address of the aforementioned event handler in the
+      <em class="replaceable"><code>gseha</code></em> field), and
+      its layout is available as a <em class="replaceable"><code>gs_epl</code></em> structure type
+      definition in the <code class="filename">asm/guarded_storage.h</code> header.</p>
+    </div>
+    <div class="refsect1">
+      <a id="s390-guarded-storage-2_sect7" name="s390-guarded-storage-2_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="s390-guarded-storage-2_sect8" name="s390-guarded-storage-2_sect8" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2018 Eugene Syromyatnikov &lt;evgsyr<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

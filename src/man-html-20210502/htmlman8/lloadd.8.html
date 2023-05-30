@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>lloadd(8) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="lloadd(8) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index8.html" shape="rect">Section 8</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="lloadd.8" name="lloadd.8" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>lloadd — LDAP Load Balancer Daemon</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">LIBEXECDIR/lloadd</code> [
+        <code class="option">−4</code> | <code class="option">−6</code> ] [ <code class="option">−d</code> debug−level ] [ <code class="option">−f</code> lloadd−config−file ] [
+        <code class="option">−h</code> URLs ] [ <code class="option">−n</code> service−name ] [
+        <code class="option">−s</code> syslog−level ] [
+        <code class="option">−l</code>
+        syslog−local−user ] [ <code class="option">−o</code> option[= value] ] [ <code class="option">−r</code> directory ] [ <code class="option">−u</code> user ] [ <code class="option">−g</code> group ]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-8_sect1" name="lloadd-8_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><em class="replaceable"><code>Lloadd</code></em> is the
+      stand-alone LDAP daemon. It listens for LDAP connections on
+      any number of ports (default <code class="constant">389</code>), forwarding the LDAP operations it
+      receives over these connections to be handled by the
+      configured backends. <em class="replaceable"><code>lloadd</code></em> is typically invoked
+      at boot time, usually out of <code class="filename">/etc/rc.local</code>. Upon startup, <em class="replaceable"><code>lloadd</code></em> normally forks and
+      disassociates itself from the invoking tty. If configured in
+      the config file, the <em class="replaceable"><code>lloadd</code></em> process will print its
+      process ID (see <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a>) to a <em class="replaceable"><code>.pid</code></em> file, as well as the
+      command line options during invocation to an <em class="replaceable"><code>.args</code></em> file (see <a class="link" href="../htmlman5/lloadd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lloadd.conf</span>(5)</span></a>). If the
+      <code class="option">−d</code> flag is given, even with
+      a zero argument, <em class="replaceable"><code>lloadd</code></em> will not fork and
+      disassociate from the invoking tty.</p>
+      <p>See the "OpenLDAP Administrator's Guide" for more details
+      on <span class="command"><strong>lloadd</strong></span>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-8_sect2" name="lloadd-8_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−4</code></span></dt>
+          <dd>
+            <p>Listen on IPv4 addresses only.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−6</code></span></dt>
+          <dd>
+            <p>Listen on IPv6 addresses only.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−d
+          debug−level</code></span></dt>
+          <dd>
+            <p>Turn on debugging as defined by <em class="parameter"><code>debug-level</code></em>. If this
+            option is specified, even with a zero argument,
+            <em class="replaceable"><code>lloadd</code></em> will
+            not fork or disassociate from the invoking terminal.
+            Some general operation and status messages are printed
+            for any value of <em class="parameter"><code>debug-level</code></em>. <em class="parameter"><code>debug-level</code></em> is taken as a
+            bit string, with each bit corresponding to a different
+            kind of debugging information. See &lt;ldap_log.h&gt;
+            for details. Comma-separated arrays of friendly names
+            can be specified to select debugging output of the
+            corresponding debugging information. All the names
+            recognized by the <em class="replaceable"><code>loglevel</code></em> directive
+            described in <a class="link" href="../htmlman5/lloadd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lloadd.conf</span>(5)</span></a> are
+            supported. If <em class="parameter"><code>debug-level</code></em> is
+            <code class="literal">?</code>, a list of installed
+            debug-levels is printed, and lloadd exits.</p>
+            <p>Remember that if you turn on packet logging, packets
+            containing bind passwords will be output, so if you
+            redirect the log to a logfile, that file should be
+            read-protected.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−s
+          syslog−level</code></span></dt>
+          <dd>
+            <p>This option tells <em class="replaceable"><code>lloadd</code></em> at what
+            debug-level debugging statements should be logged to
+            the <span class="citerefentry"><span class="refentrytitle">syslog</span>(8)</span> facility. The
+            value <em class="parameter"><code>syslog-level</code></em> can be set
+            to any value or combination allowed by the <code class="option">−d</code> switch. Lloadd logs all
+            messages selected by <em class="parameter"><code>syslog-level</code></em> at the
+            <a class="link" href="../htmlman3/syslog.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syslog</span>(3)</span></a> severity
+            debug-level <code class="constant">DEBUG</code>, on the
+            unit specified with <code class="option">−l</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n
+          service−name</code></span></dt>
+          <dd>
+            <p>Specifies the service name for logging and other
+            purposes. Defaults to basename of argv[0], i.e.:
+            "lloadd".</p>
+          </dd>
+          <dt><span class="term"><code class="option">−l
+          syslog−local−user</code></span></dt>
+          <dd>
+            <p>Selects the local user of the <span class="citerefentry"><span class="refentrytitle">syslog</span>(8)</span> facility. Value
+            can be <code class="constant">LOCAL0</code>, through
+            <code class="constant">LOCAL7</code>, as well as
+            <code class="constant">USER</code> and <code class="constant">DAEMON</code>. The default is <code class="constant">LOCAL4</code>. However, this option is only
+            permitted on systems that support local users with the
+            <span class="citerefentry"><span class="refentrytitle">syslog</span>(8)</span> facility.
+            Logging to syslog(8) occurs at the "DEBUG" severity
+            debug-level.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−f
+          lloadd−config−file</code></span></dt>
+          <dd>
+            <p>Specifies the lloadd configuration file. The default
+            is <em class="replaceable"><code>ETCDIR/lloadd.conf</code></em>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h
+          URLlist</code></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>lloadd</code></em>
+            will by default serve <em class="replaceable"><code>ldap:///</code></em> (LDAP over TCP
+            on all interfaces on default LDAP port). That is, it
+            will bind using INADDR_ANY and port <code class="constant">389</code>. The <code class="option">−h</code> option may be used to specify
+            LDAP (and other scheme) URLs to serve. For example, if
+            lloadd is given <code class="option">−h
+            "ldap://127.0.0.1:9009/ ldaps:/// ldapi:///"</code>, it
+            will listen on 127.0.0.1:9009 for LDAP, 0.0.0.0:636 for
+            LDAP over TLS, and LDAP over IPC (Unix domain sockets).
+            Host 0.0.0.0 represents INADDR_ANY (any interface). A
+            space separated list of URLs is expected. The URLs
+            should be of the LDAP, PLDAP, LDAPS, PLDAPS, or LDAPI
+            schemes, and generally without a DN or other optional
+            parameters (excepting as discussed below). Support for
+            the latter three schemes depends on selected
+            configuration options. Hosts may be specified by name
+            or IPv4 and IPv6 address formats. Ports, if specified,
+            must be numeric. The default ldap:// port is
+            <code class="constant">389</code> and the default
+            ldaps:// port is <code class="constant">636</code>,
+            same for the proxy enabled variants.</p>
+            <p>The PLDAP and PLDAPS URL schemes provide support for
+            the HAProxy proxy protocol version 2, which allows a
+            load balancer or proxy server to provide the remote
+            client IP address to slapd to be used for access
+            control or logging. Ports configured for PLDAP or
+            PLDAPS will only accept connections that include the
+            necessary proxy protocol header. Connections to these
+            ports should be restricted at the network level to only
+            trusted load balancers or proxies to avoid spoofing of
+            client IP addresses by third parties.</p>
+            <p>At the moment, the load balancer does not act on the
+            recorded address in any way.</p>
+            <p>For LDAP over IPC, <em class="replaceable"><code>name</code></em> is the name of the
+            socket, and no <em class="replaceable"><code>port</code></em> is required, nor
+            allowed; note that directory separators must be
+            URL-encoded, like any other characters that are special
+            to URLs; so the socket</p>
+            <p>/usr/local/var/ldapi</p>
+            <p>must be specified as</p>
+            <p>ldapi://%2Fusr%2Flocal%2Fvar%2Fldapi</p>
+            <p>The default location for the IPC socket is
+            LOCALSTATEDIR/run/ldapi</p>
+          </dd>
+          <dt><span class="term"><code class="option">−r
+          directory</code></span></dt>
+          <dd>
+            <p>Specifies a directory to become the root directory.
+            lloadd will change the current working directory to
+            this directory and then <a class="link" href="../htmlman2/chroot.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chroot</span>(2)</span></a> to this
+            directory. This is done after opening listeners but
+            before reading any configuration file or initializing
+            any backend. When used as a security mechanism, it
+            should be used in conjunction with <code class="option">−u</code> and <code class="option">−g</code> options.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−u
+          user</code></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>lloadd</code></em>
+            will run lloadd with the specified user name or id, and
+            that user's supplementary group access list as set with
+            initgroups(3). The group ID is also changed to this
+            user's gid, unless the <code class="option">−g</code> option is used to override.
+            Note when used with <code class="option">−r</code>, lloadd will use the user
+            database in the change root environment.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−g
+          group</code></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>lloadd</code></em>
+            will run with the specified group name or id. Note when
+            used with <code class="option">−r</code>, lloadd
+            will use the group database in the change root
+            environment.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−o
+          option[=value]</code></span></dt>
+          <dd>
+            <p>This option provides a generic means to specify
+            options without the need to reserve a separate letter
+            for them.</p>
+            <p>It supports the following options:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><em class="replaceable"><code>slp=</code></em>{<span class="command"><strong>on</strong></span>|<span class="command"><strong>off</strong></span>|<em class="replaceable"><code><em class="replaceable"><code>slp-attrs</code></em></code></em>}</span></dt>
+                    <dd>
+                      <p>When SLP support is compiled into lloadd,
+                      disable it (<span class="command"><strong>off</strong></span>),
+                      enable it by registering at SLP DAs without
+                      specific SLP attributes (<span class="command"><strong>on</strong></span>), or
+                      with specific SLP attributes <em class="replaceable"><code>slp-attrs</code></em>
+                      that must be an SLP attribute list definition
+                      according to the SLP standard.</p>
+                      <p>For example, <em class="replaceable"><code>"slp=(tree=production),(server-type=OpenLDAP),(server−version=2.4.15)"</code></em>
+                      registers at SLP DAs with the three SLP
+                      attributes tree, server-type and
+                      server-version that have the values given
+                      above. This allows one to specifically query
+                      the SLP DAs for LDAP servers holding the
+                      <em class="replaceable"><code>production</code></em>
+                      tree in case multiple trees are
+                      available.</p>
+                    </dd>
+                  </dl>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-8_sect3" name="lloadd-8_sect3" shape="rect"> </a>
+      <h2>RELATION TO SLAPD(8)</h2>
+      <p><em class="replaceable"><code>Lloadd</code></em> can be
+      compiled as a <em class="replaceable"><code>slapd</code></em>
+      loadable module. In that case, it can be loaded as such:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+    moduleload path/to/lloadd.la
+    backend lload
+    listen "listening URLs"
+</pre>
+      </div>
+      <p>This enables <em class="replaceable"><code>lloadd</code></em> to provide additional
+      features through the host slapd process like access to
+      run-time statistics in <em class="replaceable"><code>cn=monitor</code></em> and dynamic
+      configuration from <em class="replaceable"><code>cn=config</code></em>.</p>
+      <p>The listening sockets specified will be under direct
+      control of <em class="replaceable"><code>lloadd</code></em>
+      and need to be different from the sockets slapd is configured
+      to listen on. Clients connecting to these are completely
+      separate from regular LDAP clients connecting to the usual
+      <em class="replaceable"><code>slapd</code></em> sockets -
+      <em class="replaceable"><code>lloadd</code></em> clients have
+      no access to slapd databases, similarly, <em class="replaceable"><code>slapd</code></em> client traffic does not
+      propagate to the <em class="replaceable"><code>lloadd</code></em> backend servers in any
+      way.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-8_sect4" name="lloadd-8_sect4" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>To start <em class="replaceable"><code>lloadd</code></em>
+      and have it fork and detach from the terminal and start
+      load-balancing the LDAP servers defined in the default config
+      file, just type:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+        LIBEXECDIR/lloadd
+</pre>
+      </div>
+      <p>To start <em class="replaceable"><code>lloadd</code></em>
+      with an alternate configuration file, and turn on voluminous
+      debugging which will be printed on standard error, type:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+        LIBEXECDIR/lloadd −f /var/tmp/lloadd.conf −d 255
+</pre>
+      </div>
+      <p>To start <em class="replaceable"><code>lloadd</code></em>
+      as a module inside a slapd process listening on ldap://:1389
+      and ldaps://, put the following in your slapd.conf (or its
+      equivalent in cn=config):</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+    moduleload lloadd.la
+    backend lload
+    listen "ldap://:1389 ldaps://"
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-8_sect5" name="lloadd-8_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/ldap.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ldap</span>(3)</span></a>, <a class="link" href="../htmlman5/lloadd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lloadd.conf</span>(5)</span></a>, <a class="link" href="../htmlman5/slapd-config.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd-config</span>(5)</span></a>, <a class="link" href="../htmlman5/slapd-monitor.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd-monitor</span>(5)</span></a>, <a class="link" href="../htmlman8/slapd.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd</span>(8)</span></a>.</p>
+      <p>"OpenLDAP Administrator's Guide"
+      (http://www.OpenLDAP.org/doc/admin/)</p>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-8_sect6" name="lloadd-8_sect6" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p>See http://www.openldap.org/its/</p>
+    </div>
+    <div class="refsect1">
+      <a id="lloadd-8_sect7" name="lloadd-8_sect7" shape="rect"> </a>
+      <h2>ACKNOWLEDGEMENTS</h2>
+      <p><span class="emphasis"><em>OpenLDAP Software</em></span>
+      is developed and maintained by The OpenLDAP Project
+      &lt;<a class="literalurl" href="http://www.openldap.org/" target="_top" shape="rect">http://www.openldap.org/</a>&gt;. <span class="emphasis"><em>OpenLDAP Software</em></span> is derived from
+      the University of Michigan LDAP 3.3 Release.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                  See the following documents: <a class="ulink" href="../openldap-COPYRIGHT.html" target="_top" shape="rect">COPYRIGHT</a>, <a class="ulink" href="../openldap-LICENSE.html" target="_top" shape="rect">LICENSE</a><br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

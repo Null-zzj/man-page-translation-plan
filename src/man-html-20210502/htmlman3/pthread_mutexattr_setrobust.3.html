@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>pthread_mutexattr_setrobust(3) — Linux manual
+  pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="pthread_mutexattr_setrobust(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="pthread-mutexattr-setrobust.3" name="pthread-mutexattr-setrobust.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>pthread_mutexattr_getrobust, pthread_mutexattr_setrobust
+      — get and set the robustness attribute of a mutex
+      attributes object</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;pthread.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>pthread_mutexattr_getrobust</strong>(</code></td>
+            <td rowspan="1" colspan="1">const pthread_mutexattr_t *<var class="pdparam">attr</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int *<var class="pdparam">robustness</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>pthread_mutexattr_setrobust</strong>(</code></td>
+            <td rowspan="1" colspan="1">const pthread_mutexattr_t *<var class="pdparam">attr</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">robustness</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <div class="featuretests">
+                <table class="featuretests" style="border-collapse: collapse;">
+                  <colgroup span="1">
+                    <col span="1" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th style="" rowspan="1" colspan="1">Feature Test Macro Requirements
+                      for glibc (see <a class="link" href="../htmlman7/feature_test_macros.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">feature_test_macros</span>(7)</span></a>):</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="" rowspan="1" colspan="1"><code class="function">pthread_mutexattr_getrobust</code>(),
+                      <code class="function">pthread_mutexattr_setrobust</code>():</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">
+                      <code class="constant">_POSIX_C_SOURCE</code>
+                      &gt;= 200809L</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <p>Compile and link with <code class="option">−pthread</code>.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-mutexattr-setrobust-3_sect1" name="pthread-mutexattr-setrobust-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">pthread_mutexattr_getrobust</code>() function
+      places the value of the robustness attribute of the mutex
+      attributes object referred to by <em class="parameter"><code>attr</code></em> in *<em class="parameter"><code>robustness</code></em>. The <code class="function">pthread_mutexattr_setrobust</code>() function sets
+      the value of the robustness attribute of the mutex attributes
+      object referred to by <em class="parameter"><code>attr</code></em> to the value specified in
+      *<em class="parameter"><code>robustness</code></em>.</p>
+      <p>The robustness attribute specifies the behavior of the
+      mutex when the owning thread dies without unlocking the
+      mutex. The following values are valid for <em class="parameter"><code>robustness</code></em>:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">PTHREAD_MUTEX_STALLED</code></span></dt>
+          <dd>
+            <p>This is the default value for a mutex attributes
+            object. If a mutex is initialized with the <code class="constant">PTHREAD_MUTEX_STALLED</code> attribute and
+            its owner dies without unlocking it, the mutex remains
+            locked afterwards and any future attempts to call
+            <span class="citerefentry"><span class="refentrytitle">pthread_mutex_lock</span>(3)</span> on
+            the mutex will block indefinitely.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">PTHREAD_MUTEX_ROBUST</code></span></dt>
+          <dd>
+            <p>If a mutex is initialized with the <code class="constant">PTHREAD_MUTEX_ROBUST</code> attribute and
+            its owner dies without unlocking it, any future
+            attempts to call <span class="citerefentry"><span class="refentrytitle">pthread_mutex_lock</span>(3)</span>
+            on this mutex will succeed and return <span class="errorname">EOWNERDEAD</span> to indicate that the
+            original owner no longer exists and the mutex is in an
+            inconsistent state. Usually after <span class="errorname">EOWNERDEAD</span> is returned, the next
+            owner should call <a class="link" href="../htmlman3/pthread_mutex_consistent.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_mutex_consistent</span>(3)</span></a>
+            on the acquired mutex to make it consistent again
+            before using it any further.</p>
+            <p>If the next owner unlocks the mutex using
+            <span class="citerefentry"><span class="refentrytitle">pthread_mutex_unlock</span>(3)</span>
+            before making it consistent, the mutex will be
+            permanently unusable and any subsequent attempts to
+            lock it using <span class="citerefentry"><span class="refentrytitle">pthread_mutex_lock</span>(3)</span>
+            will fail with the error <span class="errorname">ENOTRECOVERABLE</span>. The only permitted
+            operation on such a mutex is <span class="citerefentry"><span class="refentrytitle">pthread_mutex_destroy</span>(3)</span>.</p>
+            <p>If the next owner terminates before calling
+            <a class="link" href="../htmlman3/pthread_mutex_consistent.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_mutex_consistent</span>(3)</span></a>,
+            further <span class="citerefentry"><span class="refentrytitle">pthread_mutex_lock</span>(3)</span>
+            operations on this mutex will still return <span class="errorname">EOWNERDEAD</span>.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>Note that the <em class="parameter"><code>attr</code></em>
+      argument of <code class="function">pthread_mutexattr_getrobust</code>() and
+      <code class="function">pthread_mutexattr_setrobust</code>()
+      should refer to a mutex attributes object that was
+      initialized by <a class="link" href="../htmlman3/pthread_mutexattr_init.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_mutexattr_init</span>(3)</span></a>,
+      otherwise the behavior is undefined.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-mutexattr-setrobust-3_sect2" name="pthread-mutexattr-setrobust-3_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, these functions return 0. On error, they
+      return a positive error number.</p>
+      <p>In the glibc implementation, <code class="function">pthread_mutexattr_getrobust</code>() always return
+      zero.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-mutexattr-setrobust-3_sect3" name="pthread-mutexattr-setrobust-3_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>A value other than <code class="constant">PTHREAD_MUTEX_STALLED</code> or <code class="constant">PTHREAD_MUTEX_ROBUST</code> was passed to
+            <code class="function">pthread_mutexattr_setrobust</code>().</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-mutexattr-setrobust-3_sect4" name="pthread-mutexattr-setrobust-3_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">pthread_mutexattr_getrobust</code>() and
+      <code class="function">pthread_mutexattr_setrobust</code>()
+      were added to glibc in version 2.12.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-mutexattr-setrobust-3_sect5" name="pthread-mutexattr-setrobust-3_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>POSIX.1-2008.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-mutexattr-setrobust-3_sect6" name="pthread-mutexattr-setrobust-3_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>In the Linux implementation, when using process-shared
+      robust mutexes, a waiting thread also receives the
+      <span class="errorname">EOWNERDEAD</span> notification if the
+      owner of a robust mutex performs an <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a> without first
+      unlocking the mutex. POSIX.1 does not specify this detail,
+      but the same behavior also occurs in at least some other
+      implementations.</p>
+      <p>Before the addition of <code class="function">pthread_mutexattr_getrobust</code>() and
+      <code class="function">pthread_mutexattr_setrobust</code>()
+      to POSIX, glibc defined the following equivalent nonstandard
+      functions if <code class="constant">_GNU_SOURCE</code> was
+      defined:</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+  <code class="function">int pthread_mutexattr_getrobust_np</code>(<em class="parameter"><code>const pthread_mutexattr_t *attr</code></em>, <em class="parameter"><code>int *robustness</code></em>);
+  <code class="function">int pthread_mutexattr_setrobust_np</code>(<em class="parameter"><code>const pthread_mutexattr_t *attr</code></em>, <em class="parameter"><code>int robustness</code></em>);
+</pre>
+      </div>
+      <p>Correspondingly, the constants <code class="constant">PTHREAD_MUTEX_STALLED_NP</code> and <code class="constant">PTHREAD_MUTEX_ROBUST_NP</code> were also
+      defined.</p>
+      <p>These GNU-specific APIs, which first appeared in glibc
+      2.4, are nowadays obsolete and should not be used in new
+      programs.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-mutexattr-setrobust-3_sect7" name="pthread-mutexattr-setrobust-3_sect7" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below demonstrates the use of the robustness
+      attribute of a mutex attributes object. In this program, a
+      thread holding the mutex dies prematurely without unlocking
+      the mutex. The main thread subsequently acquires the mutex
+      successfully and gets the error <span class="errorname">EOWNERDEAD</span>, after which it makes the mutex
+      consistent.</p>
+      <p>The following shell session shows what we see when running
+      this program:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <em class="replaceable"><code>./a.out</code></em>
+[original owner] Setting lock...
+[original owner] Locked. Now exiting without unlocking.
+[main] Attempting to lock the robust mutex.
+[main] pthread_mutex_lock() returned EOWNERDEAD
+[main] Now make the mutex consistent
+[main] Mutex is now consistent; unlocking
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="pthread-mutexattr-setrobust-3_sect8" name="pthread-mutexattr-setrobust-3_sect8" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;errno.h&gt;
+
+#define handle_error_en(en, msg) \
+        do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
+
+static pthread_mutex_t mtx;
+
+static void *
+original_owner_thread(void *ptr)
+{
+    printf("[original owner] Setting lock...\n");
+    pthread_mutex_lock(&amp;mtx);
+    printf("[original owner] Locked. Now exiting without unlocking.\n");
+    pthread_exit(NULL);
+}
+
+int
+main(int argc, char *argv[])
+{
+    pthread_t thr;
+    pthread_mutexattr_t attr;
+    int s;
+
+    pthread_mutexattr_init(&amp;attr);
+
+    pthread_mutexattr_setrobust(&amp;attr, PTHREAD_MUTEX_ROBUST);
+
+    pthread_mutex_init(&amp;mtx, &amp;attr);
+
+    pthread_create(&amp;thr, NULL, original_owner_thread, NULL);
+
+    sleep(2);
+
+    /* "original_owner_thread" should have exited by now. */
+
+    printf("[main] Attempting to lock the robust mutex.\n");
+    s = pthread_mutex_lock(&amp;mtx);
+    if (s == EOWNERDEAD) {
+        printf("[main] pthread_mutex_lock() returned EOWNERDEAD\n");
+        printf("[main] Now make the mutex consistent\n");
+        s = pthread_mutex_consistent(&amp;mtx);
+        if (s != 0)
+            handle_error_en(s, "pthread_mutex_consistent");
+        printf("[main] Mutex is now consistent; unlocking\n");
+        s = pthread_mutex_unlock(&amp;mtx);
+        if (s != 0)
+            handle_error_en(s, "pthread_mutex_unlock");
+
+        exit(EXIT_SUCCESS);
+    } else if (s == 0) {
+        printf("[main] pthread_mutex_lock() unexpectedly succeeded\n");
+        exit(EXIT_FAILURE);
+    } else {
+        printf("[main] pthread_mutex_lock() unexpectedly failed\n");
+        handle_error_en(s, "pthread_mutex_lock");
+    }
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pthread-mutexattr-setrobust-3_sect9" name="pthread-mutexattr-setrobust-3_sect9" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/get_robust_list.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">get_robust_list</span>(2)</span></a>,
+      <a class="link" href="../htmlman2/get_robust_list.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">set_robust_list</span>(2)</span></a>,
+      <a class="link" href="../htmlman3/pthread_mutex_consistent.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_mutex_consistent</span>(3)</span></a>,
+      <span class="citerefentry"><span class="refentrytitle">pthread_mutex_init</span>(3)</span>,
+      <span class="citerefentry"><span class="refentrytitle">pthread_mutex_lock</span>(3)</span>,
+      <a class="link" href="../htmlman7/pthreads.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthreads</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="pthread-mutexattr-setrobust-3_sect10" name="pthread-mutexattr-setrobust-3_sect10" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2017, Yubin Ruan &lt;ablacktshirt<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  and Copyright (c) 2017, Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>lsns(8) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="lsns(8) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index8.html" shape="rect">Section 8</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="lsns.8" name="lsns.8" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>lsns — list namespaces</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">lsns</code> [options]
+        [namespace]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsns-8_sect1" name="lsns-8_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><span class="command"><strong>lsns</strong></span> lists
+      information about all the currently accessible namespaces or
+      about the given <em class="parameter"><code>namespace</code></em>. The <em class="parameter"><code>namespace</code></em> identifier is an
+      inode number.</p>
+      <p>The default output is subject to change. So whenever
+      possible, you should avoid using default outputs in your
+      scripts. Always explicitly define expected columns by using
+      the <code class="option">−−output</code> option
+      together with a columns list in environments where a stable
+      output is required.</p>
+      <p>The <code class="constant">NSFS</code> column, printed
+      when <span class="command"><strong>net</strong></span> is
+      specified for the <code class="option">−−type</code> option, is special; it
+      uses multi-line cells. Use the option <code class="option">−−nowrap</code> to switch to
+      ","-separated single-line representation.</p>
+      <p>Note that <span class="command"><strong>lsns</strong></span> reads information
+      directly from the /proc filesystem and for non-root users it
+      may return incomplete information. The current /proc
+      filesystem may be unshared and affected by a PID namespace
+      (see <span class="emphasis"><em>unshare
+      −−mount−proc</em></span> for more details).
+      <span class="command"><strong>lsns</strong></span> is not
+      able to see persistent namespaces without processes where the
+      namespace instance is held by a bind mount to
+      /proc/<span class="command"><strong>pid</strong></span>/ns/<span class="command"><strong>type</strong></span>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lsns-8_sect2" name="lsns-8_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−J,
+          −−json</code></span></dt>
+          <dd>
+            <p>Use JSON output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−l,
+          −−list</code></span></dt>
+          <dd>
+            <p>Use list output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n,
+          −−noheadings</code></span></dt>
+          <dd>
+            <p>Do not print a header line.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−o,
+          −−output <em class="parameter"><code>list</code></em></code></span></dt>
+          <dd>
+            <p>Specify which output columns to print. Use
+            <code class="option">−−help</code> to get a
+            list of all supported columns.</p>
+            <p>The default list of columns may be extended if
+            <span class="command"><strong>list</strong></span> is
+            specified in the format <code class="literal">+</code><span class="command"><strong>list</strong></span> (e.g.,
+            <span class="emphasis"><em>lsns −o
+            +PATH</em></span>).</p>
+          </dd>
+          <dt><span class="term"><code class="option">−−output−all</code></span></dt>
+          <dd>
+            <p>Output all available columns.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−p,
+          −−task <em class="parameter"><code>pid</code></em></code></span></dt>
+          <dd>
+            <p>Display only the namespaces held by the process with
+            this <span class="command"><strong>pid</strong></span>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−r,
+          −−raw</code></span></dt>
+          <dd>
+            <p>Use the raw output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−t,
+          −−type <em class="parameter"><code>type</code></em></code></span></dt>
+          <dd>
+            <p>Display the specified <span class="command"><strong>type</strong></span> of namespaces
+            only. The supported types are <span class="command"><strong>mnt</strong></span>, <span class="command"><strong>net</strong></span>, <span class="command"><strong>ipc</strong></span>, <span class="command"><strong>user</strong></span>, <span class="command"><strong>pid</strong></span>, <span class="command"><strong>uts</strong></span>, <span class="command"><strong>cgroup</strong></span> and
+            <span class="command"><strong>time</strong></span>.
+            This option may be given more than once.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−u,
+          −−notruncate</code></span></dt>
+          <dd>
+            <p>Do not truncate text in columns.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−W,
+          −−nowrap</code></span></dt>
+          <dd>
+            <p>Do not use multi-line text in columns.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsns-8_sect3" name="lsns-8_sect3" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+Karel Zak &lt;kzak@redhat.com&gt;
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsns-8_sect4" name="lsns-8_sect4" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/nsenter.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">nsenter</span>(1)</span></a>, <a class="link" href="../htmlman1/unshare.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unshare</span>(1)</span></a>, <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>, <a class="link" href="../htmlman7/namespaces.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">namespaces</span>(7)</span></a></p>
+    </div>
+    <div class="refsect1">
+      <a id="lsns-8_sect5" name="lsns-8_sect5" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The lsns command is part of the util-linux package and is
+      available from
+      https://www.kernel.org/pub/linux/utils/util-linux/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Man page for the lsns command.<br />
+
+                  Copyright 2015 Karel Zak &lt;kzak<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com&gt;<br />
+
+                  May be distributed under the GNU General Public License<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

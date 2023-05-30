@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>queue(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="queue(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="queue.7" name="queue.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>queue — implementations of linked lists and
+      queues</p>
+    </div>
+    <div class="refsect1">
+      <a id="queue-7_sect1" name="queue-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="literal">&lt;</code><code class="filename">sys/queue.h</code><code class="literal">&gt;</code> header file provides a set of macros
+      that define and operate on the following data structures:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>singly linked lists (SLIST)</p>
+          </li>
+          <li class="listitem">
+            <p>doubly linked lists (LIST)</p>
+          </li>
+          <li class="listitem">
+            <p>singly linked tail queues (STAILQ)</p>
+          </li>
+          <li class="listitem">
+            <p>doubly linked tail queues (TAILQ)</p>
+          </li>
+          <li class="listitem">
+            <p>doubly linked circular queues (CIRCLEQ)</p>
+          </li>
+        </ul>
+      </div>
+      <p>All structures support the following functionality:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>Insertion of a new entry at the head of the
+            list.</p>
+          </li>
+          <li class="listitem">
+            <p>Insertion of a new entry after any element in the
+            list.</p>
+          </li>
+          <li class="listitem">
+            <p>O(1) removal of an entry from the head of the
+            list.</p>
+          </li>
+          <li class="listitem">
+            <p>Forward traversal through the list.</p>
+          </li>
+        </ul>
+      </div>
+      <p>Code size and execution time depend on the complexity of
+      the data structure being used, so programmers should take
+      care to choose the appropriate one.</p>
+      <div class="refsect2">
+        <a id="queue-7_sect2" name="queue-7_sect2" shape="rect"> </a>
+        <h3>Singly linked lists (SLIST)</h3>
+        <p>Singly linked lists are the simplest and support only
+        the above functionality. Singly linked lists are ideal for
+        applications with large datasets and few or no removals, or
+        for implementing a LIFO queue. Singly linked lists add the
+        following functionality:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>O(n) removal of any entry in the list.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="queue-7_sect3" name="queue-7_sect3" shape="rect"> </a>
+        <h3>Singly linked tail queues (STAILQ)</h3>
+        <p>Singly linked tail queues add the following
+        functionality:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>Entries can be added at the end of a list.</p>
+            </li>
+            <li class="listitem">
+              <p>O(n) removal of any entry in the list.</p>
+            </li>
+            <li class="listitem">
+              <p>They may be concatenated.</p>
+            </li>
+          </ul>
+        </div>
+        <p>However:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>All list insertions must specify the head of the
+              list.</p>
+            </li>
+            <li class="listitem">
+              <p>Each head entry requires two pointers rather than
+              one.</p>
+            </li>
+          </ul>
+        </div>
+        <p>Singly linked tail queues are ideal for applications
+        with large datasets and few or no removals, or for
+        implementing a FIFO queue.</p>
+      </div>
+      <div class="refsect2">
+        <a id="queue-7_sect4" name="queue-7_sect4" shape="rect"> </a>
+        <h3>Doubly linked data structures</h3>
+        <p>All doubly linked types of data structures (lists and
+        tail queues) additionally allow:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>Insertion of a new entry before any element in the
+              list.</p>
+            </li>
+            <li class="listitem">
+              <p>O(1) removal of any entry in the list.</p>
+            </li>
+          </ul>
+        </div>
+        <p>However:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>Each element requires two pointers rather than
+              one.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="queue-7_sect5" name="queue-7_sect5" shape="rect"> </a>
+        <h3>Doubly linked lists (LIST)</h3>
+        <p>Linked lists are the simplest of the doubly linked data
+        structures. They add the following functionality over the
+        above:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>They may be traversed backwards.</p>
+            </li>
+          </ul>
+        </div>
+        <p>However:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>To traverse backwards, an entry to begin the
+              traversal and the list in which it is contained must
+              be specified.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="queue-7_sect6" name="queue-7_sect6" shape="rect"> </a>
+        <h3>Doubly linked tail queues (TAILQ)</h3>
+        <p>Tail queues add the following functionality:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>Entries can be added at the end of a list.</p>
+            </li>
+            <li class="listitem">
+              <p>They may be traversed backwards, from tail to
+              head.</p>
+            </li>
+            <li class="listitem">
+              <p>They may be concatenated.</p>
+            </li>
+          </ul>
+        </div>
+        <p>However:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>All list insertions and removals must specify the
+              head of the list.</p>
+            </li>
+            <li class="listitem">
+              <p>Each head entry requires two pointers rather than
+              one.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="queue-7_sect7" name="queue-7_sect7" shape="rect"> </a>
+        <h3>Doubly linked circular queues (CIRCLEQ)</h3>
+        <p>Circular queues add the following functionality over the
+        above:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>The first and last entries are connected.</p>
+            </li>
+          </ul>
+        </div>
+        <p>However:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>The termination condition for traversal is more
+              complex.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="queue-7_sect8" name="queue-7_sect8" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>Not in POSIX.1, POSIX.1-2001, or POSIX.1-2008. Present on
+      the BSDs. <code class="literal">&lt;</code><code class="filename">sys/queue.h</code><code class="literal">&gt;</code> macros first appeared in 4.4BSD.</p>
+    </div>
+    <div class="refsect1">
+      <a id="queue-7_sect9" name="queue-7_sect9" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Some BSDs provide SIMPLEQ instead of STAILQ. They are
+      identical, but for historical reasons they were named
+      differently on different BSDs. STAILQ originated on FreeBSD,
+      and SIMPLEQ originated on NetBSD. For compatibility reasons,
+      some systems provide both sets of macros. Glibc provides both
+      STAILQ and SIMPLEQ, which are identical except for a missing
+      SIMPLEQ equivalent to <code class="function">STAILQ_CONCAT</code>().</p>
+    </div>
+    <div class="refsect1">
+      <a id="queue-7_sect10" name="queue-7_sect10" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/circleq.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">circleq</span>(3)</span></a>, <a class="link" href="../htmlman3/insque.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">insque</span>(3)</span></a>, <a class="link" href="../htmlman3/list.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">list</span>(3)</span></a>, <a class="link" href="../htmlman3/slist.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slist</span>(3)</span></a>, <a class="link" href="../htmlman3/stailq.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stailq</span>(3)</span></a>, <a class="link" href="../htmlman3/tailq.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tailq</span>(3)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="queue-7_sect11" name="queue-7_sect11" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 1993<br />
+                     The Regents of the University of California.  All rights reserved.<br />
+
+                  and Copyright (c) 2020 by Alejandro Colomar &lt;colomar.6.4.3<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(BSD_3_CLAUSE_UCB)<br />
+                  Redistribution and use in source and binary forms, with or without<br />
+
+                  modification, are permitted provided that the following conditions<br />
+
+                  are met:<br />
+                  1. Redistributions of source code must retain the above copyright<br />
+
+                     notice, this list of conditions and the following disclaimer.<br />
+
+                  2. Redistributions in binary form must reproduce the above copyright<br />
+
+                     notice, this list of conditions and the following disclaimer in the<br />
+
+                     documentation and/or other materials provided with the distribution.<br />
+
+                  3. Neither the name of the University nor the names of its contributors<br />
+
+                     may be used to endorse or promote products derived from this software<br />
+
+                     without specific prior written permission.<br />
+
+                  <br />
+                  THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND<br />
+
+                  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE<br />
+
+                  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE<br />
+
+                  ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE<br />
+
+                  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL<br />
+
+                  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS<br />
+
+                  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)<br />
+
+                  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT<br />
+
+                  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY<br />
+
+                  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF<br />
+
+                  SUCH DAMAGE.<br />
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

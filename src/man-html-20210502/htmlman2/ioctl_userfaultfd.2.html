@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>ioctl_userfaultfd(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="ioctl_userfaultfd(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="ioctl-userfaultfd.2" name="ioctl-userfaultfd.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>ioctl_userfaultfd — create a file descriptor for
+      handling page faults in user space</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;sys/ioctl.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>ioctl</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">fd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">cmd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">...</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-userfaultfd-2_sect1" name="ioctl-userfaultfd-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>Various <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations can be
+      performed on a userfaultfd object (created by a call to
+      <a class="link" href="../htmlman2/userfaultfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">userfaultfd</span>(2)</span></a>) using calls
+      of the form:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+ioctl(fd, cmd, argp);
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>In the above, <em class="parameter"><code>fd</code></em>
+      is a file descriptor referring to a userfaultfd object,
+      <em class="parameter"><code>cmd</code></em> is one of the
+      commands listed below, and <em class="replaceable"><code>argp</code></em> is a pointer to a data
+      structure that is specific to <em class="parameter"><code>cmd</code></em>.</p>
+      <p>The various <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations are
+      described below. The <code class="constant">UFFDIO_API</code>, <code class="constant">UFFDIO_REGISTER</code>, and <code class="constant">UFFDIO_UNREGISTER</code> operations are used to
+      <em class="replaceable"><code>configure</code></em>
+      userfaultfd behavior. These operations allow the caller to
+      choose what features will be enabled and what kinds of events
+      will be delivered to the application. The remaining
+      operations are <em class="replaceable"><code>range</code></em> operations. These
+      operations enable the calling application to resolve
+      page-fault events.</p>
+      <div class="refsect2">
+        <a id="ioctl-userfaultfd-2_sect2" name="ioctl-userfaultfd-2_sect2" shape="rect"> </a>
+        <h3>UFFDIO_API</h3>
+        <p>(Since Linux 4.3.) Enable operation of the userfaultfd
+        and perform API handshake.</p>
+        <p>The <em class="replaceable"><code>argp</code></em>
+        argument is a pointer to a <em class="replaceable"><code>uffdio_api</code></em> structure,
+        defined as:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">uffdio_api</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>api</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Requested API version (input) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>features</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Requested features (input/output) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>ioctls</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Available ioctl() operations (output) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>The <em class="parameter"><code>api</code></em> field
+        denotes the API version requested by the application.</p>
+        <p>The kernel verifies that it can support the requested
+        API version, and sets the <em class="parameter"><code>features</code></em> and <em class="parameter"><code>ioctls</code></em> fields to bit masks
+        representing all the available features and the generic
+        <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations
+        available.</p>
+        <p>For Linux kernel versions before 4.11, the <em class="parameter"><code>features</code></em> field must be
+        initialized to zero before the call to <code class="constant">UFFDIO_API</code>, and zero (i.e., no feature
+        bits) is placed in the <em class="parameter"><code>features</code></em> field by the kernel
+        upon return from <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>.</p>
+        <p>Starting from Linux 4.11, the <em class="parameter"><code>features</code></em> field can be used to
+        ask whether particular features are supported and
+        explicitly enable userfaultfd features that are disabled by
+        default. The kernel always reports all the available
+        features in the <em class="parameter"><code>features</code></em> field.</p>
+        <p>To enable userfaultfd features the application should
+        set a bit corresponding to each feature it wants to enable
+        in the <em class="parameter"><code>features</code></em>
+        field. If the kernel supports all the requested features it
+        will enable them. Otherwise it will zero out the returned
+        <em class="replaceable"><code>uffdio_api</code></em>
+        structure and return <span class="errorname">EINVAL</span>.</p>
+        <p>The following feature bits may be set:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">UFFD_FEATURE_EVENT_FORK</code> (since Linux
+            4.11)</span></dt>
+            <dd>
+              <p>When this feature is enabled, the userfaultfd
+              objects associated with a parent process are
+              duplicated into the child process during <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> and a
+              <code class="constant">UFFD_EVENT_FORK</code> event
+              is delivered to the userfaultfd monitor</p>
+            </dd>
+            <dt><span class="term"><code class="constant">UFFD_FEATURE_EVENT_REMAP</code> (since Linux
+            4.11)</span></dt>
+            <dd>
+              <p>If this feature is enabled, when the faulting
+              process invokes <a class="link" href="../htmlman2/mremap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mremap</span>(2)</span></a>, the
+              userfaultfd monitor will receive an event of type
+              <code class="constant">UFFD_EVENT_REMAP</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">UFFD_FEATURE_EVENT_REMOVE</code> (since
+            Linux 4.11)</span></dt>
+            <dd>
+              <p>If this feature is enabled, when the faulting
+              process calls <a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a> with the
+              <code class="constant">MADV_DONTNEED</code> or
+              <code class="constant">MADV_REMOVE</code> advice
+              value to free a virtual memory area the userfaultfd
+              monitor will receive an event of type <code class="constant">UFFD_EVENT_REMOVE</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">UFFD_FEATURE_EVENT_UNMAP</code> (since Linux
+            4.11)</span></dt>
+            <dd>
+              <p>If this feature is enabled, when the faulting
+              process unmaps virtual memory either explicitly with
+              <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">munmap</span>(2)</span></a>, or
+              implicitly during either <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> or
+              <a class="link" href="../htmlman2/mremap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mremap</span>(2)</span></a>, the
+              userfaultfd monitor will receive an event of type
+              <code class="constant">UFFD_EVENT_UNMAP</code>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">UFFD_FEATURE_MISSING_HUGETLBFS</code> (since
+            Linux 4.11)</span></dt>
+            <dd>
+              <p>If this feature bit is set, the kernel supports
+              registering userfaultfd ranges on hugetlbfs virtual
+              memory areas</p>
+            </dd>
+            <dt><span class="term"><code class="constant">UFFD_FEATURE_MISSING_SHMEM</code> (since
+            Linux 4.11)</span></dt>
+            <dd>
+              <p>If this feature bit is set, the kernel supports
+              registering userfaultfd ranges on shared memory
+              areas. This includes all kernel shared memory APIs:
+              System V shared memory, <a class="link" href="../htmlman5/tmpfs.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">tmpfs</span>(5)</span></a>, shared
+              mappings of <code class="filename">/dev/zero</code>,
+              <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> with the
+              <code class="constant">MAP_SHARED</code> flag set,
+              <a class="link" href="../htmlman2/memfd_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memfd_create</span>(2)</span></a>,
+              and so on.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">UFFD_FEATURE_SIGBUS</code> (since Linux
+            4.14)</span></dt>
+            <dd>
+              <p>If this feature bit is set, no page-fault events
+              (<code class="constant">UFFD_EVENT_PAGEFAULT</code>)
+              will be delivered. Instead, a <code class="constant">SIGBUS</code> signal will be sent to the
+              faulting process. Applications using this feature
+              will not require the use of a userfaultfd monitor for
+              processing memory accesses to the regions registered
+              with userfaultfd.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The returned <em class="parameter"><code>ioctls</code></em> field can contain the
+        following bits:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="emphasis"><em>1
+            &lt;&lt; _UFFDIO_API</em></span></span></dt>
+            <dd>
+              <p>The <code class="constant">UFFDIO_API</code>
+              operation is supported.</p>
+            </dd>
+            <dt><span class="term"><span class="emphasis"><em>1
+            &lt;&lt; _UFFDIO_REGISTER</em></span></span></dt>
+            <dd>
+              <p>The <code class="constant">UFFDIO_REGISTER</code>
+              operation is supported.</p>
+            </dd>
+            <dt><span class="term"><span class="emphasis"><em>1
+            &lt;&lt; _UFFDIO_UNREGISTER</em></span></span></dt>
+            <dd>
+              <p>The <code class="constant">UFFDIO_UNREGISTER</code> operation is
+              supported.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>This <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation
+        returns 0 on success. On error, −1 is returned and
+        <code class="varname">errno</code> is set to indicate the
+        error. Possible errors include:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+            <dd>
+              <p><em class="replaceable"><code>argp</code></em>
+              refers to an address that is outside the calling
+              process's accessible address space.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>The userfaultfd has already been enabled by a
+              previous <code class="constant">UFFDIO_API</code>
+              operation.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>The API version requested in the <em class="parameter"><code>api</code></em> field is not
+              supported by this kernel, or the <em class="parameter"><code>features</code></em> field passed
+              to the kernel includes feature bits that are not
+              supported by the current kernel version.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-userfaultfd-2_sect3" name="ioctl-userfaultfd-2_sect3" shape="rect"> </a>
+        <h3>UFFDIO_REGISTER</h3>
+        <p>(Since Linux 4.3.) Register a memory address range with
+        the userfaultfd object. The pages in the range must be
+        "compatible".</p>
+        <p>Up to Linux kernel 4.11, only private anonymous ranges
+        are compatible for registering with <code class="constant">UFFDIO_REGISTER</code>.</p>
+        <p>Since Linux 4.11, hugetlbfs and shared memory ranges are
+        also compatible with <code class="constant">UFFDIO_REGISTER</code>.</p>
+        <p>The <em class="replaceable"><code>argp</code></em>
+        argument is a pointer to a <em class="replaceable"><code>uffdio_register</code></em> structure,
+        defined as:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">uffdio_range</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>start</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Start of range */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>len</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Length of range (bytes) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                  <tr>
+                    <td class="structsep" style="" colspan="5" align="left" rowspan="1"></td>
+                  </tr>
+                  <tr>
+                    <td class="structdefhdr2" style="" align="left" rowspan="1" colspan="1">struct</td>
+                    <td class="structdefhdr2" style="" colspan="4" align="left" rowspan="1"><span class="structname">uffdio_register</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct uffdio_range</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>range</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>mode</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Desired mode of operation (input) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>ioctls</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Available ioctl() operations (output) */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>The <em class="parameter"><code>range</code></em> field
+        defines a memory range starting at <em class="parameter"><code>start</code></em> and continuing for
+        <em class="parameter"><code>len</code></em> bytes that
+        should be handled by the userfaultfd.</p>
+        <p>The <em class="parameter"><code>mode</code></em> field
+        defines the mode of operation desired for this memory
+        region. The following values may be bitwise ORed to set the
+        userfaultfd mode for the specified range:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">UFFDIO_REGISTER_MODE_MISSING</code></span></dt>
+            <dd>
+              <p>Track page faults on missing pages.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">UFFDIO_REGISTER_MODE_WP</code></span></dt>
+            <dd>
+              <p>Track page faults on write-protected pages.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>Currently, the only supported mode is <code class="constant">UFFDIO_REGISTER_MODE_MISSING</code>.</p>
+        <p>If the operation is successful, the kernel modifies the
+        <em class="parameter"><code>ioctls</code></em> bit-mask
+        field to indicate which <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations are
+        available for the specified range. This returned bit mask
+        is as for <code class="constant">UFFDIO_API</code>.</p>
+        <p>This <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation
+        returns 0 on success. On error, −1 is returned and
+        <code class="varname">errno</code> is set to indicate the
+        error. Possible errors include:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EBUSY</span></span></dt>
+            <dd>
+              <p>A mapping in the specified range is registered
+              with another userfaultfd object.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+            <dd>
+              <p><em class="replaceable"><code>argp</code></em>
+              refers to an address that is outside the calling
+              process's accessible address space.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>An invalid or unsupported bit was specified in the
+              <em class="parameter"><code>mode</code></em> field;
+              or the <em class="parameter"><code>mode</code></em>
+              field was zero.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>There is no mapping in the specified address
+              range.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p><em class="replaceable"><code>range.start</code></em> or
+              <em class="replaceable"><code>range.len</code></em>
+              is not a multiple of the system page size; or,
+              <em class="replaceable"><code>range.len</code></em>
+              is zero; or these fields are otherwise invalid.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>There as an incompatible mapping in the specified
+              address range.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-userfaultfd-2_sect4" name="ioctl-userfaultfd-2_sect4" shape="rect"> </a>
+        <h3>UFFDIO_UNREGISTER</h3>
+        <p>(Since Linux 4.3.) Unregister a memory address range
+        from userfaultfd. The pages in the range must be
+        "compatible" (see the description of <code class="constant">UFFDIO_REGISTER</code>.)</p>
+        <p>The address range to unregister is specified in the
+        <em class="replaceable"><code>uffdio_range</code></em>
+        structure pointed to by <em class="replaceable"><code>argp</code></em>.</p>
+        <p>This <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation
+        returns 0 on success. On error, −1 is returned and
+        <code class="varname">errno</code> is set to indicate the
+        error. Possible errors include:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>Either the <em class="parameter"><code>start</code></em> or the <em class="parameter"><code>len</code></em> field of the
+              <em class="replaceable"><code>ufdio_range</code></em>
+              structure was not a multiple of the system page size;
+              or the <em class="parameter"><code>len</code></em>
+              field was zero; or these fields were otherwise
+              invalid.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>There as an incompatible mapping in the specified
+              address range.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>There was no mapping in the specified address
+              range.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-userfaultfd-2_sect5" name="ioctl-userfaultfd-2_sect5" shape="rect"> </a>
+        <h3>UFFDIO_COPY</h3>
+        <p>(Since Linux 4.3.) Atomically copy a continuous memory
+        chunk into the userfault registered range and optionally
+        wake up the blocked thread. The source and destination
+        addresses and the number of bytes to copy are specified by
+        the <em class="replaceable"><code>src</code></em>,
+        <em class="replaceable"><code>dst</code></em>, and
+        <em class="parameter"><code>len</code></em> fields of the
+        <em class="replaceable"><code>uffdio_copy</code></em>
+        structure pointed to by <em class="replaceable"><code>argp</code></em>:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">uffdio_copy</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dst</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Destination of copy */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>src</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Source of copy */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>len</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Number of bytes to copy */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>mode</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Flags controlling behavior of copy */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__s64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>copy</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Number of bytes copied, or negated error */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>The following value may be bitwise ORed in <em class="parameter"><code>mode</code></em> to change the behavior
+        of the <code class="constant">UFFDIO_COPY</code>
+        operation:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">UFFDIO_COPY_MODE_DONTWAKE</code></span></dt>
+            <dd>
+              <p>Do not wake up the thread that waits for
+              page-fault resolution</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The <em class="parameter"><code>copy</code></em> field
+        is used by the kernel to return the number of bytes that
+        was actually copied, or an error (a negated <code class="varname">errno</code>-style value). If the value returned
+        in <em class="parameter"><code>copy</code></em> doesn't
+        match the value that was specified in <em class="parameter"><code>len</code></em>, the operation fails with
+        the error <span class="errorname">EAGAIN</span>. The
+        <em class="parameter"><code>copy</code></em> field is
+        output-only; it is not read by the <code class="constant">UFFDIO_COPY</code> operation.</p>
+        <p>This <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation
+        returns 0 on success. In this case, the entire area was
+        copied. On error, −1 is returned and <code class="varname">errno</code> is set to indicate the error.
+        Possible errors include:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EAGAIN</span></span></dt>
+            <dd>
+              <p>The number of bytes copied (i.e., the value
+              returned in the <em class="parameter"><code>copy</code></em> field) does not
+              equal the value that was specified in the <em class="parameter"><code>len</code></em> field.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>Either <em class="parameter"><code>dst</code></em>
+              or <em class="parameter"><code>len</code></em> was
+              not a multiple of the system page size, or the range
+              specified by <em class="parameter"><code>src</code></em> and <em class="parameter"><code>len</code></em> or <em class="parameter"><code>dst</code></em> and <em class="parameter"><code>len</code></em> was invalid.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>An invalid bit was specified in the <em class="parameter"><code>mode</code></em> field.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">ENOENT</span> (since Linux
+            4.11)</span></dt>
+            <dd>
+              <p>The faulting process has changed its virtual
+              memory layout simultaneously with an outstanding
+              <code class="constant">UFFDIO_COPY</code>
+              operation.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">ENOSPC</span> (from Linux 4.11 until Linux
+            4.13)</span></dt>
+            <dd>
+              <p>The faulting process has exited at the time of a
+              <code class="constant">UFFDIO_COPY</code>
+              operation.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">ESRCH</span> (since Linux 4.13)</span></dt>
+            <dd>
+              <p>The faulting process has exited at the time of a
+              <code class="constant">UFFDIO_COPY</code>
+              operation.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-userfaultfd-2_sect6" name="ioctl-userfaultfd-2_sect6" shape="rect"> </a>
+        <h3>UFFDIO_ZEROPAGE</h3>
+        <p>(Since Linux 4.3.) Zero out a memory range registered
+        with userfaultfd.</p>
+        <p>The requested range is specified by the <em class="parameter"><code>range</code></em> field of the <em class="replaceable"><code>uffdio_zeropage</code></em> structure
+        pointed to by <em class="replaceable"><code>argp</code></em>:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="structdef">
+              <table class="structdef" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c1" span="1" />
+                  <col class="c2" span="1" />
+                  <col class="c3" span="1" />
+                  <col class="c4" span="1" />
+                  <col class="c5" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                    struct</td>
+                    <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">uffdio_zeropage</span> {</td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct uffdio_range</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>range</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>mode</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Flags controlling behavior of copy */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="" rowspan="1" colspan="1"> </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><span class="type">__s64</span></td>
+                    <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                     </td>
+                    <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>zeropage</code></em>;</td>
+                    <td style="" align="left" rowspan="1" colspan="1">
+                      <div class="literallayout">
+                        
+                        /* Number of bytes zeroed, or negated error */
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>The following value may be bitwise ORed in <em class="parameter"><code>mode</code></em> to change the behavior
+        of the <code class="constant">UFFDIO_ZEROPAGE</code>
+        operation:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">UFFDIO_ZEROPAGE_MODE_DONTWAKE</code></span></dt>
+            <dd>
+              <p>Do not wake up the thread that waits for
+              page-fault resolution.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The <em class="parameter"><code>zeropage</code></em>
+        field is used by the kernel to return the number of bytes
+        that was actually zeroed, or an error in the same manner as
+        <code class="constant">UFFDIO_COPY</code>. If the value
+        returned in the <em class="parameter"><code>zeropage</code></em> field doesn't match
+        the value that was specified in <em class="replaceable"><code>range.len</code></em>, the operation
+        fails with the error <span class="errorname">EAGAIN</span>.
+        The <em class="parameter"><code>zeropage</code></em> field
+        is output-only; it is not read by the <code class="constant">UFFDIO_ZEROPAGE</code> operation.</p>
+        <p>This <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation
+        returns 0 on success. In this case, the entire area was
+        zeroed. On error, −1 is returned and <code class="varname">errno</code> is set to indicate the error.
+        Possible errors include:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EAGAIN</span></span></dt>
+            <dd>
+              <p>The number of bytes zeroed (i.e., the value
+              returned in the <em class="parameter"><code>zeropage</code></em> field) does
+              not equal the value that was specified in the
+              <em class="replaceable"><code>range.len</code></em>
+              field.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>Either <em class="replaceable"><code>range.start</code></em> or
+              <em class="replaceable"><code>range.len</code></em>
+              was not a multiple of the system page size; or
+              <em class="replaceable"><code>range.len</code></em>
+              was zero; or the range specified was invalid.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>An invalid bit was specified in the <em class="parameter"><code>mode</code></em> field.</p>
+            </dd>
+            <dt><span class="term"><span class="errorname">ESRCH</span> (since Linux 4.13)</span></dt>
+            <dd>
+              <p>The faulting process has exited at the time of a
+              <code class="constant">UFFDIO_ZEROPAGE</code>
+              operation.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-userfaultfd-2_sect7" name="ioctl-userfaultfd-2_sect7" shape="rect"> </a>
+        <h3>UFFDIO_WAKE</h3>
+        <p>(Since Linux 4.3.) Wake up the thread waiting for
+        page-fault resolution on a specified memory address
+        range.</p>
+        <p>The <code class="constant">UFFDIO_WAKE</code> operation
+        is used in conjunction with <code class="constant">UFFDIO_COPY</code> and <code class="constant">UFFDIO_ZEROPAGE</code> operations that have the
+        <code class="constant">UFFDIO_COPY_MODE_DONTWAKE</code> or
+        <code class="constant">UFFDIO_ZEROPAGE_MODE_DONTWAKE</code>
+        bit set in the <em class="parameter"><code>mode</code></em>
+        field. The userfault monitor can perform several
+        <code class="constant">UFFDIO_COPY</code> and <code class="constant">UFFDIO_ZEROPAGE</code> operations in a batch and
+        then explicitly wake up the faulting thread using
+        <code class="constant">UFFDIO_WAKE</code>.</p>
+        <p>The <em class="replaceable"><code>argp</code></em>
+        argument is a pointer to a <em class="replaceable"><code>uffdio_range</code></em> structure
+        (shown above) that specifies the address range.</p>
+        <p>This <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation
+        returns 0 on success. On error, −1 is returned and
+        <code class="varname">errno</code> is set to indicate the
+        error. Possible errors include:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>The <em class="parameter"><code>start</code></em>
+              or the <em class="parameter"><code>len</code></em>
+              field of the <em class="replaceable"><code>ufdio_range</code></em> structure
+              was not a multiple of the system page size; or
+              <em class="parameter"><code>len</code></em> was zero;
+              or the specified range was otherwise invalid.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-userfaultfd-2_sect8" name="ioctl-userfaultfd-2_sect8" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>See descriptions of the individual operations, above.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-userfaultfd-2_sect9" name="ioctl-userfaultfd-2_sect9" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <p>See descriptions of the individual operations, above. In
+      addition, the following general errors can occur for all of
+      the operations described above:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>argp</code></em> does
+            not point to a valid memory address.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>(For all operations except <code class="constant">UFFDIO_API</code>.) The userfaultfd object
+            has not yet been enabled (via the <code class="constant">UFFDIO_API</code> operation).</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-userfaultfd-2_sect10" name="ioctl-userfaultfd-2_sect10" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>These <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations are
+      Linux-specific.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-userfaultfd-2_sect11" name="ioctl-userfaultfd-2_sect11" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p>In order to detect available userfault features and enable
+      some subset of those features the userfaultfd file descriptor
+      must be closed after the first <code class="constant">UFFDIO_API</code> operation that queries features
+      availability and reopened before the second <code class="constant">UFFDIO_API</code> operation that actually enables
+      the desired features.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-userfaultfd-2_sect12" name="ioctl-userfaultfd-2_sect12" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>See <a class="link" href="../htmlman2/userfaultfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">userfaultfd</span>(2)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-userfaultfd-2_sect13" name="ioctl-userfaultfd-2_sect13" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>, <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>, <a class="link" href="../htmlman2/userfaultfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">userfaultfd</span>(2)</span></a></p>
+      <p><code class="filename">Documentation/admin−guide/mm/userfaultfd.rst</code>
+      in the Linux kernel source tree</p>
+    </div>
+    <div class="colophon">
+      <a id="ioctl-userfaultfd-2_sect14" name="ioctl-userfaultfd-2_sect14" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2016, IBM Corporation.<br />
+
+                  Written by Mike Rapoport &lt;rppt<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>linux.vnet.ibm.com&gt;<br />
+
+                  and Copyright (C) 2016 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

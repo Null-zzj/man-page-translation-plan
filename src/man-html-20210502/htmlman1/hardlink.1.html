@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>hardlink(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="hardlink(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="hardlink.1" name="hardlink.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>hardlink — Consolidate duplicate files via
+      hardlinks</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">hardlink</code> [options] [
+        directory... ]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="hardlink-1_sect1" name="hardlink-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>This manual page documents <span class="command"><strong>hardlink</strong></span>, a program which
+      consolidates duplicate files in one or more directories using
+      hardlinks.</p>
+      <p><span class="command"><strong>hardlink</strong></span>
+      traverses one or more directories searching for duplicate
+      files. When it finds duplicate files, it uses one of them as
+      the master. It then removes all other duplicates and places a
+      hardlink for each one pointing to the master file. This
+      allows for conservation of disk space where multiple
+      directories on a single filesystem contain many duplicate
+      files.</p>
+      <p>Since hard links can only span a single filesystem,
+      <span class="command"><strong>hardlink</strong></span> is
+      only useful when all directories specified are on the same
+      filesystem.</p>
+    </div>
+    <div class="refsect1">
+      <a id="hardlink-1_sect2" name="hardlink-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−c,
+          −−content</code></span></dt>
+          <dd>
+            <p>Compare only the contents of the files being
+            considered for consolidation. Disregards permission,
+            ownership and other differences.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−f,
+          −−force</code></span></dt>
+          <dd>
+            <p>Force hardlinking across file systems.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n,
+          −−dry−run</code></span></dt>
+          <dd>
+            <p>Do not perform the consolidation; only print what
+            would be changed.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−v,
+          −−verbose</code></span></dt>
+          <dd>
+            <p>Print summary after hardlinking. The option may be
+            specified more than once. In this case (e.g.,
+            <code class="option">−vv</code>) it prints every
+            hardlinked file and bytes saved.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−x,
+          −−exclude <em class="parameter"><code>regex</code></em></code></span></dt>
+          <dd>
+            <p>Exclude files and directories matching pattern from
+            hardlinking.</p>
+            <p>The optional pattern for excluding files and
+            directories must be a PCRE2 compatible regular
+            expression. Only the basename of the file or directory
+            is checked, not its path. Excluded directories'
+            contents will not be examined.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="hardlink-1_sect3" name="hardlink-1_sect3" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p><span class="command"><strong>hardlink</strong></span>
+      assumes that its target directory trees do not change from
+      under it. If a directory tree does change, this may result in
+      <span class="command"><strong>hardlink</strong></span>
+      accessing files and/or directories outside of the intended
+      directory tree. Thus, you must avoid running <span class="command"><strong>hardlink</strong></span> on potentially
+      changing directory trees, and especially on directory trees
+      under control of another user.</p>
+      <p>Historically <span class="command"><strong>hardlink</strong></span> silently excluded
+      any names beginning with ".in.", as well as any names
+      beginning with "." followed by exactly 6 other characters.
+      That prior behavior can be achieved by specifying</p>
+      <p>−x '^(\.in\.|\.[^.]{6}$)'</p>
+    </div>
+    <div class="refsect1">
+      <a id="hardlink-1_sect4" name="hardlink-1_sect4" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><span class="command"><strong>hardlink</strong></span> was
+      written by Jakub Jelinek &lt;jakub@redhat.com&gt; and later
+      modified by Ruediger Meier &lt;ruediger.meier@ga-group.nl&gt;
+      and Karel Zak &lt;kzak@redhat.com&gt; for util-linux.</p>
+      <p>Man page written by Brian Long and later updated by
+      Jindrich Novy &lt;jnovy@redhat.com&gt;</p>
+    </div>
+    <div class="refsect1">
+      <a id="hardlink-1_sect5" name="hardlink-1_sect5" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The hardlink command is part of the util-linux package and
+      is available from
+      https://www.kernel.org/pub/linux/utils/util-linux/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

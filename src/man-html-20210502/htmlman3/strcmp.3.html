@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>strcmp(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="strcmp(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="strcmp.3" name="strcmp.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>strcmp, strncmp — compare two strings</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;string.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>strcmp</strong>(</code></td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">s1</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">s2</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>strncmp</strong>(</code></td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">s1</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *<var class="pdparam">s2</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">size_t <var class="pdparam">n</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="strcmp-3_sect1" name="strcmp-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">strcmp</code>() function
+      compares the two strings <em class="parameter"><code>s1</code></em> and <em class="parameter"><code>s2</code></em>. The locale is not taken
+      into account (for a locale-aware comparison, see <a class="link" href="../htmlman3/strcoll.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strcoll</span>(3)</span></a>). The comparison
+      is done using unsigned characters.</p>
+      <p><code class="function">strcmp</code>() returns an integer
+      indicating the result of the comparison, as follows:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>0, if the <em class="parameter"><code>s1</code></em>
+            and <em class="parameter"><code>s2</code></em> are
+            equal;</p>
+          </li>
+          <li class="listitem">
+            <p>a negative value if <em class="parameter"><code>s1</code></em> is less than
+            <em class="parameter"><code>s2</code></em>;</p>
+          </li>
+          <li class="listitem">
+            <p>a positive value if <em class="parameter"><code>s1</code></em> is greater than
+            <em class="parameter"><code>s2</code></em>.</p>
+          </li>
+        </ul>
+      </div>
+      <p>The <code class="function">strncmp</code>() function is
+      similar, except it compares only the first (at most)
+      <em class="parameter"><code>n</code></em> bytes of <em class="parameter"><code>s1</code></em> and <em class="parameter"><code>s2</code></em>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="strcmp-3_sect2" name="strcmp-3_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>The <code class="function">strcmp</code>() and
+      <code class="function">strncmp</code>() functions return an
+      integer less than, equal to, or greater than zero if
+      <em class="parameter"><code>s1</code></em> (or the first
+      <em class="parameter"><code>n</code></em> bytes thereof) is
+      found, respectively, to be less than, to match, or be greater
+      than <em class="parameter"><code>s2</code></em>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="strcmp-3_sect3" name="strcmp-3_sect3" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">strcmp</code>(), <code class="literal">strncmp</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="strcmp-3_sect4" name="strcmp-3_sect4" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.</p>
+    </div>
+    <div class="refsect1">
+      <a id="strcmp-3_sect5" name="strcmp-3_sect5" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>POSIX.1 specifies only that:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <p>The sign of a nonzero return value shall be determined
+          by the sign of the difference between the values of the
+          first pair of bytes (both interpreted as type
+          <span class="type">unsigned char</span>) that differ in
+          the strings being compared.</p>
+        </blockquote>
+      </div>
+      <p>In glibc, as in most other implementations, the return
+      value is the arithmetic result of subtracting the last
+      compared byte in <em class="parameter"><code>s2</code></em>
+      from the last compared byte in <em class="parameter"><code>s1</code></em>. (If the two characters are
+      equal, this difference is 0.)</p>
+    </div>
+    <div class="refsect1">
+      <a id="strcmp-3_sect6" name="strcmp-3_sect6" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below can be used to demonstrate the operation
+      of <code class="function">strcmp</code>() (when given two
+      arguments) and <code class="function">strncmp</code>() (when
+      given three arguments). First, some examples using
+      <code class="function">strcmp</code>():</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./string_comp ABC ABC</em></span>
+&lt;str1&gt; and &lt;str2&gt; are equal
+$ <span class="emphasis"><em>./string_comp ABC AB</em></span>      # 'C' is ASCII 67; 'C' − ' ' = 67
+&lt;str1&gt; is greater than &lt;str2&gt; (67)
+$ <span class="emphasis"><em>./string_comp ABA ABZ</em></span>     # 'A' is ASCII 65; 'Z' is ASCII 90
+&lt;str1&gt; is less than &lt;str2&gt; (−25)
+$ <span class="emphasis"><em>./string_comp ABJ ABC</em></span>
+&lt;str1&gt; is greater than &lt;str2&gt; (7)
+$ .<code class="filename">/string_comp $'\201' A</code>   # 0201 − 0101 = 0100 (or 64 decimal)
+&lt;str1&gt; is greater than &lt;str2&gt; (64)
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>The last example uses <span class="citerefentry"><span class="refentrytitle">bash</span>(1)</span>-specific syntax to
+      produce a string containing an 8-bit ASCII code; the result
+      demonstrates that the string comparison uses unsigned
+      characters.</p>
+      <p>And then some examples using <code class="function">strncmp</code>():</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./string_comp ABC AB 3</em></span>
+&lt;str1&gt; is greater than &lt;str2&gt; (67)
+$ <span class="emphasis"><em>./string_comp ABC AB 2</em></span>
+&lt;str1&gt; and &lt;str2&gt; are equal in the first 2 bytes
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="strcmp-3_sect7" name="strcmp-3_sect7" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+/* string_comp.c
+
+   Licensed under GNU General Public License v2 or later.
+*/
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    int res;
+
+    if (argc &lt; 3) {
+        fprintf(stderr, "Usage: %s &lt;str1&gt; &lt;str2&gt; [&lt;len&gt;]\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (argc == 3)
+        res = strcmp(argv[1], argv[2]);
+    else
+        res = strncmp(argv[1], argv[2], atoi(argv[3]));
+
+    if (res == 0) {
+        printf("&lt;str1&gt; and &lt;str2&gt; are equal");
+        if (argc &gt; 3)
+            printf(" in the first %d bytes\n", atoi(argv[3]));
+        printf("\n");
+    } else if (res &lt; 0) {
+        printf("&lt;str1&gt; is less than &lt;str2&gt; (%d)\n", res);
+    } else {
+        printf("&lt;str1&gt; is greater than &lt;str2&gt; (%d)\n", res);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="strcmp-3_sect8" name="strcmp-3_sect8" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/bcmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">bcmp</span>(3)</span></a>, <a class="link" href="../htmlman3/memcmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memcmp</span>(3)</span></a>, <a class="link" href="../htmlman3/strcasecmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strcasecmp</span>(3)</span></a>, <a class="link" href="../htmlman3/strcoll.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strcoll</span>(3)</span></a>, <a class="link" href="../htmlman3/string.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">string</span>(3)</span></a>, <a class="link" href="../htmlman3/strcasecmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strncasecmp</span>(3)</span></a>, <a class="link" href="../htmlman3/strverscmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">strverscmp</span>(3)</span></a>, <a class="link" href="../htmlman3/wcscmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcscmp</span>(3)</span></a>, <a class="link" href="../htmlman3/wcsncmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wcsncmp</span>(3)</span></a>, <a class="link" href="../htmlman7/ascii.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ascii</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="strcmp-3_sect9" name="strcmp-3_sect9" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright 1993 David Metcalfe (david<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>prism.demon.co.uk)<br />
+
+                  and Copyright 2020 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  References consulted:<br />
+                      Linux libc source code<br />
+
+                      Lewine's _POSIX Programmer's Guide_ (O'Reilly &amp; Associates, 1991)<br />
+
+                      386BSD man pages<br />
+
+                  Modified Sat Jul 24 18:08:52 1993 by Rik Faith (faith<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.unc.edu)<br />
+
+                  Modified 2001-08-31, aeb<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

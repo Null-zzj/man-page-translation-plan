@@ -1,0 +1,2325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>system_data_types(7) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="system_data_types(7) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index7.html" shape="rect">Section 7</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="system-data-types.7" name="system-data-types.7" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>system_data_types — overview of system data
+      types</p>
+    </div>
+    <div class="refsect1">
+      <a id="system-data-types-7_sect1" name="system-data-types-7_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><em class="replaceable"><code>aiocb</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">aiocb</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>aio_fildes</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* File descriptor */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">off_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>aio_offset</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* File offset */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">volatile void</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>aio_buf</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Location of buffer */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">size_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>aio_nbytes</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Length of transfer */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>aio_reqprio</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Request priority offset */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct sigevent</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>aio_sigevent</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Signal number and value */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>aio_lio_opcode</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Operation to be performed */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>For further information about this structure,
+                see <a class="link" href="../htmlman7/aio.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio</span>(7)</span></a>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/aio_cancel.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_cancel</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/aio_error.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_error</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/aio_fsync.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_fsync</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/aio_read.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_read</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/aio_return.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_return</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/aio_suspend.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_suspend</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/aio_write.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">aio_write</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/lio_listio.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lio_listio</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>clock_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">sys/time.h</code><code class="literal">&gt;</code></p>
+                <p>Used for system time in clock ticks or
+                <code class="constant">CLOCKS_PER_SEC</code>
+                (defined in <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code> According to POSIX, it shall
+                be an integer type or a real-floating type.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/times.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">times</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/clock.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>clockid_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code></p>
+                <p>Used for clock ID type in the clock and timer
+                functions. According to POSIX, it shall be defined
+                as an arithmetic type.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/adjtimex.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_adjtime</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/clock_getres.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_getres</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/clock_nanosleep.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_nanosleep</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/timer_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_create</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/clock_getcpuclockid.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_getcpuclockid</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>dev_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">sys/stat.h</code><code class="literal">&gt;</code></p>
+                <p>Used for device IDs. According to POSIX, it
+                shall be an integer type. For further details of
+                this type, see <a class="link" href="../htmlman3/makedev.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">makedev</span>(3)</span></a>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/mknod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mknod</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>div_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdlib.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>quot</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Quotient */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>rem</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Remainder */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} div_t;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>It is the type of the value returned by the
+                <a class="link" href="../htmlman3/div.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">div</span>(3)</span></a>
+                function.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/div.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">div</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>double_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">math.h</code><code class="literal">&gt;</code></p>
+                <p>The implementation's most efficient floating
+                type at least as wide as <em class="replaceable"><code>double</code></em>. Its type
+                depends on the value of the macro <code class="constant">FLT_EVAL_METHOD</code> (defined in
+                <code class="literal">&lt;</code><code class="filename">float.h</code><code class="literal">&gt;</code></p>
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><code class="constant">0</code></span></dt>
+                    <dd>
+                      <p><em class="replaceable"><code>double_t</code></em> is
+                      <em class="replaceable"><code>double</code></em>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">1</code></span></dt>
+                    <dd>
+                      <p><em class="replaceable"><code>double_t</code></em> is
+                      <em class="replaceable"><code>double</code></em>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">2</code></span></dt>
+                    <dd>
+                      <p><em class="replaceable"><code>double_t</code></em> is
+                      <span class="emphasis"><em>long
+                      double</em></span>.</p>
+                    </dd>
+                  </dl>
+                </div>
+                <p>For other values of <code class="constant">FLT_EVAL_METHOD</code>, the type of
+                <em class="replaceable"><code>double_t</code></em>
+                is implementation-defined.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>float_t</code></em> type in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>fd_set</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/select.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">sys/time.h</code><code class="literal">&gt;</code></p>
+                <p>A structure type that can represent a set of
+                file descriptors. According to POSIX, the maximum
+                number of file descriptors in an <em class="replaceable"><code>fd_set</code></em> structure is
+                the value of the macro <code class="constant">FD_SETSIZE</code>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>fenv_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">fenv.h</code><code class="literal">&gt;</code></p>
+                <p>This type represents the entire floating-point
+                environment, including control modes and status
+                flags; for further details, see <a class="link" href="../htmlman3/fenv.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fenv</span>(3)</span></a>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/fenv.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fenv</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>fexcept_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">fenv.h</code><code class="literal">&gt;</code></p>
+                <p>This type represents the floating-point status
+                flags collectively; for further details see
+                <a class="link" href="../htmlman3/fenv.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fenv</span>(3)</span></a>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/fenv.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fenv</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><code class="constant">FILE</code></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdio.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">wchar.h</code><code class="literal">&gt;</code></p>
+                <p>An object type used for streams.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/fclose.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fclose</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/flockfile.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">flockfile</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/fopen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fopen</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fprintf</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/fread.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fread</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fscanf</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/stdin.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stdin</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/stdio.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stdio</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>float_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">math.h</code><code class="literal">&gt;</code></p>
+                <p>The implementation's most efficient floating
+                type at least as wide as <em class="replaceable"><code>float</code></em>. Its type
+                depends on the value of the macro <code class="constant">FLT_EVAL_METHOD</code> (defined in
+                <code class="literal">&lt;</code><code class="filename">float.h</code><code class="literal">&gt;</code></p>
+                <div class="variablelist">
+                  <dl class="variablelist">
+                    <dt><span class="term"><code class="constant">0</code></span></dt>
+                    <dd>
+                      <p><em class="replaceable"><code>float_t</code></em> is
+                      <em class="replaceable"><code>float</code></em>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">1</code></span></dt>
+                    <dd>
+                      <p><em class="replaceable"><code>float_t</code></em> is
+                      <em class="replaceable"><code>double</code></em>.</p>
+                    </dd>
+                    <dt><span class="term"><code class="constant">2</code></span></dt>
+                    <dd>
+                      <p><em class="replaceable"><code>float_t</code></em> is
+                      <span class="emphasis"><em>long
+                      double</em></span>.</p>
+                    </dd>
+                  </dl>
+                </div>
+                <p>For other values of <code class="constant">FLT_EVAL_METHOD</code>, the type of
+                <em class="replaceable"><code>float_t</code></em>
+                is implementation-defined.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>double_t</code></em> type in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>gid_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">grp.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">pwd.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">stropts.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/ipc.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/stat.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">unistd.h</code><code class="literal">&gt;</code></p>
+                <p>A type used to hold group IDs. According to
+                POSIX, this shall be an integer type.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getgid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getegid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getgroups.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getgroups</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getresuid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getresgid</span>(2)</span></a>,
+                <span class="citerefentry"><span class="refentrytitle">getgrnam</span>(2)</span>,
+                <a class="link" href="../htmlman7/credentials.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">credentials</span>(7)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>id_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">sys/resource.h</code><code class="literal">&gt;</code></p>
+                <p>A type used to hold a general identifier.
+                According to POSIX, this shall be an integer type
+                that can be used to contain a <em class="replaceable"><code>pid_t</code></em>, <em class="replaceable"><code>uid_t</code></em>, or
+                <em class="replaceable"><code>gid_t</code></em>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/getpriority.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpriority</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">waitid</span>(2)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>imaxdiv_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">intmax_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>quot</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Quotient */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">intmax_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>rem</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Remainder */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} imaxdiv_t;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>It is the type of the value returned by the
+                <a class="link" href="../htmlman3/div.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">imaxdiv</span>(3)</span></a>
+                function.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/div.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">imaxdiv</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>intmax_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdint.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code></p>
+                <p>A signed integer type capable of representing
+                any value of any signed integer type supported by
+                the implementation. According to the C language
+                standard, it shall be capable of storing values in
+                the range [<code class="constant">INTMAX_MIN</code>, <code class="constant">INTMAX_MAX</code>].</p>
+                <p>The macro <code class="function">INTMAX_C</code>() expands its argument
+                to an integer constant of type <em class="replaceable"><code>intmax_t</code></em>.</p>
+                <p>The length modifier for <em class="replaceable"><code>intmax_t</code></em> for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> and the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> families
+                of functions is <em class="replaceable"><code>j</code></em>; resulting
+                commonly in <em class="replaceable"><code>%jd</code></em> or <em class="replaceable"><code>%ji</code></em> for printing
+                <em class="replaceable"><code>intmax_t</code></em>
+                values.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><em class="replaceable"><code>Bugs</code></em>:
+                <em class="replaceable"><code>intmax_t</code></em>
+                is not large enough to represent values of type
+                <em class="replaceable"><code>__int128</code></em>
+                in implementations where <em class="replaceable"><code>__int128</code></em> is defined
+                and <span class="emphasis"><em>long
+                long</em></span> is less than 128 bits wide.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>uintmax_t</code></em> type in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>int</code></em>N<em class="replaceable"><code>_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdint.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code></p>
+                <p><em class="replaceable"><code>int8_t</code></em>, <em class="replaceable"><code>int16_t</code></em>, <em class="replaceable"><code>int32_t</code></em>, <em class="replaceable"><code>int64_t</code></em></p>
+                <p>A signed integer type of a fixed width of
+                exactly N bits, N being the value specified in its
+                type name. According to the C language standard,
+                they shall be capable of storing values in the
+                range [<code class="constant">INT</code>N<code class="constant">_MIN</code>, <code class="constant">INT</code>N<code class="constant">_MAX</code>], substituting N by the
+                appropriate number.</p>
+                <p>According to POSIX, <em class="replaceable"><code>int8_t</code></em>, <em class="replaceable"><code>int16_t</code></em>, and
+                <em class="replaceable"><code>int32_t</code></em>
+                are required; <em class="replaceable"><code>int64_t</code></em> is only
+                required in implementations that provide integer
+                types with width 64; and all other types of this
+                form are optional.</p>
+                <p>The length modifiers for the <em class="replaceable"><code>int</code></em>N<em class="replaceable"><code>_t</code></em> types for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> family
+                of functions are expanded by macros of the forms
+                <em class="replaceable"><code>PRId</code></em>N and
+                <em class="replaceable"><code>PRIi</code></em>N
+                (defined in <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code> resulting for example in
+                <em class="replaceable"><code>%"PRId64"</code></em>
+                or <em class="replaceable"><code>%"PRIi64"</code></em> for
+                printing <em class="replaceable"><code>int64_t</code></em> values. The
+                length modifiers for the <em class="replaceable"><code>int</code></em>N<em class="replaceable"><code>_t</code></em> types for the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> family
+                of functions are expanded by macros of the forms
+                <em class="replaceable"><code>SCNd</code></em>N and
+                <em class="replaceable"><code>SCNi</code></em>N,
+                (defined in <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code> resulting for example in
+                <em class="replaceable"><code>%"SCNd8"</code></em>
+                or <em class="replaceable"><code>%"SCNi8"</code></em> for
+                scanning <em class="replaceable"><code>int8_t</code></em> values.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>intmax_t</code></em>,
+                <em class="replaceable"><code>uint</code></em>N<em class="replaceable"><code>_t</code></em>,
+                and <em class="replaceable"><code>uintmax_t</code></em> types in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>intptr_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdint.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code></p>
+                <p>A signed integer type such that any valid
+                (<span class="emphasis"><em>void *</em></span>)
+                value can be converted to this type and back.
+                According to the C language standard, it shall be
+                capable of storing values in the range
+                [<code class="constant">INTPTR_MIN</code>,
+                <code class="constant">INTPTR_MAX</code>].</p>
+                <p>The length modifier for <em class="replaceable"><code>intptr_t</code></em> for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> family
+                of functions is expanded by the macros <em class="replaceable"><code>PRIdPTR</code></em> and
+                <em class="replaceable"><code>PRIiPTR</code></em>
+                (defined in <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code> resulting commonly in
+                <em class="replaceable"><code>%"PRIdPTR"</code></em> or
+                <em class="replaceable"><code>%"PRIiPTR"</code></em> for
+                printing <em class="replaceable"><code>intptr_t</code></em> values.
+                The length modifier for <em class="replaceable"><code>intptr_t</code></em> for the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> family
+                of functions is expanded by the macros <em class="replaceable"><code>SCNdPTR</code></em> and
+                <em class="replaceable"><code>SCNiPTR,</code></em>
+                (defined in <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code> resulting commonly in
+                <em class="replaceable"><code>%"SCNdPTR"</code></em> or
+                <em class="replaceable"><code>%"SCNiPTR"</code></em> for
+                scanning <em class="replaceable"><code>intptr_t</code></em>
+                values.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>uintptr_t</code></em> and
+                <span class="emphasis"><em>void *</em></span> types
+                in this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>lconv</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">locale.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="3" align="left" rowspan="1"><span class="structname">lconv</span> {</td>
+                        <td class="structdefhdrcomment" style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Values in the "C" locale: */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>decimal_point</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "." */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>thousands_sep</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>grouping</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>mon_decimal_point</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>mon_thousands_sep</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>mon_grouping</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>positive_sign</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>negative_sign</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>currency_symbol</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>frac_digits</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>p_cs_precedes</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>n_cs_precedes</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>p_sep_by_space</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>n_sep_by_space</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>p_sign_posn</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>n_sign_posn</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>int_curr_symbol</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* "" */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>int_frac_digits</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>int_p_cs_precedes</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>int_n_cs_precedes</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>int_p_sep_by_space</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>int_n_sep_by_space</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>int_p_sign_posn</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>int_n_sign_posn</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* CHAR_MAX */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>Contains members related to the formatting of
+                numeric values. In the "C" locale, its members have
+                the values shown in the comments above.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C11 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/setlocale.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setlocale</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/localeconv.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">localeconv</span>(3)</span></a>,
+                <span class="citerefentry"><span class="refentrytitle">charsets</span>(5)</span>,
+                <a class="link" href="../htmlman7/locale.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">locale</span>(7)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>ldiv_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdlib.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>quot</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Quotient */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>rem</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Remainder */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} ldiv_t;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>It is the type of the value returned by the
+                <a class="link" href="../htmlman3/div.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ldiv</span>(3)</span></a>
+                function.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/div.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ldiv</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>lldiv_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdlib.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">long long</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>quot</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Quotient */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">long long</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>rem</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Remainder */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} lldiv_t;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>It is the type of the value returned by the
+                <a class="link" href="../htmlman3/div.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lldiv</span>(3)</span></a>
+                function.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/div.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lldiv</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>off64_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code></p>
+                <p>Used for file sizes. It is a 64-bit signed
+                integer type.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: Present in glibc. It is not
+                standardized by the C language standard nor
+                POSIX.</p>
+                <p><em class="replaceable"><code>Notes</code></em>:
+                The feature test macro <code class="constant">_LARGEFILE64_SOURCE</code> has to be
+                defined for this type to be available.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/copy_file_range.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">copy_file_range</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/readahead.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readahead</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sync_file_range.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sync_file_range</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/lseek64.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lseek64</span>(3)</span></a>,
+                <a class="link" href="../htmlman7/feature_test_macros.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">feature_test_macros</span>(7)</span></a></p>
+                <p>See also the <em class="replaceable"><code>off_t</code></em> type in this
+                page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>off_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">fcntl.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">stdio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/mman.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/stat.h.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">unistd.h</code><code class="literal">&gt;</code></p>
+                <p>Used for file sizes. According to POSIX, this
+                shall be a signed integer type.</p>
+                <p><em class="replaceable"><code>Versions</code></em>:
+                <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code> and <code class="literal">&lt;</code><code class="filename">stdio.h</code><code class="literal">&gt;</code> define <em class="replaceable"><code>off_t</code></em> since
+                POSIX.1-2008.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><em class="replaceable"><code>Notes</code></em>:
+                On some architectures, the width of this type can
+                be controlled with the feature test macro
+                <code class="constant">_FILE_OFFSET_BITS</code>.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/lseek.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lseek</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/posix_fadvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">posix_fadvise</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/pread.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pread</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/truncate.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">truncate</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/fseeko.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fseeko</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/lockf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lockf</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/posix_fallocate.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">posix_fallocate</span>(3)</span></a>,
+                <a class="link" href="../htmlman7/feature_test_macros.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">feature_test_macros</span>(7)</span></a></p>
+                <p>See also the <em class="replaceable"><code>off64_t</code></em> type in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>pid_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">fcntl.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sched.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">spawn.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/msg.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/sem.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/shm.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/wait.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">termios.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">unistd.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">utmpx.h</code><code class="literal">&gt;</code></p>
+                <p>This type is used for storing process IDs,
+                process group IDs, and session IDs. According to
+                POSIX, it shall be a signed integer type, and the
+                implementation shall support one or more
+                programming environments where the width of
+                <em class="replaceable"><code>pid_t</code></em> is
+                no greater than the width of the type <em class="replaceable"><code>long</code></em>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getpid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getppid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getsid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getsid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/gettid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">gettid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/setpgid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpgid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/kill.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">kill</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/pidfd_open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_open</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sched_setscheduler.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sched_setscheduler</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">waitpid</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/sigqueue.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigqueue</span>(3)</span></a>,
+                <a class="link" href="../htmlman7/credentials.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">credentials</span>(7)</span></a>,</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>ptrdiff_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stddef.h</code><code class="literal">&gt;</code></p>
+                <p>Used for a count of elements, and array indices.
+                It is the result of subtracting two pointers.
+                According to the C language standard, it shall be a
+                signed integer type capable of storing values in
+                the range [<code class="constant">PTRDIFF_MIN</code>, <code class="constant">PTRDIFF_MAX</code>].</p>
+                <p>The length modifier for <em class="replaceable"><code>ptrdiff_t</code></em> for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> and the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> families
+                of functions is <em class="replaceable"><code>t</code></em>; resulting
+                commonly in <em class="replaceable"><code>%td</code></em> or <em class="replaceable"><code>%ti</code></em> for printing
+                <em class="replaceable"><code>ptrdiff_t</code></em>
+                values.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>size_t</code></em> and
+                <em class="replaceable"><code>ssize_t</code></em>
+                types in this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>regex_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">regex.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">size_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>re_nsub</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Number of parenthesized subexpressions */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} regex_t;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>This is a structure type used in regular
+                expression matching. It holds a compiled regular
+                expression, compiled with <a class="link" href="../htmlman3/regex.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">regcomp</span>(3)</span></a>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/regex.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">regex</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>regmatch_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">regex.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">regoff_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>rm_so</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Byte offset from start of string<br />
+
+                            to start of substring */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">regoff_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>rm_eo</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Byte offset from start of string of<br />
+
+                            the first character after the end of<br />
+
+                            substring */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} regmatch_t;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>This is a structure type used in regular
+                expression matching.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/regex.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">regexec</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>regoff_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">regex.h</code><code class="literal">&gt;</code></p>
+                <p>According to POSIX, it shall be a signed integer
+                type capable of storing the largest value that can
+                be stored in either a <em class="replaceable"><code>ptrdiff_t</code></em> type or a
+                <em class="replaceable"><code>ssize_t</code></em>
+                type.</p>
+                <p><em class="replaceable"><code>Versions</code></em>: Prior to
+                POSIX.1-2008, the type was capable of storing the
+                largest value that can be stored in either an
+                <em class="replaceable"><code>off_t</code></em>
+                type or a <em class="replaceable"><code>ssize_t</code></em> type.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>regmatch_t</code></em>
+                structure and the <em class="replaceable"><code>ptrdiff_t</code></em> and
+                <em class="replaceable"><code>ssize_t</code></em>
+                types in this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>sigevent</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">mqueue.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">sigevent</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>sigev_notify</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Notification type */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>sigev_signo</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Signal number */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">union sigval</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>sigev_value</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Signal value */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">void</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">(*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>sigev_notify_function</code></em>)(union sigval);</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Notification function */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">pthread_attr_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>sigev_notify_attributes</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Notification attributes */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>For further details about this type, see
+                <a class="link" href="../htmlman7/sigevent.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigevent</span>(7)</span></a>.</p>
+                <p><em class="replaceable"><code>Versions</code></em>:
+                <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code> and <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code> define <em class="replaceable"><code>sigevent</code></em> since
+                POSIX.1-2008.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/timer_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_create</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/getaddrinfo_a.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getaddrinfo_a</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/lio_listio.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lio_listio</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/mq_notify.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mq_notify</span>(3)</span></a></p>
+                <p>See also the <em class="replaceable"><code>aiocb</code></em> structure in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>siginfo_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">sys/wait.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>si_signo</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Signal number */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>si_code</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Signal code */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">pid_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>si_pid</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Sending process ID */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">uid_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>si_uid</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Real user ID of sending process */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">void</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>si_addr</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Address of faulting instruction */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>si_status</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Exit value or signal */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">union sigval</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>si_value</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Signal value */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} siginfo_t;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>Information associated with a signal. For
+                further details on this structure (including
+                additional, Linux-specific fields), see <a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/pidfd_send_signal.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_send_signal</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/rt_sigqueueinfo.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">rt_sigqueueinfo</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sigwaitinfo.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigwaitinfo</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/psignal.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">psiginfo</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>sigset_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">spawn.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">sys/select.h</code><code class="literal">&gt;</code></p>
+                <p>This is a type that represents a set of signals.
+                According to POSIX, this shall be an integer or
+                structure type.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/epoll_wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">epoll_pwait</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ppoll</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pselect</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/signalfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">signalfd</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sigpending.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigpending</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sigprocmask.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigprocmask</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sigsuspend.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigsuspend</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/sigwaitinfo.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigwaitinfo</span>(2)</span></a>,
+                <a class="link" href="../htmlman7/signal.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">signal</span>(7)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>sigval</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">union</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">sigval</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>sigval_int</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Integer value */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">void</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>sigval_ptr</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Pointer value */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>Data passed with a signal.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/pthread_sigqueue.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pthread_sigqueue</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/sigqueue.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigqueue</span>(3)</span></a>,
+                <a class="link" href="../htmlman7/sigevent.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigevent</span>(7)</span></a></p>
+                <p>See also the <em class="replaceable"><code>sigevent</code></em> structure
+                and the <em class="replaceable"><code>siginfo_t</code></em> type in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>size_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stddef.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">glob.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">grp.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">iconv.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">monetary.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">mqueue.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">ndbm.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">pwd.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">regex.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">search.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">stdio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">stdlib.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">string.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">strings.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/mman.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/msg.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/sem.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/shm.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/socket.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/uio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">unistd.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">wchar.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">wordexp.h</code><code class="literal">&gt;</code></p>
+                <p>Used for a count of bytes. It is the result of
+                the <em class="replaceable"><code>sizeof</code></em> operator.
+                According to the C language standard, it shall be
+                an unsigned integer type capable of storing values
+                in the range [0, <code class="constant">SIZE_MAX</code>]. According to POSIX,
+                the implementation shall support one or more
+                programming environments where the width of
+                <em class="replaceable"><code>size_t</code></em> is
+                no greater than the width of the type <em class="replaceable"><code>long</code></em>.</p>
+                <p>The length modifier for <em class="replaceable"><code>size_t</code></em> for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> and the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> families
+                of functions is <em class="replaceable"><code>z</code></em>; resulting
+                commonly in <em class="replaceable"><code>%zu</code></em> or <em class="replaceable"><code>%zx</code></em> for printing
+                <em class="replaceable"><code>size_t</code></em>
+                values.</p>
+                <p><em class="replaceable"><code>Versions</code></em>:
+                <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">glob.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">grp.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">iconv.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">mqueue.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">pwd.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> and <code class="literal">&lt;</code><code class="filename">sys/socket.h</code><code class="literal">&gt;</code> define <em class="replaceable"><code>size_t</code></em> since
+                POSIX.1-2008.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/fread.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fread</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/fread.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fwrite</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/memcmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memcmp</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/memcpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memcpy</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/memset.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memset</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/offsetof.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">offsetof</span>(3)</span></a></p>
+                <p>See also the <em class="replaceable"><code>ptrdiff_t</code></em> and
+                <em class="replaceable"><code>ssize_t</code></em>
+                types in this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>ssize_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">monetary.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">mqueue.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">stdio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/msg.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/socket.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/uio.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">unistd.h</code><code class="literal">&gt;</code></p>
+                <p>Used for a count of bytes or an error
+                indication. According to POSIX, it shall be a
+                signed integer type capable of storing values at
+                least in the range [-1, <code class="constant">SSIZE_MAX</code>], and the
+                implementation shall support one or more
+                programming environments where the width of
+                <em class="replaceable"><code>ssize_t</code></em>
+                is no greater than the width of the type <em class="replaceable"><code>long</code></em>.</p>
+                <p>Glibc and most other implementations provide a
+                length modifier for <em class="replaceable"><code>ssize_t</code></em> for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> and the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> families
+                of functions, which is <em class="replaceable"><code>z</code></em>; resulting
+                commonly in <em class="replaceable"><code>%zd</code></em> or <em class="replaceable"><code>%zi</code></em> for printing
+                <em class="replaceable"><code>ssize_t</code></em>
+                values. Although <em class="replaceable"><code>z</code></em> works for
+                <em class="replaceable"><code>ssize_t</code></em>
+                on most implementations, portable POSIX programs
+                should avoid using it—for example, by
+                converting the value to <em class="replaceable"><code>intmax_t</code></em> and using
+                its length modifier (<em class="replaceable"><code>j</code></em>).</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/readlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readlink</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/readv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readv</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/recv.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">recv</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/send.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">send</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a></p>
+                <p>See also the <em class="replaceable"><code>ptrdiff_t</code></em> and
+                <em class="replaceable"><code>size_t</code></em>
+                types in this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>suseconds_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">sys/select.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">sys/time.h</code><code class="literal">&gt;</code></p>
+                <p>Used for time in microseconds. According to
+                POSIX, it shall be a signed integer type capable of
+                storing values at least in the range [-1, 1000000],
+                and the implementation shall support one or more
+                programming environments where the width of
+                <em class="replaceable"><code>suseconds_t</code></em> is no
+                greater than the width of the type <em class="replaceable"><code>long</code></em>.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>timeval</code></em> structure
+                in this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>time_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">sched.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/msg.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/select.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/sem.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/shm.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/stat.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/time.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">utime.h</code><code class="literal">&gt;</code></p>
+                <p>Used for time in seconds. According to POSIX, it
+                shall be an integer type.</p>
+                <p><em class="replaceable"><code>Versions</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sched.h</code><code class="literal">&gt;</code> defines <em class="replaceable"><code>time_t</code></em> since
+                POSIX.1-2008.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/stime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stime</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/time.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/ctime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ctime</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/difftime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">difftime</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>timer_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code></p>
+                <p>Used for timer ID returned by <a class="link" href="../htmlman2/timer_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_create</span>(2)</span></a>.
+                According to POSIX, there are no defined comparison
+                or assignment operators for this type.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/timer_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_create</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/timer_delete.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_delete</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/timer_getoverrun.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_getoverrun</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/timer_settime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_settime</span>(2)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>timespec</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">time.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">aio.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">mqueue.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sched.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/select.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">sys/stat.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">timespec</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">time_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_sec</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Seconds */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_nsec</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Nanoseconds */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>Describes times in seconds and nanoseconds.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C11 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/clock_getres.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_gettime</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/clock_nanosleep.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_nanosleep</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/nanosleep.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">nanosleep</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/timerfd_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timerfd_gettime</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/timer_settime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timer_gettime</span>(2)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>timeval</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/time.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">sys/resource.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/select.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">utmpx.h</code><code class="literal">&gt;</code></p>
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">struct</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">timeval</span> {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">time_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_sec</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Seconds */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">suseconds_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_usec</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Microseconds */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>Describes times in seconds and microseconds.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/gettimeofday.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">gettimeofday</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/utime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">utimes</span>(2)</span></a>,
+                <a class="link" href="../htmlman3/adjtime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtime</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/futimes.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">futimes</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/timeradd.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">timeradd</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>uid_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">sys/types.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">pwd.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">signal.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">stropts.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/ipc.h</code><code class="literal">&gt;</code> <code class="literal">&lt;</code><code class="filename">sys/stat.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">unistd.h</code><code class="literal">&gt;</code></p>
+                <p>A type used to hold user IDs. According to
+                POSIX, this shall be an integer type.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: POSIX.1-2001 and later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getuid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getuid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getuid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">geteuid</span>(2)</span></a>,
+                <a class="link" href="../htmlman2/getresuid.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getresuid</span>(2)</span></a>,
+                <span class="citerefentry"><span class="refentrytitle">getpwnam</span>(2)</span>,
+                <a class="link" href="../htmlman7/credentials.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">credentials</span>(7)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>uintmax_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdint.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code></p>
+                <p>An unsigned integer type capable of representing
+                any value of any unsigned integer type supported by
+                the implementation. According to the C language
+                standard, it shall be capable of storing values in
+                the range [0, <code class="constant">UINTMAX_MAX</code>].</p>
+                <p>The macro <code class="function">UINTMAX_C</code>() expands its argument
+                to an integer constant of type <em class="replaceable"><code>uintmax_t</code></em>.</p>
+                <p>The length modifier for <em class="replaceable"><code>uintmax_t</code></em> for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> and the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> families
+                of functions is <em class="replaceable"><code>j</code></em>; resulting
+                commonly in <em class="replaceable"><code>%ju</code></em> or <em class="replaceable"><code>%jx</code></em> for printing
+                <em class="replaceable"><code>uintmax_t</code></em>
+                values.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><em class="replaceable"><code>Bugs</code></em>:
+                <em class="replaceable"><code>uintmax_t</code></em>
+                is not large enough to represent values of type
+                <span class="emphasis"><em>unsigned
+                __int128</em></span> in implementations where
+                <span class="emphasis"><em>unsigned
+                __int128</em></span> is defined and <span class="emphasis"><em>unsigned long long</em></span> is
+                less than 128 bits wide.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>intmax_t</code></em> type in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>uint</code></em>N<em class="replaceable"><code>_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdint.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code></p>
+                <p><em class="replaceable"><code>uint8_t</code></em>, <em class="replaceable"><code>uint16_t</code></em>,
+                <em class="replaceable"><code>uint32_t</code></em>,
+                <em class="replaceable"><code>uint64_t</code></em></p>
+                <p>An unsigned integer type of a fixed width of
+                exactly N bits, N being the value specified in its
+                type name. According to the C language standard,
+                they shall be capable of storing values in the
+                range [0, <code class="constant">UINT</code>N<code class="constant">_MAX</code>], substituting N by the
+                appropriate number.</p>
+                <p>According to POSIX, <em class="replaceable"><code>uint8_t</code></em>, <em class="replaceable"><code>uint16_t</code></em>, and
+                <em class="replaceable"><code>uint32_t</code></em>
+                are required; <em class="replaceable"><code>uint64_t</code></em> is only
+                required in implementations that provide integer
+                types with width 64; and all other types of this
+                form are optional.</p>
+                <p>The length modifiers for the <em class="replaceable"><code>uint</code></em>N<em class="replaceable"><code>_t</code></em> types for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> family
+                of functions are expanded by macros of the forms
+                <em class="replaceable"><code>PRIu</code></em>N,
+                <em class="replaceable"><code>PRIo</code></em>N,
+                <em class="replaceable"><code>PRIx</code></em>N,
+                and <code class="constant">PRIX</code>N (defined in
+                <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code> resulting for example in
+                <em class="replaceable"><code>%"PRIu32"</code></em>
+                or <em class="replaceable"><code>%"PRIx32"</code></em> for
+                printing <em class="replaceable"><code>uint32_t</code></em> values.
+                The length modifiers for the <em class="replaceable"><code>uint</code></em>N<em class="replaceable"><code>_t</code></em> types for the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> family
+                of functions are expanded by macros of the forms
+                <em class="replaceable"><code>SCNu</code></em>N,
+                <em class="replaceable"><code>SCNo</code></em>N,
+                <em class="replaceable"><code>SCNx</code></em>N,
+                and <code class="constant">SCNX</code>N (defined in
+                <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code> resulting for example in
+                <em class="replaceable"><code>%"SCNu16"</code></em>
+                or <em class="replaceable"><code>%"SCNx16"</code></em> for
+                scanning <em class="replaceable"><code>uint16_t</code></em>
+                values.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>intmax_t</code></em>,
+                <em class="replaceable"><code>int</code></em>N<em class="replaceable"><code>_t</code></em>,
+                and <em class="replaceable"><code>uintmax_t</code></em> types in
+                this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>uintptr_t</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>:
+                <code class="literal">&lt;</code><code class="filename">stdint.h</code><code class="literal">&gt;</code> Alternatively, <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code></p>
+                <p>An unsigned integer type such that any valid
+                (<span class="emphasis"><em>void *</em></span>)
+                value can be converted to this type and back.
+                According to the C language standard, it shall be
+                capable of storing values in the range [0,
+                <code class="constant">UINTPTR_MAX</code>].</p>
+                <p>The length modifier for <em class="replaceable"><code>uintptr_t</code></em> for the
+                <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> family
+                of functions is expanded by the macros <em class="replaceable"><code>PRIuPTR</code></em>, <em class="replaceable"><code>PRIoPTR</code></em>, <em class="replaceable"><code>PRIxPTR</code></em>, and
+                <code class="constant">PRIXPTR</code> (defined in
+                <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code> resulting commonly in
+                <em class="replaceable"><code>%"PRIuPTR"</code></em> or
+                <em class="replaceable"><code>%"PRIxPTR"</code></em> for
+                printing <em class="replaceable"><code>uintptr_t</code></em> values.
+                The length modifier for <em class="replaceable"><code>uintptr_t</code></em> for the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> family
+                of functions is expanded by the macros <em class="replaceable"><code>SCNuPTR,</code></em> <em class="replaceable"><code>SCNoPTR,</code></em> <em class="replaceable"><code>SCNxPTR</code></em>, and
+                <code class="constant">SCNXPTR</code> (defined in
+                <code class="literal">&lt;</code><code class="filename">inttypes.h</code><code class="literal">&gt;</code> resulting commonly in
+                <em class="replaceable"><code>%"SCNuPTR"</code></em> or
+                <em class="replaceable"><code>%"SCNxPTR"</code></em> for
+                scanning <em class="replaceable"><code>uintptr_t</code></em>
+                values.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                the <em class="replaceable"><code>intptr_t</code></em> and
+                <span class="emphasis"><em>void *</em></span> types
+                in this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><em class="replaceable"><code>va_list</code></em></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p><em class="replaceable"><code>Include</code></em>: <em class="replaceable"><code>&lt;stdarg&gt;</code></em>.
+                Alternatively, <code class="literal">&lt;</code><code class="filename">stdio.h</code><code class="literal">&gt;</code> or <code class="literal">&lt;</code><code class="filename">wchar.h</code><code class="literal">&gt;</code></p>
+                <p>Used by functions with a varying number of
+                arguments of varying types. The function must
+                declare an object of type <em class="replaceable"><code>va_list</code></em> which is
+                used by the macros <a class="link" href="../htmlman3/stdarg.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">va_start</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/stdarg.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">va_arg</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/stdarg.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">va_copy</span>(3)</span></a>, and
+                <a class="link" href="../htmlman3/stdarg.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">va_end</span>(3)</span></a> to
+                traverse the list of arguments.</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/stdarg.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">va_start</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/stdarg.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">va_arg</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/stdarg.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">va_copy</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/stdarg.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">va_end</span>(3)</span></a></p>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>void
+          *</em></span></span></dt>
+          <dd>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <p>According to the C language standard, a pointer
+                to any object type may be converted to a pointer to
+                <em class="replaceable"><code>void</code></em> and
+                back. POSIX further requires that any pointer,
+                including pointers to functions, may be converted
+                to a pointer to <em class="replaceable"><code>void</code></em> and back.</p>
+                <p>Conversions from and to any other pointer type
+                are done implicitly, not requiring casts at all.
+                Note that this feature prevents any kind of type
+                checking: the programmer should be careful not to
+                convert a <span class="emphasis"><em>void
+                *</em></span> value to a type incompatible to that
+                of the underlying data, because that would result
+                in undefined behavior.</p>
+                <p>This type is useful in function parameters and
+                return value to allow passing values of any type.
+                The function will typically use some mechanism to
+                know the real type of the data being passed via a
+                pointer to <em class="replaceable"><code>void</code></em>.</p>
+                <p>A value of this type can't be dereferenced, as
+                it would give a value of type <em class="replaceable"><code>void</code></em>, which is not
+                possible. Likewise, pointer arithmetic is not
+                possible with this type. However, in GNU C, pointer
+                arithmetic is allowed as an extension to the
+                standard; this is done by treating the size of a
+                <em class="replaceable"><code>void</code></em> or
+                of a function as 1. A consequence of this is that
+                <em class="replaceable"><code>sizeof</code></em> is
+                also allowed on <em class="replaceable"><code>void</code></em> and on
+                function types, and returns 1.</p>
+                <p>The conversion specifier for <span class="emphasis"><em>void *</em></span> for the <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> and the
+                <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> families
+                of functions is <em class="replaceable"><code>p</code></em>.</p>
+                <p><em class="replaceable"><code>Versions</code></em>: The POSIX
+                requirement about compatibility between
+                <span class="emphasis"><em>void *</em></span> and
+                function pointers was added in POSIX.1-2008
+                Technical Corrigendum 1 (2013).</p>
+                <p><span class="emphasis"><em>Conforming
+                to</em></span>: C99 and later; POSIX.1-2001 and
+                later.</p>
+                <p><span class="emphasis"><em>See also</em></span>:
+                <a class="link" href="../htmlman3/malloc.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">malloc</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/memcmp.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memcmp</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/memcpy.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memcpy</span>(3)</span></a>,
+                <a class="link" href="../htmlman3/memset.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memset</span>(3)</span></a></p>
+                <p>See also the <em class="replaceable"><code>intptr_t</code></em> and
+                <em class="replaceable"><code>uintptr_t</code></em>
+                types in this page.</p>
+              </blockquote>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="system-data-types-7_sect2" name="system-data-types-7_sect2" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>The structures described in this manual page shall
+      contain, at least, the members shown in their definition, in
+      no particular order.</p>
+      <p>Most of the integer types described in this page don't
+      have a corresponding length modifier for the <a class="link" href="../htmlman3/printf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">printf</span>(3)</span></a> and the <a class="link" href="../htmlman3/scanf.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">scanf</span>(3)</span></a> families of
+      functions. To print a value of an integer type that doesn't
+      have a length modifier, it should be converted to <em class="replaceable"><code>intmax_t</code></em> or <em class="replaceable"><code>uintmax_t</code></em> by an explicit
+      cast. To scan into a variable of an integer type that doesn't
+      have a length modifier, an intermediate temporary variable of
+      type <em class="replaceable"><code>intmax_t</code></em> or
+      <em class="replaceable"><code>uintmax_t</code></em> should be
+      used. When copying from the temporary variable to the
+      destination variable, the value could overflow. If the type
+      has upper and lower limits, the user should check that the
+      value is within those limits, before actually copying the
+      value. The example below shows how these conversions should
+      be done.</p>
+      <div class="refsect2">
+        <a id="system-data-types-7_sect3" name="system-data-types-7_sect3" shape="rect"> </a>
+        <h3>Conventions used in this page</h3>
+        <p>In "Conforming to" we only concern ourselves with C99
+        and later and POSIX.1-2001 and later. Some types may be
+        specified in earlier versions of one of these standards,
+        but in the interests of simplicity we omit details from
+        earlier standards.</p>
+        <p>In "Include", we first note the "primary" header(s) that
+        define the type according to either the C or POSIX.1
+        standards. Under "Alternatively", we note additional
+        headers that the standards specify shall define the
+        type.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="system-data-types-7_sect4" name="system-data-types-7_sect4" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program shown below scans from a string and prints a
+      value stored in a variable of an integer type that doesn't
+      have a length modifier. The appropriate conversions from and
+      to <em class="replaceable"><code>intmax_t</code></em>, and
+      the appropriate range checks, are used as explained in the
+      notes section above.</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/types.h&gt;
+
+int
+main (void)
+{
+    static const char *const str = "500000 us in half a second";
+    suseconds_t us;
+    intmax_t    tmp;
+
+    /* Scan the number from the string into the temporary variable. */
+
+    sscanf(str, "%jd", &amp;tmp);
+
+    /* Check that the value is within the valid range of suseconds_t. */
+
+    if (tmp &lt; −1 || tmp &gt; 1000000) {
+        fprintf(stderr, "Scanned value outside valid range!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Copy the value to the suseconds_t variable 'us'. */
+
+    us = tmp;
+
+    /* Even though suseconds_t can hold the value −1, this isn't
+       a sensible number of microseconds. */
+
+    if (us &lt; 0) {
+        fprintf(stderr, "Scanned value shouldn't be negative!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Print the value. */
+
+    printf("There are %jd microseconds in half a second.\n",
+            (intmax_t) us);
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="system-data-types-7_sect5" name="system-data-types-7_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman7/feature_test_macros.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">feature_test_macros</span>(7)</span></a>,
+      <a class="link" href="../htmlman7/standards.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">standards</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="system-data-types-7_sect6" name="system-data-types-7_sect6" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2020 by Alejandro Colomar &lt;colomar.6.4.3<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  and Copyright (c) 2020 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

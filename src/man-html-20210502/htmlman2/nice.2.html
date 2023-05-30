@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>nice(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="nice(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="nice.2" name="nice.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>nice — change process priority</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;unistd.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>nice</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">inc</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <div class="featuretests">
+                <table class="featuretests" style="border-collapse: collapse;">
+                  <colgroup span="1">
+                    <col span="1" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th style="" rowspan="1" colspan="1">Feature Test Macro Requirements
+                      for glibc (see <a class="link" href="../htmlman7/feature_test_macros.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">feature_test_macros</span>(7)</span></a>):</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="" rowspan="1" colspan="1"><code class="function">nice</code>():</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">
+                      <code class="constant">_XOPEN_SOURCE</code>
+                      || /* Since glibc 2.19:</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">*/
+                      <code class="constant">_DEFAULT_SOURCE</code>
+                      || /* Glibc &lt;= 2.19:</td>
+                    </tr>
+                    <tr>
+                      <td class="featuretestdef" style="" rowspan="1" colspan="1">*/
+                      <code class="constant">_BSD_SOURCE</code> ||
+                      <code class="constant">_SVID_SOURCE</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="nice-2_sect1" name="nice-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><code class="function">nice</code>() adds <em class="parameter"><code>inc</code></em> to the nice value for the
+      calling thread. (A higher nice value means a lower
+      priority.)</p>
+      <p>The range of the nice value is +19 (low priority) to
+      −20 (high priority). Attempts to set a nice value
+      outside the range are clamped to the range.</p>
+      <p>Traditionally, only a privileged process could lower the
+      nice value (i.e., set a higher priority). However, since
+      Linux 2.6.12, an unprivileged process can decrease the nice
+      value of a target process that has a suitable <code class="constant">RLIMIT_NICE</code> soft limit; see <a class="link" href="../htmlman2/getrlimit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getrlimit</span>(2)</span></a> for
+      details.</p>
+    </div>
+    <div class="refsect1">
+      <a id="nice-2_sect2" name="nice-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, the new nice value is returned (but see NOTES
+      below). On error, −1 is returned, and <code class="varname">errno</code> is set to indicate the error.</p>
+      <p>A successful call can legitimately return −1. To
+      detect an error, set <code class="varname">errno</code> to 0
+      before the call, and check whether it is nonzero after
+      <code class="function">nice</code>() returns −1.</p>
+    </div>
+    <div class="refsect1">
+      <a id="nice-2_sect3" name="nice-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p>The calling process attempted to increase its
+            priority by supplying a negative <em class="parameter"><code>inc</code></em> but has insufficient
+            privileges. Under Linux, the <code class="constant">CAP_SYS_NICE</code> capability is required.
+            (But see the discussion of the <code class="constant">RLIMIT_NICE</code> resource limit in
+            <a class="link" href="../htmlman2/getrlimit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setrlimit</span>(2)</span></a>.)</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="nice-2_sect4" name="nice-2_sect4" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD. However, the raw
+      system call and (g)libc (earlier than glibc 2.2.4) return
+      value is nonstandard, see below.</p>
+    </div>
+    <div class="refsect1">
+      <a id="nice-2_sect5" name="nice-2_sect5" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>For further details on the nice value, see <a class="link" href="../htmlman7/sched.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sched</span>(7)</span></a>.</p>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <p>the addition of the "autogroup" feature in Linux
+              2.6.38 means that the nice value no longer has its
+              traditional effect in many circumstances. For
+              details, see <a class="link" href="../htmlman7/sched.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sched</span>(7)</span></a>.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="refsect2">
+        <a id="nice-2_sect6" name="nice-2_sect6" shape="rect"> </a>
+        <h3>C library/kernel differences</h3>
+        <p>POSIX.1 specifies that <code class="function">nice</code>() should return the new nice value.
+        However, the raw Linux system call returns 0 on success.
+        Likewise, the <code class="function">nice</code>() wrapper
+        function provided in glibc 2.2.3 and earlier returns 0 on
+        success.</p>
+        <p>Since glibc 2.2.4, the <code class="function">nice</code>() wrapper function provided by glibc
+        provides conformance to POSIX.1 by calling <a class="link" href="../htmlman2/getpriority.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpriority</span>(2)</span></a> to obtain
+        the new nice value, which is then returned to the
+        caller.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="nice-2_sect7" name="nice-2_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/nice.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">nice</span>(1)</span></a>, <a class="link" href="../htmlman1/renice.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">renice</span>(1)</span></a>, <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, <a class="link" href="../htmlman2/getpriority.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getpriority</span>(2)</span></a>, <a class="link" href="../htmlman2/getrlimit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getrlimit</span>(2)</span></a>, <a class="link" href="../htmlman2/getpriority.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setpriority</span>(2)</span></a>, <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>, <a class="link" href="../htmlman7/sched.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sched</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="nice-2_sect8" name="nice-2_sect8" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 1992 Drew Eckhardt &lt;drew<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.colorado.edu&gt;, March 28, 1992<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  Modified by Michael Haardt &lt;michael<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>moria.de&gt;<br />
+
+                  Modified 1993-07-24 by Rik Faith &lt;faith<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.unc.edu&gt;<br />
+
+                  Modified 1996-11-04 by Eric S. Raymond &lt;esr<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>thyrsus.com&gt;<br />
+
+                  Modified 2001-06-04 by aeb<br />
+                  Modified 2004-05-27 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

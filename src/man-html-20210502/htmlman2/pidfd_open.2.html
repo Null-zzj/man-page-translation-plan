@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>pidfd_open(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="pidfd_open(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="pidfd-open.2" name="pidfd-open.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>pidfd_open — obtain a file descriptor that refers to
+      a process</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>pidfd_open</strong>(</code></td>
+            <td rowspan="1" colspan="1">pid_t <var class="pdparam">pid</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned int <var class="pdparam">flags</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-open-2_sect1" name="pidfd-open-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">pidfd_open</code>() system call
+      creates a file descriptor that refers to the process whose
+      PID is specified in <em class="parameter"><code>pid</code></em>. The file descriptor is
+      returned as the function result; the close-on-exec flag is
+      set on the file descriptor.</p>
+      <p>The <em class="parameter"><code>flags</code></em> argument
+      is reserved for future use; currently, this argument must be
+      specified as 0.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-open-2_sect2" name="pidfd-open-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">pidfd_open</code>()
+      returns a file descriptor (a nonnegative integer). On error,
+      −1 is returned and <code class="varname">errno</code>
+      is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-open-2_sect3" name="pidfd-open-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>flags</code></em> is not
+            0.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pid</code></em> is not
+            valid.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EMFILE</span></span></dt>
+          <dd>
+            <p>The per-process limit on the number of open file
+            descriptors has been reached (see the description of
+            <code class="constant">RLIMIT_NOFILE</code> in
+            <a class="link" href="../htmlman2/getrlimit.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">getrlimit</span>(2)</span></a>).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENFILE</span></span></dt>
+          <dd>
+            <p>The system-wide limit on the total number of open
+            files has been reached.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENODEV</span></span></dt>
+          <dd>
+            <p>The anonymous inode filesystem is not available in
+            this kernel.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Insufficient kernel memory was available.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ESRCH</span></span></dt>
+          <dd>
+            <p>The process specified by <em class="parameter"><code>pid</code></em> does not exist.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-open-2_sect4" name="pidfd-open-2_sect4" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">pidfd_open</code>() first appeared
+      in Linux 5.3.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-open-2_sect5" name="pidfd-open-2_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p><code class="function">pidfd_open</code>() is Linux
+      specific.</p>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-open-2_sect6" name="pidfd-open-2_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call;
+      call it using <a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a>.</p>
+      <p>The following code sequence can be used to obtain a file
+      descriptor for the child of <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+pid = fork();
+if (pid &gt; 0) {     /* If parent */
+    pidfd = pidfd_open(pid, 0);
+    ...
+}
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>Even if the child has already terminated by the time of
+      the <code class="function">pidfd_open</code>() call, its PID
+      will not have been recycled and the returned file descriptor
+      will refer to the resulting zombie process. Note, however,
+      that this is guaranteed only if the following conditions hold
+      true:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>the disposition of <code class="constant">SIGCHLD</code> has not been explicitly set
+            to <code class="constant">SIG_IGN</code> (see <a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a>);</p>
+          </li>
+          <li class="listitem">
+            <p>the <code class="constant">SA_NOCLDWAIT</code> flag
+            was not specified while establishing a handler for
+            <code class="constant">SIGCHLD</code> or while setting
+            the disposition of that signal to <code class="constant">SIG_DFL</code> (see <a class="link" href="../htmlman2/sigaction.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sigaction</span>(2)</span></a>);
+            and</p>
+          </li>
+          <li class="listitem">
+            <p>the zombie process was not reaped elsewhere in the
+            program (e.g., either by an asynchronously executed
+            signal handler or by <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">wait</span>(2)</span></a> or similar in
+            another thread).</p>
+          </li>
+        </ul>
+      </div>
+      <p>If any of these conditions does not hold, then the child
+      process (along with a PID file descriptor that refers to it)
+      should instead be created using <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> with the
+      <code class="constant">CLONE_PIDFD</code> flag.</p>
+      <div class="refsect2">
+        <a id="pidfd-open-2_sect7" name="pidfd-open-2_sect7" shape="rect"> </a>
+        <h3>Use cases for PID file descriptors</h3>
+        <p>A PID file descriptor returned by <code class="function">pidfd_open</code>() (or by <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a> with the
+        <code class="constant">CLONE_PID</code> flag) can be used
+        for the following purposes:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>The <a class="link" href="../htmlman2/pidfd_send_signal.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_send_signal</span>(2)</span></a>
+              system call can be used to send a signal to the
+              process referred to by a PID file descriptor.</p>
+            </li>
+            <li class="listitem">
+              <p>A PID file descriptor can be monitored using
+              <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">poll</span>(2)</span></a>, <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a>, and
+              <a class="link" href="../htmlman7/epoll.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">epoll</span>(7)</span></a>. When the
+              process that it refers to terminates, these
+              interfaces indicate the file descriptor as readable.
+              Note, however, that in the current implementation,
+              nothing can be read from the file descriptor
+              (<a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> on the file
+              descriptor fails with the error <span class="errorname">EINVAL</span>).</p>
+            </li>
+            <li class="listitem">
+              <p>If the PID file descriptor refers to a child of
+              the calling process, then it can be waited on using
+              <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">waitid</span>(2)</span></a>.</p>
+            </li>
+            <li class="listitem">
+              <p>The <a class="link" href="../htmlman2/pidfd_getfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_getfd</span>(2)</span></a>
+              system call can be used to obtain a duplicate of a
+              file descriptor of another process referred to by a
+              PID file descriptor.</p>
+            </li>
+            <li class="listitem">
+              <p>A PID file descriptor can be used as the argument
+              of <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a> in order
+              to move into one or more of the same namespaces as
+              the process referred to by the file descriptor.</p>
+            </li>
+            <li class="listitem">
+              <p>A PID file descriptor can be used as the argument
+              of <a class="link" href="../htmlman2/process_madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process_madvise</span>(2)</span></a>
+              in order to provide advice on the memory usage
+              patterns of the process referred to by the file
+              descriptor.</p>
+            </li>
+          </ul>
+        </div>
+        <p>The <code class="function">pidfd_open</code>() system
+        call is the preferred way of obtaining a PID file
+        descriptor for an already existing process. The alternative
+        is to obtain a file descriptor by opening a <code class="filename">/proc/[pid]</code> directory. However, the
+        latter technique is possible only if the <a class="link" href="../htmlman5/proc.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">proc</span>(5)</span></a> filesystem is
+        mounted; furthermore, the file descriptor obtained in this
+        way is <em class="replaceable"><code>not</code></em>
+        pollable and can't be waited on with <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">waitid</span>(2)</span></a>.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-open-2_sect8" name="pidfd-open-2_sect8" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below opens a PID file descriptor for the
+      process whose PID is specified as its command-line argument.
+      It then uses <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">poll</span>(2)</span></a> to monitor the file
+      descriptor for process exit, as indicated by an <code class="constant">EPOLLIN</code> event.</p>
+      <div class="refsect2">
+        <a id="pidfd-open-2_sect9" name="pidfd-open-2_sect9" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+#define _GNU_SOURCE
+#include &lt;sys/types.h&gt;
+#include &lt;sys/syscall.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;poll.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+#ifndef __NR_pidfd_open
+#define __NR_pidfd_open 434   /* System call # on most architectures */
+#endif
+
+static int
+pidfd_open(pid_t pid, unsigned int flags)
+{
+    return syscall(__NR_pidfd_open, pid, flags);
+}
+
+int
+main(int argc, char *argv[])
+{
+    struct pollfd pollfd;
+    int pidfd, ready;
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s &lt;pid&gt;\n", argv[0]);
+        exit(EXIT_SUCCESS);
+    }
+
+    pidfd = pidfd_open(atoi(argv[1]), 0);
+    if (pidfd == −1) {
+        perror("pidfd_open");
+        exit(EXIT_FAILURE);
+    }
+
+    pollfd.fd = pidfd;
+    pollfd.events = POLLIN;
+
+    ready = poll(&amp;pollfd, 1, −1);
+    if (ready == −1) {
+        perror("poll");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Events (%#x): POLLIN is %sset\n", pollfd.revents,
+            (pollfd.revents &amp; POLLIN) ? "" : "not ");
+
+    close(pidfd);
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="pidfd-open-2_sect10" name="pidfd-open-2_sect10" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>, <a class="link" href="../htmlman2/kill.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">kill</span>(2)</span></a>, <a class="link" href="../htmlman2/pidfd_getfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_getfd</span>(2)</span></a>, <a class="link" href="../htmlman2/pidfd_send_signal.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">pidfd_send_signal</span>(2)</span></a>,
+      <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">poll</span>(2)</span></a>, <a class="link" href="../htmlman2/process_madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">process_madvise</span>(2)</span></a>,
+      <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a>, <a class="link" href="../htmlman2/setns.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">setns</span>(2)</span></a>, <a class="link" href="../htmlman2/wait.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">waitid</span>(2)</span></a>, <a class="link" href="../htmlman7/epoll.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">epoll</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="pidfd-open-2_sect11" name="pidfd-open-2_sect11" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2019 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

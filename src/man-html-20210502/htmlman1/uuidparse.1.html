@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>uuidparse(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="uuidparse(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="uuidparse.1" name="uuidparse.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>uuidparse — a utility to parse unique
+      identifiers</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">uuidparse</code> [options]
+        uuid</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="uuidparse-1_sect1" name="uuidparse-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>This command will parse unique identifier inputs from
+      either command line arguments or standard input. The inputs
+      are white-space separated.</p>
+    </div>
+    <div class="refsect1">
+      <a id="uuidparse-1_sect2" name="uuidparse-1_sect2" shape="rect"> </a>
+      <h2>OUTPUT</h2>
+      <div class="refsect2">
+        <a id="uuidparse-1_sect3" name="uuidparse-1_sect3" shape="rect"> </a>
+        <h3>Variants</h3>
+        <div class="informaltable">
+          <table class="informaltable" style="border-collapse: collapse;">
+            <colgroup span="1">
+              <col class="c0" span="1" />
+              <col class="c1" span="1" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">NCS</td>
+                <td style="" align="left" rowspan="1" colspan="1">Network Computing System
+                identifier. These were the original UUIDs.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">DCE</td>
+                <td style="" align="left" rowspan="1" colspan="1">The Open Software
+                Foundation's (OSF) Distributed Computing
+                Environment UUIDs.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">Microsoft</td>
+                <td style="" align="left" rowspan="1" colspan="1">Microsoft Windows
+                platform globally unique identifier (GUID).</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">other</td>
+                <td style="" align="left" rowspan="1" colspan="1">Unknown variant. Usually
+                invalid input data.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="uuidparse-1_sect4" name="uuidparse-1_sect4" shape="rect"> </a>
+        <h3>Types</h3>
+        <div class="informaltable">
+          <table class="informaltable" style="border-collapse: collapse;">
+            <colgroup span="1">
+              <col class="c0" span="1" />
+              <col class="c1" span="1" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">nil</td>
+                <td style="" align="left" rowspan="1" colspan="1">Special type for zero in
+                type file.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">time-based</td>
+                <td style="" align="left" rowspan="1" colspan="1">The DCE time based.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">DCE</td>
+                <td style="" align="left" rowspan="1" colspan="1">The DCE time and MAC
+                Address.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">name-based</td>
+                <td style="" align="left" rowspan="1" colspan="1">RFC 4122 md5sum
+                hash.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">random</td>
+                <td style="" align="left" rowspan="1" colspan="1">RFC 4122 random.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">sha1-based</td>
+                <td style="" align="left" rowspan="1" colspan="1">RFC 4122 sha-1 hash.</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">unknown</td>
+                <td style="" align="left" rowspan="1" colspan="1">Unknown type. Usually
+                invalid input data.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="uuidparse-1_sect5" name="uuidparse-1_sect5" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−J</code>, <code class="option">−−json</code></span></dt>
+          <dd>
+            <p>Use JSON output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−n</code>, <code class="option">−−noheadings</code></span></dt>
+          <dd>
+            <p>Do not print a header line.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−o</code>, <code class="option">−−output</code></span></dt>
+          <dd>
+            <p>Specify which output columns to print. Use
+            −−help to get a list of all supported
+            columns.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−r</code>, <code class="option">−−raw</code></span></dt>
+          <dd>
+            <p>Use the raw output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V</code>, <code class="option">−−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h</code>, <code class="option">−−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="uuidparse-1_sect6" name="uuidparse-1_sect6" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><a class="literalurl" href="mailto:kerolasa%20REMOVE%20@%20THIS%20iki.fi" target="_top" shape="rect">Sami Kerola</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="uuidparse-1_sect7" name="uuidparse-1_sect7" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/uuidgen.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">uuidgen</span>(1)</span></a>, <span class="citerefentry"><span class="refentrytitle">libuuid</span>(3)</span>, <a class="literalurl" href="https://tools.ietf.org/html/rfc4122" target="_top" shape="rect">RFC 4122</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="uuidparse-1_sect8" name="uuidparse-1_sect8" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The uuidparse command is part of the util-linux package
+      and is available from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2017 Sami Kerola<br />
+
+                  The 3-Clause BSD License<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

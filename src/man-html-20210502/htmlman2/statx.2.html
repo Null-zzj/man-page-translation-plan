@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>statx(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="statx(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="statx.2" name="statx.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>statx — get file status (extended)</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/stat.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;            /* Definition of AT_* constants */</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>statx</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">dirfd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">const char *restrict <var class="pdparam">pathname</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">flags</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">unsigned int <var class="pdparam">mask</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct statx *restrict <var class="pdparam">statxbuf</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="statx-2_sect1" name="statx-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>This function returns information about a file, storing it
+      in the buffer pointed to by <em class="parameter"><code>statxbuf</code></em>. The returned buffer
+      is a structure of the following type:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="structdef">
+            <table class="structdef" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c1" span="1" />
+                <col class="c2" span="1" />
+                <col class="c3" span="1" />
+                <col class="c4" span="1" />
+                <col class="c5" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                  struct</td>
+                  <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">statx</span> {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_mask</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Mask of bits indicating<br />
+
+                      filled fields */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_blksize</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Block size for filesystem I/O */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_attributes</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Extra file attribute indicators */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_nlink</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Number of hard links */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_uid</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* User ID of owner */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_gid</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Group ID of owner */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u16</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_mode</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* File type and mode */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_ino</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Inode number */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_size</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Total size in bytes */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_blocks</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Number of 512B blocks allocated */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_attributes_mask</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Mask to show what\(aqs supported<br />
+
+                      in stx_attributes */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" colspan="5" align="left" rowspan="1">
+                    <div class="literallayout">
+                      
+                      /* The following fields are file timestamps */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct statx_timestamp</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_atime</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Last access */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct statx_timestamp</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_btime</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Creation */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct statx_timestamp</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_ctime</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Last status change */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct statx_timestamp</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_mtime</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Last modification */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" colspan="5" align="left" rowspan="1">
+                    <div class="literallayout">
+                      
+                      /* If this file represents a device, then the next two<br />
+
+                      fields contain the ID of the device */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_rdev_major</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Major ID */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_rdev_minor</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Minor ID */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" colspan="5" align="left" rowspan="1">
+                    <div class="literallayout">
+                      
+                      /* The next two fields contain the ID of the device<br />
+
+                      containing the filesystem where the file resides */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_dev_major</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Major ID */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stx_dev_minor</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Minor ID */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>The file timestamps are structures of the following
+      type:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="structdef">
+            <table class="structdef" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c1" span="1" />
+                <col class="c2" span="1" />
+                <col class="c3" span="1" />
+                <col class="c4" span="1" />
+                <col class="c5" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                  struct</td>
+                  <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">statx_timestamp</span> {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__s64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_sec</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Seconds since the Epoch (UNIX time) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tv_nsec</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Nanoseconds since tv_sec */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>(Note that reserved space and padding is omitted.)</p>
+      <div class="refsect2">
+        <a id="statx-2_sect2" name="statx-2_sect2" shape="rect"> </a>
+        <p>Invoking <code class="function">statx</code>(): To
+        access a file's status, no permissions are required on the
+        file itself, but in the case of <code class="function">statx</code>() with a pathname, execute (search)
+        permission is required on all of the directories in
+        <em class="parameter"><code>pathname</code></em> that lead
+        to the file.</p>
+        <p><code class="function">statx</code>() uses <em class="parameter"><code>pathname</code></em>, <em class="parameter"><code>dirfd</code></em>, and <em class="parameter"><code>flags</code></em> to identify the target
+        file in one of the following ways:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term">An absolute pathname</span></dt>
+            <dd>
+              <p>If <em class="parameter"><code>pathname</code></em> begins with a
+              slash, then it is an absolute pathname that
+              identifies the target file. In this case, <em class="parameter"><code>dirfd</code></em> is ignored.</p>
+            </dd>
+            <dt><span class="term">A relative pathname</span></dt>
+            <dd>
+              <p>If <em class="parameter"><code>pathname</code></em> is a string
+              that begins with a character other than a slash and
+              <em class="parameter"><code>dirfd</code></em> is
+              <code class="constant">AT_FDCWD</code>, then
+              <em class="parameter"><code>pathname</code></em> is a
+              relative pathname that is interpreted relative to the
+              process's current working directory.</p>
+            </dd>
+            <dt><span class="term">A directory-relative
+            pathname</span></dt>
+            <dd>
+              <p>If <em class="parameter"><code>pathname</code></em> is a string
+              that begins with a character other than a slash and
+              <em class="parameter"><code>dirfd</code></em> is a
+              file descriptor that refers to a directory, then
+              <em class="parameter"><code>pathname</code></em> is a
+              relative pathname that is interpreted relative to the
+              directory referred to by <em class="parameter"><code>dirfd</code></em>.</p>
+            </dd>
+            <dt><span class="term">By file descriptor</span></dt>
+            <dd>
+              <p>If <em class="parameter"><code>pathname</code></em> is an empty
+              string and the <code class="constant">AT_EMPTY_PATH</code> flag is specified in
+              <em class="parameter"><code>flags</code></em> (see
+              below), then the target file is the one referred to
+              by the file descriptor <em class="parameter"><code>dirfd</code></em>.</p>
+            </dd>
+          </dl>
+        </div>
+        <p><em class="parameter"><code>flags</code></em> can be
+        used to influence a pathname-based lookup. A value for
+        <em class="parameter"><code>flags</code></em> is
+        constructed by ORing together zero or more of the following
+        constants:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">AT_EMPTY_PATH</code></span></dt>
+            <dd>
+              <p>If <em class="parameter"><code>pathname</code></em> is an empty
+              string, operate on the file referred to by <em class="parameter"><code>dirfd</code></em> (which may have
+              been obtained using the <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>
+              <code class="constant">O_PATH</code> flag). In this
+              case, <em class="parameter"><code>dirfd</code></em>
+              can refer to any type of file, not just a
+              directory.</p>
+              <p>If <em class="parameter"><code>dirfd</code></em>
+              is <code class="constant">AT_FDCWD</code>, the call
+              operates on the current working directory.</p>
+              <p>This flag is Linux-specific; define <code class="constant">_GNU_SOURCE</code> to obtain its
+              definition.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">AT_NO_AUTOMOUNT</code></span></dt>
+            <dd>
+              <p>Don't automount the terminal ("basename")
+              component of <em class="parameter"><code>pathname</code></em> if it is a
+              directory that is an automount point. This allows the
+              caller to gather attributes of an automount point
+              (rather than the location it would mount). This flag
+              can be used in tools that scan directories to prevent
+              mass-automounting of a directory of automount points.
+              The <code class="constant">AT_NO_AUTOMOUNT</code>
+              flag has no effect if the mount point has already
+              been mounted over. This flag is Linux-specific;
+              define <code class="constant">_GNU_SOURCE</code> to
+              obtain its definition.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">AT_SYMLINK_NOFOLLOW</code></span></dt>
+            <dd>
+              <p>If <em class="parameter"><code>pathname</code></em> is a symbolic
+              link, do not dereference it: instead return
+              information about the link itself, like <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">lstat</span>(2)</span></a>.</p>
+            </dd>
+          </dl>
+        </div>
+        <p><em class="parameter"><code>flags</code></em> can also
+        be used to control what sort of synchronization the kernel
+        will do when querying a file on a remote filesystem. This
+        is done by ORing in one of the following values:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">AT_STATX_SYNC_AS_STAT</code></span></dt>
+            <dd>
+              <p>Do whatever <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a> does. This
+              is the default and is very much
+              filesystem-specific.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">AT_STATX_FORCE_SYNC</code></span></dt>
+            <dd>
+              <p>Force the attributes to be synchronized with the
+              server. This may require that a network filesystem
+              perform a data writeback to get the timestamps
+              correct.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">AT_STATX_DONT_SYNC</code></span></dt>
+            <dd>
+              <p>Don't synchronize anything, but rather just take
+              whatever the system has cached if possible. This may
+              mean that the information returned is approximate,
+              but, on a network filesystem, it may not involve a
+              round trip to the server - even if no lease is
+              held.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>The <em class="parameter"><code>mask</code></em>
+        argument to <code class="function">statx</code>() is used
+        to tell the kernel which fields the caller is interested
+        in. <em class="parameter"><code>mask</code></em> is an ORed
+        combination of the following constants:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informaltable">
+              <table class="informaltable" style="border-collapse: collapse;">
+                <colgroup span="1">
+                  <col class="c0" span="1" />
+                  <col class="c1" span="1" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_TYPE</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_mode &amp;
+                    S_IFMT</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_MODE</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_mode &amp;
+                    ~S_IFMT</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_NLINK</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_nlink</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_UID</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_uid</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_GID</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_gid</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_ATIME</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_atime</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_MTIME</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_mtime</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_CTIME</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_ctime</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_INO</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_ino</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_SIZE</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_size</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_BLOCKS</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_blocks</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_BASIC_STATS</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">[All of the
+                    above]</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_BTIME</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">Want stx_btime</td>
+                  </tr>
+                  <tr>
+                    <td style="" align="left" rowspan="1" colspan="1"><code class="constant">STATX_ALL</code></td>
+                    <td style="" align="left" rowspan="1" colspan="1">[All currently
+                    available fields]</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>Note that, in general, the kernel does <em class="replaceable"><code>not</code></em> reject values in
+        <em class="parameter"><code>mask</code></em> other than the
+        above. (For an exception, see <span class="errorname">EINVAL</span> in errors.) Instead, it simply
+        informs the caller which values are supported by this
+        kernel and filesystem via the <em class="replaceable"><code>statx.stx_mask</code></em> field.
+        Therefore, <span class="emphasis"><em>do not</em></span>
+        simply set <em class="parameter"><code>mask</code></em> to
+        <code class="constant">UINT_MAX</code> (all bits set), as
+        one or more bits may, in the future, be used to specify an
+        extension to the buffer.</p>
+      </div>
+      <div class="refsect2">
+        <a id="statx-2_sect3" name="statx-2_sect3" shape="rect"> </a>
+        <p>The returned information The status information for the
+        target file is returned in the <span class="structname">statx</span> structure pointed to by
+        <em class="parameter"><code>statxbuf</code></em>. Included
+        in this is <em class="parameter"><code>stx_mask</code></em>
+        which indicates what other information has been returned.
+        <em class="parameter"><code>stx_mask</code></em> has the
+        same format as the <em class="parameter"><code>mask</code></em> argument and bits are
+        set in it to indicate which fields have been filled in.</p>
+        <p>It should be noted that the kernel may return fields
+        that weren't requested and may fail to return fields that
+        were requested, depending on what the backing filesystem
+        supports. (Fields that are given values despite being
+        unrequested can just be ignored.) In either case,
+        <em class="parameter"><code>stx_mask</code></em> will not
+        be equal <em class="parameter"><code>mask</code></em>.</p>
+        <p>If a filesystem does not support a field or if it has an
+        unrepresentable value (for instance, a file with an exotic
+        type), then the mask bit corresponding to that field will
+        be cleared in <em class="parameter"><code>stx_mask</code></em> even if the user
+        asked for it and a dummy value will be filled in for
+        compatibility purposes if one is available (e.g., a dummy
+        UID and GID may be specified to mount under some
+        circumstances).</p>
+        <p>A filesystem may also fill in fields that the caller
+        didn't ask for if it has values for them available and the
+        information is available at no extra cost. If this happens,
+        the corresponding bits will be set in <em class="parameter"><code>stx_mask</code></em>.</p>
+        <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+          <table border="0" summary="Note">
+            <tr>
+              <td rowspan="2" align="center" valign="top" width="25" colspan="1"><img alt="[Note]" src="../stylesheet/note.png" /></td>
+              <th align="left" rowspan="1" colspan="1">Note</th>
+            </tr>
+            <tr>
+              <td align="left" valign="top" rowspan="1" colspan="1">
+                <p>for performance and simplicity reasons,
+                different fields in the <span class="structname">statx</span> structure may contain
+                state information from different moments during the
+                execution of the system call. For example, if
+                <em class="parameter"><code>stx_mode</code></em> or
+                <em class="parameter"><code>stx_uid</code></em> is
+                changed by another process by calling <a class="link" href="../htmlman2/chmod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chmod</span>(2)</span></a> or
+                <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a>,
+                <code class="function">stat</code>() might return
+                the old <em class="parameter"><code>stx_mode</code></em> together
+                with the new <em class="parameter"><code>stx_uid</code></em>, or the old
+                <em class="parameter"><code>stx_uid</code></em>
+                together with the new <em class="parameter"><code>stx_mode</code></em>.</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <p>Apart from <em class="parameter"><code>stx_mask</code></em> (which is described
+        above), the fields in the <span class="structname">statx</span> structure are:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="parameter"><code>stx_blksize</code></em></span></dt>
+            <dd>
+              <p>The "preferred" block size for efficient
+              filesystem I/O. (Writing to a file in smaller chunks
+              may cause an inefficient read-modify-rewrite.)</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_attributes</code></em></span></dt>
+            <dd>
+              <p>Further status information about the file (see
+              below for more information).</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_nlink</code></em></span></dt>
+            <dd>
+              <p>The number of hard links on a file.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_uid</code></em></span></dt>
+            <dd>
+              <p>This field contains the user ID of the owner of
+              the file.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_gid</code></em></span></dt>
+            <dd>
+              <p>This field contains the ID of the group owner of
+              the file.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_mode</code></em></span></dt>
+            <dd>
+              <p>The file type and mode. See <a class="link" href="../htmlman7/inode.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">inode</span>(7)</span></a> for
+              details.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_ino</code></em></span></dt>
+            <dd>
+              <p>The inode number of the file.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_size</code></em></span></dt>
+            <dd>
+              <p>The size of the file (if it is a regular file or a
+              symbolic link) in bytes. The size of a symbolic link
+              is the length of the pathname it contains, without a
+              terminating null byte.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_blocks</code></em></span></dt>
+            <dd>
+              <p>The number of blocks allocated to the file on the
+              medium, in 512-byte units. (This may be smaller than
+              <em class="parameter"><code>stx_size</code></em>/512
+              when the file has holes.)</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_attributes_mask</code></em></span></dt>
+            <dd>
+              <p>A mask indicating which bits in <em class="parameter"><code>stx_attributes</code></em> are
+              supported by the VFS and the filesystem.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_atime</code></em></span></dt>
+            <dd>
+              <p>The file's last access timestamp.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_btime</code></em></span></dt>
+            <dd>
+              <p>The file's creation timestamp.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_ctime</code></em></span></dt>
+            <dd>
+              <p>The file's last status change timestamp.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_mtime</code></em></span></dt>
+            <dd>
+              <p>The file's last modification timestamp.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_dev_major</code></em> and
+            <em class="parameter"><code>stx_dev_minor</code></em></span></dt>
+            <dd>
+              <p>The device on which this file (inode) resides.</p>
+            </dd>
+            <dt><span class="term"><em class="parameter"><code>stx_rdev_major</code></em> and
+            <em class="parameter"><code>stx_rdev_minor</code></em></span></dt>
+            <dd>
+              <p>The device that this file (inode) represents if
+              the file is of block or character device type.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>For further information on the above fields, see
+        <a class="link" href="../htmlman7/inode.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">inode</span>(7)</span></a>.</p>
+      </div>
+      <div class="refsect2">
+        <a id="statx-2_sect4" name="statx-2_sect4" shape="rect"> </a>
+        <h3>File attributes</h3>
+        <p>The <em class="parameter"><code>stx_attributes</code></em> field contains
+        a set of ORed flags that indicate additional attributes of
+        the file. Note that any attribute that is not indicated as
+        supported by <em class="parameter"><code>stx_attributes_mask</code></em> has no
+        usable value here. The bits in <em class="parameter"><code>stx_attributes_mask</code></em>
+        correspond bit-by-bit to <em class="parameter"><code>stx_attributes</code></em>.</p>
+        <p>The flags are as follows:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><code class="constant">STATX_ATTR_COMPRESSED</code></span></dt>
+            <dd>
+              <p>The file is compressed by the filesystem and may
+              take extra resources to access.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">STATX_ATTR_IMMUTABLE</code></span></dt>
+            <dd>
+              <p>The file cannot be modified: it cannot be deleted
+              or renamed, no hard links can be created to this file
+              and no data can be written to it. See <span class="citerefentry"><span class="refentrytitle">chattr</span>(1)</span>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">STATX_ATTR_APPEND</code></span></dt>
+            <dd>
+              <p>The file can only be opened in append mode for
+              writing. Random access writing is not permitted. See
+              <span class="citerefentry"><span class="refentrytitle">chattr</span>(1)</span>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">STATX_ATTR_NODUMP</code></span></dt>
+            <dd>
+              <p>File is not a candidate for backup when a backup
+              program such as <span class="citerefentry"><span class="refentrytitle">dump</span>(8)</span> is run. See
+              <span class="citerefentry"><span class="refentrytitle">chattr</span>(1)</span>.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">STATX_ATTR_ENCRYPTED</code></span></dt>
+            <dd>
+              <p>A key is required for the file to be encrypted by
+              the filesystem.</p>
+            </dd>
+            <dt><span class="term"><code class="constant">STATX_ATTR_VERITY</code> (since Linux
+            5.5)</span></dt>
+            <dd>
+              <p>The file has fs-verity enabled. It cannot be
+              written to, and all reads from it will be verified
+              against a cryptographic hash that covers the entire
+              file (e.g., via a Merkle tree).</p>
+            </dd>
+            <dt><span class="term"><code class="constant">STATX_ATTR_DAX</code> (since Linux
+            5.8)</span></dt>
+            <dd>
+              <p>The file is in the DAX (cpu direct access) state.
+              DAX state attempts to minimize software cache effects
+              for both I/O and memory mappings of this file. It
+              requires a file system which has been configured to
+              support DAX.</p>
+              <p>DAX generally assumes all accesses are via CPU
+              load / store instructions which can minimize overhead
+              for small accesses, but may adversely affect CPU
+              utilization for large transfers.</p>
+              <p>File I/O is done directly to/from user-space
+              buffers and memory mapped I/O may be performed with
+              direct memory mappings that bypass the kernel page
+              cache.</p>
+              <p>While the DAX property tends to result in data
+              being transferred synchronously, it does not give the
+              same guarantees as the <code class="constant">O_SYNC</code> flag (see <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>), where
+              data and the necessary metadata are transferred
+              together.</p>
+              <p>A DAX file may support being mapped with the
+              <code class="constant">MAP_SYNC</code> flag, which
+              enables a program to use CPU cache flush instructions
+              to persist CPU store operations without an explicit
+              <a class="link" href="../htmlman2/fsync.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fsync</span>(2)</span></a>. See
+              <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> for more
+              information.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="statx-2_sect5" name="statx-2_sect5" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, zero is returned. On error, −1 is
+      returned, and <code class="varname">errno</code> is set to
+      indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="statx-2_sect6" name="statx-2_sect6" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EACCES</span></span></dt>
+          <dd>
+            <p>Search permission is denied for one of the
+            directories in the path prefix of <em class="parameter"><code>pathname</code></em>. (See also
+            <a class="link" href="../htmlman7/path_resolution.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">path_resolution</span>(7)</span></a>.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EBADF</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>dirfd</code></em> is not
+            a valid open file descriptor.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pathname</code></em> or
+            <em class="parameter"><code>statxbuf</code></em> is
+            NULL or points to a location outside the process's
+            accessible address space.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Invalid flag specified in <em class="parameter"><code>flags</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>Reserved flag specified in <em class="parameter"><code>mask</code></em>. (Currently, there
+            is one such flag, designated by the constant
+            <code class="constant">STATX__RESERVED</code>, with the
+            value 0x80000000U.)</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ELOOP</span></span></dt>
+          <dd>
+            <p>Too many symbolic links encountered while traversing
+            the pathname.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENAMETOOLONG</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>pathname</code></em> is
+            too long.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOENT</span></span></dt>
+          <dd>
+            <p>A component of <em class="parameter"><code>pathname</code></em> does not exist,
+            or <em class="parameter"><code>pathname</code></em> is
+            an empty string and <code class="constant">AT_EMPTY_PATH</code> was not specified in
+            <em class="parameter"><code>flags</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Out of memory (i.e., kernel memory).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOTDIR</span></span></dt>
+          <dd>
+            <p>A component of the path prefix of <em class="parameter"><code>pathname</code></em> is not a
+            directory or <em class="parameter"><code>pathname</code></em> is relative and
+            <em class="parameter"><code>dirfd</code></em> is a file
+            descriptor referring to a file other than a
+            directory.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="statx-2_sect7" name="statx-2_sect7" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">statx</code>() was added to Linux
+      in kernel 4.11; library support was added in glibc 2.28.</p>
+    </div>
+    <div class="refsect1">
+      <a id="statx-2_sect8" name="statx-2_sect8" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p><code class="function">statx</code>() is
+      Linux-specific.</p>
+    </div>
+    <div class="refsect1">
+      <a id="statx-2_sect9" name="statx-2_sect9" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/ls.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ls</span>(1)</span></a>, <a class="link" href="../htmlman1/stat.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(1)</span></a>, <a class="link" href="../htmlman2/access.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">access</span>(2)</span></a>, <a class="link" href="../htmlman2/chmod.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chmod</span>(2)</span></a>, <a class="link" href="../htmlman2/chown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">chown</span>(2)</span></a>, <a class="link" href="../htmlman2/readlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">readlink</span>(2)</span></a>, <a class="link" href="../htmlman2/stat.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">stat</span>(2)</span></a>, <a class="link" href="../htmlman2/utime.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">utime</span>(2)</span></a>, <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>, <a class="link" href="../htmlman7/inode.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">inode</span>(7)</span></a>, <a class="link" href="../htmlman7/symlink.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">symlink</span>(7)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="statx-2_sect10" name="statx-2_sect10" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2017 David Howells &lt;dhowells<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>redhat.com&gt;<br />
+
+                  <br />
+                  Derived from the stat.2 manual page:<br />
+
+                    Copyright (c) 1992 Drew Eckhardt (drew<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.colorado.edu), March 28, 1992<br />
+
+                    Parts Copyright (c) 1995 Nicolai Langfeldt (janl<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>ifi.uio.no), 1/1/95<br />
+
+                    and Copyright (c) 2006, 2007, 2014 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

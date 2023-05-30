@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>ioctl_getfsmap(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="ioctl_getfsmap(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="ioctl-getfsmap.2" name="ioctl-getfsmap.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>ioctl_getfsmap — retrieve the physical layout of the
+      filesystem</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/ioctl.h&gt;
+#include &lt;linux/fs.h&gt;
+#include &lt;linux/fsmap.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>ioctl</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">fd</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1"><var class="pdparam">FS_IOC_GETFSMAP</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct fsmap_head * <var class="pdparam">arg</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-getfsmap-2_sect1" name="ioctl-getfsmap-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>This <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation
+      retrieves physical extent mappings for a filesystem. This
+      information can be used to discover which files are mapped to
+      a physical block, examine free space, or find known bad
+      blocks, among other things.</p>
+      <p>The sole argument to this operation should be a pointer to
+      a single <span class="emphasis"><em>struct
+      fsmap_head</em></span>:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="structdef">
+            <table class="structdef" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c1" span="1" />
+                <col class="c2" span="1" />
+                <col class="c3" span="1" />
+                <col class="c4" span="1" />
+                <col class="c5" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                  struct</td>
+                  <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">fsmap</span> {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmr_device</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Device ID */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmr_flags</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Mapping flags */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmr_physical</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Device offset of segment */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmr_owner</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Owner ID */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmr_offset</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* File offset of segment */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmr_length</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Length of segment */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmr_reserved</code></em>[3];</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Must be zero */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                </tr>
+                <tr>
+                  <td class="structsep" style="" colspan="5" align="left" rowspan="1"></td>
+                </tr>
+                <tr>
+                  <td class="structdefhdr2" style="" align="left" rowspan="1" colspan="1">
+                  struct</td>
+                  <td class="structdefhdr2" style="" colspan="4" align="left" rowspan="1"><span class="structname">fsmap_head</span> {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmh_iflags</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Control flags */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmh_oflags</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Output flags */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmh_count</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* # of entries in array incl. input */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u32</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmh_entries</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* # of entries filled in (output) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">__u64</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmh_reserved</code></em>[6];</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Must be zero */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct fsmap</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmh_keys</code></em>[2];</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Low and high keys for<br />
+
+                      the mapping search */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct fsmap</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>fmh_recs</code></em>[];</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Returned records */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>The two <em class="parameter"><code>fmh_keys</code></em>
+      array elements specify the lowest and highest reverse-mapping
+      key for which the application would like physical mapping
+      information. A reverse mapping key consists of the tuple
+      (device, block, owner, offset). The owner and offset fields
+      are part of the key because some filesystems support sharing
+      physical blocks between multiple files and therefore may
+      return multiple mappings for a given physical block.</p>
+      <p>Filesystem mappings are copied into the <em class="parameter"><code>fmh_recs</code></em> array, which
+      immediately follows the header data.</p>
+      <div class="refsect2">
+        <a id="ioctl-getfsmap-2_sect2" name="ioctl-getfsmap-2_sect2" shape="rect"> </a>
+        <h3>Fields of struct fsmap_head</h3>
+        <p>The <em class="parameter"><code>fmh_iflags</code></em>
+        field is a bit mask passed to the kernel to alter the
+        output. No flags are currently defined, so the caller must
+        set this value to zero.</p>
+        <p>The <em class="parameter"><code>fmh_oflags</code></em>
+        field is a bit mask of flags set by the kernel concerning
+        the returned mappings. If <code class="constant">FMH_OF_DEV_T</code> is set, then the <em class="parameter"><code>fmr_device</code></em> field represents a
+        <span class="type">dev_t</span> structure containing the
+        major and minor numbers of the block device.</p>
+        <p>The <em class="parameter"><code>fmh_count</code></em>
+        field contains the number of elements in the array being
+        passed to the kernel. If this value is 0, <em class="parameter"><code>fmh_entries</code></em> will be set to
+        the number of records that would have been returned had the
+        array been large enough; no mapping information will be
+        returned.</p>
+        <p>The <em class="parameter"><code>fmh_entries</code></em>
+        field contains the number of elements in the <em class="parameter"><code>fmh_recs</code></em> array that contain
+        useful information.</p>
+        <p>The <em class="parameter"><code>fmh_reserved</code></em>
+        fields must be set to zero.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-getfsmap-2_sect3" name="ioctl-getfsmap-2_sect3" shape="rect"> </a>
+        <h3>Keys</h3>
+        <p>The two key records in <em class="replaceable"><code>fsmap_head.fmh_keys</code></em> specify
+        the lowest and highest extent records in the keyspace that
+        the caller wants returned. A filesystem that can share
+        blocks between files likely requires the tuple (<em class="replaceable"><code>device</code></em>, <em class="replaceable"><code>physical</code></em>, <em class="replaceable"><code>owner</code></em>, <em class="replaceable"><code>offset</code></em>, <em class="replaceable"><code>flags</code></em>) to uniquely index
+        any filesystem mapping record. Classic non-sharing
+        filesystems might be able to identify any record with only
+        (<em class="replaceable"><code>device</code></em>,
+        <em class="replaceable"><code>physical</code></em>,
+        <em class="replaceable"><code>flags</code></em>). For
+        example, if the low key is set to (8:0, 36864, 0, 0, 0),
+        the filesystem will only return records for extents
+        starting at or above 36 KiB on disk. If the high key is set
+        to (8:0, 1048576, 0, 0, 0), only records below 1 MiB will
+        be returned. The format of <em class="parameter"><code>fmr_device</code></em> in the keys must
+        match the format of the same field in the output records,
+        as defined below. By convention, the field <em class="replaceable"><code>fsmap_head.fmh_keys[0]</code></em> must
+        contain the low key and <em class="replaceable"><code>fsmap_head.fmh_keys[1]</code></em> must
+        contain the high key for the request.</p>
+        <p>For convenience, if <em class="parameter"><code>fmr_length</code></em> is set in the low
+        key, it will be added to <em class="replaceable"><code>fmr_block</code></em> or <em class="parameter"><code>fmr_offset</code></em> as appropriate.
+        The caller can take advantage of this subtlety to set up
+        subsequent calls by copying <span class="emphasis"><em>fsmap_head.fmh_recs[fsmap_head.fmh_entries
+        − 1]</em></span> into the low key. The function
+        <em class="replaceable"><code>fsmap_advance</code></em>
+        (defined in <code class="filename">linux/fsmap.h</code>)
+        provides this functionality.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-getfsmap-2_sect4" name="ioctl-getfsmap-2_sect4" shape="rect"> </a>
+        <h3>Fields of struct fsmap</h3>
+        <p>The <em class="parameter"><code>fmr_device</code></em>
+        field uniquely identifies the underlying storage device. If
+        the <code class="constant">FMH_OF_DEV_T</code> flag is set
+        in the header's <em class="parameter"><code>fmh_oflags</code></em> field, this field
+        contains a <span class="type">dev_t</span> from which major
+        and minor numbers can be extracted. If the flag is not set,
+        this field contains a value that must be unique for each
+        unique storage device.</p>
+        <p>The <em class="parameter"><code>fmr_physical</code></em>
+        field contains the disk address of the extent in bytes.</p>
+        <p>The <em class="parameter"><code>fmr_owner</code></em>
+        field contains the owner of the extent. This is an inode
+        number unless <code class="constant">FMR_OF_SPECIAL_OWNER</code> is set in the
+        <em class="parameter"><code>fmr_flags</code></em> field, in
+        which case the value is determined by the filesystem. See
+        the section below about owner values for more details.</p>
+        <p>The <em class="parameter"><code>fmr_offset</code></em>
+        field contains the logical address in the mapping record in
+        bytes. This field has no meaning if the <code class="constant">FMR_OF_SPECIAL_OWNER</code> or <code class="constant">FMR_OF_EXTENT_MAP</code> flags are set in
+        <em class="parameter"><code>fmr_flags</code></em>.</p>
+        <p>The <em class="parameter"><code>fmr_length</code></em>
+        field contains the length of the extent in bytes.</p>
+        <p>The <em class="parameter"><code>fmr_flags</code></em>
+        field is a bit mask of extent state flags. The bits
+        are:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="variablelist">
+              <dl class="variablelist">
+                <dt><span class="term"><code class="constant">FMR_OF_PREALLOC</code></span></dt>
+                <dd>
+                  <p>The extent is allocated but not yet
+                  written.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">FMR_OF_ATTR_FORK</code></span></dt>
+                <dd>
+                  <p>This extent contains extended attribute
+                  data.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">FMR_OF_EXTENT_MAP</code></span></dt>
+                <dd>
+                  <p>This extent contains extent map information
+                  for the owner.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">FMR_OF_SHARED</code></span></dt>
+                <dd>
+                  <p>Parts of this extent may be shared.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">FMR_OF_SPECIAL_OWNER</code></span></dt>
+                <dd>
+                  <p>The <em class="parameter"><code>fmr_owner</code></em> field
+                  contains a special value instead of an inode
+                  number.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">FMR_OF_LAST</code></span></dt>
+                <dd>
+                  <p>This is the last record in the data set.</p>
+                </dd>
+              </dl>
+            </div>
+          </blockquote>
+        </div>
+        <p>The <em class="parameter"><code>fmr_reserved</code></em>
+        field will be set to zero.</p>
+      </div>
+      <div class="refsect2">
+        <a id="ioctl-getfsmap-2_sect5" name="ioctl-getfsmap-2_sect5" shape="rect"> </a>
+        <h3>Owner values</h3>
+        <p>Generally, the value of the <em class="parameter"><code>fmr_owner</code></em> field for
+        non-metadata extents should be an inode number. However,
+        filesystems are under no obligation to report inode
+        numbers; they may instead report <code class="constant">FMR_OWN_UNKNOWN</code> if the inode number
+        cannot easily be retrieved, if the caller lacks sufficient
+        privilege, if the filesystem does not support stable inode
+        numbers, or for any other reason. If a filesystem wishes to
+        condition the reporting of inode numbers based on process
+        capabilities, it is strongly urged that the <code class="constant">CAP_SYS_ADMIN</code> capability be used for this
+        purpose.</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term">The following special owner
+            values are generic to all filesystems:</span></dt>
+            <dd>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term"><code class="constant">FMR_OWN_FREE</code></span></dt>
+                      <dd>
+                        <p>Free space.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">FMR_OWN_UNKNOWN</code></span></dt>
+                      <dd>
+                        <p>This extent is in use but its owner is
+                        not known or not easily retrieved.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">FMR_OWN_METADATA</code></span></dt>
+                      <dd>
+                        <p>This extent is filesystem metadata.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+            </dd>
+          </dl>
+        </div>
+        <p>XFS can return the following special owner values:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="variablelist">
+              <dl class="variablelist">
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_FREE</code></span></dt>
+                <dd>
+                  <p>Free space.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_UNKNOWN</code></span></dt>
+                <dd>
+                  <p>This extent is in use but its owner is not
+                  known or not easily retrieved.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_FS</code></span></dt>
+                <dd>
+                  <p>Static filesystem metadata which exists at a
+                  fixed address. These are the AG superblock, the
+                  AGF, the AGFL, and the AGI headers.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_LOG</code></span></dt>
+                <dd>
+                  <p>The filesystem journal.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_AG</code></span></dt>
+                <dd>
+                  <p>Allocation group metadata, such as the free
+                  space btrees and the reverse mapping btrees.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_INOBT</code></span></dt>
+                <dd>
+                  <p>The inode and free inode btrees.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_INODES</code></span></dt>
+                <dd>
+                  <p>Inode records.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_REFC</code></span></dt>
+                <dd>
+                  <p>Reference count information.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">XFS_FMR_OWN_COW</code></span></dt>
+                <dd>
+                  <p>This extent is being used to stage a
+                  copy-on-write.</p>
+                </dd>
+                <dt><span class="term">XFS_FMR_OWN_DEFECTIVE:</span></dt>
+                <dd>
+                  <p>This extent has been marked defective either
+                  by the filesystem or the underlying device.</p>
+                </dd>
+              </dl>
+            </div>
+          </blockquote>
+        </div>
+        <p>ext4 can return the following special owner values:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="variablelist">
+              <dl class="variablelist">
+                <dt><span class="term"><code class="constant">EXT4_FMR_OWN_FREE</code></span></dt>
+                <dd>
+                  <p>Free space.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">EXT4_FMR_OWN_UNKNOWN</code></span></dt>
+                <dd>
+                  <p>This extent is in use but its owner is not
+                  known or not easily retrieved.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">EXT4_FMR_OWN_FS</code></span></dt>
+                <dd>
+                  <p>Static filesystem metadata which exists at a
+                  fixed address. This is the superblock and the
+                  group descriptors.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">EXT4_FMR_OWN_LOG</code></span></dt>
+                <dd>
+                  <p>The filesystem journal.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">EXT4_FMR_OWN_INODES</code></span></dt>
+                <dd>
+                  <p>Inode records.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">EXT4_FMR_OWN_BLKBM</code></span></dt>
+                <dd>
+                  <p>Block bit map.</p>
+                </dd>
+                <dt><span class="term"><code class="constant">EXT4_FMR_OWN_INOBM</code></span></dt>
+                <dd>
+                  <p>Inode bit map.</p>
+                </dd>
+              </dl>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-getfsmap-2_sect6" name="ioctl-getfsmap-2_sect6" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On error, −1 is returned, and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-getfsmap-2_sect7" name="ioctl-getfsmap-2_sect7" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <p>The error placed in <code class="varname">errno</code> can
+      be one of, but is not limited to, the following:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EBADF</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>fd</code></em> is not
+            open for reading.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EBADMSG</span></span></dt>
+          <dd>
+            <p>The filesystem has detected a checksum error in the
+            metadata.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p>The pointer passed in was not mapped to a valid
+            memory address.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The array is not long enough, the keys do not point
+            to a valid part of the filesystem, the low key points
+            to a higher point in the filesystem's physical storage
+            address space than the high key, or a nonzero value was
+            passed in one of the fields that must be zero.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Insufficient memory to process the request.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EOPNOTSUPP</span></span></dt>
+          <dd>
+            <p>The filesystem does not support this command.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EUCLEAN</span></span></dt>
+          <dd>
+            <p>The filesystem metadata is corrupt and needs
+            repair.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-getfsmap-2_sect8" name="ioctl-getfsmap-2_sect8" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>The <em class="parameter"><code>FS_IOC_GETFSMAP</code></em> operation first
+      appeared in Linux 4.12.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-getfsmap-2_sect9" name="ioctl-getfsmap-2_sect9" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>This API is Linux-specific. Not all filesystems support
+      it.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-getfsmap-2_sect10" name="ioctl-getfsmap-2_sect10" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>See <code class="filename">io/fsmap.c</code> in the
+      <em class="replaceable"><code>xfsprogs</code></em>
+      distribution for a sample program.</p>
+    </div>
+    <div class="refsect1">
+      <a id="ioctl-getfsmap-2_sect11" name="ioctl-getfsmap-2_sect11" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="ioctl-getfsmap-2_sect12" name="ioctl-getfsmap-2_sect12" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2017, Oracle.  All rights reserved.<br />
+
+                  <br />
+                  %%%LICENSE_START(GPLv2+_DOC_FULL)<br />
+                  This is free documentation; you can redistribute it and/or<br />
+
+                  modify it under the terms of the GNU General Public License as<br />
+
+                  published by the Free Software Foundation; either version 2 of<br />
+
+                  the License, or (at your option) any later version.<br />
+
+                  <br />
+                  The GNU General Public License's references to "object code"<br />
+
+                  and "executables" are to be interpreted as the output of any<br />
+
+                  document formatting or typesetting system, including<br />
+
+                  intermediate and printed output.<br />
+
+                  <br />
+                  This manual is distributed in the hope that it will be useful,<br />
+
+                  but WITHOUT ANY WARRANTY; without even the implied warranty of<br />
+
+                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />
+
+                  GNU General Public License for more details.<br />
+
+                  <br />
+                  You should have received a copy of the GNU General Public<br />
+
+                  License along with this manual; if not, see<br />
+
+                  &lt;<a class="literalurl" href="http://www.gnu.org/licenses/" target="_top" shape="rect">http://www.gnu.org/licenses/</a>&gt;.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

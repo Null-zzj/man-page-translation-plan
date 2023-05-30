@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>irqtop(1) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="irqtop(1) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index1.html" shape="rect">Section 1</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="lsirq.1" name="lsirq.1" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>lsirq — utility to display kernel interrupt
+      information</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">lsirq</code> [options]</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsirq-1_sect1" name="lsirq-1_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>Display kernel interrupt counter information.</p>
+      <p>The default output is subject to change. So whenever
+      possible, you should avoid using default outputs in your
+      scripts. Always explicitly define expected columns by using
+      <code class="option">−−output</code>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="lsirq-1_sect2" name="lsirq-1_sect2" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−n,
+          −−noheadings</code></span></dt>
+          <dd>
+            <p>Don't print headings.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−o,
+          −−output <em class="parameter"><code>list</code></em></code></span></dt>
+          <dd>
+            <p>Specify which output columns to print. Use
+            <code class="option">−−help</code> to get a
+            list of all supported columns. The default list of
+            columns may be extended if list is specified in the
+            format <em class="replaceable"><code>+list</code></em>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−s,
+          −−sort <em class="parameter"><code>column</code></em></code></span></dt>
+          <dd>
+            <p>Specify sort criteria by column name. See
+            <code class="option">−−help</code> output
+            to get column names.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−J,
+          −−json</code></span></dt>
+          <dd>
+            <p>Use JSON output format.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−P,
+          −−pairs</code></span></dt>
+          <dd>
+            <p>Produce output in the form of key="value" pairs. All
+            potentially unsafe characters are hex-escaped
+            (\x&lt;code&gt;).</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="lsirq-1_sect3" name="lsirq-1_sect3" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <p><a class="literalurl" href="mailto:pizhenwei%20REMOVE%20@%20THIS%20bytedance.com" target="_top" shape="rect">Zhenwei Pi</a></p>
+      <p><a class="literalurl" href="mailto:kerolasa%20REMOVE%20@%20THIS%20iki.fi" target="_top" shape="rect">Sami Kerola</a></p>
+      <p><a class="literalurl" href="mailto:kzak%20REMOVE%20@%20THIS%20redhat.com" target="_top" shape="rect">Karel Zak</a></p>
+    </div>
+    <div class="refsect1">
+      <a id="lsirq-1_sect4" name="lsirq-1_sect4" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The lsirq command is part of the util-linux package and is
+      available from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

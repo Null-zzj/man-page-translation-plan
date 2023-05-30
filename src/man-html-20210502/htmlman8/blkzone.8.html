@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>blkzone(8) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="blkzone(8) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index8.html" shape="rect">Section 8</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="blkzone.8" name="blkzone.8" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>blkzone — run zone command on a device</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="cmdsynopsis">
+        <p><code class="command">blkzone</code> command [options]
+        device</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="blkzone-8_sect1" name="blkzone-8_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><span class="command"><strong>blkzone</strong></span> is
+      used to run zone command on device that support the Zoned
+      Block Commands (ZBC) or Zoned-device ATA Commands (ZAC). The
+      zones to operate on can be specified using the offset, count
+      and length options.</p>
+      <p>The <em class="parameter"><code>device</code></em>
+      argument is the pathname of the block device.</p>
+    </div>
+    <div class="refsect1">
+      <a id="blkzone-8_sect2" name="blkzone-8_sect2" shape="rect"> </a>
+      <h2>COMMANDS</h2>
+      <div class="refsect2">
+        <a id="blkzone-8_sect3" name="blkzone-8_sect3" shape="rect"> </a>
+        <h3>report</h3>
+        <p>The command <span class="emphasis"><em>blkzone
+        report</em></span> is used to report device zone
+        information.</p>
+        <p>By default, the command will report all zones from the
+        start of the block device. Options may be used to modify
+        this behavior, changing the starting zone or the size of
+        the report, as explained below.</p>
+        <p><span class="emphasis"><em>Report output</em></span></p>
+        <div class="informaltable">
+          <table class="informaltable" style="border-collapse: collapse;">
+            <colgroup span="1">
+              <col class="c0" span="1" />
+              <col class="c1" span="1" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">start</td>
+                <td style="" align="left" rowspan="1" colspan="1">Zone start sector</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">len</td>
+                <td style="" align="left" rowspan="1" colspan="1">Zone length in number of
+                sectors</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">wptr</td>
+                <td style="" align="left" rowspan="1" colspan="1">Zone write pointer
+                position</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">reset</td>
+                <td style="" align="left" rowspan="1" colspan="1">Reset write pointer
+                recommended</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">non-seq</td>
+                <td style="" align="left" rowspan="1" colspan="1">Non-sequential write
+                resources active</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">cond</td>
+                <td style="" align="left" rowspan="1" colspan="1">Zone condition</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">type</td>
+                <td style="" align="left" rowspan="1" colspan="1">Zone type</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><span class="emphasis"><em>Zone
+        conditions</em></span></p>
+        <div class="informaltable">
+          <table class="informaltable" style="border-collapse: collapse;">
+            <colgroup span="1">
+              <col class="c0" span="1" />
+              <col class="c1" span="1" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">cl</td>
+                <td style="" align="left" rowspan="1" colspan="1">Closed</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">nw</td>
+                <td style="" align="left" rowspan="1" colspan="1">Not write pointer</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">em</td>
+                <td style="" align="left" rowspan="1" colspan="1">Empty</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">fu</td>
+                <td style="" align="left" rowspan="1" colspan="1">Full</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">oe</td>
+                <td style="" align="left" rowspan="1" colspan="1">Explicitly opened</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">oi</td>
+                <td style="" align="left" rowspan="1" colspan="1">Implicitly opened</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">ol</td>
+                <td style="" align="left" rowspan="1" colspan="1">Offline</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">ro</td>
+                <td style="" align="left" rowspan="1" colspan="1">Read only</td>
+              </tr>
+              <tr>
+                <td style="" align="left" rowspan="1" colspan="1">x?</td>
+                <td style="" align="left" rowspan="1" colspan="1">Reserved conditions
+                (should not be reported)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="refsect2">
+        <a id="blkzone-8_sect4" name="blkzone-8_sect4" shape="rect"> </a>
+        <h3>reset</h3>
+        <p>The command <span class="emphasis"><em>blkzone
+        reset</em></span> is used to reset one or more zones.
+        Unlike <span class="citerefentry"><span class="refentrytitle">sg_reset_wp</span>(8)</span>, this command
+        operates from the block layer and can reset a range of
+        zones.</p>
+      </div>
+      <div class="refsect2">
+        <a id="blkzone-8_sect5" name="blkzone-8_sect5" shape="rect"> </a>
+        <h3>open</h3>
+        <p>The command <span class="emphasis"><em>blkzone
+        open</em></span> is used to explicitly open one or more
+        zones. Unlike <span class="citerefentry"><span class="refentrytitle">sg_zone</span>(8)</span>, open action, this
+        command operates from the block layer and can open a range
+        of zones.</p>
+      </div>
+      <div class="refsect2">
+        <a id="blkzone-8_sect6" name="blkzone-8_sect6" shape="rect"> </a>
+        <h3>close</h3>
+        <p>The command <span class="emphasis"><em>blkzone
+        close</em></span> is used to close one or more zones.
+        Unlike <span class="citerefentry"><span class="refentrytitle">sg_zone</span>(8)</span>, close action,
+        this command operates from the block layer and can close a
+        range of zones.</p>
+      </div>
+      <div class="refsect2">
+        <a id="blkzone-8_sect7" name="blkzone-8_sect7" shape="rect"> </a>
+        <h3>finish</h3>
+        <p>The command <span class="emphasis"><em>blkzone
+        finish</em></span> is used to finish (transition to full
+        condition) one or more zones. Unlike <span class="citerefentry"><span class="refentrytitle">sg_zone</span>(8)</span>, finish action,
+        this command operates from the block layer and can finish a
+        range of zones.</p>
+        <p>By default, the reset, open, close and finish commands
+        will operate from the zone at device sector 0 and operate
+        on all zones. Options may be used to modify this behavior
+        as explained below.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="blkzone-8_sect8" name="blkzone-8_sect8" shape="rect"> </a>
+      <h2>OPTIONS</h2>
+      <p>The <span class="command"><strong>offset</strong></span>
+      and <span class="command"><strong>length</strong></span>
+      option arguments may be followed by the multiplicative
+      suffixes KiB (=1024), MiB (=1024*1024), and so on for GiB,
+      TiB, PiB, EiB, ZiB and YiB (the "iB" is optional, e.g., "K"
+      has the same meaning as "KiB") or the suffixes KB (=1000), MB
+      (=1000*1000), and so on for GB, TB, PB, EB, ZB and YB.
+      Additionally, the 0x prefix can be used to specify
+      <span class="command"><strong>offset</strong></span> and
+      <span class="command"><strong>length</strong></span> in
+      hex.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="option">−o,
+          −−offset <em class="parameter"><code>sector</code></em></code></span></dt>
+          <dd>
+            <p>The starting zone specified as a sector offset. The
+            provided offset in sector units (512 bytes) should
+            match the start of a zone. The default value is
+            zero.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−l,
+          −−length <em class="parameter"><code>sectors</code></em></code></span></dt>
+          <dd>
+            <p>The maximum number of sectors the command should
+            operate on. The default value is the number of sectors
+            remaining after <span class="command"><strong>offset</strong></span>. This option
+            cannot be used together with the option <code class="option">−−count</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−c,
+          −−count <em class="parameter"><code>count</code></em></code></span></dt>
+          <dd>
+            <p>The maximum number of zones the command should
+            operate on. The default value is the number of zones
+            starting from <span class="command"><strong>offset</strong></span>. This option
+            cannot be used together with the option <code class="option">−−length</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−f,
+          −−force</code></span></dt>
+          <dd>
+            <p>Enforce commands to change zone status on block
+            devices used by the system.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−v,
+          −−verbose</code></span></dt>
+          <dd>
+            <p>Display the number of zones returned in the report
+            or the range of sectors reset.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−V,
+          −−version</code></span></dt>
+          <dd>
+            <p>Display version information and exit.</p>
+          </dd>
+          <dt><span class="term"><code class="option">−h,
+          −−help</code></span></dt>
+          <dd>
+            <p>Display help text and exit.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="blkzone-8_sect9" name="blkzone-8_sect9" shape="rect"> </a>
+      <h2>AUTHORS</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+Shaun Tancheff &lt;shaun@tancheff.com&gt;
+Karel Zak &lt;kzak@redhat.com&gt;
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="blkzone-8_sect10" name="blkzone-8_sect10" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><span class="citerefentry"><span class="refentrytitle">sg_rep_zones</span>(8)</span></p>
+    </div>
+    <div class="refsect1">
+      <a id="blkzone-8_sect11" name="blkzone-8_sect11" shape="rect"> </a>
+      <h2>AVAILABILITY</h2>
+      <p>The blkzone command is part of the util-linux package and
+      is available from <a class="literalurl" href="https://www.kernel.org/pub/linux/utils/util-linux/" target="_top" shape="rect">Linux Kernel Archive</a></p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

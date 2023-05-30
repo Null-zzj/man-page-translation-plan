@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>userfaultfd(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="userfaultfd(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="userfaultfd.2" name="userfaultfd.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>userfaultfd — create a file descriptor for handling
+      page faults in user space</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#include &lt;sys/types.h&gt;
+#include &lt;linux/userfaultfd.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>userfaultfd</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">flags</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">There is no glibc wrapper
+            for this system call; see NOTES.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect1" name="userfaultfd-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><code class="function">userfaultfd</code>() creates a new
+      userfaultfd object that can be used for delegation of
+      page-fault handling to a user-space application, and returns
+      a file descriptor that refers to the new object. The new
+      userfaultfd object is configured using <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>.</p>
+      <p>Once the userfaultfd object is configured, the application
+      can use <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> to receive
+      userfaultfd notifications. The reads from userfaultfd may be
+      blocking or non-blocking, depending on the value of
+      <em class="parameter"><code>flags</code></em> used for the
+      creation of the userfaultfd or subsequent calls to <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>.</p>
+      <p>The following values may be bitwise ORed in <em class="parameter"><code>flags</code></em> to change the behavior of
+      <code class="function">userfaultfd</code>():</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">O_CLOEXEC</code></span></dt>
+          <dd>
+            <p>Enable the close-on-exec flag for the new
+            userfaultfd file descriptor. See the description of the
+            <code class="constant">O_CLOEXEC</code> flag in
+            <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">O_NONBLOCK</code></span></dt>
+          <dd>
+            <p>Enables non-blocking operation for the userfaultfd
+            object. See the description of the <code class="constant">O_NONBLOCK</code> flag in <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>When the last file descriptor referring to a userfaultfd
+      object is closed, all memory ranges that were registered with
+      the object are unregistered and unread events are
+      flushed.</p>
+      <div class="refsect2">
+        <a id="userfaultfd-2_sect2" name="userfaultfd-2_sect2" shape="rect"> </a>
+        <h3>Usage</h3>
+        <p>The userfaultfd mechanism is designed to allow a thread
+        in a multithreaded program to perform user-space paging for
+        the other threads in the process. When a page fault occurs
+        for one of the regions registered to the userfaultfd
+        object, the faulting thread is put to sleep and an event is
+        generated that can be read via the userfaultfd file
+        descriptor. The fault-handling thread reads events from
+        this file descriptor and services them using the operations
+        described in <a class="link" href="../htmlman2/ioctl_userfaultfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl_userfaultfd</span>(2)</span></a>.
+        When servicing the page fault events, the fault-handling
+        thread can trigger a wake-up for the sleeping thread.</p>
+        <p>It is possible for the faulting threads and the
+        fault-handling threads to run in the context of different
+        processes. In this case, these threads may belong to
+        different programs, and the program that executes the
+        faulting threads will not necessarily cooperate with the
+        program that handles the page faults. In such
+        non-cooperative mode, the process that monitors userfaultfd
+        and handles page faults needs to be aware of the changes in
+        the virtual memory layout of the faulting process to avoid
+        memory corruption.</p>
+        <p>Starting from Linux 4.11, userfaultfd can also notify
+        the fault-handling threads about changes in the virtual
+        memory layout of the faulting process. In addition, if the
+        faulting process invokes <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>, the userfaultfd
+        objects associated with the parent may be duplicated into
+        the child process and the userfaultfd monitor will be
+        notified (via the <code class="constant">UFFD_EVENT_FORK</code> described below) about
+        the file descriptor associated with the userfault objects
+        created for the child process, which allows the userfaultfd
+        monitor to perform user-space paging for the child process.
+        Unlike page faults which have to be synchronous and require
+        an explicit or implicit wakeup, all other events are
+        delivered asynchronously and the non-cooperative process
+        resumes execution as soon as the userfaultfd manager
+        executes <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a>. The userfaultfd
+        manager should carefully synchronize calls to <code class="constant">UFFDIO_COPY</code> with the processing of
+        events.</p>
+        <p>The current asynchronous model of the event delivery is
+        optimal for single threaded non-cooperative userfaultfd
+        manager implementations.</p>
+      </div>
+      <div class="refsect2">
+        <a id="userfaultfd-2_sect3" name="userfaultfd-2_sect3" shape="rect"> </a>
+        <h3>Userfaultfd operation</h3>
+        <p>After the userfaultfd object is created with
+        <code class="function">userfaultfd</code>(), the
+        application must enable it using the <code class="constant">UFFDIO_API</code> <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation. This
+        operation allows a handshake between the kernel and user
+        space to determine the API version and supported features.
+        This operation must be performed before any of the other
+        <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations
+        described below (or those operations fail with the
+        <span class="errorname">EINVAL</span> error).</p>
+        <p>After a successful <code class="constant">UFFDIO_API</code> operation, the application
+        then registers memory address ranges using the <code class="constant">UFFDIO_REGISTER</code> <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation. After
+        successful completion of a <code class="constant">UFFDIO_REGISTER</code> operation, a page fault
+        occurring in the requested memory range, and satisfying the
+        mode defined at the registration time, will be forwarded by
+        the kernel to the user-space application. The application
+        can then use the <code class="constant">UFFDIO_COPY</code>
+        or <code class="constant">UFFDIO_ZEROPAGE</code> <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations to
+        resolve the page fault.</p>
+        <p>Starting from Linux 4.14, if the application sets the
+        <code class="constant">UFFD_FEATURE_SIGBUS</code> feature
+        bit using the <code class="constant">UFFDIO_API</code>
+        <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>, no page-fault
+        notification will be forwarded to user space. Instead a
+        <code class="constant">SIGBUS</code> signal is delivered to
+        the faulting process. With this feature, userfaultfd can be
+        used for robustness purposes to simply catch any access to
+        areas within the registered address range that do not have
+        pages allocated, without having to listen to userfaultfd
+        events. No userfaultfd monitor will be required for dealing
+        with such memory accesses. For example, this feature can be
+        useful for applications that want to prevent the kernel
+        from automatically allocating pages and filling holes in
+        sparse files when the hole is accessed through a memory
+        mapping.</p>
+        <p>The <code class="constant">UFFD_FEATURE_SIGBUS</code>
+        feature is implicitly inherited through <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> if used in
+        combination with <code class="constant">UFFD_FEATURE_FORK</code>.</p>
+        <p>Details of the various <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operations can
+        be found in <a class="link" href="../htmlman2/ioctl_userfaultfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl_userfaultfd</span>(2)</span></a>.</p>
+        <p>Since Linux 4.11, events other than page-fault may
+        enabled during <code class="constant">UFFDIO_API</code>
+        operation.</p>
+        <p>Up to Linux 4.11, userfaultfd can be used only with
+        anonymous private memory mappings. Since Linux 4.11,
+        userfaultfd can be also used with hugetlbfs and shared
+        memory mappings.</p>
+      </div>
+      <div class="refsect2">
+        <a id="userfaultfd-2_sect4" name="userfaultfd-2_sect4" shape="rect"> </a>
+        <h3>Reading from the userfaultfd structure</h3>
+        <p>Each <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> from the
+        userfaultfd file descriptor returns one or more <em class="replaceable"><code>uffd_msg</code></em> structures, each
+        of which describes a page-fault event or an event required
+        for the non-cooperative userfaultfd usage:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informalexample">
+              <pre class="programlisting" xml:space="preserve">
+struct uffd_msg {
+    __u8  event;            /* Type of event */
+    ...
+    union {
+        struct {
+            __u64 flags;    /* Flags describing fault */
+            __u64 address;  /* Faulting address */
+        } pagefault;
+
+        struct {            /* Since Linux 4.11 */
+            __u32 ufd;      /* Userfault file descriptor
+                               of the child process */
+        } fork;
+
+        struct {            /* Since Linux 4.11 */
+            __u64 from;     /* Old address of remapped area */
+            __u64 to;       /* New address of remapped area */
+            __u64 len;      /* Original mapping length */
+        } remap;
+
+        struct {            /* Since Linux 4.11 */
+            __u64 start;    /* Start address of removed area */
+            __u64 end;      /* End address of removed area */
+        } remove;
+        ...
+    } arg;
+
+    /* Padding fields omitted */
+} __packed;
+</pre>
+            </div>
+          </blockquote>
+        </div>
+        <p>If multiple events are available and the supplied buffer
+        is large enough, <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> returns as many
+        events as will fit in the supplied buffer. If the buffer
+        supplied to <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> is smaller than
+        the size of the <em class="replaceable"><code>uffd_msg</code></em> structure, the
+        <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> fails with the
+        error <span class="errorname">EINVAL</span>.</p>
+        <p>The fields set in the <em class="replaceable"><code>uffd_msg</code></em> structure are as
+        follows:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="replaceable"><code>event</code></em></span></dt>
+            <dd>
+              <p>The type of event. Depending of the event type,
+              different fields of the <em class="replaceable"><code>arg</code></em> union represent
+              details required for the event processing. The
+              non-page-fault events are generated only when
+              appropriate feature is enabled during API handshake
+              with <code class="constant">UFFDIO_API</code>
+              <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>.</p>
+              <p>The following values can appear in the <em class="replaceable"><code>event</code></em> field:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term"><code class="constant">UFFD_EVENT_PAGEFAULT</code> (since
+                      Linux 4.3)</span></dt>
+                      <dd>
+                        <p>A page-fault event. The page-fault
+                        details are available in the <em class="replaceable"><code>pagefault</code></em>
+                        field.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">UFFD_EVENT_FORK</code> (since
+                      Linux 4.11)</span></dt>
+                      <dd>
+                        <p>Generated when the faulting process
+                        invokes <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>
+                        (or <a class="link" href="../htmlman2/clone.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clone</span>(2)</span></a>
+                        without the <code class="constant">CLONE_VM</code> flag). The event
+                        details are available in the <em class="replaceable"><code>fork</code></em>
+                        field.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">UFFD_EVENT_REMAP</code> (since
+                      Linux 4.11)</span></dt>
+                      <dd>
+                        <p>Generated when the faulting process
+                        invokes <a class="link" href="../htmlman2/mremap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mremap</span>(2)</span></a>.
+                        The event details are available in the
+                        <em class="replaceable"><code>remap</code></em>
+                        field.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">UFFD_EVENT_REMOVE</code> (since
+                      Linux 4.11)</span></dt>
+                      <dd>
+                        <p>Generated when the faulting process
+                        invokes <a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a>
+                        with <code class="constant">MADV_DONTNEED</code> or
+                        <code class="constant">MADV_REMOVE</code>
+                        advice. The event details are available in
+                        the <em class="replaceable"><code>remove</code></em>
+                        field.</p>
+                      </dd>
+                      <dt><span class="term"><code class="constant">UFFD_EVENT_UNMAP</code> (since
+                      Linux 4.11)</span></dt>
+                      <dd>
+                        <p>Generated when the faulting process
+                        unmaps a memory range, either explicitly
+                        using <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">munmap</span>(2)</span></a>
+                        or implicitly during <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>
+                        or <a class="link" href="../htmlman2/mremap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mremap</span>(2)</span></a>.
+                        The event details are available in the
+                        <em class="replaceable"><code>remove</code></em>
+                        field.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>pagefault.address</code></em></span></dt>
+            <dd>
+              <p>The address that triggered the page fault.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>pagefault.flags</code></em></span></dt>
+            <dd>
+              <p>A bit mask of flags that describe the event. For
+              <code class="constant">UFFD_EVENT_PAGEFAULT</code>,
+              the following flag may appear:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term"><code class="constant">UFFD_PAGEFAULT_FLAG_WRITE</code></span></dt>
+                      <dd>
+                        <p>If the address is in a range that was
+                        registered with the <code class="constant">UFFDIO_REGISTER_MODE_MISSING</code>
+                        flag (see <a class="link" href="../htmlman2/ioctl_userfaultfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl_userfaultfd</span>(2)</span></a>)
+                        and this flag is set, this a write fault;
+                        otherwise it is a read fault.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>fork.ufd</code></em></span></dt>
+            <dd>
+              <p>The file descriptor associated with the userfault
+              object created for the child created by <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a>.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>remap.from</code></em></span></dt>
+            <dd>
+              <p>The original address of the memory range that was
+              remapped using <a class="link" href="../htmlman2/mremap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mremap</span>(2)</span></a>.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>remap.to</code></em></span></dt>
+            <dd>
+              <p>The new address of the memory range that was
+              remapped using <a class="link" href="../htmlman2/mremap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mremap</span>(2)</span></a>.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>remap.len</code></em></span></dt>
+            <dd>
+              <p>The original length of the memory range that was
+              remapped using <a class="link" href="../htmlman2/mremap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mremap</span>(2)</span></a>.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>remove.start</code></em></span></dt>
+            <dd>
+              <p>The start address of the memory range that was
+              freed using <a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a> or
+              unmapped</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>remove.end</code></em></span></dt>
+            <dd>
+              <p>The end address of the memory range that was freed
+              using <a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a> or
+              unmapped</p>
+            </dd>
+          </dl>
+        </div>
+        <p>A <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> on a userfaultfd
+        file descriptor can fail with the following errors:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+            <dd>
+              <p>The userfaultfd object has not yet been enabled
+              using the <code class="constant">UFFDIO_API</code>
+              <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>
+              operation</p>
+            </dd>
+          </dl>
+        </div>
+        <p>If the <code class="constant">O_NONBLOCK</code> flag is
+        enabled in the associated open file description, the
+        userfaultfd file descriptor can be monitored with <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">poll</span>(2)</span></a>, <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a>, and <a class="link" href="../htmlman7/epoll.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">epoll</span>(7)</span></a>. When events are
+        available, the file descriptor indicates as readable. If
+        the <code class="constant">O_NONBLOCK</code> flag is not
+        enabled, then <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">poll</span>(2)</span></a> (always)
+        indicates the file as having a <code class="constant">POLLERR</code> condition, and <a class="link" href="../htmlman2/select.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">select</span>(2)</span></a> indicates the
+        file descriptor as both readable and writable.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect5" name="userfaultfd-2_sect5" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">userfaultfd</code>()
+      returns a new file descriptor that refers to the userfaultfd
+      object. On error, −1 is returned, and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect6" name="userfaultfd-2_sect6" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>An unsupported value was specified in <em class="parameter"><code>flags</code></em>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EMFILE</span></span></dt>
+          <dd>
+            <p>The per-process limit on the number of open file
+            descriptors has been reached</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENFILE</span></span></dt>
+          <dd>
+            <p>The system-wide limit on the total number of open
+            files has been reached.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOMEM</span></span></dt>
+          <dd>
+            <p>Insufficient kernel memory was available.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span> (since Linux 5.2)</span></dt>
+          <dd>
+            <p>The caller is not privileged (does not have the
+            <code class="constant">CAP_SYS_PTRACE</code> capability
+            in the initial user namespace), and <code class="filename">/proc/sys/vm/unprivileged_userfaultfd</code>
+            has the value 0.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect7" name="userfaultfd-2_sect7" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>The <code class="function">userfaultfd</code>() system
+      call first appeared in Linux 4.3.</p>
+      <p>The support for hugetlbfs and shared memory areas and
+      non-page-fault events was added in Linux 4.11</p>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect8" name="userfaultfd-2_sect8" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p><code class="function">userfaultfd</code>() is
+      Linux-specific and should not be used in programs intended to
+      be portable.</p>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect9" name="userfaultfd-2_sect9" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>Glibc does not provide a wrapper for this system call;
+      call it using <a class="link" href="../htmlman2/syscall.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">syscall</span>(2)</span></a>.</p>
+      <p>The userfaultfd mechanism can be used as an alternative to
+      traditional user-space paging techniques based on the use of
+      the <code class="constant">SIGSEGV</code> signal and
+      <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>. It can also be
+      used to implement lazy restore for checkpoint/restore
+      mechanisms, as well as post-copy migration to allow (nearly)
+      uninterrupted execution when transferring virtual machines
+      and Linux containers from one host to another.</p>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect10" name="userfaultfd-2_sect10" shape="rect"> </a>
+      <h2>BUGS</h2>
+      <p>If the <code class="constant">UFFD_FEATURE_EVENT_FORK</code> is enabled and a
+      system call from the <a class="link" href="../htmlman2/fork.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fork</span>(2)</span></a> family is
+      interrupted by a signal or failed, a stale userfaultfd
+      descriptor might be created. In this case, a spurious
+      <code class="constant">UFFD_EVENT_FORK</code> will be
+      delivered to the userfaultfd monitor.</p>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect11" name="userfaultfd-2_sect11" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below demonstrates the use of the userfaultfd
+      mechanism. The program creates two threads, one of which acts
+      as the page-fault handler for the process, for the pages in a
+      demand-page zero region created using <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>.</p>
+      <p>The program takes one command-line argument, which is the
+      number of pages that will be created in a mapping whose page
+      faults will be handled via userfaultfd. After creating a
+      userfaultfd object, the program then creates an anonymous
+      private mapping of the specified size and registers the
+      address range of that mapping using the <code class="constant">UFFDIO_REGISTER</code> <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation. The
+      program then creates a second thread that will perform the
+      task of handling page faults.</p>
+      <p>The main thread then walks through the pages of the
+      mapping fetching bytes from successive pages. Because the
+      pages have not yet been accessed, the first access of a byte
+      in each page will trigger a page-fault event on the
+      userfaultfd file descriptor.</p>
+      <p>Each of the page-fault events is handled by the second
+      thread, which sits in a loop processing input from the
+      userfaultfd file descriptor. In each loop iteration, the
+      second thread first calls <a class="link" href="../htmlman2/poll.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">poll</span>(2)</span></a> to check the state
+      of the file descriptor, and then reads an event from the file
+      descriptor. All such events should be <code class="constant">UFFD_EVENT_PAGEFAULT</code> events, which the
+      thread handles by copying a page of data into the faulting
+      region using the <code class="constant">UFFDIO_COPY</code>
+      <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a> operation.</p>
+      <p>The following is an example of what we see when running
+      the program:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./userfaultfd_demo 3</em></span>
+Address returned by mmap() = 0x7fd30106c000
+
+fault_handler_thread():
+    poll() returns: nready = 1; POLLIN = 1; POLLERR = 0
+    UFFD_EVENT_PAGEFAULT event: flags = 0; address = 7fd30106c00f
+        (uffdio_copy.copy returned 4096)
+Read address 0x7fd30106c00f in main(): A
+Read address 0x7fd30106c40f in main(): A
+Read address 0x7fd30106c80f in main(): A
+Read address 0x7fd30106cc0f in main(): A
+
+fault_handler_thread():
+    poll() returns: nready = 1; POLLIN = 1; POLLERR = 0
+    UFFD_EVENT_PAGEFAULT event: flags = 0; address = 7fd30106d00f
+        (uffdio_copy.copy returned 4096)
+Read address 0x7fd30106d00f in main(): B
+Read address 0x7fd30106d40f in main(): B
+Read address 0x7fd30106d80f in main(): B
+Read address 0x7fd30106dc0f in main(): B
+
+fault_handler_thread():
+    poll() returns: nready = 1; POLLIN = 1; POLLERR = 0
+    UFFD_EVENT_PAGEFAULT event: flags = 0; address = 7fd30106e00f
+        (uffdio_copy.copy returned 4096)
+Read address 0x7fd30106e00f in main(): C
+Read address 0x7fd30106e40f in main(): C
+Read address 0x7fd30106e80f in main(): C
+Read address 0x7fd30106ec0f in main(): C
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="userfaultfd-2_sect12" name="userfaultfd-2_sect12" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+/* userfaultfd_demo.c
+
+   Licensed under the GNU General Public License version 2 or later.
+*/
+#define _GNU_SOURCE
+#include &lt;inttypes.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;linux/userfaultfd.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;poll.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;sys/syscall.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;poll.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+static int page_size;
+
+static void *
+fault_handler_thread(void *arg)
+{
+    static struct uffd_msg msg;   /* Data read from userfaultfd */
+    static int fault_cnt = 0;     /* Number of faults so far handled */
+    long uffd;                    /* userfaultfd file descriptor */
+    static char *page = NULL;
+    struct uffdio_copy uffdio_copy;
+    ssize_t nread;
+
+    uffd = (long) arg;
+
+    /* Create a page that will be copied into the faulting region. */
+
+    if (page == NULL) {
+        page = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
+                    MAP_PRIVATE | MAP_ANONYMOUS, −1, 0);
+        if (page == MAP_FAILED)
+            errExit("mmap");
+    }
+
+    /* Loop, handling incoming events on the userfaultfd
+       file descriptor. */
+
+    for (;;) {
+
+        /* See what poll() tells us about the userfaultfd. */
+
+        struct pollfd pollfd;
+        int nready;
+        pollfd.fd = uffd;
+        pollfd.events = POLLIN;
+        nready = poll(&amp;pollfd, 1, −1);
+        if (nready == −1)
+            errExit("poll");
+
+        printf("\nfault_handler_thread():\n");
+        printf("    poll() returns: nready = %d; "
+                "POLLIN = %d; POLLERR = %d\n", nready,
+                (pollfd.revents &amp; POLLIN) != 0,
+                (pollfd.revents &amp; POLLERR) != 0);
+
+        /* Read an event from the userfaultfd. */
+
+        nread = read(uffd, &amp;msg, sizeof(msg));
+        if (nread == 0) {
+            printf("EOF on userfaultfd!\n");
+            exit(EXIT_FAILURE);
+        }
+
+        if (nread == −1)
+            errExit("read");
+
+        /* We expect only one kind of event; verify that assumption. */
+
+        if (msg.event != UFFD_EVENT_PAGEFAULT) {
+            fprintf(stderr, "Unexpected event on userfaultfd\n");
+            exit(EXIT_FAILURE);
+        }
+
+        /* Display info about the page−fault event. */
+
+        printf("    UFFD_EVENT_PAGEFAULT event: ");
+        printf("flags = %"PRIx64"; ", msg.arg.pagefault.flags);
+        printf("address = %"PRIx64"\n", msg.arg.pagefault.address);
+
+        /* Copy the page pointed to by 'page' into the faulting
+           region. Vary the contents that are copied in, so that it
+           is more obvious that each fault is handled separately. */
+
+        memset(page, 'A' + fault_cnt % 20, page_size);
+        fault_cnt++;
+
+        uffdio_copy.src = (unsigned long) page;
+
+        /* We need to handle page faults in units of pages(!).
+           So, round faulting address down to page boundary. */
+
+        uffdio_copy.dst = (unsigned long) msg.arg.pagefault.address &amp;
+                                           ~(page_size − 1);
+        uffdio_copy.len = page_size;
+        uffdio_copy.mode = 0;
+        uffdio_copy.copy = 0;
+        if (ioctl(uffd, UFFDIO_COPY, &amp;uffdio_copy) == −1)
+            errExit("ioctl−UFFDIO_COPY");
+
+        printf("        (uffdio_copy.copy returned %"PRId64")\n",
+                uffdio_copy.copy);
+    }
+}
+
+int
+main(int argc, char *argv[])
+{
+    long uffd;          /* userfaultfd file descriptor */
+    char *addr;         /* Start of region handled by userfaultfd */
+    uint64_t len;       /* Length of region handled by userfaultfd */
+    pthread_t thr;      /* ID of thread that handles page faults */
+    struct uffdio_api uffdio_api;
+    struct uffdio_register uffdio_register;
+    int s;
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s num−pages\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    page_size = sysconf(_SC_PAGE_SIZE);
+    len = strtoull(argv[1], NULL, 0) * page_size;
+
+    /* Create and enable userfaultfd object. */
+
+    uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
+    if (uffd == −1)
+        errExit("userfaultfd");
+
+    uffdio_api.api = UFFD_API;
+    uffdio_api.features = 0;
+    if (ioctl(uffd, UFFDIO_API, &amp;uffdio_api) == −1)
+        errExit("ioctl−UFFDIO_API");
+
+    /* Create a private anonymous mapping. The memory will be
+       demand−zero paged−−that is, not yet allocated. When we
+       actually touch the memory, it will be allocated via
+       the userfaultfd. */
+
+    addr = mmap(NULL, len, PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS, −1, 0);
+    if (addr == MAP_FAILED)
+        errExit("mmap");
+
+    printf("Address returned by mmap() = %p\n", addr);
+
+    /* Register the memory range of the mapping we just created for
+       handling by the userfaultfd object. In mode, we request to track
+       missing pages (i.e., pages that have not yet been faulted in). */
+
+    uffdio_register.range.start = (unsigned long) addr;
+    uffdio_register.range.len = len;
+    uffdio_register.mode = UFFDIO_REGISTER_MODE_MISSING;
+    if (ioctl(uffd, UFFDIO_REGISTER, &amp;uffdio_register) == −1)
+        errExit("ioctl−UFFDIO_REGISTER");
+
+    /* Create a thread that will process the userfaultfd events. */
+
+    s = pthread_create(&amp;thr, NULL, fault_handler_thread, (void *) uffd);
+    if (s != 0) {
+        errno = s;
+        errExit("pthread_create");
+    }
+
+    /* Main thread now touches memory in the mapping, touching
+       locations 1024 bytes apart. This will trigger userfaultfd
+       events for all pages in the region. */
+
+    int l;
+    l = 0xf;    /* Ensure that faulting address is not on a page
+                   boundary, in order to test that we correctly
+                   handle that case in fault_handling_thread(). */
+    while (l &lt; len) {
+        char c = addr[l];
+        printf("Read address %p in main(): ", addr + l);
+        printf("%c\n", c);
+        l += 1024;
+        usleep(100000);         /* Slow things down a little */
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="userfaultfd-2_sect13" name="userfaultfd-2_sect13" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>, <a class="link" href="../htmlman2/ioctl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl</span>(2)</span></a>, <a class="link" href="../htmlman2/ioctl_userfaultfd.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ioctl_userfaultfd</span>(2)</span></a>,
+      <a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a>, <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a></p>
+      <p><code class="filename">Documentation/admin−guide/mm/userfaultfd.rst</code>
+      in the Linux kernel source tree</p>
+    </div>
+    <div class="colophon">
+      <a id="userfaultfd-2_sect14" name="userfaultfd-2_sect14" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2016, IBM Corporation.<br />
+
+                  Written by Mike Rapoport &lt;rppt<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>linux.vnet.ibm.com&gt;<br />
+
+                  and Copyright (C) 2017 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

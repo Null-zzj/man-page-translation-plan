@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>slapo-autoca(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="slapo-autoca(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="slapo-autoca.5" name="slapo-autoca.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>slapo−autoca — Automatic Certificate Authority
+      overlay to slapd</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+ETCDIR/slapd.conf
+  </pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-autoca-5_sect1" name="slapo-autoca-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The Automatic CA overlay generates X.509 certificate/key
+      pairs for entries in the directory. The DN of a generated
+      certificate is identical to the DN of the entry containing
+      it. On startup it looks for a CA certificate and key in the
+      suffix entry of the database which it will use to sign all
+      subsequently generated certificates. A new CA certificate and
+      key will be generated and stored in the suffix entry if none
+      already exists. The CA certificate is stored in the
+      cACertificate;binary attribute of the suffix entry, and the
+      private key is stored in the cAPrivateKey;binary attribute of
+      the suffix entry. These attributes may be overwritten if some
+      other CA certificate/key pair is desired for use.</p>
+      <p>Certificates for users and servers are generated on demand
+      using a Search request returning only the
+      userCertificate;binary and userPrivateKey;binary attributes.
+      Any Search for anything besides exactly these two attributes
+      is ignored by the overlay. Note that these values are stored
+      in ASN.1 DER form in the directory so the ";binary" attribute
+      option is mandatory.</p>
+      <p>Entries that do not belong to selected objectClasses will
+      be ignored by the overlay. By default, entries of objectClass
+      <em class="replaceable"><code>person</code></em> will be
+      treated as users, and entries of objectClass <em class="replaceable"><code>ipHost</code></em> will be treated as
+      servers. There are slight differences in the set of X.509V3
+      certificate extensions added to the certificate between users
+      and servers.</p>
+      <p>The CA's private key is stored in a <em class="replaceable"><code>cAPrivateKey</code></em> attribute, and
+      user and server private keys are stored in the <em class="replaceable"><code>userPrivateKey</code></em> attribute. The
+      private key values are encoded in PKCS#8 format. It is
+      essential that access to these attributes be properly secured
+      with ACLs. Both of these attributes inherit from the
+      <em class="replaceable"><code>pKCS8PrivateKey</code></em>
+      attribute, so it is sufficient to use a single ACL rule
+      like</p>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+        access to attrs=pKCS8PrivateKey by self ssf=128 write
+</pre>
+      </div>
+      <p>at the beginning of the rules.</p>
+      <p>Currently there is no automated management for expiration
+      or revocation. Obsolete certificates and keys must be
+      manually removed by deleting an entry's userCertificate and
+      userPrivateKey attributes.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-autoca-5_sect2" name="slapo-autoca-5_sect2" shape="rect"> </a>
+      <h2>CONFIGURATION</h2>
+      <p>These <em class="replaceable"><code>slapd.conf</code></em>
+      options apply to the Automatic CA overlay. They should appear
+      after the <em class="replaceable"><code>overlay</code></em>
+      directive.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="emphasis"><em>userClass
+          &lt;objectClass&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the objectClass to be treated as user
+            entries.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>serverClass
+          &lt;objectClass&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the objectClass to be treated as server
+            entries.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>userKeybits
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the size of the private key to use for user
+            certificates. The default is 2048 and the minimum is
+            512.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>serverKeybits
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the size of the private key to use for
+            server certificates. The default is 2048 and the
+            minimum is 512.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>caKeybits
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the size of the private key to use for the
+            CA certificate. The default is 2048 and the minimum is
+            512.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>userDays
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the duration for a user certificate's
+            validity. The default is 365, 1 year.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>serverDays
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the duration for a server certificate's
+            validity. The default is 1826, 5 years.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>caDays
+          &lt;integer&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the duration for the CA certificate's
+            validity. The default is 3652, 10 years.</p>
+          </dd>
+          <dt><span class="term"><span class="emphasis"><em>localDN
+          &lt;DN&gt;</em></span></span></dt>
+          <dd>
+            <p>Specify the DN of an entry that represents this
+            server. Requests to generate a certificate/key pair for
+            this DN will also install the certificate and key into
+            slapd's TLS settings in cn=config for immediate
+            use.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-autoca-5_sect3" name="slapo-autoca-5_sect3" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+  database mdb
+  ...
+  overlay autoca
+  caKeybits 4096
+</pre>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-autoca-5_sect4" name="slapo-autoca-5_sect4" shape="rect"> </a>
+      <h2>FILES</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term">ETCDIR/slapd.conf</span></dt>
+          <dd>
+            <p>default slapd configuration file</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-autoca-5_sect5" name="slapo-autoca-5_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman5/slapd.conf.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd.conf</span>(5)</span></a>, <a class="link" href="../htmlman5/slapd-config.5.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">slapd-config</span>(5)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="slapo-autoca-5_sect6" name="slapo-autoca-5_sect6" shape="rect"> </a>
+      <h2>AUTHOR</h2>
+      <p>Howard Chu</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                  See the following documents: <a class="ulink" href="../openldap-COPYRIGHT.html" target="_top" shape="rect">COPYRIGHT</a>, <a class="ulink" href="../openldap-LICENSE.html" target="_top" shape="rect">LICENSE</a><br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

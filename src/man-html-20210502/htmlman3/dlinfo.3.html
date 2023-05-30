@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>dlinfo(3) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="dlinfo(3) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index3.html" shape="rect">Section 3</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="dlinfo.3" name="dlinfo.3" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>dlinfo — obtain information about a dynamically
+      loaded object</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="informalexample">
+        <pre class="programlisting" xml:space="preserve">
+#define _GNU_SOURCE
+#include &lt;link.h&gt;
+#include &lt;dlfcn.h&gt;</pre>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>dlinfo</strong>(</code></td>
+            <td rowspan="1" colspan="1">void *restrict <var class="pdparam">handle</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">request</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">void *restrict <var class="pdparam">info</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="25" colspan="1">
+            <img alt="[Note]" src="../stylesheet/note.png" /></td>
+            <th align="left" rowspan="1" colspan="1">Note</th>
+          </tr>
+          <tr>
+            <td align="left" valign="top" rowspan="1" colspan="1">
+              <p>Link with <code class="option">−ldl</code>.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="dlinfo-3_sect1" name="dlinfo-3_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <code class="function">dlinfo</code>() function
+      obtains information about the dynamically loaded object
+      referred to by <em class="parameter"><code>handle</code></em>
+      (typically obtained by an earlier call to <a class="link" href="../htmlman3/dlopen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlopen</span>(3)</span></a> or <a class="link" href="../htmlman3/dlopen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlmopen</span>(3)</span></a>). The <em class="parameter"><code>request</code></em> argument specifies
+      which information is to be returned. The <em class="parameter"><code>info</code></em> argument is a pointer to a
+      buffer used to store information returned by the call; the
+      type of this argument depends on <em class="parameter"><code>request</code></em>.</p>
+      <p>The following values are supported for <em class="parameter"><code>request</code></em> (with the corresponding
+      type for <em class="parameter"><code>info</code></em> shown
+      in parentheses):</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">RTLD_DI_LMID</code> (<span class="emphasis"><em>Lmid_t *</em></span>)</span></dt>
+          <dd>
+            <p>Obtain the ID of the link-map list (namespace) in
+            which <em class="parameter"><code>handle</code></em> is
+            loaded.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">RTLD_DI_LINKMAP</code> (<span class="type">struct link_map **</span>)</span></dt>
+          <dd>
+            <p>Obtain a pointer to the <code class="function">link_map</code> structure corresponding to
+            <em class="parameter"><code>handle</code></em>. The
+            <em class="parameter"><code>info</code></em> argument
+            points to a pointer to a <code class="function">link_map</code> structure, defined in
+            <code class="literal">&lt;</code><code class="filename">link.h</code><code class="literal">&gt;</code> as:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="informalexample">
+                  <pre class="programlisting" xml:space="preserve">
+struct link_map {
+    ElfW(Addr) l_addr;  /* Difference between the
+                           address in the ELF file and
+                           the address in memory */
+    char      *l_name;  /* Absolute pathname where
+                           object was found */
+    ElfW(Dyn) *l_ld;    /* Dynamic section of the
+                           shared object */
+    struct link_map *l_next, *l_prev;
+                        /* Chain of loaded objects */
+
+    /* Plus additional fields private to the
+       implementation */
+};
+</pre>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><code class="constant">RTLD_DI_ORIGIN</code> (<span class="emphasis"><em>char *</em></span>)</span></dt>
+          <dd>
+            <p>Copy the pathname of the origin of the shared object
+            corresponding to <em class="parameter"><code>handle</code></em> to the location
+            pointed to by <em class="parameter"><code>info</code></em>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">RTLD_DI_SERINFO</code> (<span class="emphasis"><em>Dl_serinfo *</em></span>)</span></dt>
+          <dd>
+            <p>Obtain the library search paths for the shared
+            object referred to by <em class="parameter"><code>handle</code></em>. The <em class="parameter"><code>info</code></em> argument is a
+            pointer to a <code class="function">Dl_serinfo</code>
+            that contains the search paths. Because the number of
+            search paths may vary, the size of the structure
+            pointed to by <em class="parameter"><code>info</code></em> can vary. The
+            <code class="constant">RTLD_DI_SERINFOSIZE</code>
+            request described below allows applications to size the
+            buffer suitably. The caller must perform the following
+            steps:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="orderedlist">
+                  <ol class="orderedlist" type="1">
+                    <li class="listitem">
+                      <p>Use a <code class="constant">RTLD_DI_SERINFOSIZE</code> request
+                      to populate a <code class="function">Dl_serinfo</code> structure with
+                      the size (<code class="function">dls_size</code>) of the structure
+                      needed for the subsequent <code class="constant">RTLD_DI_SERINFO</code>
+                      request.</p>
+                    </li>
+                    <li class="listitem">
+                      <p>Allocate a <code class="function">Dl_serinfo</code> buffer of the
+                      correct size (<code class="function">dls_size</code>).</p>
+                    </li>
+                    <li class="listitem">
+                      <p>Use a further <code class="constant">RTLD_DI_SERINFOSIZE</code> request
+                      to populate the <code class="function">dls_size</code> and <code class="function">dls_cnt</code> fields of the
+                      buffer allocated in the previous step.</p>
+                    </li>
+                    <li class="listitem">
+                      <p>Use a <code class="constant">RTLD_DI_SERINFO</code> to obtain
+                      the library search paths.</p>
+                    </li>
+                  </ol>
+                </div>
+              </blockquote>
+            </div>
+            <p>The <code class="function">Dl_serinfo</code>
+            structure is defined as follows:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">size_t</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dls_size</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Size in bytes of<br />
+
+                            the whole buffer */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dls_cnt</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Number of elements<br />
+
+                            in \(aqdls_serpath\(aq */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">Dl_serpath</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dls_serpath</code></em>[1];</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            /* Actually longer,<br />
+                            \(aqdls_cnt\(aq elements */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} Dl_serinfo;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+            <p>Each of the <em class="parameter"><code>dls_serpath</code></em> elements in
+            the above structure is a structure of the following
+            form:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="structdef">
+                  <table class="structdef" style="border-collapse: collapse;">
+                    <colgroup span="1">
+                      <col class="c1" span="1" />
+                      <col class="c2" span="1" />
+                      <col class="c3" span="1" />
+                      <col class="c4" span="1" />
+                      <col class="c5" span="1" />
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">typedef</td>
+                        <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1">struct {</td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">char</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1">*</td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dls_name</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Name of library search<br />
+
+                            path directory */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><span class="type">unsigned int</span></td>
+                        <td class="norightpad" style="" align="right" rowspan="1" colspan="1"> </td>
+                        <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>dls_flags</code></em>;</td>
+                        <td style="" align="left" rowspan="1" colspan="1">
+                          <div class="literallayout">
+                            
+                            /* Indicates where this<br />
+
+                            directory came from */
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">} Dl_serpath;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </blockquote>
+            </div>
+            <p>The <em class="parameter"><code>dls_flags</code></em> field is
+            currently unused, and always contains zero.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">RTLD_DI_SERINFOSIZE</code> (<span class="emphasis"><em>Dl_serinfo *</em></span>)</span></dt>
+          <dd>
+            <p>Populate the <em class="parameter"><code>dls_size</code></em> and <em class="parameter"><code>dls_cnt</code></em> fields of the
+            <code class="function">Dl_serinfo</code> structure
+            pointed to by <em class="parameter"><code>info</code></em> with values suitable
+            for allocating a buffer for use in a subsequent
+            <code class="constant">RTLD_DI_SERINFO</code>
+            request.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">RTLD_DI_TLS_MODID</code> (<span class="emphasis"><em>size_t *</em></span>, since glibc
+          2.4)</span></dt>
+          <dd>
+            <p>Obtain the module ID of this shared object's TLS
+            (thread-local storage) segment, as used in TLS
+            relocations. If this object does not define a TLS
+            segment, zero is placed in *<em class="parameter"><code>info</code></em>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">RTLD_DI_TLS_DATA</code> (<span class="emphasis"><em>void **</em></span>, since glibc
+          2.4)</span></dt>
+          <dd>
+            <p>Obtain a pointer to the calling thread's TLS block
+            corresponding to this shared object's TLS segment. If
+            this object does not define a PT_TLS segment, or if the
+            calling thread has not allocated a block for it, NULL
+            is placed in *<em class="parameter"><code>info</code></em>.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="dlinfo-3_sect2" name="dlinfo-3_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">dlinfo</code>() returns
+      0. On failure, it returns −1; the cause of the error
+      can be diagnosed using <a class="link" href="../htmlman3/dlerror.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlerror</span>(3)</span></a>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="dlinfo-3_sect3" name="dlinfo-3_sect3" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p><code class="function">dlinfo</code>() first appeared in
+      glibc 2.3.3.</p>
+    </div>
+    <div class="refsect1">
+      <a id="dlinfo-3_sect4" name="dlinfo-3_sect4" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">dlinfo</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="dlinfo-3_sect5" name="dlinfo-3_sect5" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>This function is a nonstandard GNU extension.</p>
+    </div>
+    <div class="refsect1">
+      <a id="dlinfo-3_sect6" name="dlinfo-3_sect6" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>This function derives from the Solaris function of the
+      same name and also appears on some other systems. The sets of
+      requests supported by the various implementations overlaps
+      only partially.</p>
+    </div>
+    <div class="refsect1">
+      <a id="dlinfo-3_sect7" name="dlinfo-3_sect7" shape="rect"> </a>
+      <h2>EXAMPLES</h2>
+      <p>The program below opens a shared objects using <a class="link" href="../htmlman3/dlopen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlopen</span>(3)</span></a> and then uses the
+      <code class="constant">RTLD_DI_SERINFOSIZE</code> and
+      <code class="constant">RTLD_DI_SERINFO</code> requests to
+      obtain the library search path list for the library. Here is
+      an example of what we might see when running the program:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ <span class="emphasis"><em>./a.out /lib64/libm.so.6</em></span>
+dls_serpath[0].dls_name = /lib64
+dls_serpath[1].dls_name = /usr/lib64
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <div class="refsect2">
+        <a id="dlinfo-3_sect8" name="dlinfo-3_sect8" shape="rect"> </a>
+        <h3>Program source</h3>
+        <div class="informalexample">
+          <pre class="programlisting" xml:space="preserve">
+#define _GNU_SOURCE
+#include &lt;dlfcn.h&gt;
+#include &lt;link.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    void *handle;
+    Dl_serinfo serinfo;
+    Dl_serinfo *sip;
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s &lt;libpath&gt;\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    /* Obtain a handle for shared object specified on command line. */
+
+    handle = dlopen(argv[1], RTLD_NOW);
+    if (handle == NULL) {
+        fprintf(stderr, "dlopen() failed: %s\n", dlerror());
+        exit(EXIT_FAILURE);
+    }
+
+    /* Discover the size of the buffer that we must pass to
+       RTLD_DI_SERINFO. */
+
+    if (dlinfo(handle, RTLD_DI_SERINFOSIZE, &amp;serinfo) == −1) {
+        fprintf(stderr, "RTLD_DI_SERINFOSIZE failed: %s\n", dlerror());
+        exit(EXIT_FAILURE);
+    }
+
+    /* Allocate the buffer for use with RTLD_DI_SERINFO. */
+
+    sip = malloc(serinfo.dls_size);
+    if (sip == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Initialize the 'dls_size' and 'dls_cnt' fields in the newly
+       allocated buffer. */
+
+    if (dlinfo(handle, RTLD_DI_SERINFOSIZE, sip) == −1) {
+        fprintf(stderr, "RTLD_DI_SERINFOSIZE failed: %s\n", dlerror());
+        exit(EXIT_FAILURE);
+    }
+
+    /* Fetch and print library search list. */
+
+    if (dlinfo(handle, RTLD_DI_SERINFO, sip) == −1) {
+        fprintf(stderr, "RTLD_DI_SERINFO failed: %s\n", dlerror());
+        exit(EXIT_FAILURE);
+    }
+
+    for (int j = 0; j &lt; serinfo.dls_cnt; j++)
+        printf("dls_serpath[%d].dls_name = %s\n",
+                j, sip−&gt;dls_serpath[j].dls_name);
+
+    exit(EXIT_SUCCESS);
+}
+</pre>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="dlinfo-3_sect9" name="dlinfo-3_sect9" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman3/dl_iterate_phdr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dl_iterate_phdr</span>(3)</span></a>,
+      <a class="link" href="../htmlman3/dladdr.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dladdr</span>(3)</span></a>, <a class="link" href="../htmlman3/dlerror.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlerror</span>(3)</span></a>, <a class="link" href="../htmlman3/dlopen.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlopen</span>(3)</span></a>, <a class="link" href="../htmlman3/dlsym.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">dlsym</span>(3)</span></a>, <a class="link" href="../htmlman8/ld.so.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ld.so</span>(8)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="dlinfo-3_sect10" name="dlinfo-3_sect10" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (C) 2015 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>tmpfs(5) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="tmpfs(5) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index5.html" shape="rect">Section 5</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="tmpfs.5" name="tmpfs.5" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>tmpfs — a virtual memory filesystem</p>
+    </div>
+    <div class="refsect1">
+      <a id="tmpfs-5_sect1" name="tmpfs-5_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>The <em class="replaceable"><code>tmpfs</code></em>
+      facility allows the creation of filesystems whose contents
+      reside in virtual memory. Since the files on such filesystems
+      typically reside in RAM, file access is extremely fast.</p>
+      <p>The filesystem is automatically created when mounting a
+      filesystem with the type <em class="replaceable"><code>tmpfs</code></em> via a command such as
+      the following:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="informalexample">
+            <pre class="programlisting" xml:space="preserve">
+$ sudo mount −t tmpfs −o size=10M tmpfs /mnt/mytmpfs
+</pre>
+          </div>
+        </blockquote>
+      </div>
+      <p>A <em class="replaceable"><code>tmpfs</code></em>
+      filesystem has the following properties:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc;">
+          <li class="listitem">
+            <p>The filesystem can employ swap space when physical
+            memory pressure demands it.</p>
+          </li>
+          <li class="listitem">
+            <p>The filesystem consumes only as much physical memory
+            and swap space as is required to store the current
+            contents of the filesystem.</p>
+          </li>
+          <li class="listitem">
+            <p>During a remount operation (<span class="emphasis"><em>mount −o remount</em></span>), the
+            filesystem size can be changed (without losing the
+            existing contents of the filesystem).</p>
+          </li>
+        </ul>
+      </div>
+      <p>If a <em class="replaceable"><code>tmpfs</code></em>
+      filesystem is unmounted, its contents are discarded
+      (lost).</p>
+      <div class="refsect2">
+        <a id="tmpfs-5_sect2" name="tmpfs-5_sect2" shape="rect"> </a>
+        <h3>Mount options</h3>
+        <p>The <em class="replaceable"><code>tmpfs</code></em>
+        filesystem supports the following mount options:</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt><span class="term"><em class="replaceable"><code>size</code></em>=<em class="replaceable"><code>bytes</code></em></span></dt>
+            <dd>
+              <p>Specify an upper limit on the size of the
+              filesystem. The size is given in bytes, and rounded
+              up to entire pages.</p>
+              <p>The size may have a <code class="literal">k</code>, <code class="literal">m</code>,
+              or <code class="literal">g</code> suffix for Ki, Mi,
+              Gi (binary kilo (kibi), binary mega (mebi), and
+              binary giga (gibi)).</p>
+              <p>The size may also have a % suffix to limit this
+              instance to a percentage of physical RAM.</p>
+              <p>The default, when neither <em class="replaceable"><code>size</code></em> nor <em class="replaceable"><code>nr_blocks</code></em> is
+              specified, is <em class="replaceable"><code>size=50%</code></em>.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>nr_blocks</code></em>=<em class="replaceable"><code>blocks</code></em></span></dt>
+            <dd>
+              <p>The same as <em class="replaceable"><code>size</code></em>, but in blocks
+              of <code class="constant">PAGE_CACHE_SIZE</code>.</p>
+              <p>Blocks may be specified with <code class="literal">k</code>, <code class="literal">m</code>,
+              or <code class="literal">g</code> suffixes like
+              <em class="replaceable"><code>size</code></em>, but
+              not a % suffix.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>nr_inodes</code></em>=<em class="replaceable"><code>inodes</code></em></span></dt>
+            <dd>
+              <p>The maximum number of inodes for this instance.
+              The default is half of the number of your physical
+              RAM pages, or (on a machine with highmem) the number
+              of lowmem RAM pages, whichever is smaller.</p>
+              <p>Inodes may be specified with <code class="literal">k</code>, <code class="literal">m</code>,
+              or <code class="literal">g</code> suffixes like
+              <em class="replaceable"><code>size</code></em>, but
+              not a % suffix.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>mode</code></em>=<em class="replaceable"><code>mode</code></em></span></dt>
+            <dd>
+              <p>Set initial permissions of the root directory.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>gid</code></em>=<em class="replaceable"><code>gid</code></em> (since Linux
+            2.5.7)</span></dt>
+            <dd>
+              <p>Set the initial group ID of the root
+              directory.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>uid</code></em>=<em class="replaceable"><code>uid</code></em> (since Linux
+            2.5.7)</span></dt>
+            <dd>
+              <p>Set the initial user ID of the root directory.</p>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>huge</code></em>=<em class="replaceable"><code>huge_option</code></em> (since
+            Linux 4.7.0)</span></dt>
+            <dd>
+              <p>Set the huge table memory allocation policy for
+              all files in this instance (if <code class="constant">CONFIG_TRANSPARENT_HUGE_PAGECACHE</code>
+              is enabled).</p>
+              <p>The <em class="replaceable"><code>huge_option</code></em> value is
+              one of the following:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term">never</span></dt>
+                      <dd>
+                        <p>Do not allocate huge pages. This is the
+                        default.</p>
+                      </dd>
+                      <dt><span class="term">always</span></dt>
+                      <dd>
+                        <p>Attempt to allocate huge pages every
+                        time a new page is needed.</p>
+                      </dd>
+                      <dt><span class="term">within_size</span></dt>
+                      <dd>
+                        <p>Only allocate huge page if it will be
+                        fully within <em class="replaceable"><code>i_size</code></em>.
+                        Also respect <span class="citerefentry"><span class="refentrytitle">fadvise</span>(2)</span>/<a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a>
+                        hints</p>
+                      </dd>
+                      <dt><span class="term">advise</span></dt>
+                      <dd>
+                        <p>Only allocate huge pages if requested
+                        with <span class="citerefentry"><span class="refentrytitle">fadvise</span>(2)</span>/<a class="link" href="../htmlman2/madvise.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">madvise</span>(2)</span></a>.</p>
+                      </dd>
+                      <dt><span class="term">deny</span></dt>
+                      <dd>
+                        <p>For use in emergencies, to force the
+                        huge option off from all mounts.</p>
+                      </dd>
+                      <dt><span class="term">force</span></dt>
+                      <dd>
+                        <p>Force the huge option on for all mounts;
+                        useful for testing.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+            </dd>
+            <dt><span class="term"><em class="replaceable"><code>mpol</code></em>=<em class="replaceable"><code>mpol_option</code></em> (since
+            Linux 2.6.15)</span></dt>
+            <dd>
+              <p>Set the NUMA memory allocation policy for all
+              files in this instance (if <code class="constant">CONFIG_NUMA</code> is enabled).</p>
+              <p>The <em class="replaceable"><code>mpol_option</code></em> value is
+              one of the following:</p>
+              <div class="blockquote">
+                <blockquote class="blockquote">
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt><span class="term">default</span></dt>
+                      <dd>
+                        <p>Use the process allocation policy (see
+                        <a class="link" href="../htmlman2/set_mempolicy.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">set_mempolicy</span>(2)</span></a>).</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>prefer</code></em>:<em class="replaceable"><code>node</code></em></span></dt>
+                      <dd>
+                        <p>Preferably allocate memory from the
+                        given <em class="replaceable"><code>node</code></em>.</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>bind</code></em>:<em class="replaceable"><code>nodelist</code></em></span></dt>
+                      <dd>
+                        <p>Allocate memory only from nodes in
+                        <em class="replaceable"><code>nodelist</code></em>.</p>
+                      </dd>
+                      <dt><span class="term">interleave</span></dt>
+                      <dd>
+                        <p>Allocate from each node in turn.</p>
+                      </dd>
+                      <dt><span class="term"><em class="replaceable"><code>interleave</code></em>:<em class="replaceable"><code>nodelist</code></em></span></dt>
+                      <dd>
+                        <p>Allocate from each node of <em class="replaceable"><code>in</code></em>
+                        turn.</p>
+                      </dd>
+                      <dt><span class="term">local</span></dt>
+                      <dd>
+                        <p>Preferably allocate memory from the
+                        local node.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </blockquote>
+              </div>
+              <p>In the above, <em class="replaceable"><code>nodelist</code></em> is a
+              comma-separated list of decimal numbers and ranges
+              that specify NUMA nodes. A range is a pair of
+              hyphen-separated decimal numbers, the smallest and
+              largest node numbers in the range. For example,
+              <em class="replaceable"><code>mpol=bind:0−3,5,7,9−15</code></em>.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="tmpfs-5_sect3" name="tmpfs-5_sect3" shape="rect"> </a>
+      <h2>VERSIONS</h2>
+      <p>The <em class="replaceable"><code>tmpfs</code></em>
+      facility was added in Linux 2.4, as a successor to the older
+      <em class="replaceable"><code>ramfs</code></em> facility,
+      which did not provide limit checking or allow for the use of
+      swap space.</p>
+    </div>
+    <div class="refsect1">
+      <a id="tmpfs-5_sect4" name="tmpfs-5_sect4" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>In order for user-space tools and applications to create
+      <em class="replaceable"><code>tmpfs</code></em> filesystems,
+      the kernel must be configured with the <code class="constant">CONFIG_TMPFS</code> option.</p>
+      <p>The <em class="replaceable"><code>tmpfs</code></em>
+      filesystem supports extended attributes (see <a class="link" href="../htmlman7/xattr.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">xattr</span>(7)</span></a>), but <em class="replaceable"><code>user</code></em> extended attributes are
+      not permitted.</p>
+      <p>An internal shared memory filesystem is used for System V
+      shared memory (<a class="link" href="../htmlman2/shmget.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shmget</span>(2)</span></a>) and shared
+      anonymous mappings (<a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a> with the
+      <code class="constant">MAP_SHARED</code> and <code class="constant">MAP_ANONYMOUS</code> flags). This filesystem is
+      available regardless of whether the kernel was configured
+      with the <code class="constant">CONFIG_TMPFS</code>
+      option.</p>
+      <p>A <em class="replaceable"><code>tmpfs</code></em>
+      filesystem mounted at <code class="filename">/dev/shm</code>
+      is used for the implementation of POSIX shared memory
+      (<a class="link" href="../htmlman7/shm_overview.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shm_overview</span>(7)</span></a>) and POSIX
+      semaphores (<a class="link" href="../htmlman7/sem_overview.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">sem_overview</span>(7)</span></a>).</p>
+      <p>The amount of memory consumed by all <em class="replaceable"><code>tmpfs</code></em> filesystems is shown in
+      the <em class="replaceable"><code>Shmem</code></em> field of
+      <code class="filename">/proc/meminfo</code> and in the
+      <em class="replaceable"><code>shared</code></em> field
+      displayed by <span class="citerefentry"><span class="refentrytitle">free</span>(1)</span>.</p>
+      <p>The <em class="replaceable"><code>tmpfs</code></em>
+      facility was formerly called <em class="replaceable"><code>shmfs</code></em>.</p>
+    </div>
+    <div class="refsect1">
+      <a id="tmpfs-5_sect5" name="tmpfs-5_sect5" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman1/df.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">df</span>(1)</span></a>, <a class="link" href="../htmlman1/du.1.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">du</span>(1)</span></a>, <a class="link" href="../htmlman2/memfd_create.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">memfd_create</span>(2)</span></a>, <a class="link" href="../htmlman2/mmap.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mmap</span>(2)</span></a>, <a class="link" href="../htmlman2/set_mempolicy.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">set_mempolicy</span>(2)</span></a>, <a class="link" href="../htmlman3/shm_open.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shm_open</span>(3)</span></a>, <a class="link" href="../htmlman8/mount.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">mount</span>(8)</span></a></p>
+      <p>The kernel source files <code class="filename">Documentation/filesystems/tmpfs.txt</code> and
+      <code class="filename">Documentation/admin−guide/mm/transhuge.rst</code>.</p>
+    </div>
+    <div class="colophon">
+      <a id="tmpfs-5_sect6" name="tmpfs-5_sect6" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 2016 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

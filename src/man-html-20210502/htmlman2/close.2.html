@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>close(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="close(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="close.2" name="close.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>close — close a file descriptor</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;unistd.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>close</strong>(</code></td>
+            <td rowspan="1" colspan="1">int <var class="pdparam">fd</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="close-2_sect1" name="close-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p><code class="function">close</code>() closes a file
+      descriptor, so that it no longer refers to any file and may
+      be reused. Any record locks (see <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>) held on the file
+      it was associated with, and owned by the process, are removed
+      (regardless of the file descriptor that was used to obtain
+      the lock).</p>
+      <p>If <em class="parameter"><code>fd</code></em> is the last
+      file descriptor referring to the underlying open file
+      description (see <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>), the resources
+      associated with the open file description are freed; if the
+      file descriptor was the last reference to a file which has
+      been removed using <a class="link" href="../htmlman2/unlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unlink</span>(2)</span></a>, the file is
+      deleted.</p>
+    </div>
+    <div class="refsect1">
+      <a id="close-2_sect2" name="close-2_sect2" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p><code class="function">close</code>() returns zero on
+      success. On error, −1 is returned, and <code class="varname">errno</code> is set to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="close-2_sect3" name="close-2_sect3" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EBADF</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>fd</code></em> isn't a
+            valid open file descriptor.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINTR</span></span></dt>
+          <dd>
+            <p>The <code class="function">close</code>() call was
+            interrupted by a signal; see <a class="link" href="../htmlman7/signal.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">signal</span>(7)</span></a>.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EIO</span></span></dt>
+          <dd>
+            <p>An I/O error occurred.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENOSPC</span>, <span class="errorname">EDQUOT</span></span></dt>
+          <dd>
+            <p>On NFS, these errors are not normally reported
+            against the first write which exceeds the available
+            storage space, but instead against a subsequent
+            <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a>, <a class="link" href="../htmlman2/fsync.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fsync</span>(2)</span></a>, or
+            <code class="function">close</code>().</p>
+          </dd>
+        </dl>
+      </div>
+      <p>See NOTES for a discussion of why <code class="function">close</code>() should not be retried after an
+      error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="close-2_sect4" name="close-2_sect4" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
+    </div>
+    <div class="refsect1">
+      <a id="close-2_sect5" name="close-2_sect5" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>A successful close does not guarantee that the data has
+      been successfully saved to disk, as the kernel uses the
+      buffer cache to defer writes. Typically, filesystems do not
+      flush buffers when a file is closed. If you need to be sure
+      that the data is physically stored on the underlying disk,
+      use <a class="link" href="../htmlman2/fsync.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fsync</span>(2)</span></a>. (It will depend
+      on the disk hardware at this point.)</p>
+      <p>The close-on-exec file descriptor flag can be used to
+      ensure that a file descriptor is automatically closed upon a
+      successful <a class="link" href="../htmlman2/execve.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">execve</span>(2)</span></a>; see <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a> for details.</p>
+      <div class="refsect2">
+        <a id="close-2_sect6" name="close-2_sect6" shape="rect"> </a>
+        <h3>Multithreaded processes and close()</h3>
+        <p>It is probably unwise to close file descriptors while
+        they may be in use by system calls in other threads in the
+        same process. Since a file descriptor may be reused, there
+        are some obscure race conditions that may cause unintended
+        side effects.</p>
+        <p>Furthermore, consider the following scenario where two
+        threads are performing operations on the same file
+        descriptor:</p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>One thread is blocked in an I/O system call on the
+              file descriptor. For example, it is trying to
+              <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a> to a pipe
+              that is already full, or trying to <a class="link" href="../htmlman2/read.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">read</span>(2)</span></a> from a
+              stream socket which currently has no available
+              data.</p>
+            </li>
+            <li class="listitem">
+              <p>Another thread closes the file descriptor.</p>
+            </li>
+          </ol>
+        </div>
+        <p>The behavior in this situation varies across systems. On
+        some systems, when the file descriptor is closed, the
+        blocking system call returns immediately with an error.</p>
+        <p>On Linux (and possibly some other systems), the behavior
+        is different: the blocking I/O system call holds a
+        reference to the underlying open file description, and this
+        reference keeps the description open until the I/O system
+        call completes. (See <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a> for a discussion
+        of open file descriptions.) Thus, the blocking system call
+        in the first thread may successfully complete after the
+        <code class="function">close</code>() in the second
+        thread.</p>
+      </div>
+      <div class="refsect2">
+        <a id="close-2_sect7" name="close-2_sect7" shape="rect"> </a>
+        <h3>Dealing with error returns from close()</h3>
+        <p>A careful programmer will check the return value of
+        <code class="function">close</code>(), since it is quite
+        possible that errors on a previous <a class="link" href="../htmlman2/write.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">write</span>(2)</span></a> operation are
+        reported only on the final <code class="function">close</code>() that releases the open file
+        description. Failing to check the return value when closing
+        a file may lead to <em class="replaceable"><code>silent</code></em> loss of data. This
+        can especially be observed with NFS and with disk
+        quota.</p>
+        <p>Note, however, that a failure return should be used only
+        for diagnostic purposes (i.e., a warning to the application
+        that there may still be I/O pending or there may have been
+        failed I/O) or remedial purposes (e.g., writing the file
+        once more or creating a backup).</p>
+        <p>Retrying the <code class="function">close</code>() after
+        a failure return is the wrong thing to do, since this may
+        cause a reused file descriptor from another thread to be
+        closed. This can occur because the Linux kernel <em class="replaceable"><code>always</code></em> releases the file
+        descriptor early in the close operation, freeing it for
+        reuse; the steps that may return an error, such as flushing
+        data to the filesystem or device, occur only later in the
+        close operation.</p>
+        <p>Many other implementations similarly always close the
+        file descriptor (except in the case of <span class="errorname">EBADF</span>, meaning that the file descriptor
+        was invalid) even if they subsequently report an error on
+        return from <code class="function">close</code>(). POSIX.1
+        is currently silent on this point, but there are plans to
+        mandate this behavior in the next major release of the
+        standard.</p>
+        <p>A careful programmer who wants to know about I/O errors
+        may precede <code class="function">close</code>() with a
+        call to <a class="link" href="../htmlman2/fsync.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fsync</span>(2)</span></a>.</p>
+        <p>The <span class="errorname">EINTR</span> error is a
+        somewhat special case. Regarding the <span class="errorname">EINTR</span> error, POSIX.1-2008 says:</p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>If <code class="function">close</code>() is
+            interrupted by a signal that is to be caught, it shall
+            return −1 with <code class="varname">errno</code>
+            set to <span class="errorname">EINTR</span> and the
+            state of <em class="replaceable"><code>fildes</code></em> is
+            unspecified.</p>
+          </blockquote>
+        </div>
+        <p>This permits the behavior that occurs on Linux and many
+        other implementations, where, as with other errors that may
+        be reported by <code class="function">close</code>(), the
+        file descriptor is guaranteed to be closed. However, it
+        also permits another possibility: that the implementation
+        returns an <span class="errorname">EINTR</span> error and
+        keeps the file descriptor open. (According to its
+        documentation, HP-UX's <code class="function">close</code>() does this.) The caller must then
+        once more use <code class="function">close</code>() to
+        close the file descriptor, to avoid file descriptor leaks.
+        This divergence in implementation behaviors provides a
+        difficult hurdle for portable applications, since on many
+        implementations, <code class="function">close</code>() must
+        not be called again after an <span class="errorname">EINTR</span> error, and on at least one,
+        <code class="function">close</code>() must be called again.
+        There are plans to address this conundrum for the next
+        major release of the POSIX.1 standard.</p>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="close-2_sect8" name="close-2_sect8" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/close_range.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">close_range</span>(2)</span></a>, <a class="link" href="../htmlman2/fcntl.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fcntl</span>(2)</span></a>, <a class="link" href="../htmlman2/fsync.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fsync</span>(2)</span></a>, <a class="link" href="../htmlman2/open.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">open</span>(2)</span></a>, <a class="link" href="../htmlman2/shutdown.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">shutdown</span>(2)</span></a>, <a class="link" href="../htmlman2/unlink.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">unlink</span>(2)</span></a>, <a class="link" href="../htmlman3/fclose.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">fclose</span>(3)</span></a></p>
+    </div>
+    <div class="colophon">
+      <a id="close-2_sect9" name="close-2_sect9" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    This manpage is Copyright (C) 1992 Drew Eckhardt;<br />
+
+                  and Copyright (C) 1993 Michael Haardt, Ian Jackson.<br />
+
+                  and Copyright (C) 2016 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(VERBATIM)<br />
+                  Permission is granted to make and distribute verbatim copies of this<br />
+
+                  manual provided the copyright notice and this permission notice are<br />
+
+                  preserved on all copies.<br />
+                  <br />
+                  Permission is granted to copy and distribute modified versions of this<br />
+
+                  manual under the conditions for verbatim copying, provided that the<br />
+
+                  entire resulting derived work is distributed under the terms of a<br />
+
+                  permission notice identical to this one.<br />
+
+                  <br />
+                  Since the Linux kernel and libraries are constantly changing, this<br />
+
+                  manual page may be incorrect or out-of-date.  The author(s) assume no<br />
+
+                  responsibility for errors or omissions, or for damages resulting from<br />
+
+                  the use of the information contained herein.  The author(s) may not<br />
+
+                  have taken the same level of care in the production of this manual,<br />
+
+                  which is licensed free of charge, as they might when working<br />
+
+                  professionally.<br />
+                  <br />
+                  Formatted or processed versions of this manual, if unaccompanied by<br />
+
+                  the source, must acknowledge the copyright and authors of this work.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  Modified Wed Jul 21 22:40:25 1993 by Rik Faith &lt;faith<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cs.unc.edu&gt;<br />
+
+                  Modified Sat Feb 18 15:27:48 1995 by Michael Haardt<br />
+
+                  Modified Sun Apr 14 11:40:50 1996 by Andries Brouwer &lt;aeb<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>cwi.nl&gt;:<br />
+
+                    corrected description of effect on locks (thanks to<br />
+
+                    Tigran Aivazian &lt;tigran<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>sco.com&gt;).<br />
+
+                  Modified Fri Jan 31 16:21:46 1997 by Eric S. Raymond &lt;esr<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>thyrsus.com&gt;<br />
+
+                  Modified 2000-07-22 by Nicolás Lichtmaier &lt;nick<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>debian.org&gt;<br />
+
+                    added note about close(2) not guaranteeing that data is safe on close.<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>adjtimex(2) — Linux manual pages</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet/manpages.css" />
+  
+  <link rel="home" href="../index.html" title="adjtimex(2) — Linux manual pages" />
+  <script type="text/javascript" src="../stylesheet/manpages.js" xml:space="preserve"> </script>
+  <link rel="icon" href="../stylesheet/icon.gif" type="image/gif" />
+</head>
+<body onload="javascript:init()">
+  <div class="navheader">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td style="width: 33%" rowspan="1" colspan="1"><a href="../index.html" shape="rect">Linux
+          manual pages</a></td>
+          <th rowspan="1" colspan="1"><a href="../index2.html" shape="rect">Section 2</a></th>
+          <td style="width: 33%" rowspan="1" colspan="1"> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+  </div>
+  <div class="refentry">
+    <a id="adjtimex.2" name="adjtimex.2" shape="rect"> </a>
+    <div class="titlepage"> </div>
+    <div class="refnamediv">
+      <h2>Name</h2>
+      <p>adjtimex, clock_adjtime, ntp_adjtime — tune kernel
+      clock</p>
+    </div>
+    <div class="refsynopsisdiv">
+      <h2>Synopsis</h2>
+      <div class="funcsynopsis">
+        <pre class="funcsynopsisinfo" xml:space="preserve">#include &lt;sys/timex.h&gt;</pre>
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>adjtimex</strong>(</code></td>
+            <td rowspan="1" colspan="1">struct timex *<var class="pdparam">buf</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>clock_adjtime</strong>(</code></td>
+            <td rowspan="1" colspan="1">clockid_t <var class="pdparam">clk_id</var>,</td>
+          </tr>
+          <tr>
+            <td rowspan="1" colspan="1"> </td>
+            <td rowspan="1" colspan="1">struct timex *<var class="pdparam">buf</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+      <div class="funcsynopsis">
+        <table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;">
+          <tr>
+            <td rowspan="1" colspan="1"><code class="funcdef">int
+            <strong>ntp_adjtime</strong>(</code></td>
+            <td rowspan="1" colspan="1">struct timex *<var class="pdparam">buf</var><code>)</code>;</td>
+          </tr>
+        </table>
+        <div class="funcprototype-spacer">
+           
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="adjtimex-2_sect1" name="adjtimex-2_sect1" shape="rect"> </a>
+      <h2>DESCRIPTION</h2>
+      <p>Linux uses David L. Mills' clock adjustment algorithm (see
+      RFC 5905). The system call <code class="function">adjtimex</code>() reads and optionally sets
+      adjustment parameters for this algorithm. It takes a pointer
+      to a <span class="structname">timex</span> structure, updates
+      kernel parameters from (selected) field values, and returns
+      the same structure updated with the current kernel values.
+      This structure is declared as follows:</p>
+      <div class="blockquote">
+        <blockquote class="blockquote">
+          <div class="structdef">
+            <table class="structdef" style="border-collapse: collapse;">
+              <colgroup span="1">
+                <col class="c1" span="1" />
+                <col class="c2" span="1" />
+                <col class="c3" span="1" />
+                <col class="c4" span="1" />
+                <col class="c5" span="1" />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="structdefhdr" style="" align="left" rowspan="1" colspan="1">
+                  struct</td>
+                  <td class="structdefhdr" style="" colspan="4" align="left" rowspan="1"><span class="structname">timex</span> {</td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>modes</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Mode selector */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>offset</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Time offset; nanoseconds, if STA_NANO<br />
+
+                      status flag is set, otherwise<br />
+
+                      microseconds */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>freq</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Frequency offset; see NOTES for units */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>maxerror</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Maximum error (microseconds) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>esterror</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Estimated error (microseconds) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>status</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Clock command/status */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>constant</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PLL (phase\-locked loop) time constant */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>precision</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      /* Clock precision<br />
+                      (microseconds, read\-only) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tolerance</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Clock frequency tolerance (read\-only);<br />
+
+                      see NOTES for units */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">struct timeval</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>time</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Current time (read\-only, except for<br />
+
+                      ADJ_SETOFFSET); upon return, time.tv_usec<br />
+
+                      contains nanoseconds, if STA_NANO status<br />
+
+                      flag is set, otherwise microseconds */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tick</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* Microseconds between clock ticks */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>ppsfreq</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PPS (pulse per second) frequency<br />
+
+                      (read\-only); see NOTES for units */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>jitter</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PPS jitter (read\-only); nanoseconds, if<br />
+
+                      STA_NANO status flag is set, otherwise<br />
+
+                      microseconds */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>shift</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PPS interval duration<br />
+                      (seconds, read\-only) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stabil</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PPS stability (read\-only);<br />
+
+                      see NOTES for units */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>jitcnt</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PPS count of jitter limit exceeded<br />
+
+                      events (read\-only) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>calcnt</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PPS count of calibration intervals<br />
+
+                      (read\-only) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>errcnt</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PPS count of calibration errors<br />
+
+                      (read\-only) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">long</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>stbcnt</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* PPS count of stability limit exceeded<br />
+
+                      events (read\-only) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" rowspan="1" colspan="1"> </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><span class="type">int</span></td>
+                  <td class="norightpad" style="" align="right" rowspan="1" colspan="1">
+                   </td>
+                  <td style="" align="left" rowspan="1" colspan="1"><em class="structfield"><code>tai</code></em>;</td>
+                  <td style="" align="left" rowspan="1" colspan="1">
+                    <div class="literallayout">
+                      
+                      /* TAI offset, as set by previous ADJ_TAI<br />
+
+                      operation (seconds, read\-only,<br />
+
+                      since Linux 2.6.26) */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="" colspan="5" align="left" rowspan="1">
+                    <div class="literallayout">
+                      
+                      /* Further padding bytes to allow for future expansion */
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="structdefftr" style="" colspan="5" align="left" rowspan="1">};</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+      </div>
+      <p>The <em class="parameter"><code>modes</code></em> field
+      determines which parameters, if any, to set. (As described
+      later in this page, the constants used for <code class="function">ntp_adjtime</code>() are equivalent but
+      differently named.) It is a bit mask containing a
+      bitwise-<em class="replaceable"><code>or</code></em>
+      combination of zero or more of the following bits:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">ADJ_OFFSET</code></span></dt>
+          <dd>
+            <p>Set time offset from <em class="replaceable"><code>buf.offset</code></em>. Since Linux
+            2.6.26, the supplied value is clamped to the range
+            (−0.5s, +0.5s). In older kernels, an <span class="errorname">EINVAL</span> error occurs if the supplied
+            value is out of range.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_FREQUENCY</code></span></dt>
+          <dd>
+            <p>Set frequency offset from <em class="replaceable"><code>buf.freq</code></em>. Since Linux
+            2.6.26, the supplied value is clamped to the range
+            (−32768000, +32768000). In older kernels, an
+            <span class="errorname">EINVAL</span> error occurs if
+            the supplied value is out of range.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_MAXERROR</code></span></dt>
+          <dd>
+            <p>Set maximum time error from <em class="replaceable"><code>buf.maxerror</code></em>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_ESTERROR</code></span></dt>
+          <dd>
+            <p>Set estimated time error from <em class="replaceable"><code>buf.esterror</code></em>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_STATUS</code></span></dt>
+          <dd>
+            <p>Set clock status bits from <em class="replaceable"><code>buf.status</code></em>. A
+            description of these bits is provided below.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_TIMECONST</code></span></dt>
+          <dd>
+            <p>Set PLL time constant from <em class="replaceable"><code>buf.constant</code></em>. If the
+            <code class="constant">STA_NANO</code> status flag (see
+            below) is clear, the kernel adds 4 to this value.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_SETOFFSET</code> (since Linux
+          2.6.39)</span></dt>
+          <dd>
+            <p>Add <em class="replaceable"><code>buf.time</code></em> to the current
+            time. If <em class="replaceable"><code>buf.status</code></em> includes the
+            <code class="constant">ADJ_NANO</code> flag, then
+            <em class="replaceable"><code>buf.time.tv_usec</code></em> is
+            interpreted as a nanosecond value; otherwise it is
+            interpreted as microseconds.</p>
+            <p>The value of <em class="replaceable"><code>buf.time</code></em> is the sum of
+            its two fields, but the field <em class="replaceable"><code>buf.time.tv_usec</code></em> must
+            always be nonnegative. The following example shows how
+            to normalize a <em class="replaceable"><code>timeval</code></em> with nanosecond
+            resolution.</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="informalexample">
+                  <pre class="programlisting" xml:space="preserve">
+while (buf.time.tv_usec &lt; 0) {
+    buf.time.tv_sec  −= 1;
+    buf.time.tv_usec += 1000000000;
+}
+</pre>
+                </div>
+              </blockquote>
+            </div>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_MICRO</code> (since Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>Select microsecond resolution.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_NANO</code> (since Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>Select nanosecond resolution. Only one of
+            <code class="constant">ADJ_MICRO</code> and
+            <code class="constant">ADJ_NANO</code> should be
+            specified.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_TAI</code> (since Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>Set TAI (Atomic International Time) offset from
+            <em class="replaceable"><code>buf.constant</code></em>.</p>
+            <p><code class="constant">ADJ_TAI</code> should not be
+            used in conjunction with <code class="constant">ADJ_TIMECONST</code>, since the latter mode
+            also employs the <em class="replaceable"><code>buf.constant</code></em> field.</p>
+            <p>For a complete explanation of TAI and the difference
+            between TAI and UTC, see <a class="literalurl" href="http://www.bipm.org/en/bipm/tai/tai.html" target="_top" shape="rect"><code class="constant">BIPM</code>
+            http://www.bipm.org/en/bipm/tai/tai.html</a></p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_TICK</code></span></dt>
+          <dd>
+            <p>Set tick value from <em class="replaceable"><code>buf.tick</code></em>.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>Alternatively, <em class="parameter"><code>modes</code></em> can be specified as
+      either of the following (multibit mask) values, in which case
+      other bits should not be specified in <em class="parameter"><code>modes</code></em>:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">ADJ_OFFSET_SINGLESHOT</code></span></dt>
+          <dd>
+            <p>Old-fashioned <a class="link" href="../htmlman3/adjtime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtime</span>(3)</span></a>:
+            (gradually) adjust time by value specified in
+            <em class="replaceable"><code>buf.offset</code></em>,
+            which specifies an adjustment in microseconds.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">ADJ_OFFSET_SS_READ</code> (functional since
+          Linux 2.6.28)</span></dt>
+          <dd>
+            <p>Return (in <em class="replaceable"><code>buf.offset</code></em>) the
+            remaining amount of time to be adjusted after an
+            earlier <code class="constant">ADJ_OFFSET_SINGLESHOT</code> operation. This
+            feature was added in Linux 2.6.24, but did not work
+            correctly until Linux 2.6.28.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>Ordinary users are restricted to a value of either 0 or
+      <code class="constant">ADJ_OFFSET_SS_READ</code> for
+      <em class="parameter"><code>modes</code></em>. Only the
+      superuser may set any parameters.</p>
+      <p>The <em class="replaceable"><code>buf.status</code></em>
+      field is a bit mask that is used to set and/or retrieve
+      status bits associated with the NTP implementation. Some bits
+      in the mask are both readable and settable, while others are
+      read-only.</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">STA_PLL</code> (read-write)</span></dt>
+          <dd>
+            <p>Enable phase-locked loop (PLL) updates via
+            <code class="constant">ADJ_OFFSET</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_PPSFREQ</code> (read-write)</span></dt>
+          <dd>
+            <p>Enable PPS (pulse-per-second) frequency
+            discipline.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_PPSTIME</code> (read-write)</span></dt>
+          <dd>
+            <p>Enable PPS time discipline.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_FLL</code> (read-write)</span></dt>
+          <dd>
+            <p>Select frequency-locked loop (FLL) mode.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_INS</code> (read-write)</span></dt>
+          <dd>
+            <p>Insert a leap second after the last second of the
+            UTC day, thus extending the last minute of the day by
+            one second. Leap-second insertion will occur each day,
+            so long as this flag remains set.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_DEL</code> (read-write)</span></dt>
+          <dd>
+            <p>Delete a leap second at the last second of the UTC
+            day. Leap second deletion will occur each day, so long
+            as this flag remains set.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_UNSYNC</code> (read-write)</span></dt>
+          <dd>
+            <p>Clock unsynchronized.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_FREQHOLD</code> (read-write)</span></dt>
+          <dd>
+            <p>Hold frequency. Normally adjustments made via
+            <code class="constant">ADJ_OFFSET</code> result in
+            dampened frequency adjustments also being made. So a
+            single call corrects the current offset, but as offsets
+            in the same direction are made repeatedly, the small
+            frequency adjustments will accumulate to fix the
+            long-term skew.</p>
+            <p>This flag prevents the small frequency adjustment
+            from being made when correcting for an <code class="constant">ADJ_OFFSET</code> value.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_PPSSIGNAL</code> (read-only)</span></dt>
+          <dd>
+            <p>A valid PPS (pulse-per-second) signal is
+            present.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_PPSJITTER</code> (read-only)</span></dt>
+          <dd>
+            <p>PPS signal jitter exceeded.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_PPSWANDER</code> (read-only)</span></dt>
+          <dd>
+            <p>PPS signal wander exceeded.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_PPSERROR</code> (read-only)</span></dt>
+          <dd>
+            <p>PPS signal calibration error.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_CLOCKERR</code> (read-only)</span></dt>
+          <dd>
+            <p>Clock hardware fault.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_NANO</code> (read-only; since Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>Resolution (0 = microsecond, 1 = nanoseconds). Set
+            via <code class="constant">ADJ_NANO</code>, cleared via
+            <code class="constant">ADJ_MICRO</code>.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_MODE</code> (since Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>Mode (0 = Phase Locked Loop, 1 = Frequency Locked
+            Loop).</p>
+          </dd>
+          <dt><span class="term"><code class="constant">STA_CLK</code> (read-only; since Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>Clock source (0 = A, 1 = B); currently unused.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>Attempts to set read-only <em class="parameter"><code>status</code></em> bits are silently
+      ignored.</p>
+      <div class="refsect2">
+        <a id="adjtimex-2_sect2" name="adjtimex-2_sect2" shape="rect"> </a>
+        <h3>clock_adjtime ()</h3>
+        <p>The <code class="function">clock_adjtime</code>() system
+        call (added in Linux 2.6.39) behaves like <code class="function">adjtimex</code>() but takes an additional
+        <em class="parameter"><code>clk_id</code></em> argument to
+        specify the particular clock on which to act.</p>
+      </div>
+      <div class="refsect2">
+        <a id="adjtimex-2_sect3" name="adjtimex-2_sect3" shape="rect"> </a>
+        <h3>ntp_adjtime ()</h3>
+        <p>The <code class="function">ntp_adjtime</code>() library
+        function (described in the NTP "Kernel Application Program
+        API", KAPI) is a more portable interface for performing the
+        same task as <code class="function">adjtimex</code>().
+        Other than the following points, it is identical to
+        <code class="function">adjtimex</code>():</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc;">
+            <li class="listitem">
+              <p>The constants used in <em class="parameter"><code>modes</code></em> are prefixed with
+              "MOD_" rather than "ADJ_", and have the same suffixes
+              (thus, <code class="constant">MOD_OFFSET</code>,
+              <code class="constant">MOD_FREQUENCY</code>, and so
+              on), other than the exceptions noted in the following
+              points.</p>
+            </li>
+            <li class="listitem">
+              <p><code class="constant">MOD_CLKA</code> is the
+              synonym for <code class="constant">ADJ_OFFSET_SINGLESHOT</code>.</p>
+            </li>
+            <li class="listitem">
+              <p><code class="constant">MOD_CLKB</code> is the
+              synonym for <code class="constant">ADJ_TICK</code>.</p>
+            </li>
+            <li class="listitem">
+              <p>The is no synonym for <code class="constant">ADJ_OFFSET_SS_READ</code>, which is not
+              described in the KAPI.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="adjtimex-2_sect4" name="adjtimex-2_sect4" shape="rect"> </a>
+      <h2>RETURN VALUE</h2>
+      <p>On success, <code class="function">adjtimex</code>() and
+      <code class="function">ntp_adjtime</code>() return the clock
+      state; that is, one of the following values:</p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><code class="constant">TIME_OK</code></span></dt>
+          <dd>
+            <p>Clock synchronized, no leap second adjustment
+            pending.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">TIME_INS</code></span></dt>
+          <dd>
+            <p>Indicates that a leap second will be added at the
+            end of the UTC day.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">TIME_DEL</code></span></dt>
+          <dd>
+            <p>Indicates that a leap second will be deleted at the
+            end of the UTC day.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">TIME_OOP</code></span></dt>
+          <dd>
+            <p>Insertion of a leap second is in progress.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">TIME_WAIT</code></span></dt>
+          <dd>
+            <p>A leap-second insertion or deletion has been
+            completed. This value will be returned until the next
+            <code class="constant">ADJ_STATUS</code> operation
+            clears the <code class="constant">STA_INS</code> and
+            <code class="constant">STA_DEL</code> flags.</p>
+          </dd>
+          <dt><span class="term"><code class="constant">TIME_ERROR</code></span></dt>
+          <dd>
+            <p>The system clock is not synchronized to a reliable
+            server. This value is returned when any of the
+            following holds true:</p>
+            <div class="blockquote">
+              <blockquote class="blockquote">
+                <div class="itemizedlist">
+                  <ul class="itemizedlist" style="list-style-type: disc;">
+                    <li class="listitem">
+                      <p>Either <code class="constant">STA_UNSYNC</code> or <code class="constant">STA_CLOCKERR</code> is set.</p>
+                    </li>
+                    <li class="listitem">
+                      <p><code class="constant">STA_PPSSIGNAL</code> is clear and
+                      either <code class="constant">STA_PPSFREQ</code> or <code class="constant">STA_PPSTIME</code> is set.</p>
+                    </li>
+                    <li class="listitem">
+                      <p><code class="constant">STA_PPSTIME</code>
+                      and <code class="constant">STA_PPSJITTER</code> are both
+                      set.</p>
+                    </li>
+                    <li class="listitem">
+                      <p><code class="constant">STA_PPSFREQ</code>
+                      is set and either <code class="constant">STA_PPSWANDER</code> or
+                      <code class="constant">STA_PPSJITTER</code>
+                      is set.</p>
+                    </li>
+                  </ul>
+                </div>
+              </blockquote>
+            </div>
+            <p>The symbolic name <code class="constant">TIME_BAD</code> is a synonym for
+            <code class="constant">TIME_ERROR</code>, provided for
+            backward compatibility.</p>
+          </dd>
+        </dl>
+      </div>
+      <p>Note that starting with Linux 3.4, the call operates
+      asynchronously and the return value usually will not reflect
+      a state change caused by the call itself.</p>
+      <p>On failure, these calls return −1 and set
+      <code class="varname">errno</code> to indicate the error.</p>
+    </div>
+    <div class="refsect1">
+      <a id="adjtimex-2_sect5" name="adjtimex-2_sect5" shape="rect"> </a>
+      <h2>ERRORS</h2>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt><span class="term"><span class="errorname">EFAULT</span></span></dt>
+          <dd>
+            <p><em class="parameter"><code>buf</code></em> does not
+            point to writable memory.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span> (kernels before Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>An attempt was made to set <em class="replaceable"><code>buf.freq</code></em> to a value
+            outside the range (−33554432, +33554432).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span> (kernels before Linux
+          2.6.26)</span></dt>
+          <dd>
+            <p>An attempt was made to set <em class="replaceable"><code>buf.offset</code></em> to a value
+            outside the permitted range. In kernels before Linux
+            2.0, the permitted range was (−131072, +131072).
+            From Linux 2.0 onwards, the permitted range was
+            (−512000, +512000).</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>An attempt was made to set <em class="replaceable"><code>buf.status</code></em> to a value
+            other than those listed above.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>The <em class="parameter"><code>clk_id</code></em>
+            given to <code class="function">clock_adjtime</code>()
+            is invalid for one of two reasons. Either the System-V
+            style hard-coded positive clock ID value is out of
+            range, or the dynamic <em class="parameter"><code>clk_id</code></em> does not refer to
+            a valid instance of a clock object. See <a class="link" href="../htmlman2/clock_getres.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_gettime</span>(2)</span></a> for
+            a discussion of dynamic clocks.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EINVAL</span></span></dt>
+          <dd>
+            <p>An attempt was made to set <em class="replaceable"><code>buf.tick</code></em> to a value
+            outside the range 900000/<code class="constant">HZ</code> to 1100000/<code class="constant">HZ</code>, where <code class="constant">HZ</code> is the system timer interrupt
+            frequency.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">ENODEV</span></span></dt>
+          <dd>
+            <p>The hot-pluggable device (like USB for example)
+            represented by a dynamic <em class="parameter"><code>clk_id</code></em> has disappeared
+            after its character device was opened. See <a class="link" href="../htmlman2/clock_getres.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_gettime</span>(2)</span></a> for
+            a discussion of dynamic clocks.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EOPNOTSUPP</span></span></dt>
+          <dd>
+            <p>The given <em class="parameter"><code>clk_id</code></em> does not support
+            adjustment.</p>
+          </dd>
+          <dt><span class="term"><span class="errorname">EPERM</span></span></dt>
+          <dd>
+            <p><em class="replaceable"><code>buf.modes</code></em>
+            is neither 0 nor <code class="constant">ADJ_OFFSET_SS_READ</code>, and the caller
+            does not have sufficient privilege. Under Linux, the
+            <code class="constant">CAP_SYS_TIME</code> capability
+            is required.</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="adjtimex-2_sect6" name="adjtimex-2_sect6" shape="rect"> </a>
+      <h2>ATTRIBUTES</h2>
+      <p>For an explanation of the terms used in this section, see
+      <a class="link" href="../htmlman7/attributes.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">attributes</span>(7)</span></a>.</p>
+      <div class="informaltable">
+        <table class="informaltable" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col class="c0" span="1" />
+            <col class="c1" span="1" />
+            <col class="c2" span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1">Interface</td>
+              <td style="" align="left" rowspan="1" colspan="1">Attribute</td>
+              <td style="" align="left" rowspan="1" colspan="1">Value</td>
+            </tr>
+            <tr>
+              <td style="" align="left" rowspan="1" colspan="1"><code class="literal">ntp_adjtime</code>()</td>
+              <td style="" align="left" rowspan="1" colspan="1">Thread safety</td>
+              <td style="" align="left" rowspan="1" colspan="1">MT-Safe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="refsect1">
+      <a id="adjtimex-2_sect7" name="adjtimex-2_sect7" shape="rect"> </a>
+      <h2>CONFORMING TO</h2>
+      <p>None of these interfaces is described in POSIX.1</p>
+      <p><code class="function">adjtimex</code>() and <code class="function">clock_adjtime</code>() are Linux-specific and
+      should not be used in programs intended to be portable.</p>
+      <p>The preferred API for the NTP daemon is <code class="function">ntp_adjtime</code>().</p>
+    </div>
+    <div class="refsect1">
+      <a id="adjtimex-2_sect8" name="adjtimex-2_sect8" shape="rect"> </a>
+      <h2>NOTES</h2>
+      <p>In struct <span class="structname">timex</span>,
+      <em class="parameter"><code>freq</code></em>, <em class="parameter"><code>ppsfreq</code></em>, and <em class="parameter"><code>stabil</code></em> are ppm (parts per
+      million) with a 16-bit fractional part, which means that a
+      value of 1 in one of those fields actually means 2^-16 ppm,
+      and 2^16=65536 is 1 ppm. This is the case for both input
+      values (in the case of <em class="parameter"><code>freq</code></em>) and output values.</p>
+      <p>The leap-second processing triggered by <code class="constant">STA_INS</code> and <code class="constant">STA_DEL</code> is done by the kernel in timer
+      context. Thus, it will take one tick into the second for the
+      leap second to be inserted or deleted.</p>
+    </div>
+    <div class="refsect1">
+      <a id="adjtimex-2_sect9" name="adjtimex-2_sect9" shape="rect"> </a>
+      <h2>SEE ALSO</h2>
+      <p><a class="link" href="../htmlman2/clock_getres.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_gettime</span>(2)</span></a>, <a class="link" href="../htmlman2/clock_getres.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">clock_settime</span>(2)</span></a>, <a class="link" href="../htmlman2/gettimeofday.2.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">settimeofday</span>(2)</span></a>, <a class="link" href="../htmlman3/adjtime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">adjtime</span>(3)</span></a>, <a class="link" href="../htmlman3/ntp_gettime.3.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">ntp_gettime</span>(3)</span></a>, <a class="link" href="../htmlman7/capabilities.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">capabilities</span>(7)</span></a>, <a class="link" href="../htmlman7/time.7.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">time</span>(7)</span></a>, <span class="citerefentry"><span class="refentrytitle">adjtimex</span>(8)</span>, <a class="link" href="../htmlman8/hwclock.8.html" target="_top" shape="rect"><span class="citerefentry"><span class="refentrytitle">hwclock</span>(8)</span></a></p>
+      <p><a class="literalurl" href="http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm" target="_top" shape="rect">NTP "Kernel Application Program
+      Interface"</a></p>
+    </div>
+    <div class="colophon">
+      <a id="adjtimex-2_sect10" name="adjtimex-2_sect10" shape="rect"> </a>
+      <h2>COLOPHON</h2>
+      <p>This page is part of release 5.11 of the Linux <em class="replaceable"><code>man-pages</code></em> project. A
+      description of the project, information about reporting bugs,
+      and the latest version of this page, can be found at
+      https://www.kernel.org/doc/man−pages/.</p>
+      <div class="license">
+        <table class="license" style="border-collapse: collapse;">
+          <colgroup span="1">
+            <col span="1" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="" rowspan="1" colspan="1">
+                <div class="literallayout">
+                  <br />
+                    Copyright (c) 1995 Michael Chastain (mec<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>shell.portal.com), 15 April 1995.<br />
+
+                  and Copyright (C) 2014, 2016 Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+
+                  <br />
+                  %%%LICENSE_START(GPLv2+_DOC_FULL)<br />
+                  This is free documentation; you can redistribute it and/or<br />
+
+                  modify it under the terms of the GNU General Public License as<br />
+
+                  published by the Free Software Foundation; either version 2 of<br />
+
+                  the License, or (at your option) any later version.<br />
+
+                  <br />
+                  The GNU General Public License's references to "object code"<br />
+
+                  and "executables" are to be interpreted as the output of any<br />
+
+                  document formatting or typesetting system, including<br />
+
+                  intermediate and printed output.<br />
+
+                  <br />
+                  This manual is distributed in the hope that it will be useful,<br />
+
+                  but WITHOUT ANY WARRANTY; without even the implied warranty of<br />
+
+                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />
+
+                  GNU General Public License for more details.<br />
+
+                  <br />
+                  You should have received a copy of the GNU General Public<br />
+
+                  License along with this manual; if not, see<br />
+
+                  &lt;<a class="literalurl" href="http://www.gnu.org/licenses/" target="_top" shape="rect">http://www.gnu.org/licenses/</a>&gt;.<br />
+
+                  %%%LICENSE_END<br />
+                  <br />
+                  Modified 1997-01-31 by Eric S. Raymond &lt;esr<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>thyrsus.com&gt;<br />
+
+                  Modified 1997-07-30 by Paul Slootman &lt;paul<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>wurtel.demon.nl&gt;<br />
+
+                  Modified 2004-05-27 by Michael Kerrisk &lt;mtk.manpages<script type="text/javascript">document.write('@');</script><noscript>(@)</noscript>gmail.com&gt;<br />
+                  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
